@@ -1,12 +1,8 @@
 package com.example.document_flow.model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.context.annotation.Scope;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.text.MessageFormat;
 
 @Getter
 @Setter
@@ -23,8 +19,8 @@ public class Outgoing extends Document{
 
     @Override
     public String toString() {
-        return "Исходящий №"+super.getRegistrationNumber()+" " +
-                "от "+super.getDateRegistration()+". "+"" +
-                "Имя документа :"+super.getName();
+        return MessageFormat
+                .format("Исходящий №{0} от {1} Имя документа : {2}",
+                        super.getRegistrationNumber(), super.getDateRegistration(), super.getName());
     }
 }

@@ -4,6 +4,7 @@ import com.example.document_flow.model.person.Person;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.text.MessageFormat;
 import java.util.Date;
 
 @Getter
@@ -26,8 +27,8 @@ public class Task extends Document{
 
     @Override
     public String toString() {
-        return "Поручение №"+super.getRegistrationNumber()+" " +
-                "от "+super.getDateRegistration()+". "+"" +
-                "Имя документа :"+super.getName();
+        return MessageFormat
+                .format("Поручение №{0} от {1} Имя документа : {2}",
+                        super.getRegistrationNumber(), super.getDateRegistration(), super.getName());
     }
 }

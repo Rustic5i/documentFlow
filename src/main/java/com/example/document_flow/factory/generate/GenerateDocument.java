@@ -4,13 +4,14 @@ import com.example.document_flow.model.Document;
 import com.example.document_flow.model.person.Person;
 import com.example.document_flow.model.person.Persons;
 import com.example.document_flow.myException.DocumentExistsException;
-import lombok.Getter;
-
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.List;
+import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
 
-@Getter
-public abstract class GenerateDocument {
+abstract class GenerateDocument {
 
     private static List<String> name;
 
@@ -43,8 +44,7 @@ public abstract class GenerateDocument {
     }
 
     private static Long getRandomRegNumber() throws DocumentExistsException {
-        Long regNumber = null;
-        regNumber = random.nextLong(10);
+        Long regNumber = random.nextLong(100);
         if (registrationNumber.contains(regNumber)) {
             throw new DocumentExistsException("Document с таким регистрационным номер уже есть ");
         } else {
@@ -53,7 +53,7 @@ public abstract class GenerateDocument {
         }
     }
 
-    public static Document getRandomInstance(Document document) throws DocumentExistsException {
+    protected static Document getRandomInstance(Document document) throws DocumentExistsException {
         document.setName(name.get(random.nextInt(name.size())));
         document.setText(text.get(random.nextInt(text.size())));
         document.setAuthor(author.get(random.nextInt(author.size())));

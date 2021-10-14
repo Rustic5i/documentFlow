@@ -4,9 +4,13 @@ import com.example.document_flow.model.person.Person;
 import com.example.document_flow.model.person.Persons;
 import com.example.document_flow.model.Task;
 import com.example.document_flow.myException.DocumentExistsException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Random;
 
-public abstract class GenerateTask extends GenerateDocument {
+abstract class GenerateTask extends GenerateDocument {
 
     private static final Long DAY = 86400000L;
 
@@ -50,7 +54,7 @@ public abstract class GenerateTask extends GenerateDocument {
         return termOfExecution;
     }
 
-    public static Task getRandomInstance() {
+    static Task getRandomInstance() {
         Task task = new Task();
         try {
             task = (Task) getRandomInstance(task);

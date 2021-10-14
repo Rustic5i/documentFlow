@@ -3,11 +3,12 @@ package com.example.document_flow.model;
 import com.example.document_flow.model.person.Person;
 import lombok.Getter;
 import lombok.Setter;
-
+import java.text.MessageFormat;
 import java.util.Date;
+
 @Getter
 @Setter
-public class Incoming extends Document{
+public class Incoming extends Document {
 
     private Person source; // отправитель
 
@@ -24,9 +25,9 @@ public class Incoming extends Document{
 
     @Override
     public String toString() {
-        return "Входящее №"+super.getRegistrationNumber()+" " +
-                "от "+super.getDateRegistration()+". "+"" +
-                "Имя документа :"+super.getName();
+        return MessageFormat
+                .format("Входящее №{0} от {1} Имя документа : {2}",
+                        super.getRegistrationNumber(), super.getDateRegistration(), super.getName());
     }
 
 }

@@ -2,14 +2,11 @@ package com.example.document_flow.factory.generate;
 
 import com.example.document_flow.model.Outgoing;
 import com.example.document_flow.myException.DocumentExistsException;
-import lombok.Getter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@Getter
-public abstract class GenerateOutgoing extends GenerateDocument {
+abstract class GenerateOutgoing extends GenerateDocument {
 
     private static List<String> addressee;       //адресат
 
@@ -31,7 +28,7 @@ public abstract class GenerateOutgoing extends GenerateDocument {
         deliveryMethod.add("Самовывоз");
     }
 
-    public static Outgoing getRandomInstance() {
+    static Outgoing getRandomInstance() {
         Outgoing outgoing = new Outgoing();
         try {
             outgoing = (Outgoing) getRandomInstance(outgoing);

@@ -4,17 +4,20 @@ import com.example.document_flow.model.Incoming;
 import com.example.document_flow.model.person.Person;
 import com.example.document_flow.model.person.Persons;
 import com.example.document_flow.myException.DocumentExistsException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
-import java.util.*;
+class GenerateIncoming extends GenerateDocument {
 
-public class GenerateIncoming extends GenerateDocument{
+    private static List<Person> source; // отправитель
 
-    private static List <Person> source; // отправитель
+    private static List<String> addressee; //addressee
 
-    private static List <String> addressee; //addressee
-
-    private static List <Long> outgoingNumber; // исходящий номер
-
+    private static List<Long> outgoingNumber; // исходящий номер
 
     private static Random random = new Random();
 
@@ -35,15 +38,15 @@ public class GenerateIncoming extends GenerateDocument{
 
     }
 
-    private static Date geterateDate(){
+    private static Date geterateDate() {
         int month = random.nextInt(12);
         int dayOfMonth = random.nextInt(28);
-        Calendar calendar = new GregorianCalendar(2021,month,dayOfMonth);
+        Calendar calendar = new GregorianCalendar(2021, month, dayOfMonth);
         Date date = calendar.getTime();
         return date;
     }
 
-    public static Incoming getRandomInstance() {
+    static Incoming getRandomInstance() {
         Incoming incoming = new Incoming();
         try {
             incoming = (Incoming) getRandomInstance(incoming);
@@ -52,7 +55,7 @@ public class GenerateIncoming extends GenerateDocument{
             incoming.setOutgoingNumber(outgoingNumber.get(random.nextInt(outgoingNumber.size())));
             incoming.setOutgoingRegistrationDate(geterateDate());
             return incoming;
-        }catch (DocumentExistsException e){
+        } catch (DocumentExistsException e) {
             e.printStackTrace();
         }
         return null;

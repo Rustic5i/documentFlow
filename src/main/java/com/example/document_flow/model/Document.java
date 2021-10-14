@@ -4,7 +4,6 @@ import com.example.document_flow.model.abstr.Storable;
 import com.example.document_flow.model.person.Person;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -40,7 +39,6 @@ public abstract class Document implements Comparable<Document>, Storable {
     @Override
     public int compareTo(Document o) {
         return this.calendar.getTime().compareTo(o.calendar.getTime());
-//        return this.registrationNumber.compareTo(o.registrationNumber);
     }
 
     @Override

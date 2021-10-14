@@ -34,16 +34,9 @@ public class Main {
                 documentList.add(document);
             }
         }
-
         // Группируем Документы по автору
         Grouper grouper = new Grouper();
-        documentByAuthor = grouper.groupByAuthor(documentList);
-
-        for (Map.Entry<Person, List<Document>> entry : documentByAuthor.entrySet()) {
-            System.out.println(entry.getKey() + ":");
-            for (Document d : entry.getValue()) {
-                System.out.println(" * " + d.toString());
-            }
-        }
+        grouper.groupByAuthor(documentList);
+        System.out.println(grouper);
     }
 }

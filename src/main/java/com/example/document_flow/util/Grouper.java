@@ -2,7 +2,6 @@ package com.example.document_flow.util;
 
 import com.example.document_flow.model.Document;
 import com.example.document_flow.model.person.Person;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -22,5 +21,17 @@ public class Grouper {
             }
         }
         return documentByAuthor;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder();
+        for (Map.Entry<Person, List<Document>> entry : documentByAuthor.entrySet()) {
+            str.append(entry.getKey()).append(":").append("\n");
+            for (Document d : entry.getValue()) {
+                str.append(" * ").append(d.toString()).append("\n");
+            }
+        }
+        return str.toString();
     }
 }

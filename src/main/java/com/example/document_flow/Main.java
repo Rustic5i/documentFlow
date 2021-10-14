@@ -5,9 +5,12 @@ import com.example.document_flow.model.*;
 import com.example.document_flow.model.person.Person;
 import com.example.document_flow.util.Grouper;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.PostConstruct;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 @Component
 public class Main {
@@ -24,7 +27,6 @@ public class Main {
 
     @PostConstruct
     public void main() {
-
 
         //Генерируем рандомные документы
         for (int i = 0; i < count; i++) {

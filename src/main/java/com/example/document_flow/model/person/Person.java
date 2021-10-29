@@ -1,10 +1,5 @@
 package com.example.document_flow.model.person;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class Person {
 
     private String name;
@@ -16,5 +11,13 @@ public class Person {
     @Override
     public String toString() {
         return name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

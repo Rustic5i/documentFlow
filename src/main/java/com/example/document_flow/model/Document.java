@@ -2,14 +2,8 @@ package com.example.document_flow.model;
 
 import com.example.document_flow.model.abstr.Storable;
 import com.example.document_flow.model.person.Person;
-import lombok.Getter;
-import lombok.Setter;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
-@Getter
-@Setter
 public abstract class Document implements Comparable<Document>, Storable {
 
     private Long id;
@@ -24,31 +18,10 @@ public abstract class Document implements Comparable<Document>, Storable {
 
     private Person author;
 
-    private Calendar calendar;
-
-
-    public Document() {
-        calendar = new GregorianCalendar();
-    }
-
-    public String getDateRegistration() {
-        Calendar calendar = new GregorianCalendar();
-        return dateRegistration.format(calendar.getTime());
-    }
-
     @Override
     public int compareTo(Document o) {
-        return this.calendar.getTime().compareTo(o.calendar.getTime());
-    }
-
-    @Override
-    public String toString() {
-        return "Документ: " +
-                " author='" + author + "\n" +
-                " name='" + name + "\n" +
-                ", text='" + text + "\n" +
-                ", registrationNumber=" + registrationNumber +"\n"+
-                ", dateRegistration=" + getDateRegistration() +"\n";
+        return this.getDateRegistration().getCalendar().getTime()
+                .compareTo(o.getDateRegistration().getCalendar().getTime());
     }
 
     @Override
@@ -59,5 +32,45 @@ public abstract class Document implements Comparable<Document>, Storable {
     @Override
     public String getNameTable() {
         return null;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Long getRegistrationNumber() {
+        return registrationNumber;
+    }
+
+    public void setRegistrationNumber(Long registrationNumber) {
+        this.registrationNumber = registrationNumber;
+    }
+
+    public void setDateRegistration(SimpleDateFormat dateRegistration) {
+        this.dateRegistration = dateRegistration;
+    }
+
+    public Person getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Person author) {
+        this.author = author;
+    }
+
+    public SimpleDateFormat getDateRegistration() {
+        return dateRegistration;
     }
 }

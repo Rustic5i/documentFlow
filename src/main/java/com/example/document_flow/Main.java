@@ -1,44 +1,35 @@
 package com.example.document_flow;
 
-import com.example.document_flow.factory.generate.DocumentFactory;
-import com.example.document_flow.model.*;
-import com.example.document_flow.model.person.Person;
+import com.example.document_flow.factory.factoriesEnum.FactoriesEnum;
+import com.example.document_flow.factory.factoryDocument.FactoryTask;
+import com.example.document_flow.model.Document;
 import com.example.document_flow.util.Grouper;
-import org.springframework.stereotype.Component;
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
-@Component
+import java.util.ArrayList;
+import java.util.Random;
 public class Main {
 
-    private ArrayList<Document> documentList = new ArrayList<>();
+    private static ArrayList<Document> documentList = new ArrayList<>();
 
-    private Map<Person, List<Document>> documentByAuthor = new HashMap<>();
+    private static final int COUNT = 100;
 
-    private DocumentFactory documentFactory = new DocumentFactory();
+    private static Random random = new Random();
 
-    private static final int count = 20;
+    private static FactoryTask factoryTask = new FactoryTask();
 
-    private Random random = new Random();
-
-    @PostConstruct
-    public void main() {
-
+    public static void main(String[] args) {
         //Генерируем рандомные документы
-        for (int i = 0; i < count; i++) {
-            Document document = documentFactory
-                    .getDocument(DocumentTypes.values()[random.nextInt(DocumentTypes.values().length)]);
+        for (int i = 0; i < COUNT; i++) {
+            Document document = FactoriesEnum.values()[random.nextInt(FactoriesEnum.values().length)].getFactoryDocument().creatDocument();
             if (document != null) {
                 documentList.add(document);
             }
         }
+
         // Группируем Документы по автору
         Grouper grouper = new Grouper();
         grouper.groupByAuthor(documentList);
         System.out.println(grouper);
+
     }
 }

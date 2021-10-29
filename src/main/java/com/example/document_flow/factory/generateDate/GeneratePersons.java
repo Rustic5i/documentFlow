@@ -1,10 +1,12 @@
-package com.example.document_flow.model.person;
+package com.example.document_flow.factory.generateDate;
+
+import com.example.document_flow.model.person.Person;
 
 import java.util.ArrayList;
 import java.util.List;
 
+public abstract class GeneratePersons {
 
-public abstract class Persons {
     public static List<Person> names;
 
     static {

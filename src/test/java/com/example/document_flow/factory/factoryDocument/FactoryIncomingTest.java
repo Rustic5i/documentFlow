@@ -1,65 +1,81 @@
 package com.example.document_flow.factory.factoryDocument;
 
-import com.example.document_flow.factory.generateDate.GenerateDataDocument;
 import com.example.document_flow.factory.generateDate.GenerateDataIncoming;
 import com.example.document_flow.model.Incoming;
 import com.example.document_flow.model.person.Person;
 import com.example.document_flow.myException.DocumentExistsException;
+import lombok.SneakyThrows;
+import org.checkerframework.checker.units.qual.A;
+import org.junit.Assert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
-import java.util.Date;
+import java.lang.reflect.Field;
 import java.util.GregorianCalendar;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@SpringBootTest(classes = FactoryIncoming.class)
 class FactoryIncomingTest {
 
-    @MockBean
-    private GenerateDataIncoming generateDataIncoming;
+    @Mock
+    private GenerateDataIncoming mockGenerateDataIncoming;
 
-    @MockBean
-    private GenerateDataDocument generateDataDocument;
+    private FactoryIncoming factoryIncoming = new FactoryIncoming();
 
-    @MockBean
-    private FactoryDocument factoryDocument;
+    public FactoryIncomingTest() throws DocumentExistsException {
+        MockitoAnnotations.initMocks(this);
 
-    private FactoryIncoming factory = new FactoryIncoming();
+        when(mockGenerateDataIncoming.getSource()).thenReturn(new Person("Кошелева Василиса Ивановна"));
+        when(mockGenerateDataIncoming.getAddressee()).thenReturn("Астраханская область, город Щёлково, шоссе Косиора, 30");
+        when(mockGenerateDataIncoming.getOutgoingNumber()).thenReturn(100L);
+        when(mockGenerateDataIncoming.generateDate()).thenReturn(new GregorianCalendar(2021, 10, 10).getTime());
+        when(mockGenerateDataIncoming.getName()).thenReturn("Первый документ");
+        when(mockGenerateDataIncoming.getAuthor()).thenReturn(new Person("Кошелева Василиса Ивановна"));
+        when(mockGenerateDataIncoming.getDateRegistration()).thenReturn(new GregorianCalendar(2021, 9, 9).getTime());
+        when(mockGenerateDataIncoming.getRandomRegNumber()).thenReturn(1L);
+        when(mockGenerateDataIncoming.getText()).thenReturn("Text test");
+    }
+    //1,Каждый раз новый документ
+    //2, документы с уникальным регистрационым номером
+    //3, документ пуст, все поля заполнены
 
-    private final Person PERSON = new Person("Кошелева Василиса Ивановна");
-
-    private final String ADDRESS = "Астраханская область, город Щёлково, шоссе Косиора, 30";
-
-    private final Date DATE = new GregorianCalendar(2021, 15, 28).getTime();
-
-    private final Incoming actual = new Incoming();
 
 
-    @DisplayName("Создание документа на основе предоставляющих данных обьектом GenerateDataIncoming")
+    @DisplayName("Создать документ, Проверяем что все поля кроме id, заполнены")
     @Test
-    void creatDocument() {
-        when(generateDataIncoming.getSource()).thenReturn(PERSON);
-        when(generateDataIncoming.getAddressee()).thenReturn(ADDRESS);
+    void creatDocument() throws DocumentExistsException, IllegalAccessException {
 
-        when(generateDataDocument.getName()).thenReturn("dwqd");
+        FactoryIncoming factoryIncomingSpy = Mockito.spy(factoryIncoming);
+        Mockito.doReturn(mockGenerateDataIncoming).when(factoryIncomingSpy).makeGenerateDataIncoming();
+        Incoming incoming = (Incoming) factoryIncomingSpy.creatDocument();
 
-        assertThrows(DocumentExistsException.class,
-                () -> factory.creatDocument());
-       // when()
-//        when(generateDataIncoming.generateDate()).thenReturn(DATE);
-//        when(generateDataIncoming.getOutgoingNumber()).thenReturn(1554L);
+        Field[] fieldSuperClass = incoming.getClass().getSuperclass().getDeclaredFields();
+        Field[] fieldsIncomingClass = incoming.getClass().getDeclaredFields();
 
-        Incoming incoming = (Incoming) factory.creatDocument();
+        Assert.assertNotNull(incoming);
 
-        actual.setSource(PERSON);
-        actual.setAddressee(ADDRESS);
+        for (Field field: fieldSuperClass) {
+            field.setAccessible(true);
+            if (!field.getName().equals("id")){
+                Assert.assertNotNull(field.get(incoming));
+            }
+        }
+        for (Field field: fieldsIncomingClass) {
+            field.setAccessible(true);
+            Assert.assertNotNull(field.get(incoming));
+        }
+    }
 
-        assertEquals(incoming, actual);
+    @DisplayName("Документ должен быть уникальный, с уникальным регистрационым номером")
+    @Test
+    void checkForUniquenessIncoming() {
+    }
+
+    @DisplayName("Если при создание документа был выбрашено исключение DocumentExistsException, пробрось его дальше")
+    @Test
+    void trowsDocumentExistsException() {
+
     }
 }

@@ -1,13 +1,14 @@
 package com.example.document_flow.factory.factoryDocument;
 
 import com.example.document_flow.factory.generateDate.GenerateDataDocument;
+import com.example.document_flow.factory.generateDate.GenerateDataIncoming;
 import com.example.document_flow.model.Document;
 import com.example.document_flow.myException.DocumentExistsException;
 
 
 abstract class FactoryDocument {
 
-    private static GenerateDataDocument generateDataDocument = new GenerateDataDocument();
+    private GenerateDataDocument generateDataDocument;
 
     /**
      * Заполняет основные данные документа рандомными значениями
@@ -15,7 +16,8 @@ abstract class FactoryDocument {
      * @return document с заполненными, рандомными значениями
      * @throws DocumentExistsException если документ с генерируемым регистрационным номером уже существует
      */
-    protected static Document getRandomInstance(Document document) throws DocumentExistsException {
+    protected Document getRandomInstance(Document document) throws DocumentExistsException {
+        this.generateDataDocument = makeGenerateDataIncoming();
         document.setName(generateDataDocument.getName());
         document.setText(generateDataDocument.getText());
         document.setAuthor(generateDataDocument.getAuthor());
@@ -23,4 +25,6 @@ abstract class FactoryDocument {
         document.setRegistrationNumber(generateDataDocument.getRandomRegNumber());
         return document;
     }
+
+    public abstract GenerateDataDocument makeGenerateDataIncoming();
 }

@@ -13,13 +13,17 @@ public class GenerateDataDocument {
 
     private Set<Long> registrationNumber;//регистрационный номер документа
 
-    private SimpleDateFormat dateRegistration = new SimpleDateFormat("EEEE, d MMMM yyyy"); //дата регистрации документа;
+    private Date dateRegistration; //дата регистрации документа;
 
     private List<Person> author;
 
     private Random random = new Random();
 
     {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.MILLISECOND, 0);
+        dateRegistration = calendar.getTime();
+
         author = GeneratePersons.names;
 
         name = new ArrayList<>();
@@ -55,13 +59,11 @@ public class GenerateDataDocument {
         return text.get(random.nextInt(text.size()));
     }
 
-    public SimpleDateFormat getDateRegistration() {
-        Calendar calendar = new GregorianCalendar();
-        dateRegistration.format(calendar.getTime());
-        return dateRegistration;
-    }
-
     public Person getAuthor() {
         return author.get(random.nextInt(author.size()));
+    }
+
+    public Date getDateRegistration() {
+        return dateRegistration;
     }
 }

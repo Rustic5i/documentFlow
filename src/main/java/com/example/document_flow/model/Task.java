@@ -3,6 +3,7 @@ package com.example.document_flow.model;
 import com.example.document_flow.model.person.Person;
 
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Task extends Document {
@@ -21,7 +22,10 @@ public class Task extends Document {
     public String toString() {
         return MessageFormat
                 .format("Поручение №{0} от {1} Имя документа : {2}",
-                        super.getRegistrationNumber(), super.getDateRegistration().getCalendar().getTime(), super.getName());
+                        super.getRegistrationNumber(),
+                        new SimpleDateFormat("EEEE, d MMMM yyyy")
+                                .format(super.getDateRegistration()),
+                        super.getName());
     }
 
     public Date getDateOfIssue() {

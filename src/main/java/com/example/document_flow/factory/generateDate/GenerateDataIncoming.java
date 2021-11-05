@@ -10,7 +10,7 @@ import java.util.*;
  * Класс для хранения и предоставления рандомных данных для документа {@link com.example.document_flow.model.Incoming}
  */
 
-public class GenerateDataIncoming {
+public class GenerateDataIncoming extends GenerateDataDocument {
 
     private List<Person> source; // отправитель
 
@@ -20,7 +20,10 @@ public class GenerateDataIncoming {
 
     private Random random = new Random();
 
+    private static GenerateDataIncoming generateDataIncoming;
 
+    private GenerateDataIncoming() {
+    }
 
     {
         source = GeneratePersons.names;
@@ -57,5 +60,12 @@ public class GenerateDataIncoming {
 
     public Long getOutgoingNumber() {
         return outgoingNumber.get(random.nextInt(outgoingNumber.size()));
+    }
+
+    public static GenerateDataIncoming getInstance() {
+        if (generateDataIncoming == null) {
+            generateDataIncoming = new GenerateDataIncoming();
+        }
+        return generateDataIncoming;
     }
 }

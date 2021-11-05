@@ -1,6 +1,7 @@
 package com.example.document_flow.factory.abstr;
 
 import com.example.document_flow.model.Document;
+import com.example.document_flow.myException.DocumentExistsException;
 
 public interface Factory {
 
@@ -9,5 +10,5 @@ public interface Factory {
      *
      * @return Document с заполненными, рандомными значениями
      */
-    Document creatDocument();
+    Document creatDocument() throws DocumentExistsException;
 }

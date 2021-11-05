@@ -6,7 +6,7 @@ import java.util.*;
 /**
  * Класс для хранения и предоставления рандомных данных для документа {@link com.example.document_flow.model.Task}
  */
-public class GenerateDataTask {
+public class GenerateDataTask extends GenerateDataDocument {
 
     private final Long DAY = 86400000L;
 
@@ -21,6 +21,11 @@ public class GenerateDataTask {
     private List<String> signOfControl;  //признак контрольности
 
     private List<String> orderController;
+
+    private static GenerateDataTask generateDataTask;
+
+    private GenerateDataTask() {
+    }
 
     {
         Calendar calendar = Calendar.getInstance();
@@ -75,5 +80,13 @@ public class GenerateDataTask {
 
     public String getOrderController() {
         return orderController.get(random.nextInt(orderController.size()));
+    }
+
+    public static GenerateDataTask getInstance() {
+        if(generateDataTask == null) {
+            generateDataTask = new GenerateDataTask();
+        }
+
+        return generateDataTask;
     }
 }

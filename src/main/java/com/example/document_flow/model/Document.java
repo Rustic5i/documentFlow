@@ -2,7 +2,8 @@ package com.example.document_flow.model;
 
 import com.example.document_flow.model.abstr.Storable;
 import com.example.document_flow.model.person.Person;
-import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
 
 public abstract class Document implements Comparable<Document>, Storable {
 
@@ -14,14 +15,13 @@ public abstract class Document implements Comparable<Document>, Storable {
 
     private Long registrationNumber; //регистрационный номер документа
 
-    private SimpleDateFormat dateRegistration = new SimpleDateFormat("EEEE, d MMMM yyyy");
+    private Date dateRegistration;
 
     private Person author;
 
     @Override
     public int compareTo(Document o) {
-        return this.getDateRegistration().getCalendar().getTime()
-                .compareTo(o.getDateRegistration().getCalendar().getTime());
+        return this.getDateRegistration().compareTo(o.dateRegistration);
     }
 
     @Override
@@ -58,10 +58,6 @@ public abstract class Document implements Comparable<Document>, Storable {
         this.registrationNumber = registrationNumber;
     }
 
-    public void setDateRegistration(SimpleDateFormat dateRegistration) {
-        this.dateRegistration = dateRegistration;
-    }
-
     public Person getAuthor() {
         return author;
     }
@@ -70,7 +66,29 @@ public abstract class Document implements Comparable<Document>, Storable {
         this.author = author;
     }
 
-    public SimpleDateFormat getDateRegistration() {
+    public Date getDateRegistration() {
         return dateRegistration;
+    }
+
+    public void setDateRegistration(Date dateRegistration) {
+        this.dateRegistration = dateRegistration;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Document document = (Document) o;
+        return Objects.equals(id, document.id)
+                && Objects.equals(name, document.name)
+                && Objects.equals(text, document.text)
+                && Objects.equals(registrationNumber, document.registrationNumber)
+                && Objects.equals(dateRegistration, document.dateRegistration)
+                && Objects.equals(author, document.author);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, text, registrationNumber, dateRegistration, author);
     }
 }

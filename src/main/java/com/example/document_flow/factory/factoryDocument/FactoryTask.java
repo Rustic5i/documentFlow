@@ -1,6 +1,8 @@
 package com.example.document_flow.factory.factoryDocument;
 
 import com.example.document_flow.factory.abstr.Factory;
+import com.example.document_flow.factory.generateDate.GenerateDataDocument;
+import com.example.document_flow.factory.generateDate.GenerateDataOutgoing;
 import com.example.document_flow.factory.generateDate.GenerateDataTask;
 import com.example.document_flow.model.Document;
 import com.example.document_flow.model.Task;
@@ -13,24 +15,23 @@ import org.slf4j.LoggerFactory;
  */
 public class FactoryTask extends FactoryDocument implements Factory {
 
-    private GenerateDataTask generateDataTask = new GenerateDataTask();
-
-    private static final Logger log = LoggerFactory.getLogger(FactoryOutgoing.class.getName());
+    private GenerateDataTask generateDataTask;
 
     @Override
-    public Document creatDocument() {
+    public Document creatDocument() throws DocumentExistsException {
+        this.generateDataTask = makeGenerateDataIncoming();
         Task task = new Task();
-        try {
-            task = (Task) getRandomInstance(task);
-            task.setDateOfIssue(generateDataTask.getDateOfIssue());
-            task.setTermOfExecution(generateDataTask.getTermOfExecution());
-            task.setResponsibleExecutor(generateDataTask.getResponsibleExecutor());
-            task.setSignOfControl(generateDataTask.getSignOfControl());
-            task.setOrderController(generateDataTask.getOrderController());
-            return task;
-        } catch (DocumentExistsException e) {
-            log.warn("Exception ", e);
-        }
-        return null;
+        task = (Task) getRandomInstance(task);
+        task.setDateOfIssue(generateDataTask.getDateOfIssue());
+        task.setTermOfExecution(generateDataTask.getTermOfExecution());
+        task.setResponsibleExecutor(generateDataTask.getResponsibleExecutor());
+        task.setSignOfControl(generateDataTask.getSignOfControl());
+        task.setOrderController(generateDataTask.getOrderController());
+        return task;
+    }
+
+    @Override
+    public GenerateDataTask makeGenerateDataIncoming() {
+        return GenerateDataTask.getInstance();
     }
 }

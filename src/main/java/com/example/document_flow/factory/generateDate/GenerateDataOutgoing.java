@@ -7,7 +7,7 @@ import java.util.Random;
 /**
  * Класс для хранения и предоставления рандомных данных для документа {@link com.example.document_flow.model.Outgoing}
  */
-public class GenerateDataOutgoing {
+public class GenerateDataOutgoing extends GenerateDataDocument {
 
     private List<String> addressee;       //адресат
 
@@ -15,7 +15,12 @@ public class GenerateDataOutgoing {
 
     private Random random = new Random();
 
-     {
+    private static GenerateDataOutgoing generateDataOutgoing;
+
+    private GenerateDataOutgoing() {
+    }
+
+    {
         addressee = new ArrayList<>();
         addressee.add("Амурская область, город Дорохово, ул. Косиора, 13");
         addressee.add("Курская область, город Дмитров, наб. Сталина, 88");
@@ -35,5 +40,13 @@ public class GenerateDataOutgoing {
 
     public String getDeliveryMethod() {
         return deliveryMethod.get(random.nextInt(deliveryMethod.size()));
+    }
+
+    public static GenerateDataOutgoing getInstance() {
+        if (generateDataOutgoing == null) {
+            generateDataOutgoing = new GenerateDataOutgoing();
+        }
+
+        return generateDataOutgoing;
     }
 }

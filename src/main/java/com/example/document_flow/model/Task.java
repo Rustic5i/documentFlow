@@ -23,7 +23,7 @@ public class Task extends Document {
         return MessageFormat
                 .format("Поручение №{0} от {1} Имя документа : {2}",
                         super.getRegistrationNumber(),
-                        new SimpleDateFormat("EEEE, d MMMM yyyy")
+                        new SimpleDateFormat("d MMMM yyyy")
                                 .format(super.getDateRegistration()),
                         super.getName());
     }

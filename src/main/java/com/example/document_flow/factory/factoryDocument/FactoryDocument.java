@@ -1,7 +1,6 @@
 package com.example.document_flow.factory.factoryDocument;
 
 import com.example.document_flow.factory.generateDate.GenerateDataDocument;
-import com.example.document_flow.factory.generateDate.GenerateDataIncoming;
 import com.example.document_flow.model.Document;
 import com.example.document_flow.myException.DocumentExistsException;
 
@@ -22,7 +21,7 @@ abstract class FactoryDocument {
         document.setText(generateDataDocument.getText());
         document.setAuthor(generateDataDocument.getAuthor());
         document.setDateRegistration(generateDataDocument.getDateRegistration());
-        document.setRegistrationNumber(generateDataDocument.getRandomRegNumber());
+        document.setRegistrationNumber(generateDataDocument.getRegistrationNumber());
         return document;
     }
 

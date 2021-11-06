@@ -15,7 +15,7 @@ public class Outgoing extends Document {
     public String toString() {
         return MessageFormat
                 .format("Исходящий №{0} от {1} Имя документа : {2}",
-                        super.getRegistrationNumber(), new SimpleDateFormat("EEEE, d MMMM yyyy")
+                        super.getRegistrationNumber(), new SimpleDateFormat("d MMMM yyyy")
                                 .format(super.getDateRegistration()),
                         super.getName());
     }

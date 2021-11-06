@@ -1,15 +1,11 @@
 package com.example.document_flow.factory.generateDate;
 
 import com.example.document_flow.model.person.Person;
-import org.springframework.stereotype.Component;
-
 import java.util.*;
-
 
 /**
  * Класс для хранения и предоставления рандомных данных для документа {@link com.example.document_flow.model.Incoming}
  */
-
 public class GenerateDataIncoming extends GenerateDataDocument {
 
     private List<Person> source; // отправитель

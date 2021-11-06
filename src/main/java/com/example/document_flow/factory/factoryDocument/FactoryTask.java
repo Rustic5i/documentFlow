@@ -1,14 +1,10 @@
 package com.example.document_flow.factory.factoryDocument;
 
 import com.example.document_flow.factory.abstr.Factory;
-import com.example.document_flow.factory.generateDate.GenerateDataDocument;
-import com.example.document_flow.factory.generateDate.GenerateDataOutgoing;
 import com.example.document_flow.factory.generateDate.GenerateDataTask;
 import com.example.document_flow.model.Document;
 import com.example.document_flow.model.Task;
 import com.example.document_flow.myException.DocumentExistsException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * <code>FactoryTask</code> класс-фабрика для генерации Входящего документа (Task)

@@ -54,7 +54,7 @@ public class GenerateDataTask extends GenerateDataDocument {
      * @return рандомную Date
      */
     public Date getTermOfExecution() {
-        termOfExecution.setTime(dateOfIssue.getTime() + DAY * random.nextLong(10));
+        termOfExecution.setTime(dateOfIssue.getTime() + DAY * (random.nextLong() * +10));
         return termOfExecution;
     }
 

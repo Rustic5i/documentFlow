@@ -2,7 +2,7 @@ package com.example.document_flow.factory.generateDate;
 
 import com.example.document_flow.model.person.Person;
 import com.example.document_flow.myException.DocumentExistsException;
-import java.text.SimpleDateFormat;
+
 import java.util.*;
 
 public class GenerateDataDocument {
@@ -20,8 +20,10 @@ public class GenerateDataDocument {
     private Random random = new Random();
 
     {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.MILLISECOND, 0);
+        int year = random.nextInt(2022 - 2017) + 2017;
+        int month = random.nextInt(11);
+        int day = random.nextInt(28);
+        Calendar calendar = new GregorianCalendar(year,month,day);
         dateRegistration = calendar.getTime();
 
         author = GeneratePersons.names;
@@ -41,8 +43,9 @@ public class GenerateDataDocument {
         registrationNumber = new HashSet<>();
     }
 
-    public Long getRandomRegNumber() throws DocumentExistsException {
-        Long regNumber = random.nextLong(100);
+    public Long getRegistrationNumber() throws DocumentExistsException {
+        System.out.println(random.nextDouble());
+        Long regNumber = (long)(random.nextDouble() *100);
         if (registrationNumber.contains(regNumber)) {
             throw new DocumentExistsException("Document с регистрационным номер "+regNumber+" уже существует ");
         } else {

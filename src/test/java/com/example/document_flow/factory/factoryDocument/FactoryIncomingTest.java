@@ -29,7 +29,7 @@ class FactoryIncomingTest {
         when(mockGenerateDataIncoming.getSource()).thenReturn(new Person("Кошелева Василиса Ивановна"));
         when(mockGenerateDataIncoming.getAddressee()).thenReturn("Астраханская область, город Щёлково, шоссе Косиора, 30");
         when(mockGenerateDataIncoming.getOutgoingNumber()).thenReturn(100L);
-        when(mockGenerateDataIncoming.generateDate()).thenReturn(new GregorianCalendar(2021, 10, 10).getTime());
+        when(mockGenerateDataIncoming.generateOutgoingRegistrationDate()).thenReturn(new GregorianCalendar(2021, 10, 10).getTime());
         when(mockGenerateDataIncoming.getName()).thenReturn("Первый документ");
         when(mockGenerateDataIncoming.getAuthor()).thenReturn(new Person("Кошелева Василиса Ивановна"));
         when(mockGenerateDataIncoming.getDateRegistration()).thenReturn(new GregorianCalendar(2021, 9, 9).getTime());

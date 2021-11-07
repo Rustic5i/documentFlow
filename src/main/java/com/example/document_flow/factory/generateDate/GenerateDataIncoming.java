@@ -38,7 +38,7 @@ public class GenerateDataIncoming extends GenerateDataDocument {
 
     }
 
-    public Date generateDate() {
+    public Date generateOutgoingRegistrationDate() {
         int month = random.nextInt(12);
         int dayOfMonth = random.nextInt(28);
         Calendar calendar = new GregorianCalendar(2021, month, dayOfMonth);

@@ -44,7 +44,6 @@ public class GenerateDataDocument {
     }
 
     public Long getRegistrationNumber() throws DocumentExistsException {
-        System.out.println(random.nextDouble());
         Long regNumber = (long)(random.nextDouble() *100);
         if (registrationNumber.contains(regNumber)) {
             throw new DocumentExistsException("Document с регистрационным номер "+regNumber+" уже существует ");

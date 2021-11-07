@@ -9,11 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
 import java.lang.reflect.Field;
 import java.util.GregorianCalendar;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 class FactoryIncomingTest {
@@ -23,7 +22,7 @@ class FactoryIncomingTest {
 
     private FactoryIncoming factoryIncoming = new FactoryIncoming();
 
-    public FactoryIncomingTest() throws DocumentExistsException {
+    public FactoryIncomingTest() {
         MockitoAnnotations.initMocks(this);
 
         when(mockGenerateDataIncoming.getSource()).thenReturn(new Person("Кошелева Василиса Ивановна"));
@@ -33,16 +32,14 @@ class FactoryIncomingTest {
         when(mockGenerateDataIncoming.getName()).thenReturn("Первый документ");
         when(mockGenerateDataIncoming.getAuthor()).thenReturn(new Person("Кошелева Василиса Ивановна"));
         when(mockGenerateDataIncoming.getDateRegistration()).thenReturn(new GregorianCalendar(2021, 9, 9).getTime());
-        when(mockGenerateDataIncoming.getRegistrationNumber()).thenReturn(1L);
         when(mockGenerateDataIncoming.getText()).thenReturn("Text test");
     }
-    //1,Каждый раз новый документ
-    //2, документы с уникальным регистрационым номером
-    //3, документ пуст, все поля заполнены
 
     @DisplayName("Создаем документ, Проверяем что все поля кроме id, не null")
     @Test
     void creatDocument() throws DocumentExistsException, IllegalAccessException {
+        when(mockGenerateDataIncoming.getRegistrationNumber()).thenReturn(1L);
+
         FactoryIncoming factoryIncomingSpy = Mockito.spy(factoryIncoming);
         Mockito.doReturn(mockGenerateDataIncoming).when(factoryIncomingSpy).makeGenerateDataIncoming();
         Incoming incoming = (Incoming) factoryIncomingSpy.creatDocument();
@@ -64,9 +61,14 @@ class FactoryIncomingTest {
         }
     }
 
-    @DisplayName("Если при создание документа был выброшено исключение DocumentExistsException, пробрось его дальше")
+    @DisplayName("Если при создание документа был выброшено исключение DocumentExistsException, пробросить его дальше")
     @Test
-    void trowsDocumentExistsException() {
+    void trowsDocumentExistsException() throws DocumentExistsException {
+        when(mockGenerateDataIncoming.getRegistrationNumber()).thenThrow(DocumentExistsException.class);
 
+        FactoryIncoming factoryIncomingSpy = Mockito.spy(factoryIncoming);
+        Mockito.doReturn(mockGenerateDataIncoming).when(factoryIncomingSpy).makeGenerateDataIncoming();
+
+        assertThrows(DocumentExistsException.class, () -> factoryIncomingSpy.creatDocument());
     }
 }

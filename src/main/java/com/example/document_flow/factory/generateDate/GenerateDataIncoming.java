@@ -1,18 +1,32 @@
 package com.example.document_flow.factory.generateDate;
 
 import com.example.document_flow.model.person.Person;
-import java.util.*;
+import java.util.List;
+import java.util.Random;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Класс для хранения и предоставления рандомных данных для документа {@link com.example.document_flow.model.Incoming}
  */
 public class GenerateDataIncoming extends GenerateDataDocument {
 
-    private List<Person> source; // отправитель
+    /**
+     * Oтправитель
+     */
+    private List<Person> source;
 
-    private List<String> addressee; //addressee
+    /**
+     * Aдресат
+     */
+    private List<String> addressee;
 
-    private List<Long> outgoingNumber; // исходящий номер
+    /**
+     * Исходящий номер
+     */
+    private List<Long> outgoingNumber;
 
     private Random random = new Random();
 
@@ -35,7 +49,6 @@ public class GenerateDataIncoming extends GenerateDataDocument {
         outgoingNumber.add(2L);
         outgoingNumber.add(3L);
         outgoingNumber.add(4L);
-
     }
 
     public Date generateOutgoingRegistrationDate() {

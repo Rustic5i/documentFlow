@@ -1,8 +1,6 @@
 package com.example.document_flow.factory.factoryDocument;
 
 import com.example.document_flow.factory.abstr.Factory;
-import com.example.document_flow.factory.generateDate.GenerateDataDocument;
-import com.example.document_flow.factory.generateDate.GenerateDataIncoming;
 import com.example.document_flow.factory.generateDate.GenerateDataOutgoing;
 import com.example.document_flow.model.Document;
 import com.example.document_flow.model.Outgoing;
@@ -23,7 +21,6 @@ public class FactoryOutgoing extends FactoryDocument implements Factory {
         outgoing.setAddressee(generateDataOutgoing.getAddressee());
         outgoing.setDeliveryMethod(generateDataOutgoing.getDeliveryMethod());
         return outgoing;
-
     }
 
     @Override

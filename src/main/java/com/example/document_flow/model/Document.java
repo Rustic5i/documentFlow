@@ -2,21 +2,43 @@ package com.example.document_flow.model;
 
 import com.example.document_flow.model.abstr.Storable;
 import com.example.document_flow.model.person.Person;
+
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * Документ
+ */
 public abstract class Document implements Comparable<Document>, Storable {
 
+    /**
+     * Идентификатор документа
+     */
     private Long id;
 
+    /**
+     * Название документа
+     */
     private String name;
 
+    /**
+     * Текст документа
+     */
     private String text;
 
-    private Long registrationNumber; //регистрационный номер документа
+    /**
+     * Регистрационный номер документа
+     */
+    private Long registrationNumber;
 
+    /**
+     * Дата регистрации документа
+     */
     private Date dateRegistration;
 
+    /**
+     * Автор документа
+     */
     private Person author;
 
     @Override

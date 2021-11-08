@@ -1,7 +1,11 @@
 package com.example.document_flow.factory.generateDate;
 
 import com.example.document_flow.model.person.Person;
-import java.util.*;
+import java.util.Random;
+import java.util.List;
+import java.util.Date;
+import java.util.Calendar;
+import java.util.ArrayList;
 
 /**
  * Класс для хранения и предоставления рандомных данных для документа {@link com.example.document_flow.model.Task}
@@ -12,14 +16,29 @@ public class GenerateDataTask extends GenerateDataDocument {
 
     private Random random = new Random();
 
-    private Date dateOfIssue; //дата выдачи поручения
+    /**
+     * Дата выдачи поручения
+     */
+    private Date dateOfIssue;
 
-    private Date termOfExecution; //срок исполнения поручения
+    /**
+     * Срок исполнения поручения
+     */
+    private Date termOfExecution;
 
-    private List<Person> responsibleExecutor; //ответственный исполнитель
+    /**
+     * Ответственный исполнитель
+     */
+    private List<Person> responsibleExecutor;
 
-    private List<String> signOfControl;  //признак контрольности
+    /**
+     * Признак контрольности
+     */
+    private List<String> signOfControl;
 
+    /**
+     * Контролер поручения
+     */
     private List<String> orderController;
 
     private static GenerateDataTask generateDataTask;

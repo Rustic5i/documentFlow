@@ -9,9 +9,15 @@ import java.util.Random;
  */
 public class GenerateDataOutgoing extends GenerateDataDocument {
 
-    private List<String> addressee;       //адресат
+    /**
+     * Адресат
+     */
+    private List<String> addressee;
 
-    private List<String> deliveryMethod; //способ доставки
+    /**
+     * Способ доставки
+     */
+    private List<String> deliveryMethod;
 
     private Random random = new Random();
 

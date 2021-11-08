@@ -7,15 +7,30 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * Входящий документ
+ */
 public class Incoming extends Document {
 
-    private Person source; // отправитель
+    /**
+     * Отправитель
+     */
+    private Person source;
 
-    private String addressee; //addressee
+    /**
+     * Адресат
+     */
+    private String addressee;
 
-    private Long outgoingNumber; // исходящий номер
+    /**
+     * Исходящий номер
+     */
+    private Long outgoingNumber;
 
-    private Date outgoingRegistrationDate; //исходящая дата регистрации
+    /**
+     * Исходящая дата регистрации
+     */
+    private Date outgoingRegistrationDate;
 
     @Override
     public String toString() {

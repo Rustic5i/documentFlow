@@ -6,17 +6,35 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Поручение
+ */
 public class Task extends Document {
 
+    /**
+     * Дата выдачи поручения
+     */
     private Date dateOfIssue;
 
-    private Date termOfExecution;//срок исполнения поручения
+    /**
+     * Срок исполнения поручения
+     */
+    private Date termOfExecution;
 
-    private Person responsibleExecutor; //ответственный исполнитель
+    /**
+     * Ответственный исполнитель
+     */
+    private Person responsibleExecutor;
 
-    private String signOfControl;  //признак контрольности
+    /**
+     * Признак контрольности
+     */
+    private String signOfControl;
 
-    private String orderController; //контролер поручения
+    /**
+     * Контролер поручения
+     */
+    private String orderController;
 
     @Override
     public String toString() {

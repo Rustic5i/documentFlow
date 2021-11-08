@@ -4,12 +4,20 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Objects;
 
-
+/**
+ * Исходящий документ
+ */
 public class Outgoing extends Document {
 
-    private String addressee;       //адресат
+    /**
+     * Адресат
+     */
+    private String addressee;
 
-    private String deliveryMethod; //способ доставки
+    /**
+     * Способ доставки
+     */
+    private String deliveryMethod;
 
     @Override
     public String toString() {

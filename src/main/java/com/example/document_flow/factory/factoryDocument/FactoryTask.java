@@ -18,7 +18,6 @@ public class FactoryTask extends FactoryDocument implements Factory {
         this.generateDataTask = makeGenerateDataIncoming();
         Task task = new Task();
         task = (Task) getRandomInstance(task);
-
         task.setDateOfIssue(generateDataTask.getDateOfIssue());
         task.setTermOfExecution(generateDataTask.getTermOfExecution());
         task.setResponsibleExecutor(generateDataTask.getResponsibleExecutor());

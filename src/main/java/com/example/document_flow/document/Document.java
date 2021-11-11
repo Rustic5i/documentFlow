@@ -1,7 +1,7 @@
-package com.example.document_flow.model;
+package com.example.document_flow.document;
 
-import com.example.document_flow.model.abstr.Storable;
-import com.example.document_flow.model.person.Person;
+import com.example.document_flow.document.abstr.Storable;
+import com.example.document_flow.document.person.Person;
 
 import java.util.Date;
 import java.util.Objects;

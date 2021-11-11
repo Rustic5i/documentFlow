@@ -1,6 +1,6 @@
-package com.example.document_flow.model;
+package com.example.document_flow.document;
 
-import com.example.document_flow.model.person.Person;
+import com.example.document_flow.document.person.Person;
 
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -34,7 +34,7 @@ public class Task extends Document {
     /**
      * Контролер поручения
      */
-    private String orderController;
+    private Person orderController;
 
     @Override
     public String toString() {
@@ -78,11 +78,11 @@ public class Task extends Document {
         this.signOfControl = signOfControl;
     }
 
-    public String getOrderController() {
+    public Person getOrderController() {
         return orderController;
     }
 
-    public void setOrderController(String orderController) {
+    public void setOrderController(Person orderController) {
         this.orderController = orderController;
     }
 }

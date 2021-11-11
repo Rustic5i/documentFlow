@@ -1,52 +1,52 @@
 package com.example.document_flow.factory.factoryDocument;
 
-import com.example.document_flow.factory.generateDate.GenerateDataTask;
-import com.example.document_flow.model.Task;
-import com.example.document_flow.model.person.Person;
+import com.example.document_flow.document.Document;
+import com.example.document_flow.document.Task;
+import com.example.document_flow.document.person.Person;
+import com.example.document_flow.factory.generator.DataGenerator;
 import com.example.document_flow.myException.DocumentExistsException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 import java.lang.reflect.Field;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class FactoryTaskTest {
 
     @Mock
-    private GenerateDataTask mockGenerateDataTask;
+    private DataGenerator mockDataGenerator = mock(DataGenerator.class);
 
-    private FactoryTask factoryTask = new FactoryTask();
+    private final FactoryTask factoryTask = new FactoryTask();
 
-    public FactoryTaskTest() {
-        MockitoAnnotations.initMocks(this);
+    public FactoryTaskTest() throws IllegalAccessException, NoSuchFieldException {
+        when(mockDataGenerator.getDateOfIssue()).thenReturn(new GregorianCalendar(2021, Calendar.NOVEMBER, 9).getTime());
+        when(mockDataGenerator.getTermOfExecution()).thenReturn(new GregorianCalendar(2021, Calendar.DECEMBER, 9).getTime());
+        when(mockDataGenerator.getResponsibleExecutor()).thenReturn(new Person("Розанова Полина Дмитриевна"));
+        when(mockDataGenerator.getSignOfControl()).thenReturn("Признак контрольности 1");
+        when(mockDataGenerator.getOrderController()).thenReturn(new Person("Горелова Анна Адамовна"));
 
-        when(mockGenerateDataTask.getDateOfIssue()).thenReturn(new GregorianCalendar(2021, 10, 9).getTime());
-        when(mockGenerateDataTask.getTermOfExecution()).thenReturn(new GregorianCalendar(2021, 11, 9).getTime());
-        when(mockGenerateDataTask.getResponsibleExecutor()).thenReturn(new Person("Розанова Полина Дмитриевна"));
-        when(mockGenerateDataTask.getSignOfControl()).thenReturn("Признак контрольности 1");
-        when(mockGenerateDataTask.getOrderController()).thenReturn("Горелова Анна Адамовна");
+        when(mockDataGenerator.getName()).thenReturn("Первый документ");
+        when(mockDataGenerator.getAuthor()).thenReturn(new Person("Кошелева Василиса Ивановна"));
+        when(mockDataGenerator.getDateRegistration()).thenReturn(new GregorianCalendar(2021, Calendar.OCTOBER, 9).getTime());
+        when(mockDataGenerator.getText()).thenReturn("Text test");
+        when(mockDataGenerator.getRegistrationNumber()).thenReturn(5L);
 
-        when(mockGenerateDataTask.getName()).thenReturn("Первый документ");
-        when(mockGenerateDataTask.getAuthor()).thenReturn(new Person("Кошелева Василиса Ивановна"));
-        when(mockGenerateDataTask.getDateRegistration()).thenReturn(new GregorianCalendar(2021, 9, 9).getTime());
-        when(mockGenerateDataTask.getText()).thenReturn("Text test");
+        Field field = factoryTask.getClass().getSuperclass().getDeclaredField("dataGenerator");
+        field.setAccessible(true);
+        field.set(factoryTask, mockDataGenerator);
     }
 
     @DisplayName("Создаем документ, Проверяем что все поля кроме id, не null")
     @Test
     void creatDocument() throws DocumentExistsException, IllegalAccessException {
-        when(mockGenerateDataTask.getRegistrationNumber()).thenReturn(1L);
-
-        FactoryTask factoryTaskSpy = Mockito.spy(factoryTask);
-        Mockito.doReturn(mockGenerateDataTask).when(factoryTaskSpy).makeGenerateDataIncoming();
-        Task task = (Task) factoryTaskSpy.creatDocument();
+        Task task = (Task) factoryTask.creatDocument();
 
         Field[] fieldSuperClass = task.getClass().getSuperclass().getDeclaredFields();
         Field[] fieldsIncomingClass = task.getClass().getDeclaredFields();
@@ -65,14 +65,13 @@ class FactoryTaskTest {
         }
     }
 
-    @DisplayName("Если при создание документа был выброшено исключение DocumentExistsException, пробросить его дальше")
+    @DisplayName("В случае, если документ с генерируемым номером уже существует, то необходимо выбрасывать исключение DocumentExistsException")
     @Test
     void trowsDocumentExistsException() throws DocumentExistsException {
-        when(mockGenerateDataTask.getRegistrationNumber()).thenThrow(DocumentExistsException.class);
+        when(mockDataGenerator.getRegistrationNumber()).thenReturn(6L);
 
-        FactoryTask factoryTaskSpy = Mockito.spy(factoryTask);
-        Mockito.doReturn(mockGenerateDataTask).when(factoryTaskSpy).makeGenerateDataIncoming();
+        Document firstDocument = factoryTask.creatDocument();
 
-        assertThrows(DocumentExistsException.class, () -> factoryTaskSpy.creatDocument());
+        assertThrows(DocumentExistsException.class, factoryTask::creatDocument);
     }
 }

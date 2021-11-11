@@ -1,48 +1,49 @@
 package com.example.document_flow.factory.factoryDocument;
 
-import com.example.document_flow.factory.generateDate.GenerateDataOutgoing;
-import com.example.document_flow.model.Outgoing;
-import com.example.document_flow.model.person.Person;
+import com.example.document_flow.document.Document;
+import com.example.document_flow.document.Outgoing;
+import com.example.document_flow.document.person.Person;
+import com.example.document_flow.factory.generator.DataGenerator;
 import com.example.document_flow.myException.DocumentExistsException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 import java.lang.reflect.Field;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class FactoryOutgoingTest {
+
     @Mock
-    private GenerateDataOutgoing mockGenerateDataOutgoing;
+    private DataGenerator mockDataGenerator = mock(DataGenerator.class);
 
-    private FactoryOutgoing factoryOutgoing = new FactoryOutgoing();
+    private final FactoryOutgoing factoryOutgoing = new FactoryOutgoing();
 
-    public FactoryOutgoingTest() {
-        MockitoAnnotations.initMocks(this);
+    public FactoryOutgoingTest() throws NoSuchFieldException, IllegalAccessException {
+        when(mockDataGenerator.getAddressee()).thenReturn("Амурская область, город Дорохово, ул. Косиора, 13");
+        when(mockDataGenerator.getDeliveryMethod()).thenReturn("Почта России");
 
-        when(mockGenerateDataOutgoing.getAddressee()).thenReturn("Амурская область, город Дорохово, ул. Косиора, 13");
-        when(mockGenerateDataOutgoing.getDeliveryMethod()).thenReturn("Почта России");
+        when(mockDataGenerator.getName()).thenReturn("Первый документ");
+        when(mockDataGenerator.getAuthor()).thenReturn(new Person("Кошелева Василиса Ивановна"));
+        when(mockDataGenerator.getDateRegistration()).thenReturn(new GregorianCalendar(2021, Calendar.OCTOBER, 9).getTime());
+        when(mockDataGenerator.getText()).thenReturn("Text test");
+        when(mockDataGenerator.getRegistrationNumber()).thenReturn(3L);
 
-        when(mockGenerateDataOutgoing.getName()).thenReturn("Первый документ");
-        when(mockGenerateDataOutgoing.getAuthor()).thenReturn(new Person("Кошелева Василиса Ивановна"));
-        when(mockGenerateDataOutgoing.getDateRegistration()).thenReturn(new GregorianCalendar(2021, 9, 9).getTime());
-        when(mockGenerateDataOutgoing.getText()).thenReturn("Text test");
+        Field field = factoryOutgoing.getClass().getSuperclass().getDeclaredField("dataGenerator");
+        field.setAccessible(true);
+        field.set(factoryOutgoing, mockDataGenerator);
     }
 
     @DisplayName("Создаем документ, Проверяем что все поля кроме id, не null")
     @Test
     void creatDocument() throws DocumentExistsException, IllegalAccessException {
-        when(mockGenerateDataOutgoing.getRegistrationNumber()).thenReturn(1L);
-
-        FactoryOutgoing factoryOutgoingSpy = Mockito.spy(factoryOutgoing);
-        Mockito.doReturn(mockGenerateDataOutgoing).when(factoryOutgoingSpy).makeGenerateDataIncoming();
-        Outgoing outgoing = (Outgoing) factoryOutgoingSpy.creatDocument();
+        Outgoing outgoing = (Outgoing) factoryOutgoing.creatDocument();
 
         Field[] fieldSuperClass = outgoing.getClass().getSuperclass().getDeclaredFields();
         Field[] fieldsIncomingClass = outgoing.getClass().getDeclaredFields();
@@ -61,14 +62,13 @@ class FactoryOutgoingTest {
         }
     }
 
-    @DisplayName("Если при создание документа был выброшено исключение DocumentExistsException, пробросить его дальше")
+    @DisplayName("В случае, если документ с генерируемым номером уже существует, то необходимо выбрасывать исключение DocumentExistsException")
     @Test
     void trowsDocumentExistsException() throws DocumentExistsException {
-        when(mockGenerateDataOutgoing.getRegistrationNumber()).thenThrow(DocumentExistsException.class);
+        when(mockDataGenerator.getRegistrationNumber()).thenReturn(4L);
 
-        FactoryOutgoing factoryOutgoingSpy = Mockito.spy(factoryOutgoing);
-        Mockito.doReturn(mockGenerateDataOutgoing).when(factoryOutgoingSpy).makeGenerateDataIncoming();
+        Document firstDocument = factoryOutgoing.creatDocument();
 
-        assertThrows(DocumentExistsException.class, () -> factoryOutgoingSpy.creatDocument());
+        assertThrows(DocumentExistsException.class, factoryOutgoing::creatDocument);
     }
 }

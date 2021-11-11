@@ -1,9 +1,8 @@
 package com.example.document_flow.factory.factoryDocument;
 
 import com.example.document_flow.factory.abstr.Factory;
-import com.example.document_flow.factory.generateDate.GenerateDataTask;
-import com.example.document_flow.model.Document;
-import com.example.document_flow.model.Task;
+import com.example.document_flow.document.Document;
+import com.example.document_flow.document.Task;
 import com.example.document_flow.myException.DocumentExistsException;
 
 /**
@@ -11,23 +10,23 @@ import com.example.document_flow.myException.DocumentExistsException;
  */
 public class FactoryTask extends FactoryDocument implements Factory {
 
-    private GenerateDataTask generateDataTask;
-
+    /**
+     * Фабричный метод для создания объекта класса <code>Task</code>
+     * поля объекта заполняются случайными значениями
+     *
+     * @return document с заполненными, рандомными значениями
+     * @throws DocumentExistsException если документ с генерируемым регистрационным номером уже существует
+     */
     @Override
     public Document creatDocument() throws DocumentExistsException {
-        this.generateDataTask = makeGenerateDataIncoming();
         Task task = new Task();
         task = (Task) getRandomInstance(task);
-        task.setDateOfIssue(generateDataTask.getDateOfIssue());
-        task.setTermOfExecution(generateDataTask.getTermOfExecution());
-        task.setResponsibleExecutor(generateDataTask.getResponsibleExecutor());
-        task.setSignOfControl(generateDataTask.getSignOfControl());
-        task.setOrderController(generateDataTask.getOrderController());
+        task.setDateOfIssue(super.getDataGenerator().getDateOfIssue());
+        task.setTermOfExecution(super.getDataGenerator().getTermOfExecution());
+        task.setResponsibleExecutor(super.getDataGenerator().getResponsibleExecutor());
+        task.setSignOfControl(super.getDataGenerator().getSignOfControl());
+        task.setOrderController(super.getDataGenerator().getOrderController());
         return task;
     }
 
-    @Override
-    public GenerateDataTask makeGenerateDataIncoming() {
-        return GenerateDataTask.getInstance();
-    }
 }

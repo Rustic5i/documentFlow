@@ -1,4 +1,4 @@
-package com.example.document_flow.model;
+package com.example.document_flow.document;
 
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;

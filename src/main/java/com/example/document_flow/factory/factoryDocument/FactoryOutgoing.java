@@ -1,9 +1,8 @@
 package com.example.document_flow.factory.factoryDocument;
 
 import com.example.document_flow.factory.abstr.Factory;
-import com.example.document_flow.factory.generateDate.GenerateDataOutgoing;
-import com.example.document_flow.model.Document;
-import com.example.document_flow.model.Outgoing;
+import com.example.document_flow.document.Document;
+import com.example.document_flow.document.Outgoing;
 import com.example.document_flow.myException.DocumentExistsException;
 
 /**
@@ -11,20 +10,20 @@ import com.example.document_flow.myException.DocumentExistsException;
  */
 public class FactoryOutgoing extends FactoryDocument implements Factory {
 
-    private GenerateDataOutgoing generateDataOutgoing;
-
+    /**
+     * Фабричный метод для создания объекта класса <code>Outgoing</code>
+     * поля объекта заполняются случайными значениями
+     *
+     * @return document с заполненными, рандомными значениями
+     * @throws DocumentExistsException если документ с генерируемым регистрационным номером уже существует
+     */
     @Override
     public Document creatDocument() throws DocumentExistsException {
-        this.generateDataOutgoing = makeGenerateDataIncoming();
         Outgoing outgoing = new Outgoing();
         outgoing = (Outgoing) getRandomInstance(outgoing);
-        outgoing.setAddressee(generateDataOutgoing.getAddressee());
-        outgoing.setDeliveryMethod(generateDataOutgoing.getDeliveryMethod());
+        outgoing.setAddressee(super.getDataGenerator().getAddressee());
+        outgoing.setDeliveryMethod(super.getDataGenerator().getDeliveryMethod());
         return outgoing;
     }
 
-    @Override
-    public GenerateDataOutgoing makeGenerateDataIncoming() {
-        return GenerateDataOutgoing.getInstance();
-    }
 }

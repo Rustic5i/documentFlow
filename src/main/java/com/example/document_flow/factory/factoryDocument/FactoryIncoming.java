@@ -1,9 +1,8 @@
 package com.example.document_flow.factory.factoryDocument;
 
 import com.example.document_flow.factory.abstr.Factory;
-import com.example.document_flow.factory.generateDate.GenerateDataIncoming;
-import com.example.document_flow.model.Document;
-import com.example.document_flow.model.Incoming;
+import com.example.document_flow.document.Document;
+import com.example.document_flow.document.Incoming;
 import com.example.document_flow.myException.DocumentExistsException;
 
 /**
@@ -11,22 +10,21 @@ import com.example.document_flow.myException.DocumentExistsException;
  */
 public class FactoryIncoming extends FactoryDocument implements Factory {
 
-    private GenerateDataIncoming generateDataIncoming;
-
+    /**
+     * Фабричный метод для создания объекта класса <code>Incoming</code>
+     * поля объекта заполняются случайными значениями
+     *
+     * @return document с заполненными, рандомными значениями
+     * @throws DocumentExistsException если документ с генерируемым регистрационным номером уже существует
+     */
     @Override
     public Document creatDocument() throws DocumentExistsException {
-        this.generateDataIncoming = makeGenerateDataIncoming();
         Incoming incoming = new Incoming();
         incoming = (Incoming) getRandomInstance(incoming);
-        incoming.setSource(generateDataIncoming.getSource());
-        incoming.setAddressee(generateDataIncoming.getAddressee());
-        incoming.setOutgoingNumber(generateDataIncoming.getOutgoingNumber());
-        incoming.setOutgoingRegistrationDate(generateDataIncoming.generateOutgoingRegistrationDate());
+        incoming.setSource(super.getDataGenerator().getSource());
+        incoming.setAddressee(super.getDataGenerator().getAddressee());
+        incoming.setOutgoingNumber(super.getDataGenerator().getOutgoingNumber());
+        incoming.setOutgoingRegistrationDate(super.getDataGenerator().getOutgoingRegistrationDate());
         return incoming;
-    }
-
-    @Override
-    public GenerateDataIncoming makeGenerateDataIncoming() {
-        return GenerateDataIncoming.getInstance();
     }
 }

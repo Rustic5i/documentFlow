@@ -1,4 +1,4 @@
-package com.example.document_flow.model.person;
+package com.example.document_flow.document.person;
 
 import java.util.Objects;
 

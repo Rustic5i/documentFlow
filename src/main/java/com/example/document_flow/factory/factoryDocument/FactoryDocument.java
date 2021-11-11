@@ -1,12 +1,17 @@
 package com.example.document_flow.factory.factoryDocument;
 
-import com.example.document_flow.factory.generateDate.GenerateDataDocument;
-import com.example.document_flow.model.Document;
+import com.example.document_flow.document.Document;
+import com.example.document_flow.factory.generator.DataGenerator;
 import com.example.document_flow.myException.DocumentExistsException;
+
+import java.util.HashSet;
+import java.util.Set;
 
 abstract class FactoryDocument {
 
-    private GenerateDataDocument generateDataDocument;
+    private DataGenerator dataGenerator = DataGenerator.getInstance();
+
+    private static Set<Long> registrationNumber = new HashSet<>();
 
     /**
      * Заполняет основные данные документа рандомными значениями
@@ -16,14 +21,21 @@ abstract class FactoryDocument {
      * @throws DocumentExistsException если документ с генерируемым регистрационным номером уже существует
      */
     protected Document getRandomInstance(Document document) throws DocumentExistsException {
-        this.generateDataDocument = makeGenerateDataIncoming();
-        document.setName(generateDataDocument.getName());
-        document.setText(generateDataDocument.getText());
-        document.setAuthor(generateDataDocument.getAuthor());
-        document.setDateRegistration(generateDataDocument.getDateRegistration());
-        document.setRegistrationNumber(generateDataDocument.getRegistrationNumber());
+        document.setName(dataGenerator.getName());
+        document.setText(dataGenerator.getText());
+        document.setAuthor(dataGenerator.getAuthor());
+        document.setDateRegistration(dataGenerator.getDateRegistration());
+        document.setRegistrationNumber(dataGenerator.getRegistrationNumber());
+
+        long regNumber = document.getRegistrationNumber();
+        if (registrationNumber.contains(regNumber)) {
+            throw new DocumentExistsException("Document с регистрационным номер " + regNumber + " уже существует ");
+        }
+        registrationNumber.add(regNumber);
         return document;
     }
 
-    public abstract GenerateDataDocument makeGenerateDataIncoming();
+    public DataGenerator getDataGenerator() {
+        return dataGenerator;
+    }
 }

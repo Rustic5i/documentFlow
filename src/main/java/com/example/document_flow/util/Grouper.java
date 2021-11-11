@@ -1,7 +1,7 @@
 package com.example.document_flow.util;
 
-import com.example.document_flow.model.Document;
-import com.example.document_flow.model.person.Person;
+import com.example.document_flow.document.Document;
+import com.example.document_flow.document.person.Person;
 
 import java.util.ArrayList;
 import java.util.HashMap;

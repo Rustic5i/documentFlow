@@ -1,4 +1,4 @@
-package com.example.document_flow.model.abstr;
+package com.example.document_flow.document.abstr;
 
 public interface Storable {
 

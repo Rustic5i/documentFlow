@@ -1,6 +1,6 @@
-package com.example.document_flow.model;
+package com.example.document_flow.document;
 
-import com.example.document_flow.model.person.Person;
+import com.example.document_flow.document.person.Person;
 
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;

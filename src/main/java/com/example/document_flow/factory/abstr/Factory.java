@@ -6,9 +6,11 @@ import com.example.document_flow.myException.DocumentExistsException;
 public interface Factory {
 
     /**
-     * Метод для создания документов. Создает и заполняет документ рандомными значениями.
+     * Фабричный метод для создания объектов наследников класса <code>Document</code>
+     * поля объекта заполняются случайными значениями
      *
-     * @return Document с заполненными, рандомными значениями
+     * @return document с заполненными, рандомными значениями
+     * @throws DocumentExistsException если документ с генерируемым регистрационным номером уже существует
      */
     Document creatDocument() throws DocumentExistsException;
 }

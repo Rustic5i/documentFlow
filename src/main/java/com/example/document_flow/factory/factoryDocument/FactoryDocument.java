@@ -7,6 +7,9 @@ import com.example.document_flow.myException.DocumentExistsException;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Абстрактный класс,
+ */
 abstract class FactoryDocument {
 
     private DataGenerator dataGenerator = DataGenerator.getInstance();
@@ -14,23 +17,22 @@ abstract class FactoryDocument {
     private static Set<Long> registrationNumber = new HashSet<>();
 
     /**
-     * Заполняет основные данные документа рандомными значениями
-     *
+     * Заполняет переданный документ основанными данными.
+     * Гарантирует что документ будет с уникальным регистрационным номером.
      * @param document который нужно заполнить основные данные, рандомными значениями
      * @return document с заполненными, рандомными значениями
      * @throws DocumentExistsException если документ с генерируемым регистрационным номером уже существует
      */
     protected Document getRandomInstance(Document document) throws DocumentExistsException {
+        long regNumber = dataGenerator.getRegistrationNumber();
+        if (registrationNumber.contains(regNumber)) {
+            throw new DocumentExistsException("Document с регистрационным номер " + regNumber + " уже существует ");
+        }
         document.setName(dataGenerator.getName());
         document.setText(dataGenerator.getText());
         document.setAuthor(dataGenerator.getAuthor());
         document.setDateRegistration(dataGenerator.getDateRegistration());
-        document.setRegistrationNumber(dataGenerator.getRegistrationNumber());
-
-        long regNumber = document.getRegistrationNumber();
-        if (registrationNumber.contains(regNumber)) {
-            throw new DocumentExistsException("Document с регистрационным номер " + regNumber + " уже существует ");
-        }
+        document.setRegistrationNumber(regNumber);
         registrationNumber.add(regNumber);
         return document;
     }

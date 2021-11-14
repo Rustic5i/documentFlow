@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Класс для группирования документов по автору.
+ */
 public class Grouper {
 
     private Map<Person, List<Document>> documentByAuthor = new HashMap<>();
@@ -44,8 +47,8 @@ public class Grouper {
      *  * Поручение №83 от 12 февраля 2021 Имя документа : Второй документ
      *</pre>
      */
-    @Override
-    public String toString() {
+
+    public String report() {
         StringBuilder str = new StringBuilder();
         for (Map.Entry<Person, List<Document>> entry : documentByAuthor.entrySet()) {
             str.append(entry.getKey()).append(":").append("\n");

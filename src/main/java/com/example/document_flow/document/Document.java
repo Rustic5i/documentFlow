@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  * Документ
  */
-public abstract class Document implements Comparable<Document>, Storable {
+public class Document implements Comparable<Document>, Storable {
 
     /**
      * Идентификатор документа

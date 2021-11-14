@@ -37,7 +37,7 @@ public class Main {
         // Группируем Документы по автору
         Grouper grouper = new Grouper();
         grouper.groupByAuthor(documentList);
-        System.out.println(grouper);
+        System.out.println(grouper.report());
 
     }
 }

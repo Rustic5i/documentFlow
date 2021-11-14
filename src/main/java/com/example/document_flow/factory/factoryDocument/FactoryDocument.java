@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Абстрактный класс,
+ * Абстрактный класс по заполнению документа основными данными
  */
 abstract class FactoryDocument {
 
@@ -23,7 +23,7 @@ abstract class FactoryDocument {
      * @return document с заполненными, рандомными значениями
      * @throws DocumentExistsException если документ с генерируемым регистрационным номером уже существует
      */
-    protected Document getRandomInstance(Document document) throws DocumentExistsException {
+    protected Document fillTheBasicData(Document document) throws DocumentExistsException {
         long regNumber = dataGenerator.getRegistrationNumber();
         if (registrationNumber.contains(regNumber)) {
             throw new DocumentExistsException("Document с регистрационным номер " + regNumber + " уже существует ");

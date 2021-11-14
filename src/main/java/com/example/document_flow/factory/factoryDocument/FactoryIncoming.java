@@ -20,7 +20,7 @@ public class FactoryIncoming extends FactoryDocument implements Factory {
     @Override
     public Document creatDocument() throws DocumentExistsException {
         Incoming incoming = new Incoming();
-        incoming = (Incoming) getRandomInstance(incoming);
+        incoming = (Incoming) fillTheBasicData(incoming);
         incoming.setSource(super.getDataGenerator().getSource());
         incoming.setAddressee(super.getDataGenerator().getAddressee());
         incoming.setOutgoingNumber(super.getDataGenerator().getOutgoingNumber());

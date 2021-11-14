@@ -20,7 +20,7 @@ public class FactoryTask extends FactoryDocument implements Factory {
     @Override
     public Document creatDocument() throws DocumentExistsException {
         Task task = new Task();
-        task = (Task) getRandomInstance(task);
+        task = (Task) fillTheBasicData(task);
         task.setDateOfIssue(super.getDataGenerator().getDateOfIssue());
         task.setTermOfExecution(super.getDataGenerator().getTermOfExecution());
         task.setResponsibleExecutor(super.getDataGenerator().getResponsibleExecutor());

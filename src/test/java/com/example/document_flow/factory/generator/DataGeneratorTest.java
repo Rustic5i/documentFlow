@@ -1,7 +1,6 @@
 package com.example.document_flow.factory.generator;
 
 import com.example.document_flow.document.person.Person;
-import com.example.document_flow.myException.DocumentExistsException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -12,7 +11,10 @@ import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.when;
 
 class DataGeneratorTest {

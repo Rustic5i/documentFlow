@@ -28,7 +28,7 @@ class DataGeneratorTest {
 
     @DisplayName("Получаем псевдослучайный регистрационный номер")
     @Test
-    void getRegistrationNumber() throws DocumentExistsException, NoSuchFieldException, IllegalAccessException {
+    void getRegistrationNumber() throws NoSuchFieldException, IllegalAccessException {
         when(randomMock.nextDouble()).thenReturn(0.01);
 
         Field field = dataGenerator.getClass().getDeclaredField("random");

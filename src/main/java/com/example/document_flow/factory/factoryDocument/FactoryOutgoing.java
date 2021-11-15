@@ -18,7 +18,7 @@ public class FactoryOutgoing extends FactoryDocument implements Factory {
      * @throws DocumentExistsException если документ с генерируемым регистрационным номером уже существует
      */
     @Override
-    public Document creatDocument() throws DocumentExistsException {
+    public Document createDocument() throws DocumentExistsException {
         Outgoing outgoing = new Outgoing();
         outgoing = (Outgoing) fillTheBasicData(outgoing);
         outgoing.setAddressee(super.getDataGenerator().getAddressee());

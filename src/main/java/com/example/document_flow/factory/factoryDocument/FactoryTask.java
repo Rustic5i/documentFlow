@@ -18,7 +18,7 @@ public class FactoryTask extends FactoryDocument implements Factory {
      * @throws DocumentExistsException если документ с генерируемым регистрационным номером уже существует
      */
     @Override
-    public Document creatDocument() throws DocumentExistsException {
+    public Document createDocument() throws DocumentExistsException {
         Task task = new Task();
         task = (Task) fillTheBasicData(task);
         task.setDateOfIssue(super.getDataGenerator().getDateOfIssue());

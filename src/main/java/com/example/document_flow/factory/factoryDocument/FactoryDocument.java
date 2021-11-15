@@ -14,6 +14,9 @@ abstract class FactoryDocument {
 
     private DataGenerator dataGenerator = DataGenerator.getInstance();
 
+    /**
+     * Хранит список регистрационных номеров уже созданных документов
+     */
     private static Set<Long> registrationNumber = new HashSet<>();
 
     /**

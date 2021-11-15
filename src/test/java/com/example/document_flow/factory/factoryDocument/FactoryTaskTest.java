@@ -46,7 +46,7 @@ class FactoryTaskTest {
     @DisplayName("Создаем документ, Проверяем что все поля кроме id, не null")
     @Test
     void creatDocument() throws DocumentExistsException, IllegalAccessException {
-        Task task = (Task) factoryTask.creatDocument();
+        Task task = (Task) factoryTask.createDocument();
 
         Field[] fieldSuperClass = task.getClass().getSuperclass().getDeclaredFields();
         Field[] fieldsIncomingClass = task.getClass().getDeclaredFields();
@@ -70,8 +70,8 @@ class FactoryTaskTest {
     void trowsDocumentExistsException() throws DocumentExistsException {
         when(mockDataGenerator.getRegistrationNumber()).thenReturn(6L);
 
-        Document firstDocument = factoryTask.creatDocument();
+        Document firstDocument = factoryTask.createDocument();
 
-        assertThrows(DocumentExistsException.class, factoryTask::creatDocument);
+        assertThrows(DocumentExistsException.class, factoryTask::createDocument);
     }
 }

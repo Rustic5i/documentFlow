@@ -27,7 +27,7 @@ public class Main {
         for (int i = 0; i < COUNT; i++) {
             Document document;
             try {
-                document = FactoriesEnum.values()[random.nextInt(FactoriesEnum.values().length)].getFactoryDocument().creatDocument();
+                document = FactoriesEnum.values()[random.nextInt(FactoriesEnum.values().length)].getFactoryDocument().createDocument();
                 documentList.add(document);
             } catch (DocumentExistsException e) {
                 log.warn("Exception ", e);

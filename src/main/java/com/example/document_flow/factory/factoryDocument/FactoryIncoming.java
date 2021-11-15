@@ -18,7 +18,7 @@ public class FactoryIncoming extends FactoryDocument implements Factory {
      * @throws DocumentExistsException если документ с генерируемым регистрационным номером уже существует
      */
     @Override
-    public Document creatDocument() throws DocumentExistsException {
+    public Document createDocument() throws DocumentExistsException {
         Incoming incoming = new Incoming();
         incoming = (Incoming) fillTheBasicData(incoming);
         incoming.setSource(super.getDataGenerator().getSource());

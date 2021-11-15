@@ -2,8 +2,14 @@ package com.example.document_flow.document.person;
 
 import java.util.Objects;
 
+/**
+ * Человек
+ */
 public class Person {
 
+    /**
+     * Имя
+     */
     private String name;
 
     public Person(String name) {

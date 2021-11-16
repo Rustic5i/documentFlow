@@ -1,10 +1,10 @@
 package com.example.document_flow.util;
 
-import com.example.document_flow.document.Document;
-import com.example.document_flow.document.Incoming;
-import com.example.document_flow.document.Outgoing;
-import com.example.document_flow.document.Task;
-import com.example.document_flow.document.person.Person;
+import com.example.document_flow.entity.Document;
+import com.example.document_flow.entity.Incoming;
+import com.example.document_flow.entity.Outgoing;
+import com.example.document_flow.entity.Task;
+import com.example.document_flow.entity.person.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

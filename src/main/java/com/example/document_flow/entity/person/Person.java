@@ -1,9 +1,10 @@
-package com.example.document_flow.document.person;
+package com.example.document_flow.entity.person;
 
 import java.util.Objects;
 
 /**
- * Человек
+ * Работник
+ * @author Баратов Руслан
  */
 public class Person {
 

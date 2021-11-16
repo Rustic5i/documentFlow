@@ -1,8 +1,8 @@
 package com.example.document_flow.factory.factoryDocument;
 
-import com.example.document_flow.document.Document;
-import com.example.document_flow.document.Task;
-import com.example.document_flow.document.person.Person;
+import com.example.document_flow.entity.Document;
+import com.example.document_flow.entity.Task;
+import com.example.document_flow.entity.person.Person;
 import com.example.document_flow.factory.generator.DataGenerator;
 import com.example.document_flow.myException.DocumentExistsException;
 import org.junit.jupiter.api.DisplayName;

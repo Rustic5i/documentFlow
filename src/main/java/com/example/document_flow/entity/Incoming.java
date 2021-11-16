@@ -1,14 +1,14 @@
-package com.example.document_flow.document;
+package com.example.document_flow.entity;
 
-import com.example.document_flow.document.person.Person;
+import com.example.document_flow.entity.person.Person;
 
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
 /**
  * Входящий документ
+ * @author Баратов Руслан
  */
 public class Incoming extends Document {
 
@@ -35,11 +35,7 @@ public class Incoming extends Document {
     @Override
     public String toString() {
         return MessageFormat
-                .format("Входящее №{0} от {1} Имя документа : {2}",
-                        super.getRegistrationNumber(),
-                        new SimpleDateFormat("d MMMM yyyy")
-                                .format(super.getDateRegistration()),
-                        super.getName());
+                .format("Входящее №{0}", super.toString());
     }
 
     public Person getSource() {

@@ -2,7 +2,7 @@ package com.example.document_flow;
 
 import com.example.document_flow.factory.factoriesEnum.FactoriesEnum;
 import com.example.document_flow.factory.factoryDocument.FactoryTask;
-import com.example.document_flow.document.Document;
+import com.example.document_flow.entity.Document;
 import com.example.document_flow.myException.DocumentExistsException;
 import com.example.document_flow.util.Grouper;
 import org.slf4j.Logger;

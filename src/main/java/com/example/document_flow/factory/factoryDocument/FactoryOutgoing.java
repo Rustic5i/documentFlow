@@ -1,8 +1,8 @@
 package com.example.document_flow.factory.factoryDocument;
 
 import com.example.document_flow.factory.abstr.Factory;
-import com.example.document_flow.document.Document;
-import com.example.document_flow.document.Outgoing;
+import com.example.document_flow.entity.Document;
+import com.example.document_flow.entity.Outgoing;
 import com.example.document_flow.myException.DocumentExistsException;
 
 /**

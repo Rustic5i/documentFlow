@@ -1,6 +1,6 @@
 package com.example.document_flow.factory.generator;
 
-import com.example.document_flow.document.person.Person;
+import com.example.document_flow.entity.person.Person;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;

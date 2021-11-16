@@ -1,6 +1,6 @@
 package com.example.document_flow.factory.generator;
 
-import com.example.document_flow.document.person.Person;
+import com.example.document_flow.entity.person.Person;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;

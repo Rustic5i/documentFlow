@@ -1,7 +1,6 @@
-package com.example.document_flow.document;
+package com.example.document_flow.entity;
 
 import java.text.MessageFormat;
-import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 /**
@@ -22,10 +21,7 @@ public class Outgoing extends Document {
     @Override
     public String toString() {
         return MessageFormat
-                .format("Исходящий №{0} от {1} Имя документа : {2}",
-                        super.getRegistrationNumber(), new SimpleDateFormat("d MMMM yyyy")
-                                .format(super.getDateRegistration()),
-                        super.getName());
+                .format("Исходящий №{0}", super.toString());
     }
 
     public String getAddressee() {

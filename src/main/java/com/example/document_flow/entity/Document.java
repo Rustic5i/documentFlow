@@ -1,13 +1,16 @@
-package com.example.document_flow.document;
+package com.example.document_flow.entity;
 
-import com.example.document_flow.document.abstr.Storable;
-import com.example.document_flow.document.person.Person;
+import com.example.document_flow.entity.abstr.Storable;
+import com.example.document_flow.entity.person.Person;
 
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 
 /**
  * Документ
+ * @author Баратов Руслан
  */
 public class Document implements Comparable<Document>, Storable {
 
@@ -52,7 +55,7 @@ public class Document implements Comparable<Document>, Storable {
     }
 
     @Override
-    public String getNameTable() {
+    public String getTableName() {
         return null;
     }
 
@@ -94,6 +97,16 @@ public class Document implements Comparable<Document>, Storable {
 
     public void setDateRegistration(Date dateRegistration) {
         this.dateRegistration = dateRegistration;
+    }
+
+    @Override
+    public String toString() {
+        return MessageFormat
+                .format("№{0} от {1} Имя документа : {2}",
+                        getRegistrationNumber(),
+                        new SimpleDateFormat("d MMMM yyyy")
+                                .format(getDateRegistration()),
+                        getName());
     }
 
     @Override

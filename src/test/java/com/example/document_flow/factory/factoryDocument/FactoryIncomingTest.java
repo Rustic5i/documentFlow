@@ -6,7 +6,6 @@ import com.example.document_flow.factory.generator.DataGenerator;
 import com.example.document_flow.myException.DocumentExistsException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 
 import java.lang.reflect.Field;
 import java.util.Calendar;
@@ -18,7 +17,6 @@ import static org.mockito.Mockito.when;
 
 class FactoryIncomingTest {
 
-    @Mock
     private DataGenerator mockDataGenerator = mock(DataGenerator.class);
 
     private final FactoryIncoming factoryIncoming = new FactoryIncoming();

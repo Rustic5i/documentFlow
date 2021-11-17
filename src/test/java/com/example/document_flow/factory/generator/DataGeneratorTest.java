@@ -3,7 +3,6 @@ package com.example.document_flow.factory.generator;
 import com.example.document_flow.entity.person.Person;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
@@ -12,14 +11,13 @@ import java.util.Date;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.when;
 
 class DataGeneratorTest {
 
-    @Mock
     private Random randomMock = Mockito.mock(Random.class);
 
     private DataGenerator dataGenerator = DataGenerator.getInstance();

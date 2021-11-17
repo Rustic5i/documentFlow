@@ -7,6 +7,7 @@ import java.util.Date;
 
 /**
  * Поручение
+ * @author Баратов Руслан
  */
 public class Task extends Document {
 
@@ -38,7 +39,7 @@ public class Task extends Document {
     @Override
     public String toString() {
         return MessageFormat
-                .format("Поручение №{0}", super.toString());
+                .format("Поручение {0}", super.toString());
     }
 
     public Date getDateOfIssue() {

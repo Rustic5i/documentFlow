@@ -5,6 +5,7 @@ import java.util.Objects;
 
 /**
  * Исходящий документ
+ * @author Баратов Руслан
  */
 public class Outgoing extends Document {
 
@@ -21,7 +22,7 @@ public class Outgoing extends Document {
     @Override
     public String toString() {
         return MessageFormat
-                .format("Исходящий №{0}", super.toString());
+                .format("Исходящий {0}", super.toString());
     }
 
     public String getAddressee() {

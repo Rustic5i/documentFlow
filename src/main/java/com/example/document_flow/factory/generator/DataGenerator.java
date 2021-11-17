@@ -12,6 +12,7 @@ import java.util.Random;
 /**
  * Класс — синглтон, с набором методов для предоставления рандомных данных
  * для наследников класса <code>Document</code>
+ * @author Баратов Руслан
  */
 public class DataGenerator {
 

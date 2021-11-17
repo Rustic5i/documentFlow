@@ -1,18 +1,16 @@
 package com.example.document_flow;
 
-import com.example.document_flow.factory.factoriesEnum.FactoriesEnum;
-import com.example.document_flow.factory.factoryDocument.FactoryTask;
-import com.example.document_flow.entity.Document;
+import com.example.document_flow.factory.abstr.Factory;
+import com.example.document_flow.factory.factoriesEnum.DocumentType;
+import com.example.document_flow.factory.factoryDocument.FactoryMain;
 import com.example.document_flow.myException.DocumentExistsException;
-import com.example.document_flow.util.Grouper;
+import com.example.document_flow.util.RegistryDocuments;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.util.ArrayList;
+
 import java.util.Random;
 
 public class Main {
-
-    private static ArrayList<Document> documentList = new ArrayList<>();
 
     private static final Logger log = LoggerFactory.getLogger(Main.class.getName());
 
@@ -20,24 +18,20 @@ public class Main {
 
     private static Random random = new Random();
 
-    private static FactoryTask factoryTask = new FactoryTask();
+    private static RegistryDocuments registry = RegistryDocuments.getInstance();
 
     public static void main(String[] args) {
         //Генерируем рандомные документы
         for (int i = 0; i < COUNT; i++) {
-            Document document;
             try {
-                document = FactoriesEnum.values()[random.nextInt(FactoriesEnum.values().length)].getFactoryDocument().createDocument();
-                documentList.add(document);
+                int randomEnum = random.nextInt(DocumentType.values().length);
+                Factory factory = new FactoryMain().creatFactory(DocumentType.values()[randomEnum]);
+                registry.registerDocument(factory.createDocument());
             } catch (DocumentExistsException e) {
                 log.warn("Exception ", e);
             }
         }
 
-        // Группируем Документы по автору
-        Grouper grouper = new Grouper();
-        grouper.groupByAuthor(documentList);
-        System.out.println(grouper.report());
-
+        System.out.println(registry.report());
     }
 }

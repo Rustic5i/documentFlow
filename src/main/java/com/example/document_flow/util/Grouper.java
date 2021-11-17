@@ -3,13 +3,14 @@ package com.example.document_flow.util;
 import com.example.document_flow.entity.Document;
 import com.example.document_flow.entity.person.Person;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Класс для группирования документов по автору.
+ * @author Баратов Руслан
  */
 public class Grouper {
 
@@ -23,16 +24,9 @@ public class Grouper {
      * Где ключ <code>Person</code> это автор.
      * Значение это список документов, созданный им.
      */
-    public Map<Person, List<Document>> groupByAuthor(ArrayList<Document> documentList) {
-        for (Document d : documentList) {
-            if (documentByAuthor.containsKey(d.getAuthor())) {
-                documentByAuthor.get(d.getAuthor()).add(d);
-            } else {
-                documentByAuthor.put(d.getAuthor(), new ArrayList<>());
-                documentByAuthor.get(d.getAuthor()).add(d);
-            }
-        }
-        return documentByAuthor;
+
+    public Map<Person, List<Document>> groupByAuthor(List<Document> documentList) {
+        return documentByAuthor = documentList.stream().collect(Collectors.groupingBy(Document::getAuthor));
     }
 
     /**

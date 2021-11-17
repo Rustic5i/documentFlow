@@ -62,13 +62,16 @@ public class RegistryDocuments {
     }
 
     /**
-     * @return Получить список всех документов
+     * @return Получить список всех документов в формате String
      */
     public String getAllDocumentToList() {
         grouper.groupByAuthor(documentMap.values().stream().toList());
         return grouper.groupByAuthorToString();
     }
 
+    /**
+     * @return Получить список всех документов
+     */
     public List<Document> getAllDocument() {
         return documentMap.values().stream().toList();
     }

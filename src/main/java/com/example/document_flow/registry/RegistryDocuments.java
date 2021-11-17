@@ -62,9 +62,9 @@ public class RegistryDocuments {
     }
 
     /**
-     * @return Получить список всех документов в формате String
+     * @return Возвращает строку, состоящий из значение полей документов, сгруппированные по автору
      */
-    public String getAllDocumentToList() {
+    public String groupByAuthorToString() {
         grouper.groupByAuthor(documentMap.values().stream().toList());
         return grouper.groupByAuthorToString();
     }

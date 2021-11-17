@@ -32,6 +32,6 @@ public class Main {
             }
         }
 
-        System.out.println(registry.getAllDocumentToList());
+        System.out.println(registry.groupByAuthorToString());
     }
 }

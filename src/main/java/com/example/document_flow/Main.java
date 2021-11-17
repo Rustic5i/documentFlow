@@ -4,7 +4,7 @@ import com.example.document_flow.factory.abstr.Factory;
 import com.example.document_flow.factory.factoriesEnum.DocumentType;
 import com.example.document_flow.factory.factoryDocument.FactoryMain;
 import com.example.document_flow.myException.DocumentExistsException;
-import com.example.document_flow.util.RegistryDocuments;
+import com.example.document_flow.registry.RegistryDocuments;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,12 +26,12 @@ public class Main {
             try {
                 int randomEnum = random.nextInt(DocumentType.values().length);
                 Factory factory = new FactoryMain().creatFactory(DocumentType.values()[randomEnum]);
-                registry.registerDocument(factory.createDocument());
+                registry.saveDocument(factory.createDocument());
             } catch (DocumentExistsException e) {
                 log.warn("Exception ", e);
             }
         }
 
-        System.out.println(registry.report());
+        System.out.println(registry.getAllDocumentToList());
     }
 }

@@ -1,14 +1,17 @@
-package com.example.document_flow.util;
+package com.example.document_flow.registry;
 
 import com.example.document_flow.entity.Document;
 import com.example.document_flow.myException.DocumentExistsException;
+import com.example.document_flow.util.Grouper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Предстовляет из себя реест по хранения всех созданных документов
+ * @author Баратов Руслан
  */
 public class RegistryDocuments {
 
@@ -23,6 +26,8 @@ public class RegistryDocuments {
 
     private static RegistryDocuments registryDocuments;
 
+    private List<Document> documentList = new ArrayList<>();
+
     private RegistryDocuments() {
     }
 
@@ -32,7 +37,7 @@ public class RegistryDocuments {
      * @param document документ для регистрации
      * @throws DocumentExistsException если документ с таким регистрационным номером уже был создан ранее
      */
-    public void registerDocument(Document document) throws DocumentExistsException {
+    public void saveDocument(Document document) throws DocumentExistsException {
         Long registrationNumber = document.getRegistrationNumber();
         if (documentMap.containsKey(registrationNumber)) {
             throw new DocumentExistsException("Document с регистрационным номер " + registrationNumber + " уже существует ");
@@ -40,13 +45,41 @@ public class RegistryDocuments {
         documentMap.put(registrationNumber, document);
     }
 
-    public static List<Document> getAllDocument() {
+    /**
+     * Перегруженный метод <code>saveDocument()</code>
+     * Метод для регистрации созданных документов
+     * @param document список документов для регистрации
+     * @throws DocumentExistsException если документ с таким регистрационным номером уже был создан ранее
+     */
+    public void saveDocument(List<Document> document) throws DocumentExistsException {
+        for (Document doc: document) {
+            Long registrationNumber = doc.getRegistrationNumber();
+            if (documentMap.containsKey(registrationNumber)) {
+                throw new DocumentExistsException("Document с регистрационным номер " + registrationNumber + " уже существует ");
+            }
+            documentMap.put(registrationNumber, doc);
+        }
+    }
+
+    /**
+     * @return Получить список всех документов
+     */
+    public String getAllDocumentToList() {
+        grouper.groupByAuthor(documentMap.values().stream().toList());
+        return grouper.groupByAuthorToString();
+    }
+
+    public List<Document> getAllDocument() {
         return documentMap.values().stream().toList();
     }
 
-    public String report() {
-        grouper.groupByAuthor(getAllDocument());
-        return grouper.report();
+    /**
+     * Получить документ по регистрационному номеру
+     * @param registrationNumber регистрационный номер документа
+     * @return найденный документ
+     */
+    public Document getDocumentByRegNumber(Long registrationNumber){
+        return documentMap.get(registrationNumber);
     }
 
     /**

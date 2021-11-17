@@ -1,9 +1,8 @@
 package com.example.document_flow.factory.factoryDocument;
 
-import com.example.document_flow.factory.generator.DataGenerator;
-import com.example.document_flow.entity.Document;
 import com.example.document_flow.entity.Incoming;
 import com.example.document_flow.entity.person.Person;
+import com.example.document_flow.factory.generator.DataGenerator;
 import com.example.document_flow.myException.DocumentExistsException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -63,13 +61,4 @@ class FactoryIncomingTest {
         }
     }
 
-    @DisplayName("В случае, если документ с генерируемым номером уже существует, то необходимо выбрасывать исключение DocumentExistsException")
-    @Test
-    void trowsDocumentExistsException() throws DocumentExistsException {
-        when(mockDataGenerator.getRegistrationNumber()).thenReturn(2L);
-
-        Document firstDocument = factoryIncoming.createDocument();
-
-        assertThrows(DocumentExistsException.class, factoryIncoming::createDocument);
-    }
 }

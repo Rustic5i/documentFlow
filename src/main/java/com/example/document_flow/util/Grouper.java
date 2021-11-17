@@ -31,7 +31,7 @@ public class Grouper {
 
     /**
      *
-     * @return Отчет перечень авторов документов и список документов, созданных ими
+     * @return Сгруппированные документы по автору в формате String
      *<pre>
      *Андреева Елизавета Павловна:
      *  * Входящее №15 от 3 марта 2017 Имя документа : Первый документ
@@ -41,7 +41,7 @@ public class Grouper {
      *  * Поручение №83 от 12 февраля 2021 Имя документа : Второй документ
      *</pre>
      */
-    public String report() {
+    public String groupByAuthorToString() {
         StringBuilder str = new StringBuilder();
         for (Map.Entry<Person, List<Document>> entry : documentByAuthor.entrySet()) {
             str.append(entry.getKey()).append(":").append("\n");

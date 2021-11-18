@@ -3,7 +3,7 @@ package com.example.document_flow.factory.factoryDocument;
 import com.example.document_flow.entity.Task;
 
 /**
- * <code>FactoryTask</code> класс-фабрика для генерации Входящего документа (Task)
+ * Класс-фабрика для генерации Входящего документа (Task)
  *
  * @author Баратов Руслан
  */

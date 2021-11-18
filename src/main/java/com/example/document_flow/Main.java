@@ -6,7 +6,7 @@ import com.example.document_flow.factory.abstr.Factory;
 import com.example.document_flow.factory.factoryDocument.FactoryTask;
 import com.example.document_flow.factory.factoryDocument.FactoryСreator;
 import com.example.document_flow.myException.DocumentExistsException;
-import com.example.document_flow.registry.DocumentHolder;
+import com.example.document_flow.repository.RepositoryDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +20,7 @@ public class Main {
 
     private static Random random = new Random();
 
-    private static DocumentHolder registry = DocumentHolder.getInstance();
+    private static RepositoryDocument registry = RepositoryDocument.getInstance();
 
     public static void main(String[] args) {
         //Генерируем рандомные документы

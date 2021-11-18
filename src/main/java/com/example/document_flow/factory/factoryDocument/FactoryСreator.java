@@ -1,6 +1,7 @@
 package com.example.document_flow.factory.factoryDocument;
 
 import com.example.document_flow.factory.abstr.Factory;
+import com.example.document_flow.factory.factoryDocument.repository.RepositoryFactory;
 
 /**
  * Фабрика фабрик
@@ -8,7 +9,7 @@ import com.example.document_flow.factory.abstr.Factory;
  */
 public class FactoryСreator {
 
-    private static DocumentFactoryHolder factoryHolder = new DocumentFactoryHolder();
+    private static RepositoryFactory factoryHolder = new RepositoryFactory();
 
     /**
      * Создает нужную фабрику в зависимости от переданного типа документа

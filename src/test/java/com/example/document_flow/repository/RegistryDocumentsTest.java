@@ -1,4 +1,4 @@
-package com.example.document_flow.registry;
+package com.example.document_flow.repository;
 
 import com.example.document_flow.entity.Document;
 import com.example.document_flow.entity.Incoming;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RegistryDocumentsTest {
 
-    private DocumentHolder registry = DocumentHolder.getInstance();
+    private RepositoryDocument registry = RepositoryDocument.getInstance();
 
     private List<Document> documentList = new ArrayList<>();
 
@@ -72,10 +72,10 @@ public class RegistryDocumentsTest {
         assertThrows(DocumentExistsException.class, () -> registry.saveDocument(expected));
     }
 
-    @DisplayName("DocumentHolder должен быть синглтон")
+    @DisplayName("RepositoryDocument должен быть синглтон")
     @Test
     public void getInstance() {
-        DocumentHolder actual = DocumentHolder.getInstance();
+        RepositoryDocument actual = RepositoryDocument.getInstance();
 
         assertNotNull(actual);
         assertSame(registry, actual);

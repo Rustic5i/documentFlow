@@ -18,7 +18,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class GrouperTest {
+public class DocumentGroupServiceTest {
 
     private DocumentGroupService grouper = new DocumentGroupService();
 

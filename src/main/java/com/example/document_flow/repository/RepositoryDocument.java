@@ -1,4 +1,4 @@
-package com.example.document_flow.registry;
+package com.example.document_flow.repository;
 
 import com.example.document_flow.entity.Document;
 import com.example.document_flow.myException.DocumentExistsException;
@@ -13,7 +13,7 @@ import java.util.Map;
  *
  * @author Баратов Руслан
  */
-public class DocumentHolder {
+public class RepositoryDocument {
 
     /**
      * Хранит все созданные документы.
@@ -24,9 +24,9 @@ public class DocumentHolder {
 
     private static DocumentGroupService grouper = new DocumentGroupService();
 
-    private static DocumentHolder registryDocuments;
+    private static RepositoryDocument registryDocuments;
 
-    private DocumentHolder() {
+    private RepositoryDocument() {
     }
 
     /**
@@ -83,7 +83,7 @@ public class DocumentHolder {
 
     /**
      * Выбрасывает исключение DocumentExistsException,
-     * если в DocumentHolder уже храниться документ с таким регистрациионым номером.
+     * если в RepositoryDocument уже храниться документ с таким регистрациионым номером.
      *
      * @param registrationNumber регистрационый номер документа
      * @throws DocumentExistsException если документ с таким регистрационным номером уже был создан ранее
@@ -97,9 +97,9 @@ public class DocumentHolder {
     /**
      * @return синголтон обьект
      */
-    public static DocumentHolder getInstance() {
+    public static RepositoryDocument getInstance() {
         if (registryDocuments == null) {
-            registryDocuments = new DocumentHolder();
+            registryDocuments = new RepositoryDocument();
         }
         return registryDocuments;
     }

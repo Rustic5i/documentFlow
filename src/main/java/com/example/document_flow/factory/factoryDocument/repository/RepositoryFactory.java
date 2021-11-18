@@ -1,6 +1,9 @@
-package com.example.document_flow.factory.factoryDocument;
+package com.example.document_flow.factory.factoryDocument.repository;
 
 import com.example.document_flow.factory.abstr.Factory;
+import com.example.document_flow.factory.factoryDocument.FactoryIncoming;
+import com.example.document_flow.factory.factoryDocument.FactoryOutgoing;
+import com.example.document_flow.factory.factoryDocument.FactoryTask;
 
 import java.util.HashMap;
 
@@ -9,16 +12,16 @@ import java.util.HashMap;
  *
  * @author Баратов Руслан
  */
-public class DocumentFactoryHolder {
+public class RepositoryFactory {
 
     /**
      * Хранит список всех фабрик.
      * Где ключ - это тип документа на которм специализуется фабрика.
      * Значение - сама фабрика
      */
-    private HashMap<Class, Factory> factoryHolder = new HashMap<>();
+    private static HashMap<Class, Factory> factoryHolder = new HashMap<>();
 
-    {
+   static  {
         FactoryIncoming factoryIncoming = new FactoryIncoming();
         FactoryOutgoing factoryOutgoing = new FactoryOutgoing();
         FactoryTask factoryTask = new FactoryTask();
@@ -33,7 +36,7 @@ public class DocumentFactoryHolder {
      * @param type Тип документа
      * @return инстанс фабрики
      */
-    public Factory getFactoryByTypeDocument(Class type) {
+    public static Factory getFactoryByTypeDocument(Class type) {
         return factoryHolder.get(type);
     }
 }

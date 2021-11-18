@@ -3,7 +3,7 @@ package com.example.document_flow.factory.factoryDocument;
 import com.example.document_flow.entity.Outgoing;
 
 /**
- * <code>FactoryOutgoing</code> класс-фабрика для генерации Входящего документа (Outgoing)
+ * Класс-фабрика для генерации Входящего документа (Outgoing)
  *
  * @author Баратов Руслан
  */

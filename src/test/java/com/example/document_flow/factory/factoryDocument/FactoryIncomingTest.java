@@ -3,7 +3,6 @@ package com.example.document_flow.factory.factoryDocument;
 import com.example.document_flow.entity.Incoming;
 import com.example.document_flow.entity.person.Person;
 import com.example.document_flow.factory.generator.DataGenerator;
-import com.example.document_flow.myException.DocumentExistsException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class FactoryIncomingTest {
+public class FactoryIncomingTest {
 
     private DataGenerator mockDataGenerator = mock(DataGenerator.class);
 
@@ -39,7 +38,7 @@ class FactoryIncomingTest {
 
     @DisplayName("Создаем документ, Проверяем что все поля кроме id, не null")
     @Test
-    void creatDocument() throws DocumentExistsException, IllegalAccessException {
+    public void creatDocument() throws IllegalAccessException {
         Incoming incoming = (Incoming) factoryIncoming.createDocument();
 
         Field[] fieldSuperClass = incoming.getClass().getSuperclass().getDeclaredFields();

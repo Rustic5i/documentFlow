@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.when;
 
-class DataGeneratorTest {
+public class DataGeneratorTest {
 
     private Random randomMock = Mockito.mock(Random.class);
 
@@ -28,7 +28,7 @@ class DataGeneratorTest {
 
     @DisplayName("Получаем псевдослучайный регистрационный номер")
     @Test
-    void getRegistrationNumber() throws NoSuchFieldException, IllegalAccessException {
+    public void getRegistrationNumber() throws NoSuchFieldException, IllegalAccessException {
         when(randomMock.nextDouble()).thenReturn(0.01);
 
         Field field = dataGenerator.getClass().getDeclaredField("random");
@@ -38,28 +38,28 @@ class DataGeneratorTest {
         Object registrationNumber = dataGenerator.getRegistrationNumber();
 
         assertNotNull(registrationNumber);
-        assertInstanceOf(Long.class, registrationNumber);
+         assertInstanceOf(Long.class, registrationNumber);
         assertEquals(1L, registrationNumber);
     }
 
     @Test
-    void getName() {
+    public void getName() {
         Object name = dataGenerator.getName();
 
         assertNotNull(name);
-        assertInstanceOf(String.class, name);
+         assertInstanceOf(String.class, name);
     }
 
     @Test
-    void getText() {
+    public void getText() {
         Object text = dataGenerator.getText();
 
         assertNotNull(text);
-        assertInstanceOf(String.class, text);
+          assertInstanceOf(String.class, text);
     }
 
     @Test
-    void getAuthor() {
+    public void getAuthor() {
         Person author = dataGenerator.getAuthor();
 
         assertNotNull(author);
@@ -67,22 +67,22 @@ class DataGeneratorTest {
     }
 
     @Test
-    void getDateRegistration() {
+    public void getDateRegistration() {
         Object dateRegistration = dataGenerator.getDateRegistration();
 
         assertNotNull(dateRegistration);
-        assertInstanceOf(Date.class, dateRegistration);
+         assertInstanceOf(Date.class, dateRegistration);
     }
 
     @Test
-    void generateOutgoingRegistrationDate() {
+    public void generateOutgoingRegistrationDate() {
         Date registrationDate = dataGenerator.getOutgoingRegistrationDate();
 
         assertNotNull(registrationDate);
     }
 
     @Test
-    void getSource() {
+    public void getSource() {
         Person source = dataGenerator.getSource();
 
         assertNotNull(source);
@@ -90,44 +90,44 @@ class DataGeneratorTest {
     }
 
     @Test
-    void getAddressee() {
+    public void getAddressee() {
         Object addressee = dataGenerator.getAddressee();
 
         assertNotNull(addressee);
-        assertInstanceOf(String.class, addressee);
+         assertInstanceOf(String.class, addressee);
     }
 
     @Test
-    void getOutgoingNumber() {
+    public void getOutgoingNumber() {
         Long outgoingNumber = dataGenerator.getOutgoingNumber();
 
         assertNotNull(outgoingNumber);
     }
 
     @Test
-    void getDeliveryMethod() {
+    public void getDeliveryMethod() {
         Object deliveryMethod = dataGenerator.getDeliveryMethod();
 
         assertNotNull(deliveryMethod);
-        assertInstanceOf(String.class, deliveryMethod);
+         assertInstanceOf(String.class, deliveryMethod);
     }
 
     @Test
-    void getTermOfExecution() {
+    public void getTermOfExecution() {
         Date termOfExecution = dataGenerator.getTermOfExecution();
 
         assertNotNull(termOfExecution);
     }
 
     @Test
-    void getDateOfIssue() {
+    public void getDateOfIssue() {
         Date dateOfIssue = dataGenerator.getDateOfIssue();
 
         assertNotNull(dateOfIssue);
     }
 
     @Test
-    void getResponsibleExecutor() {
+    public void getResponsibleExecutor() {
         Person responsibleExecutor = dataGenerator.getResponsibleExecutor();
 
         assertNotNull(responsibleExecutor);
@@ -135,24 +135,24 @@ class DataGeneratorTest {
     }
 
     @Test
-    void getSignOfControl() {
+    public void getSignOfControl() {
         Object signOfControl = dataGenerator.getSignOfControl();
 
         assertNotNull(signOfControl);
-        assertInstanceOf(String.class, signOfControl);
+         assertInstanceOf(String.class, signOfControl);
     }
 
     @Test
-    void getOrderController() {
+    public void getOrderController() {
         Object orderController = dataGenerator.getOrderController();
 
         assertNotNull(orderController);
-        assertInstanceOf(Person.class, orderController);
+          assertInstanceOf(Person.class, orderController);
     }
 
-    @DisplayName("DataGenerator должен быть синглтон")
+     @DisplayName("DataGenerator должен быть синглтон")
     @Test
-    void getInstance() {
+    public void getInstance() {
         DataGenerator actual = DataGenerator.getInstance();
 
         assertNotNull(actual);

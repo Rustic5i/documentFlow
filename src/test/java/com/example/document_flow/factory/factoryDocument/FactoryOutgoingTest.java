@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class FactoryOutgoingTest {
+public class FactoryOutgoingTest {
 
     private DataGenerator mockDataGenerator = mock(DataGenerator.class);
 
@@ -38,7 +38,7 @@ class FactoryOutgoingTest {
 
     @DisplayName("Создаем документ, Проверяем что все поля кроме id, не null")
     @Test
-    void creatDocument() throws DocumentExistsException, IllegalAccessException {
+    public void creatDocument() throws DocumentExistsException, IllegalAccessException {
         Outgoing outgoing = (Outgoing) factoryOutgoing.createDocument();
 
         Field[] fieldSuperClass = outgoing.getClass().getSuperclass().getDeclaredFields();
@@ -57,4 +57,5 @@ class FactoryOutgoingTest {
             assertNotNull(field.get(outgoing));
         }
     }
+
 }

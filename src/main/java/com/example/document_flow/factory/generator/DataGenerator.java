@@ -23,7 +23,7 @@ public class DataGenerator {
     /**
      * Список Названия документа
      */
-    private final List<String> name = Arrays.asList("Первый документ",
+    private static final List<String> name = Arrays.asList("Первый документ",
             "Второй документ",
             "Третий документ",
             "Четвертый документ");
@@ -31,7 +31,7 @@ public class DataGenerator {
     /**
      * Список Текста документа
      */
-    private final List<String> text = Arrays.asList("Текстовый текст Документа",
+    private static final List<String> text = Arrays.asList("Текстовый текст Документа",
             "Помыть кошку",
             "Сделай то, не знаю что",
             "Сходи туда, не знаю куда");
@@ -39,7 +39,7 @@ public class DataGenerator {
     /**
      * Список Адресатов
      */
-    private final List<String> addressee = Arrays.asList("Астраханская область, город Щёлково, шоссе Косиора, 30",
+    private static final List<String> addressee = Arrays.asList("Астраханская область, город Щёлково, шоссе Косиора, 30",
             "Курская область, город Павловский Посад, пр. Гагарина, 13",
             "Оренбургская область, город Орехово-Зуево, пл. Чехова, 18",
             "Кемеровская область, город Волоколамск, шоссе Гоголя, 14",
@@ -52,29 +52,24 @@ public class DataGenerator {
     /**
      * Список Признак контрольности
      */
-    private final List<String> signOfControl = Arrays.asList("Признак контрольности 1",
+    private static final List<String> signOfControl = Arrays.asList("Признак контрольности 1",
             "Признак контрольности 2",
             "Признак контрольности 3");
 
     /**
      * Список Способов доставки
      */
-    private final List<String> deliveryMethod = Arrays.asList("Почта России", "СДЭК", "Самовывоз");
-
-    /**
-     * Список Исходящих номеров
-     */
-    private final List<Long> outgoingNumber = Arrays.asList(1L, 2L, 3L, 4L);
+    private static final List<String> deliveryMethod = Arrays.asList("Почта России", "СДЭК", "Самовывоз");
 
     /**
      * Срок исполнения поручения
      */
-    private final Date termOfExecution = new Date();
+    private static final Date termOfExecution = new Date();
 
     /**
      * Список людей
      */
-    public List<Person> personList = Arrays.asList(new Person("Кошелева Василиса Ивановна"),
+    public static final List<Person> personList = Arrays.asList(new Person("Кошелева Василиса Ивановна"),
             new Person("Ильина Вера Арсентьевна"),
             new Person("Новикова Есения Робертовна"),
             new Person("Розанова Полина Дмитриевна"),
@@ -124,7 +119,7 @@ public class DataGenerator {
      * @return Рандомный исходящий номер
      */
     public Long getOutgoingNumber() {
-        return outgoingNumber.get(random.nextInt(outgoingNumber.size()));
+        return Long.valueOf(random.nextInt(100));
     }
 
     /**

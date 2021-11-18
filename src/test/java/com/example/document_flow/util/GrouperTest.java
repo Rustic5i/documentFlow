@@ -8,17 +8,17 @@ import com.example.document_flow.entity.person.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
-import java.util.GregorianCalendar;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class GrouperTest {
+public class GrouperTest {
 
     private Grouper grouper = new Grouper();
 
@@ -27,7 +27,7 @@ class GrouperTest {
     private Map<Person, List<Document>> expectedMap = new HashMap<>();
 
     @Test
-    void groupByAuthor() {
+    public void groupByAuthor() {
         Map<Person, List<Document>> actualMap = grouper.groupByAuthor(documentList);
 
         assertNotNull(actualMap);
@@ -35,7 +35,7 @@ class GrouperTest {
     }
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         Person andrey = new Person("Андрей");
         Person natasha = new Person("Ольга");
         Person ruslan = new Person("Руслан");

@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  * Класс для группирования документов по автору.
  * @author Баратов Руслан
  */
-public class Grouper {
+public class DocumentGroupService {
 
     private Map<Person, List<Document>> documentByAuthor = new HashMap<>();
 

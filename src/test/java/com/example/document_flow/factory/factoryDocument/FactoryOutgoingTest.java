@@ -39,7 +39,7 @@ public class FactoryOutgoingTest {
     @DisplayName("Создаем документ, Проверяем что все поля кроме id, не null")
     @Test
     public void creatDocument() throws DocumentExistsException, IllegalAccessException {
-        Outgoing outgoing = (Outgoing) factoryOutgoing.createDocument();
+        Outgoing outgoing = (Outgoing) factoryOutgoing.create();
 
         Field[] fieldSuperClass = outgoing.getClass().getSuperclass().getDeclaredFields();
         Field[] fieldsIncomingClass = outgoing.getClass().getDeclaredFields();

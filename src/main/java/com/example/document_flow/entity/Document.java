@@ -1,6 +1,5 @@
 package com.example.document_flow.entity;
 
-import com.example.document_flow.entity.abstr.Storable;
 import com.example.document_flow.entity.person.Person;
 
 import java.text.MessageFormat;
@@ -12,7 +11,7 @@ import java.util.Objects;
  * Документ
  * @author Баратов Руслан
  */
-public class Document implements Comparable<Document>, Storable {
+public class Document implements Comparable<Document> {
 
     /**
      * Идентификатор документа
@@ -47,16 +46,6 @@ public class Document implements Comparable<Document>, Storable {
     @Override
     public int compareTo(Document o) {
         return this.getDateRegistration().compareTo(o.dateRegistration);
-    }
-
-    @Override
-    public Long getIdDocument() {
-        return null;
-    }
-
-    @Override
-    public String getTableName() {
-        return null;
     }
 
     public String getName() {

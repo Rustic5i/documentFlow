@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class GrouperTest {
 
-    private Grouper grouper = new Grouper();
+    private DocumentGroupService grouper = new DocumentGroupService();
 
     private ArrayList<Document> documentList = new ArrayList<>();
 

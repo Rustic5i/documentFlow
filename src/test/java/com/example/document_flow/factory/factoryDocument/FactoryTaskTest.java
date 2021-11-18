@@ -41,7 +41,7 @@ public class FactoryTaskTest {
     @DisplayName("Создаем документ, Проверяем что все поля кроме id, не null")
     @Test
    public void creatDocument() throws IllegalAccessException {
-        Task task = (Task) factoryTask.createDocument();
+        Task task = (Task) factoryTask.create();
 
         Field[] fieldSuperClass = task.getClass().getSuperclass().getDeclaredFields();
         Field[] fieldsIncomingClass = task.getClass().getDeclaredFields();

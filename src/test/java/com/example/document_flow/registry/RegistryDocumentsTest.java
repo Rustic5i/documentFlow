@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RegistryDocumentsTest {
 
-    private RegistryDocuments registry = RegistryDocuments.getInstance();
+    private DocumentHolder registry = DocumentHolder.getInstance();
 
     private List<Document> documentList = new ArrayList<>();
 
@@ -72,10 +72,10 @@ public class RegistryDocumentsTest {
         assertThrows(DocumentExistsException.class, () -> registry.saveDocument(expected));
     }
 
-    @DisplayName("RegistryDocuments должен быть синглтон")
+    @DisplayName("DocumentHolder должен быть синглтон")
     @Test
     public void getInstance() {
-        RegistryDocuments actual = RegistryDocuments.getInstance();
+        DocumentHolder actual = DocumentHolder.getInstance();
 
         assertNotNull(actual);
         assertSame(registry, actual);

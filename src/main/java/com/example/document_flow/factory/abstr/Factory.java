@@ -10,7 +10,7 @@ public interface Factory {
 
     /**
      *
-     * @return document с заполненными, рандомными значениями
+     * @return Фабричный метод для создания объектов наследников класса <code>Document</code>
      */
     Document createDocument();
 

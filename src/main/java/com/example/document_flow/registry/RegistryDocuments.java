@@ -4,7 +4,6 @@ import com.example.document_flow.entity.Document;
 import com.example.document_flow.myException.DocumentExistsException;
 import com.example.document_flow.util.Grouper;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,8 +24,6 @@ public class RegistryDocuments {
     private static Grouper grouper = new Grouper();
 
     private static RegistryDocuments registryDocuments;
-
-    private List<Document> documentList = new ArrayList<>();
 
     private RegistryDocuments() {
     }

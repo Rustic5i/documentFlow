@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 /**
  * Обработчик запросов
+ * @author Баратов Руслан
  */
 public class RequestHandler {
 

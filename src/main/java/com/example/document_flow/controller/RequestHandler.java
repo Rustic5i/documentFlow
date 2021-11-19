@@ -11,6 +11,7 @@ import java.util.Scanner;
 
 /**
  * Обработчик запросов
+ *
  * @author Баратов Руслан
  */
 public class RequestHandler {
@@ -28,6 +29,7 @@ public class RequestHandler {
     /**
      * Обработчик запроса.
      * Если обработать запрос не получилось, переходим к другому обработчику
+     *
      * @param args запрос
      */
     private void handler(String[] args) {
@@ -37,10 +39,10 @@ public class RequestHandler {
                 repository.saveDocument(DocumentGenerator.run(count));
                 System.out.println(repository.groupByAuthorToString());
             } catch (InvalidParametersException e) {
-                log.warn("Exception ",e);
+                log.warn("Exception ", e);
                 handler();
             }
-        }else {
+        } else {
             handler();
         }
     }
@@ -57,7 +59,7 @@ public class RequestHandler {
                 System.out.println(repository.groupByAuthorToString());
                 break;
             } catch (InvalidParametersException e) {
-                log.warn("Exception ",e);
+                log.warn("Exception ", e);
             }
         }
     }

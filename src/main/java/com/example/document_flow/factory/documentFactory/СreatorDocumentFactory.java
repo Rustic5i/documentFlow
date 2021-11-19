@@ -1,13 +1,13 @@
-package com.example.document_flow.factory.factoryDocument;
+package com.example.document_flow.factory.documentFactory;
 
-import com.example.document_flow.factory.abstr.Factory;
-import com.example.document_flow.factory.factoryDocument.repository.RepositoryFactory;
+import com.example.document_flow.factory.abstr.DocumentFactory;
+import com.example.document_flow.factory.documentFactory.repository.RepositoryFactory;
 
 /**
  * Фабрика фабрик
  * @author Баратов Руслан
  */
-public class FactoryСreator {
+public class СreatorDocumentFactory {
 
     private static RepositoryFactory factoryHolder = new RepositoryFactory();
 
@@ -16,7 +16,7 @@ public class FactoryСreator {
      * @param type тип документа
      * @return обьект фабрка
      */
-    public static Factory creatFactory(Class type) {
+    public static DocumentFactory creatFactory(Class type) {
         return factoryHolder.getFactoryByTypeDocument(type);
     }
 }

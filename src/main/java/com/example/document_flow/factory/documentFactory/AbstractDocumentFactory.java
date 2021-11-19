@@ -1,7 +1,7 @@
-package com.example.document_flow.factory.factoryDocument;
+package com.example.document_flow.factory.documentFactory;
 
 import com.example.document_flow.entity.Document;
-import com.example.document_flow.factory.abstr.Factory;
+import com.example.document_flow.factory.abstr.DocumentFactory;
 import com.example.document_flow.factory.generator.DataGenerator;
 
 /**
@@ -10,7 +10,7 @@ import com.example.document_flow.factory.generator.DataGenerator;
  * @param <T> Тип документа
  * @author Баратов Руслан
  */
-public abstract class AbstractFactory<T extends Document> implements Factory {
+public abstract class AbstractDocumentFactory<T extends Document> implements DocumentFactory {
 
     private final DataGenerator dataGenerator = DataGenerator.getInstance();
 

@@ -7,7 +7,7 @@ import com.example.document_flow.entity.Document;
  *
  * @author Баратов Руслан
  */
-public interface Factory {
+public interface DocumentFactory {
 
     /**
      * @return Фабричный метод для создания объектов наследников класса <code>Document</code>

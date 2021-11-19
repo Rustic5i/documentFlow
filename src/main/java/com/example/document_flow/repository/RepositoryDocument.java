@@ -1,8 +1,11 @@
 package com.example.document_flow.repository;
 
+import com.example.document_flow.Main;
 import com.example.document_flow.entity.Document;
 import com.example.document_flow.myException.DocumentExistsException;
 import com.example.document_flow.util.DocumentGroupService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +26,8 @@ public class RepositoryDocument {
     private static Map<Long, Document> documentMap = new HashMap<>();
 
     private static DocumentGroupService grouper = new DocumentGroupService();
+
+    private static final Logger log = LoggerFactory.getLogger(Main.class.getName());
 
     private static RepositoryDocument registryDocuments;
 
@@ -46,12 +51,15 @@ public class RepositoryDocument {
      * Метод для регистрации созданных документов
      *
      * @param document список документов для регистрации
-     * @throws DocumentExistsException если документ с таким регистрационным номером уже был создан ранее
      */
-    public void saveDocument(List<Document> document) throws DocumentExistsException {
+    public void saveDocument(List<Document> document) {
         for (Document doc : document) {
             Long registrationNumber = doc.getRegistrationNumber();
-            containsRegistrationNumber(registrationNumber);
+            try {
+                containsRegistrationNumber(registrationNumber);
+            } catch (DocumentExistsException e) {
+                log.warn("Exception ", e);
+            }
             documentMap.put(registrationNumber, doc);
         }
     }

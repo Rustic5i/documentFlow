@@ -1,4 +1,4 @@
-package com.example.document_flow.factory.factoryDocument;
+package com.example.document_flow.factory.documentFactory;
 
 import com.example.document_flow.entity.Task;
 import com.example.document_flow.entity.person.Person;
@@ -14,13 +14,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class FactoryTaskTest {
+public class TaskDocumentFactoryTest {
 
     private DataGenerator mockDataGenerator = mock(DataGenerator.class);
 
-    private final FactoryTask factoryTask = new FactoryTask();
+    private final TaskDocumentFactory factoryTask = new TaskDocumentFactory();
 
-    public FactoryTaskTest() throws IllegalAccessException, NoSuchFieldException {
+    public TaskDocumentFactoryTest() throws IllegalAccessException, NoSuchFieldException {
         when(mockDataGenerator.getDateOfIssue()).thenReturn(new GregorianCalendar(2021, Calendar.NOVEMBER, 9).getTime());
         when(mockDataGenerator.getTermOfExecution()).thenReturn(new GregorianCalendar(2021, Calendar.DECEMBER, 9).getTime());
         when(mockDataGenerator.getResponsibleExecutor()).thenReturn(new Person("Розанова Полина Дмитриевна"));

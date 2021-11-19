@@ -1,4 +1,4 @@
-package com.example.document_flow.factory.factoryDocument;
+package com.example.document_flow.factory.documentFactory;
 
 import com.example.document_flow.entity.Outgoing;
 import com.example.document_flow.entity.person.Person;
@@ -15,13 +15,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class FactoryOutgoingTest {
+public class OutgoingDocumentFactoryTest {
 
     private DataGenerator mockDataGenerator = mock(DataGenerator.class);
 
-    private final FactoryOutgoing factoryOutgoing = new FactoryOutgoing();
+    private final OutgoingDocumentFactory factoryOutgoing = new OutgoingDocumentFactory();
 
-    public FactoryOutgoingTest() throws NoSuchFieldException, IllegalAccessException {
+    public OutgoingDocumentFactoryTest() throws NoSuchFieldException, IllegalAccessException {
         when(mockDataGenerator.getAddressee()).thenReturn("Амурская область, город Дорохово, ул. Косиора, 13");
         when(mockDataGenerator.getDeliveryMethod()).thenReturn("Почта России");
 

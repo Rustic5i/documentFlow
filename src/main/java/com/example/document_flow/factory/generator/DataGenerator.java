@@ -154,7 +154,7 @@ public class DataGenerator {
      * @return Рандомный регистрационный номер
      */
     public Long getRegistrationNumber() {
-        return (long) (random.nextDouble() * 100);
+        return (long) (random.nextDouble() * 1000);
     }
 
     /**

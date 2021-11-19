@@ -1,4 +1,4 @@
-package com.example.document_flow.factory.factoryDocument;
+package com.example.document_flow.factory.documentFactory;
 
 import com.example.document_flow.entity.Task;
 
@@ -7,7 +7,7 @@ import com.example.document_flow.entity.Task;
  *
  * @author Баратов Руслан
  */
-public class FactoryTask extends AbstractFactory<Task> {
+public class TaskDocumentFactory extends AbstractDocumentFactory<Task> {
 
     /**
      * Фабричный метод для создания объекта класса <code>Task</code>

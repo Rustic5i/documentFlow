@@ -1,4 +1,4 @@
-package com.example.document_flow.factory.factoryDocument;
+package com.example.document_flow.factory.documentFactory;
 
 import com.example.document_flow.entity.Incoming;
 
@@ -7,7 +7,7 @@ import com.example.document_flow.entity.Incoming;
  *
  * @author Баратов Руслан
  */
-public class FactoryIncoming extends AbstractFactory<Incoming> {
+public class IncomingDocumentFactory extends AbstractDocumentFactory<Incoming> {
 
     /**
      * Фабричный метод для создания объекта класса <code>Incoming</code>

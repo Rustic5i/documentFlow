@@ -1,4 +1,4 @@
-package com.example.document_flow.factory.factoryDocument;
+package com.example.document_flow.factory.documentFactory;
 
 import com.example.document_flow.entity.Outgoing;
 
@@ -7,7 +7,7 @@ import com.example.document_flow.entity.Outgoing;
  *
  * @author Баратов Руслан
  */
-public class FactoryOutgoing extends AbstractFactory<Outgoing> {
+public class OutgoingDocumentFactory extends AbstractDocumentFactory<Outgoing> {
 
     /**
      * Фабричный метод для создания объекта класса <code>Outgoing</code>

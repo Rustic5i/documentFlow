@@ -12,18 +12,12 @@ public class Main {
     private static final RepositoryDocument repository = RepositoryDocument.getInstance();
 
     public static void main(String[] args) {
-
-        while (true) {
-            try {
-                int count = ParametersValidation.isNumber(args[0]);
-
-                repository.saveDocument(DocumentGenerator.run(count));
-                System.out.println(repository.groupByAuthorToString());
-                break;
-            } catch (InvalidParametersException e) {
-                main();
-                break;
-            }
+        try {
+            int count = ParametersValidation.isNumber(args[0]);
+            repository.saveDocument(DocumentGenerator.run(count));
+            System.out.println(repository.groupByAuthorToString());
+        } catch (InvalidParametersException e) {
+            main();
         }
     }
 

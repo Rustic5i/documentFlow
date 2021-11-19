@@ -1,6 +1,5 @@
 package com.example.document_flow.repository;
 
-import com.example.document_flow.Main;
 import com.example.document_flow.entity.Document;
 import com.example.document_flow.myException.DocumentExistsException;
 import com.example.document_flow.util.DocumentGroupService;
@@ -27,7 +26,7 @@ public class RepositoryDocument {
 
     private static DocumentGroupService grouper = new DocumentGroupService();
 
-    private static final Logger log = LoggerFactory.getLogger(Main.class.getName());
+    private static final Logger log = LoggerFactory.getLogger(RepositoryDocument.class.getName());
 
     private static RepositoryDocument registryDocuments;
 

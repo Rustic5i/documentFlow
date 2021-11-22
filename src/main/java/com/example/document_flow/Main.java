@@ -2,9 +2,9 @@ package com.example.document_flow;
 
 import com.example.document_flow.controller.RequestHandler;
 import com.example.document_flow.repository.RepositoryDocument;
-import com.example.document_flow.util.readWrite.SerializableJSON;
-import com.example.document_flow.util.readWrite.DeserializationXML;
-import com.example.document_flow.util.readWrite.SerializableXML;
+import com.example.document_flow.util.read.SerializableJSON;
+import com.example.document_flow.util.write.DeserializationXML;
+import com.example.document_flow.util.read.SerializableXML;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;

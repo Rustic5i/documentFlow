@@ -1,4 +1,4 @@
-package com.example.document_flow.util.readWrite;
+package com.example.document_flow.util.read;
 
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.staff.Person;

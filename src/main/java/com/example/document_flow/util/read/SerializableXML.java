@@ -1,7 +1,9 @@
-package com.example.document_flow.util.readWrite;
+package com.example.document_flow.util.read;
 
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.factory.generator.DataGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -17,6 +19,8 @@ import java.util.Set;
 public class SerializableXML {
 
     private List<Person> personList = DataGenerator.getInstance().personList.stream().limit(3).toList();
+
+    private final Logger log = LoggerFactory.getLogger(SerializableXML.class.getName());
 
     /**
      * Сериализует три случайных обьекта <code>Person</code> в формат xml
@@ -34,7 +38,7 @@ public class SerializableXML {
                 marshaller.marshal(person, new File(nameFile));
                 nameFills.add(nameFile);
             } catch (JAXBException e) {
-                e.printStackTrace();
+                log.warn("Exception ", e);
             }
         }
         return nameFills;

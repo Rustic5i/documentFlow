@@ -2,7 +2,7 @@ package com.example.document_flow.generator;
 
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.document.DocumentType;
-import com.example.document_flow.factory.abstr.DocumentFactory;
+import com.example.document_flow.factory.document.DocumentFactory;
 import com.example.document_flow.factory.document.СreatorDocumentFactory;
 
 import java.util.ArrayList;

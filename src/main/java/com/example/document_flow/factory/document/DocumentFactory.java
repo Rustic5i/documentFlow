@@ -1,4 +1,4 @@
-package com.example.document_flow.factory.abstr;
+package com.example.document_flow.factory.document;
 
 import com.example.document_flow.entity.document.Document;
 

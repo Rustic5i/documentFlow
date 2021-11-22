@@ -1,6 +1,6 @@
 package com.example.document_flow.factory.document.repository;
 
-import com.example.document_flow.factory.abstr.DocumentFactory;
+import com.example.document_flow.factory.document.DocumentFactory;
 import com.example.document_flow.factory.document.IncomingDocumentFactory;
 import com.example.document_flow.factory.document.OutgoingDocumentFactory;
 import com.example.document_flow.factory.document.TaskDocumentFactory;

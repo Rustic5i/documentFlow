@@ -1,7 +1,6 @@
 package com.example.document_flow.factory.document;
 
 import com.example.document_flow.entity.document.Document;
-import com.example.document_flow.factory.abstr.DocumentFactory;
 import com.example.document_flow.factory.generator.DataGenerator;
 
 /**

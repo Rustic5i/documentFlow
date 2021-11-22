@@ -1,4 +1,4 @@
-package com.example.document_flow.myException;
+package com.example.document_flow.exception;
 
 /**
  * В случае, если документ с генерируемым номером уже существует,

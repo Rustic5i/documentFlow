@@ -2,7 +2,7 @@ package com.example.document_flow.repository;
 
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.staff.Person;
-import com.example.document_flow.myException.DocumentExistsException;
+import com.example.document_flow.exception.DocumentExistsException;
 import com.example.document_flow.util.DocumentGroupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

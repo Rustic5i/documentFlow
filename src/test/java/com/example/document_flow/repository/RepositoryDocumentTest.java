@@ -3,7 +3,7 @@ package com.example.document_flow.repository;
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.document.Incoming;
 import com.example.document_flow.entity.staff.Person;
-import com.example.document_flow.myException.DocumentExistsException;
+import com.example.document_flow.exception.DocumentExistsException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

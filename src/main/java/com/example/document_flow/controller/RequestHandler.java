@@ -1,7 +1,7 @@
 package com.example.document_flow.controller;
 
 import com.example.document_flow.generator.DocumentGenerator;
-import com.example.document_flow.myException.InvalidParametersException;
+import com.example.document_flow.exception.InvalidParametersException;
 import com.example.document_flow.repository.RepositoryDocument;
 import com.example.document_flow.validation.ParametersValidation;
 import org.slf4j.Logger;

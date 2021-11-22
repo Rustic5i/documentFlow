@@ -1,6 +1,7 @@
 package com.example.document_flow.util.write;
 
 import com.example.document_flow.entity.staff.Person;
+import com.example.document_flow.entity.staff.Staff;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -13,7 +14,7 @@ import java.util.Set;
 /**
  * Этот класс занимается десериализации обьектов из формата XML
  */
-public class DeserializationXML {
+public class DeserializationXML<T extends Staff> {
 
     /**
      *
@@ -24,12 +25,12 @@ public class DeserializationXML {
      * или обработчик не может выполнить привязку XML к Java.
      * IllegalArgumentException – Если параметр файла равен нулю
      */
-    public Object deserializationFromXml(String pathName) throws JAXBException {
+    public T deserializationFromXml(String pathName) throws JAXBException {
         JAXBContext contextRead = JAXBContext.newInstance(Person.class);
 
         Unmarshaller marshaller = contextRead.createUnmarshaller();
 
-        return marshaller.unmarshal(new File(pathName));
+        return (T) marshaller.unmarshal(new File(pathName));
     }
 
     /**
@@ -41,14 +42,14 @@ public class DeserializationXML {
      * или обработчик не может выполнить привязку XML к Java.
      * IllegalArgumentException – Если параметр файла равен нулю
      */
-    public List<Object> deserializationFromXml(Set<String> pathNames) throws JAXBException {
-        List<Object> personList = new ArrayList<>();
+    public List<T> deserializationFromXml(Set<String> pathNames) throws JAXBException {
+        List<T> objectsList = new ArrayList<>();
         for (String pathName : pathNames) {
             JAXBContext contextRead =JAXBContext.newInstance(Person.class);
             Unmarshaller marshaller = contextRead.createUnmarshaller();
             Object object = marshaller.unmarshal(new File(pathName));
-            personList.add(object);
+            objectsList.add((T) object);
         }
-        return personList;
+        return objectsList;
     }
 }

@@ -3,15 +3,30 @@ package com.example.document_flow.entity.staff;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * Организация
+ */
 @XmlRootElement
 public class Organization extends Staff{
 
+    /**
+     * Полное наименование
+     */
     private String fullName;
 
+    /**
+     * Краткое наименование
+     */
     private String shortName;
 
+    /**
+     * Руководител
+     */
     private Person manager;
 
+    /**
+     * Контактные телефоны
+     */
     private int contactPhoneNumber;
 
     public String getFullName() {

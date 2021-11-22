@@ -6,19 +6,40 @@ import java.text.MessageFormat;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * Сотрудник
+ */
 @XmlRootElement
 public class Person extends Staff{
 
+    /**
+     * Фамилия
+     */
     private String surname;
 
+    /**
+     * Имя
+     */
     private String name;
 
+    /**
+     * Отчество
+     */
     private String patronymic;
 
+    /**
+     * Должность
+     */
     private String post;
 
+    /**
+     * Дата рождения
+     */
     private Date dateOfBirth;
 
+    /**
+     * Номер телефона
+     */
     private int phoneNumber;
 
     public String getSurname() {

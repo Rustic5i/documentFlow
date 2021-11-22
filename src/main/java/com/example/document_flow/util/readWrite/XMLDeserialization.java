@@ -18,36 +18,36 @@ public class XMLDeserialization {
     /**
      *
      * @param pathName наименования файла с форматом xml для десериализации обьекта
-     * @return Десериализованный обьект <code>Person</code>
+     * @return Десериализованный обьект
      * @throws JAXBException – если при создании JAXBContext произошла ошибка
-     *  Unmarshalexception – Если обработчик ValidationEventHandler возвращает false из своего метода handleEvent
-     *  или обработчик не может выполнить привязку XML к Java.
-     *  IllegalArgumentException – Если параметр файла равен нулю
+     * Unmarshalexception – Если обработчик ValidationEventHandler возвращает false из своего метода handleEvent
+     * или обработчик не может выполнить привязку XML к Java.
+     * IllegalArgumentException – Если параметр файла равен нулю
      */
-    public Person deserializationFromXml(String pathName) throws JAXBException {
+    public Object deserializationFromXml(String pathName) throws JAXBException {
         JAXBContext contextRead = JAXBContext.newInstance(Person.class);
 
         Unmarshaller unmarshaller = contextRead.createUnmarshaller();
-        Person person = (Person) unmarshaller.unmarshal(new File(pathName));
-        return person;
+
+        return unmarshaller.unmarshal(new File(pathName));
     }
 
     /**
-     * Десериализует список документов в обьект <code>Person</code>
-     * @param pathNames список наименнований документов в формате XML для сериализации
-     * @return список сериализованных документов
+     * Десериализует список обьектов
+     * @param pathNames список наименнований обьектов формате XML для сериализации
+     * @return список сериализованных обьектов
      * @throws JAXBException – если при создании JAXBContext произошла ошибка
-     *  Unmarshalexception – Если обработчик ValidationEventHandler возвращает false из своего метода handleEvent
-     *  или обработчик не может выполнить привязку XML к Java.
-     *  IllegalArgumentException – Если параметр файла равен нулю
+     * Unmarshalexception – Если обработчик ValidationEventHandler возвращает false из своего метода handleEvent
+     * или обработчик не может выполнить привязку XML к Java.
+     * IllegalArgumentException – Если параметр файла равен нулю
      */
-    public List<Person> deserializationFromXml(Set<String> pathNames) throws JAXBException {
-        List<Person> personList = new ArrayList<>();
+    public List<Object> deserializationFromXml(Set<String> pathNames) throws JAXBException {
+        List<Object> personList = new ArrayList<>();
         for (String pathName : pathNames) {
             JAXBContext contextRead =JAXBContext.newInstance(Person.class);
             Unmarshaller unmarshaller = contextRead.createUnmarshaller();
-            Person person = (Person) unmarshaller.unmarshal(new File(pathName));
-            personList.add(person);
+            Object object = unmarshaller.unmarshal(new File(pathName));
+            personList.add(object);
         }
         return personList;
     }

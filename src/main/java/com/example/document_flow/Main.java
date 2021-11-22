@@ -1,7 +1,6 @@
 package com.example.document_flow;
 
 import com.example.document_flow.controller.RequestHandler;
-import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.repository.RepositoryDocument;
 import com.example.document_flow.util.readWrite.JSONSerializable;
 import com.example.document_flow.util.readWrite.XMLDeserialization;
@@ -22,16 +21,16 @@ public class Main {
         Set<String> nameFills = xmlSerializable.serializableXmlStaff();
 
         XMLDeserialization jaxbRead = new XMLDeserialization();
-        List<Person> list = jaxbRead.deserializationFromXml(nameFills);
+        List<Object> list = jaxbRead.deserializationFromXml(nameFills);
 
-        for (Person person : list) {
+        for (Object person : list) {
             System.out.println(person);
         }
 
-        RepositoryDocument repositoy = RepositoryDocument.getInstance();
+        RepositoryDocument repository = RepositoryDocument.getInstance();
 
         JSONSerializable parserJSON = new JSONSerializable();
-        parserJSON.Serialization(repositoy.groupByAuthor());
+        parserJSON.Serialization(repository.groupByAuthor());
 
     }
 }

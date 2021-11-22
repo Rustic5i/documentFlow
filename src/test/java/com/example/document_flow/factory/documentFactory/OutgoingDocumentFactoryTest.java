@@ -1,9 +1,8 @@
 package com.example.document_flow.factory.documentFactory;
 
-import com.example.document_flow.entity.Outgoing;
-import com.example.document_flow.entity.person.Person;
+import com.example.document_flow.entity.document.Outgoing;
+import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.factory.generator.DataGenerator;
-import com.example.document_flow.myException.DocumentExistsException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -22,11 +21,20 @@ public class OutgoingDocumentFactoryTest {
     private final OutgoingDocumentFactory factoryOutgoing = new OutgoingDocumentFactory();
 
     public OutgoingDocumentFactoryTest() throws NoSuchFieldException, IllegalAccessException {
+        Person person = new Person();
+        person.setId(1);
+        person.setName("Василий");
+        person.setSurname("Воробьев");
+        person.setPatronymic("Андреевич");
+        person.setPost("Юрист");
+        person.setDateOfBirth(new GregorianCalendar(1995, 02, 1).getTime());
+        person.setPhoneNumber(899944444);
+
         when(mockDataGenerator.getAddressee()).thenReturn("Амурская область, город Дорохово, ул. Косиора, 13");
         when(mockDataGenerator.getDeliveryMethod()).thenReturn("Почта России");
 
         when(mockDataGenerator.getName()).thenReturn("Первый документ");
-        when(mockDataGenerator.getAuthor()).thenReturn(new Person("Кошелева Василиса Ивановна"));
+        when(mockDataGenerator.getAuthor()).thenReturn(person);
         when(mockDataGenerator.getDateRegistration()).thenReturn(new GregorianCalendar(2021, Calendar.OCTOBER, 9).getTime());
         when(mockDataGenerator.getText()).thenReturn("Text test");
         when(mockDataGenerator.getRegistrationNumber()).thenReturn(3L);
@@ -38,8 +46,8 @@ public class OutgoingDocumentFactoryTest {
 
     @DisplayName("Создаем документ, Проверяем что все поля кроме id, не null")
     @Test
-    public void creatDocument() throws DocumentExistsException, IllegalAccessException {
-        Outgoing outgoing = (Outgoing) factoryOutgoing.create();
+    void creatDocument() throws IllegalAccessException {
+        Outgoing outgoing = factoryOutgoing.create();
 
         Field[] fieldSuperClass = outgoing.getClass().getSuperclass().getDeclaredFields();
         Field[] fieldsIncomingClass = outgoing.getClass().getDeclaredFields();
@@ -57,5 +65,6 @@ public class OutgoingDocumentFactoryTest {
             assertNotNull(field.get(outgoing));
         }
     }
+
 
 }

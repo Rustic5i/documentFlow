@@ -1,6 +1,6 @@
 package com.example.document_flow.factory.documentFactory;
 
-import com.example.document_flow.entity.Incoming;
+import com.example.document_flow.entity.document.Incoming;
 
 /**
  * Класс-фабрика для генерации Входящего документа (Incoming)

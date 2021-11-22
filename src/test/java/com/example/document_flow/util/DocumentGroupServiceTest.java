@@ -1,10 +1,10 @@
 package com.example.document_flow.util;
 
-import com.example.document_flow.entity.Document;
-import com.example.document_flow.entity.Incoming;
-import com.example.document_flow.entity.Outgoing;
-import com.example.document_flow.entity.Task;
-import com.example.document_flow.entity.person.Person;
+import com.example.document_flow.entity.document.Document;
+import com.example.document_flow.entity.document.Incoming;
+import com.example.document_flow.entity.document.Outgoing;
+import com.example.document_flow.entity.document.Task;
+import com.example.document_flow.entity.staff.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +27,7 @@ public class DocumentGroupServiceTest {
     private Map<Person, List<Document>> expectedMap = new HashMap<>();
 
     @Test
-    public void groupByAuthor() {
+    void groupByAuthor() {
         Map<Person, List<Document>> actualMap = grouper.groupByAuthor(documentList);
 
         assertNotNull(actualMap);
@@ -35,10 +35,33 @@ public class DocumentGroupServiceTest {
     }
 
     @BeforeEach
-    public void setUp() {
-        Person andrey = new Person("Андрей");
-        Person natasha = new Person("Ольга");
-        Person ruslan = new Person("Руслан");
+    void setUp() {
+        Person andrey = new Person();
+        andrey.setId(1);
+        andrey.setName("Василий");
+        andrey.setSurname("Воробьев");
+        andrey.setPatronymic("Андреевич");
+        andrey.setPost("Юрист");
+        andrey.setDateOfBirth(new GregorianCalendar(1995,02,1).getTime());
+        andrey.setPhoneNumber(899944444);
+
+        Person natasha = new Person();
+        natasha.setId(2);
+        natasha.setName("Андрей");
+        natasha.setSurname("Сабиров");
+        natasha.setPatronymic("Васильевич");
+        natasha.setPost("Бугалтер");
+        natasha.setDateOfBirth(new GregorianCalendar(1998,12,12).getTime());
+        natasha.setPhoneNumber(866555445);
+
+        Person ruslan = new Person();
+        ruslan.setId(3);
+        ruslan.setName("Ольга");
+        ruslan.setSurname("Сергеевна");
+        ruslan.setPatronymic("Петовна");
+        ruslan.setPost("Бугалтер");
+        ruslan.setDateOfBirth(new GregorianCalendar(1997,5,14).getTime());
+        ruslan.setPhoneNumber(89855544);
 
         for (Person person : Arrays.asList(andrey, natasha, ruslan)) {
             Long count = 1L;
@@ -68,5 +91,6 @@ public class DocumentGroupServiceTest {
             expectedMap.put(person, Arrays.asList(incoming, outgoing, task));
         }
     }
+
 
 }

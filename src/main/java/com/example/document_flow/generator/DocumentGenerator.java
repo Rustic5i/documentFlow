@@ -1,7 +1,7 @@
 package com.example.document_flow.generator;
 
-import com.example.document_flow.entity.Document;
-import com.example.document_flow.entity.DocumentTypeEnum.DocumentType;
+import com.example.document_flow.entity.document.Document;
+import com.example.document_flow.entity.document.DocumentTypeEnum.DocumentType;
 import com.example.document_flow.factory.abstr.DocumentFactory;
 import com.example.document_flow.factory.documentFactory.СreatorDocumentFactory;
 

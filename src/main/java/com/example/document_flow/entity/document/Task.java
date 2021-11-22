@@ -1,6 +1,6 @@
-package com.example.document_flow.entity;
+package com.example.document_flow.entity.document;
 
-import com.example.document_flow.entity.person.Person;
+import com.example.document_flow.entity.staff.Person;
 
 import java.text.MessageFormat;
 import java.util.Date;

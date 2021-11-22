@@ -1,17 +1,19 @@
 package com.example.document_flow.factory.generator;
 
-import com.example.document_flow.entity.person.Person;
+import com.example.document_flow.entity.staff.Person;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Random;
 
 /**
  * Класс — синглтон, с набором методов для предоставления рандомных данных
  * для наследников класса <code>Document</code>
+ *
  * @author Баратов Руслан
  */
 public class DataGenerator {
@@ -69,15 +71,42 @@ public class DataGenerator {
     /**
      * Список людей
      */
-    public static final List<Person> personList = Arrays.asList(new Person("Кошелева Василиса Ивановна"),
-            new Person("Ильина Вера Арсентьевна"),
-            new Person("Новикова Есения Робертовна"),
-            new Person("Розанова Полина Дмитриевна"),
-            new Person("Симонова Есения Даниэльевна"),
-            new Person("Орлов Глеб Михайлович"),
-            new Person("Андреева Елизавета Павловна"));
+    public final List<Person> personList = getPersonList();
 
     private DataGenerator() {
+    }
+
+    /**
+     * Генерация случайных работников
+     *
+     * @return список сгенерируемых работников
+     */
+    private List<Person> getPersonList() {
+        List<Person> personList = new ArrayList<>();
+
+        String[] personName = new String[]{"Василиса", "Вера", "Есения", "Полина", "Глеб", "Ольга", "Елизавета"};
+        String[] personSurname = new String[]{"Кошелева", "Ильина", "Новикова", "Розанова", "Симонова", "Орлов", "Андреева"};
+        String[] personPatronymic = new String[]{"Ивановна", "Арсентьевна", "Робертовна", "Дмитриевна", "Даниэльевна", "Михайлович", "Павловна"};
+        String[] personPost = new String[]{"Менеджер по работе с клиентами", "Юрист", "'Экономист", "Директор", "Главный бухгалтер"};
+        int year = random.nextInt(2000 - 1990) + 1990;
+        int month = random.nextInt(11);
+        int day = random.nextInt(28);
+        Calendar calendar = new GregorianCalendar(year, month, day);
+
+        for (int i = 0; i < 10; i++) {
+            Person person = new Person();
+            person.setId(random.nextInt(100));
+            person.setName(personName[random.nextInt(personName.length)]);
+            person.setSurname(personSurname[random.nextInt(personSurname.length)]);
+            person.setPatronymic(personPatronymic[random.nextInt(personPatronymic.length)]);
+            person.setPost(personPost[random.nextInt(personPost.length)]);
+            person.setDateOfBirth(calendar.getTime());
+            person.setPhoneNumber((int) (random.nextDouble() * 100000000));
+
+            personList.add(person);
+        }
+
+        return personList;
     }
 
     /**

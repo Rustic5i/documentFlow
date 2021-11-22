@@ -1,4 +1,4 @@
-package com.example.document_flow.entity;
+package com.example.document_flow.entity.document;
 
 import java.text.MessageFormat;
 import java.util.Objects;

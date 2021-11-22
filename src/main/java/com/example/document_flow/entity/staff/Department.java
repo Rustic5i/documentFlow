@@ -1,10 +1,10 @@
-package com.example.document_flow.staff;
+package com.example.document_flow.entity.staff;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-public class Organization extends Staff{
+public class Department extends Staff{
 
     private String fullName;
 

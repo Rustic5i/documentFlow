@@ -1,7 +1,7 @@
 package com.example.document_flow.util;
 
-import com.example.document_flow.entity.Document;
-import com.example.document_flow.entity.person.Person;
+import com.example.document_flow.entity.document.Document;
+import com.example.document_flow.entity.staff.Person;
 
 import java.util.HashMap;
 import java.util.List;

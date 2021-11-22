@@ -1,6 +1,6 @@
 package com.example.document_flow.factory.documentFactory;
 
-import com.example.document_flow.entity.Task;
+import com.example.document_flow.entity.document.Task;
 
 /**
  * Класс-фабрика для генерации Входящего документа (Task)

@@ -1,4 +1,4 @@
-package com.example.document_flow.staff;
+package com.example.document_flow.entity.staff;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;

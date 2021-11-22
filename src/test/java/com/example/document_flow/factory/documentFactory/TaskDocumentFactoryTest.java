@@ -1,7 +1,7 @@
 package com.example.document_flow.factory.documentFactory;
 
-import com.example.document_flow.entity.Task;
-import com.example.document_flow.entity.person.Person;
+import com.example.document_flow.entity.document.Task;
+import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.factory.generator.DataGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,14 +21,23 @@ public class TaskDocumentFactoryTest {
     private final TaskDocumentFactory factoryTask = new TaskDocumentFactory();
 
     public TaskDocumentFactoryTest() throws IllegalAccessException, NoSuchFieldException {
+        Person person = new Person();
+        person.setId(2);
+        person.setName("Андрей");
+        person.setSurname("Сабиров");
+        person.setPatronymic("Васильевич");
+        person.setPost("Бугалтер");
+        person.setDateOfBirth(new GregorianCalendar(1998, 12, 12).getTime());
+        person.setPhoneNumber(866555445);
+
         when(mockDataGenerator.getDateOfIssue()).thenReturn(new GregorianCalendar(2021, Calendar.NOVEMBER, 9).getTime());
         when(mockDataGenerator.getTermOfExecution()).thenReturn(new GregorianCalendar(2021, Calendar.DECEMBER, 9).getTime());
-        when(mockDataGenerator.getResponsibleExecutor()).thenReturn(new Person("Розанова Полина Дмитриевна"));
+        when(mockDataGenerator.getResponsibleExecutor()).thenReturn(person);
         when(mockDataGenerator.getSignOfControl()).thenReturn("Признак контрольности 1");
-        when(mockDataGenerator.getOrderController()).thenReturn(new Person("Горелова Анна Адамовна"));
+        when(mockDataGenerator.getOrderController()).thenReturn(person);
 
         when(mockDataGenerator.getName()).thenReturn("Первый документ");
-        when(mockDataGenerator.getAuthor()).thenReturn(new Person("Кошелева Василиса Ивановна"));
+        when(mockDataGenerator.getAuthor()).thenReturn(person);
         when(mockDataGenerator.getDateRegistration()).thenReturn(new GregorianCalendar(2021, Calendar.OCTOBER, 9).getTime());
         when(mockDataGenerator.getText()).thenReturn("Text test");
         when(mockDataGenerator.getRegistrationNumber()).thenReturn(5L);
@@ -40,8 +49,8 @@ public class TaskDocumentFactoryTest {
 
     @DisplayName("Создаем документ, Проверяем что все поля кроме id, не null")
     @Test
-   public void creatDocument() throws IllegalAccessException {
-        Task task = (Task) factoryTask.create();
+    void creatDocument() throws IllegalAccessException {
+        Task task = factoryTask.create();
 
         Field[] fieldSuperClass = task.getClass().getSuperclass().getDeclaredFields();
         Field[] fieldsIncomingClass = task.getClass().getDeclaredFields();

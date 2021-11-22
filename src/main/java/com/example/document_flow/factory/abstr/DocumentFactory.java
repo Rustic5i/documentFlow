@@ -1,6 +1,6 @@
 package com.example.document_flow.factory.abstr;
 
-import com.example.document_flow.entity.Document;
+import com.example.document_flow.entity.document.Document;
 
 /**
  * Предаставляет фабричный метод для создания документов

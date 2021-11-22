@@ -27,9 +27,9 @@ public class DeserializationXML {
     public Object deserializationFromXml(String pathName) throws JAXBException {
         JAXBContext contextRead = JAXBContext.newInstance(Person.class);
 
-        Unmarshaller unmarshaller = contextRead.createUnmarshaller();
+        Unmarshaller marshaller = contextRead.createUnmarshaller();
 
-        return unmarshaller.unmarshal(new File(pathName));
+        return marshaller.unmarshal(new File(pathName));
     }
 
     /**
@@ -45,8 +45,8 @@ public class DeserializationXML {
         List<Object> personList = new ArrayList<>();
         for (String pathName : pathNames) {
             JAXBContext contextRead =JAXBContext.newInstance(Person.class);
-            Unmarshaller unmarshaller = contextRead.createUnmarshaller();
-            Object object = unmarshaller.unmarshal(new File(pathName));
+            Unmarshaller marshaller = contextRead.createUnmarshaller();
+            Object object = marshaller.unmarshal(new File(pathName));
             personList.add(object);
         }
         return personList;

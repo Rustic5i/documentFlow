@@ -29,9 +29,9 @@ public class SerializableXML {
                 String nameFile = "person" + person.getId() + ".xml";
                 JAXBContext jaxbContext = JAXBContext.newInstance(Person.class);
 
-                Marshaller marshaller1 = jaxbContext.createMarshaller();
-                marshaller1.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-                marshaller1.marshal(person, new File(nameFile));
+                Marshaller marshaller = jaxbContext.createMarshaller();
+                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+                marshaller.marshal(person, new File(nameFile));
                 nameFills.add(nameFile);
             } catch (JAXBException e) {
                 e.printStackTrace();

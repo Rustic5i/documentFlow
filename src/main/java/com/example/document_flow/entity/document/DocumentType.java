@@ -1,8 +1,4 @@
-package com.example.document_flow.entity.document.DocumentTypeEnum;
-
-import com.example.document_flow.entity.document.Incoming;
-import com.example.document_flow.entity.document.Outgoing;
-import com.example.document_flow.entity.document.Task;
+package com.example.document_flow.entity.document;
 
 /**
  * Перечисление типов документов.

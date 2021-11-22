@@ -1,9 +1,9 @@
 package com.example.document_flow.generator;
 
 import com.example.document_flow.entity.document.Document;
-import com.example.document_flow.entity.document.DocumentTypeEnum.DocumentType;
+import com.example.document_flow.entity.document.DocumentType;
 import com.example.document_flow.factory.abstr.DocumentFactory;
-import com.example.document_flow.factory.documentFactory.СreatorDocumentFactory;
+import com.example.document_flow.factory.document.СreatorDocumentFactory;
 
 import java.util.ArrayList;
 import java.util.List;

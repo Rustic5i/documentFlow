@@ -1,8 +1,7 @@
-package com.example.document_flow.factory.documentFactory;
+package com.example.document_flow.factory.document;
 
 import com.example.document_flow.entity.document.Incoming;
 import com.example.document_flow.entity.staff.Person;
-import com.example.document_flow.factory.document.IncomingDocumentFactory;
 import com.example.document_flow.factory.generator.DataGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

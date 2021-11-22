@@ -14,7 +14,7 @@ import java.util.Set;
 /**
  * Это класс занимается сериализацией обьектов в формат xml
  */
-public class XMLSerializable {
+public class SerializableXML {
 
     private List<Person> personList = DataGenerator.getInstance().personList.stream().limit(3).toList();
 

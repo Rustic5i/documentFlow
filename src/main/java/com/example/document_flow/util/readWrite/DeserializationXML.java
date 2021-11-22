@@ -13,7 +13,7 @@ import java.util.Set;
 /**
  * Этот класс занимается десериализации обьектов из формата XML
  */
-public class XMLDeserialization {
+public class DeserializationXML {
 
     /**
      *

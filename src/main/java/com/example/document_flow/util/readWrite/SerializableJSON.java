@@ -16,7 +16,7 @@ import java.util.Set;
 /**
  * Этот класс занимается сериализацией обьектов в формат JSON
  */
-public class JSONSerializable {
+public class SerializableJSON {
 
     /**
      * Сериализует список сгруппирированых документов по автору в формат JSON

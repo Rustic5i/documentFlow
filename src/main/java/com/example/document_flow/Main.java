@@ -2,9 +2,9 @@ package com.example.document_flow;
 
 import com.example.document_flow.controller.RequestHandler;
 import com.example.document_flow.repository.RepositoryDocument;
-import com.example.document_flow.util.readWrite.JSONSerializable;
-import com.example.document_flow.util.readWrite.XMLDeserialization;
-import com.example.document_flow.util.readWrite.XMLSerializable;
+import com.example.document_flow.util.readWrite.SerializableJSON;
+import com.example.document_flow.util.readWrite.DeserializationXML;
+import com.example.document_flow.util.readWrite.SerializableXML;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
@@ -17,19 +17,17 @@ public class Main {
         RequestHandler requestHandler = new RequestHandler();
         requestHandler.setRequest(args);
 
-        XMLSerializable xmlSerializable = new XMLSerializable();
+        //Сериализуем трех работников в xml
+        SerializableXML xmlSerializable = new SerializableXML();
         Set<String> nameFills = xmlSerializable.serializableXmlStaff();
 
-        XMLDeserialization jaxbRead = new XMLDeserialization();
+        //механизм загрузки оргштатных единиц из XML-документов.
+        DeserializationXML jaxbRead = new DeserializationXML();
         List<Object> list = jaxbRead.deserializationFromXml(nameFills);
 
-        for (Object person : list) {
-            System.out.println(person);
-        }
-
+        //Отчеты по сгенерированным документам выгружены в файлы в формате JSON
         RepositoryDocument repository = RepositoryDocument.getInstance();
-
-        JSONSerializable parserJSON = new JSONSerializable();
+        SerializableJSON parserJSON = new SerializableJSON();
         parserJSON.Serialization(repository.groupByAuthor());
 
     }

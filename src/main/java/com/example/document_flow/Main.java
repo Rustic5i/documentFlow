@@ -1,31 +1,26 @@
 package com.example.document_flow;
 
 import com.example.document_flow.controller.RequestHandler;
-import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.entity.staff.Organization;
-import com.example.document_flow.factory.staff.AbstractStaffFactory;
-import com.example.document_flow.factory.staff.OrganizationFactory;
+import com.example.document_flow.factory.generator.DataGenerator;
 import com.example.document_flow.repository.RepositoryDocument;
 import com.example.document_flow.util.read.DeserializationXML;
 import com.example.document_flow.util.write.SerializableJSON;
 import com.example.document_flow.util.write.SerializableXML;
 
-import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
 public class Main {
 
-    public static void main(String[] args) throws JAXBException, IOException {
+    public static void main(String[] args) throws IOException {
         RequestHandler requestHandler = new RequestHandler();
         requestHandler.setRequest(args);
 
-        AbstractStaffFactory factory = new OrganizationFactory();
-
         //Сериализуем трех работников в xml
         SerializableXML xmlSerializable = new SerializableXML();
-        Set<String> nameFills = xmlSerializable.serializableXmlStaff(factory.creatListObject(3));
+        Set<String> nameFills = xmlSerializable.serializable(DataGenerator.getInstance().personList.stream().limit(1).toList());
 
         //механизм загрузки оргштатных единиц из XML-документов.
         DeserializationXML jaxbRead = new DeserializationXML();
@@ -36,5 +31,6 @@ public class Main {
         SerializableJSON parserJSON = new SerializableJSON();
         parserJSON.Serialization(repository.groupByAuthor());
 
+        xmlSerializable.deleteXml("Person0.xml");
     }
 }

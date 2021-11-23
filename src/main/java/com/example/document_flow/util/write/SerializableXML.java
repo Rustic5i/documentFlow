@@ -26,21 +26,34 @@ public class SerializableXML<T extends Staff> {
      *
      * @return Set наименования созданных файлов при сериализации
      */
-    public Set<String> serializableXmlStaff(List<T> list) {
+    public Set<String> serializable(List<T> Objectlist) {
         Set<String> nameFills = new HashSet<>();
-        for (T object : list) {
-            try {
-                String nameFile = object.getClass().getSimpleName() + object.getId() + ".xml";
-                JAXBContext jaxbContext = JAXBContext.newInstance(object.getClass());
-
-                Marshaller marshaller = jaxbContext.createMarshaller();
-                marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-                marshaller.marshal(object, new File(nameFile));
-                nameFills.add(nameFile);
-            } catch (JAXBException e) {
-                log.warn("Exception ", e);
-            }
+        for (T object : Objectlist) {
+            nameFills.add(serializable(object));
         }
         return nameFills;
+    }
+
+    /**
+     * Сериализует обьект в формат xml
+     * @param object обьект для сериализации
+     * @return наименования созданного файла при сериализации
+     */
+    public String serializable(T object) {
+        String nameFile = object.getClass().getSimpleName() + object.getId() + ".xml";
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(object.getClass());
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            marshaller.marshal(object, new File(nameFile));
+        } catch (JAXBException e) {
+            log.warn("Exception ", e);
+        }
+        return nameFile;
+    }
+
+    public boolean deleteXml(String pathName){
+        File file = new File(pathName);
+        return file.delete();
     }
 }

@@ -16,13 +16,6 @@ public interface Factory<T> {
     T create();
 
     /**
-     *
-     * @param count количество создоваемых обьектов
-     * @return Лист созданных обьектов
-     */
-    List<T> creatListObject(int count);
-
-    /**
      * @return Возвращает тип создаваемого обьекта
      */
     Class getTypeObject();

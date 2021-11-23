@@ -14,11 +14,11 @@ public abstract class Staff {
      */
     private long id;
 
+    @XmlAttribute
     public long getId() {
         return id;
     }
 
-    @XmlAttribute
     public void setId(long id) {
         this.id = id;
     }

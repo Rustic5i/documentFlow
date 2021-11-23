@@ -34,20 +34,6 @@ public abstract class AbstractDocumentFactory<T extends Document> implements Fac
     }
 
     /**
-     * Реализация фабричного метода
-     * @param count количество создоваемых обьектов
-     * @return лист созданных обьектов
-     */
-    @Override
-    public List<Document> creatListObject(int count) {
-        List<Document> documentList = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            documentList.add(create());
-        }
-        return documentList;
-    }
-
-    /**
      * Фабричный метод по созданию инстансов документов
      *
      * @return документ

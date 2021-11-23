@@ -11,6 +11,7 @@ public class IncomingDocumentFactory extends AbstractDocumentFactory<Incoming> {
 
     /**
      * Фабричный метод для создания объекта класса <code>Incoming</code>
+     *
      * @return новый инстанс класса <code>Incoming</code>
      */
     @Override
@@ -20,6 +21,7 @@ public class IncomingDocumentFactory extends AbstractDocumentFactory<Incoming> {
 
     /**
      * Поля объекта заполняются случайными значениями
+     *
      * @param incoming входящий документ
      */
     @Override

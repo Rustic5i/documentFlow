@@ -33,6 +33,11 @@ public abstract class AbstractDocumentFactory<T extends Document> implements Fac
         return document;
     }
 
+    /**
+     * Реализация фабричного метода
+     * @param count количество создоваемых обьектов
+     * @return лист созданных обьектов
+     */
     @Override
     public List<Document> creatListObject(int count) {
         List<Document> documentList = new ArrayList<>();
@@ -52,7 +57,7 @@ public abstract class AbstractDocumentFactory<T extends Document> implements Fac
     /**
      * Метод по заполения дополнительных полей документа
      *
-     * @param document
+     * @param document документ который нужно заполнить дополнительные поля
      */
     abstract void fillAdditionalFields(T document);
 

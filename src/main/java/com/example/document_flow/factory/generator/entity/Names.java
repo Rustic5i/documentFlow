@@ -1,5 +1,8 @@
 package com.example.document_flow.factory.generator.entity;
 
+/**
+ * Обьект хранит в себе различные типы наименований "организационных структур"
+ */
 public class Names {
 
     /**

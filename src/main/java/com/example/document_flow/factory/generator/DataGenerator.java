@@ -110,6 +110,10 @@ public class DataGenerator {
         return listPhoneNumber.get(random.nextInt(listPhoneNumber.size()));
     }
 
+    /**
+     *
+     * @return проинициализируемую маппу с наименованиями Подразделений
+     */
     private static Map<String, String> initNamesDepartment() {
         Map<String, String> namesDepartment = new HashMap<>();
         namesDepartment.put("AO \"Тандер\"", "Aкционерное общество \"Тандер\" ");
@@ -119,6 +123,10 @@ public class DataGenerator {
         return namesDepartment;
     }
 
+    /**
+     *
+     * @return проинициализируемую маппу с наименованиями Организаций
+     */
     private static Map<String, String> initNamesOrganization() {
         Map<String, String> namesOrganization = new HashMap<>();
         namesOrganization.put("ПАО «Магнит»", "Публичное акционерное общество «Магнит»");

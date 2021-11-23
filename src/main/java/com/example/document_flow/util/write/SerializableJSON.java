@@ -15,6 +15,8 @@ import java.util.Set;
 
 /**
  * Этот класс занимается сериализацией обьектов в формат JSON
+ *
+ * @author Баратов Руслан
  */
 public class SerializableJSON {
 

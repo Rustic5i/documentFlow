@@ -1,4 +1,4 @@
-package com.example.document_flow.util.write.staff;
+package com.example.document_flow.util.write;
 
 import com.example.document_flow.entity.staff.Staff;
 import org.slf4j.Logger;
@@ -14,15 +14,16 @@ import java.util.Set;
 
 /**
  * Это класс занимается сериализацией обьектов в формат xml
+ *
+ * @author Баратов Руслан
  */
-public class PersonSerializableXML<T extends Staff> {
+public class SerializableXML<T extends Staff> {
 
-   // private List<Person> personList = DataGenerator.getInstance().personList.stream().limit(3).toList();
-
-    private final Logger log = LoggerFactory.getLogger(PersonSerializableXML.class.getName());
+    private final Logger log = LoggerFactory.getLogger(SerializableXML.class.getName());
 
     /**
-     * Сериализует три случайных обьекта <code>Person</code> в формат xml
+     * Сериализует лист обьектов в формат xml
+     *
      * @return Set наименования созданных файлов при сериализации
      */
     public Set<String> serializableXmlStaff(List<T> list) {

@@ -56,6 +56,7 @@ public class DeserializationXML<T extends Staff> {
     }
 
     /**
+     * Получаем обьект из маппы
      * @param pathName имя файла XML
      * @return десериализуемый обьект
      */

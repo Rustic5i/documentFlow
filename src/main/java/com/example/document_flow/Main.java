@@ -25,7 +25,7 @@ public class Main {
 
         //Сериализуем трех работников в xml
         SerializableXML xmlSerializable = new SerializableXML();
-        Set<String> nameFills = xmlSerializable.serializableXmlStaff(factory.creatListObject(2));
+        Set<String> nameFills = xmlSerializable.serializableXmlStaff(factory.creatListObject(3));
 
         //механизм загрузки оргштатных единиц из XML-документов.
         DeserializationXML jaxbRead = new DeserializationXML();

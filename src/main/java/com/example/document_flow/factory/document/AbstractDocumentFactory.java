@@ -1,7 +1,11 @@
 package com.example.document_flow.factory.document;
 
 import com.example.document_flow.entity.document.Document;
+import com.example.document_flow.factory.Factory;
 import com.example.document_flow.factory.generator.DataGenerator;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Абстрактаня фабрика для создания различных типов документов
@@ -9,7 +13,7 @@ import com.example.document_flow.factory.generator.DataGenerator;
  * @param <T> Тип документа
  * @author Баратов Руслан
  */
-public abstract class AbstractDocumentFactory<T extends Document> implements DocumentFactory {
+public abstract class AbstractDocumentFactory<T extends Document> implements Factory<Document> {
 
     private final DataGenerator dataGenerator = DataGenerator.getInstance();
 
@@ -22,11 +26,20 @@ public abstract class AbstractDocumentFactory<T extends Document> implements Doc
         T document = createInstance();
         document.setName(dataGenerator.getName());
         document.setText(dataGenerator.getText());
-        document.setAuthor(dataGenerator.getAuthor());
+        document.setAuthor(dataGenerator.getPerson());
         document.setDateRegistration(dataGenerator.getDateRegistration());
         document.setRegistrationNumber(dataGenerator.getRegistrationNumber());
         fillAdditionalFields(document);
         return document;
+    }
+
+    @Override
+    public List<Document> creatListObject(int count) {
+        List<Document> documentList = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            documentList.add(create());
+        }
+        return documentList;
     }
 
     /**

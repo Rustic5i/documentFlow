@@ -1,5 +1,6 @@
 package com.example.document_flow.factory.document;
 
+import com.example.document_flow.factory.Factory;
 import com.example.document_flow.factory.document.repository.RepositoryFactory;
 
 /**
@@ -15,7 +16,7 @@ public class СreatorDocumentFactory {
      * @param type тип документа
      * @return обьект фабрка
      */
-    public static DocumentFactory creatFactory(Class type) {
+    public static Factory creatFactory(Class type) {
         return factoryHolder.getFactoryByTypeDocument(type);
     }
 }

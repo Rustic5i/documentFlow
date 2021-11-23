@@ -1,13 +1,16 @@
 package com.example.document_flow.factory.generator;
 
 import com.example.document_flow.entity.staff.Person;
+import com.example.document_flow.factory.generator.entity.Names;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -21,6 +24,29 @@ public class DataGenerator {
     private final Random random = new Random();
 
     private static DataGenerator dataGenerator;
+
+    /**
+     * Лист телефонных номеров
+     */
+    private static List<String> listPhoneNumber =  Arrays.asList("0(984)556-14-86",
+            "3(7740)563-93-84",
+            "559(4732)994-37-06",
+            "0(844)008-03-64",
+            "20(15)474-37-87",
+            "83(974)294-28-46",
+            "99(9284)327-70-64",
+            "48(46)884-20-37");
+
+    /**
+     * Мапа наименований организаций
+     */
+    private static final Map<String, String> namesOrganization = initNamesOrganization();
+
+    /**
+     * Мапа наименований подразделений
+     */
+    private static final Map<String, String> namesDepartment = initNamesDepartment();
+
 
     /**
      * Список Названия документа
@@ -77,6 +103,61 @@ public class DataGenerator {
     }
 
     /**
+     *
+     * @return рандомный телефонный номер
+     */
+    public String gePhoneNumber(){
+        return listPhoneNumber.get(random.nextInt(listPhoneNumber.size()));
+    }
+
+    private static Map<String, String> initNamesDepartment() {
+        Map<String, String> namesDepartment = new HashMap<>();
+        namesDepartment.put("AO \"Тандер\"", "Aкционерное общество \"Тандер\" ");
+        namesDepartment.put("Востокгазпром (АО)", "Aкционерное общество  Востокгазпром");
+        namesDepartment.put("ООО \"ЯНДЕКС.ТАКСИ\"", "ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"ЯНДЕКС.ТАКСИ\"");
+        namesDepartment.put("ООО \"АВИТО ТЕХ\"", "ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"АВИТО ТЕХ\"");
+        return namesDepartment;
+    }
+
+    private static Map<String, String> initNamesOrganization() {
+        Map<String, String> namesOrganization = new HashMap<>();
+        namesOrganization.put("ПАО «Магнит»", "Публичное акционерное общество «Магнит»");
+        namesOrganization.put("ООО \"Мэйл.ру\"", "Общество с ограниченной ответственностью \"Мэйл.ру\"");
+        namesOrganization.put("АО \"Кфс\"", "Акционерное общество \"Кфс\"" );
+        namesOrganization.put("ООО \"Самсунг\"", "Общество с ограниченной ответственностью \"Самсунг\"");
+
+        return namesOrganization;
+    }
+
+    /**
+     * @return обеьект хранящий в себя два значения, "Полное наименование" и "Краткое наименование"
+     */
+    public Names getNamesDepartment() {
+        String shortName = (String) namesDepartment.keySet().toArray()[random.nextInt(namesOrganization.size())];
+        String fullName = namesDepartment.get(shortName);
+
+        Names names = new Names();
+        names.setShortName(shortName);
+        names.setFullName(fullName);
+
+        return names;
+    }
+
+    /**
+     * @return обеьект хранящий в себя два значения, "Полное наименование" и "Краткое наименование"
+     */
+    public Names getNamesOrganization() {
+        String shortName = (String) namesOrganization.keySet().toArray()[random.nextInt(namesOrganization.size())];
+        String fullName = namesOrganization.get(shortName);
+
+        Names names = new Names();
+        names.setShortName(shortName);
+        names.setFullName(fullName);
+
+        return names;
+    }
+
+    /**
      * Генерация случайных работников
      *
      * @return список сгенерируемых работников
@@ -126,7 +207,7 @@ public class DataGenerator {
     /**
      * @return Ранодомный автор
      */
-    public Person getAuthor() {
+    public Person getPerson() {
         return personList.get(random.nextInt(personList.size()));
     }
 
@@ -236,5 +317,9 @@ public class DataGenerator {
             dataGenerator = new DataGenerator();
         }
         return dataGenerator;
+    }
+
+    public long getId() {
+        return random.nextInt(100);
     }
 }

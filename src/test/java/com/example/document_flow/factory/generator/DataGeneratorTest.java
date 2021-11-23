@@ -60,7 +60,7 @@ public class DataGeneratorTest {
 
     @Test
     public void getAuthor() {
-        Person author = dataGenerator.getAuthor();
+        Person author = dataGenerator.getPerson();
 
         assertNotNull(author);
         assertNotNull(author.getName());

@@ -37,7 +37,7 @@ public class TaskDocumentFactoryTest {
         when(mockDataGenerator.getOrderController()).thenReturn(person);
 
         when(mockDataGenerator.getName()).thenReturn("Первый документ");
-        when(mockDataGenerator.getAuthor()).thenReturn(person);
+        when(mockDataGenerator.getPerson()).thenReturn(person);
         when(mockDataGenerator.getDateRegistration()).thenReturn(new GregorianCalendar(2021, Calendar.OCTOBER, 9).getTime());
         when(mockDataGenerator.getText()).thenReturn("Text test");
         when(mockDataGenerator.getRegistrationNumber()).thenReturn(5L);

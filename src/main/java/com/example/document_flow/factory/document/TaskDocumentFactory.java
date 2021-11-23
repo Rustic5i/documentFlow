@@ -36,7 +36,7 @@ public class TaskDocumentFactory extends AbstractDocumentFactory<Task> {
      * @return Тип создваемого документа
      */
     @Override
-    public Class getDocumentType() {
+    public Class getTypeObject() {
         return Task.class;
     }
 

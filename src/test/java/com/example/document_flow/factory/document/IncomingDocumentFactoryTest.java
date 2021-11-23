@@ -35,7 +35,7 @@ public class IncomingDocumentFactoryTest {
         when(mockDataGenerator.getOutgoingNumber()).thenReturn(100L);
         when(mockDataGenerator.getOutgoingRegistrationDate()).thenReturn(new GregorianCalendar(2021, Calendar.NOVEMBER, 10).getTime());
         when(mockDataGenerator.getName()).thenReturn("Первый документ");
-        when(mockDataGenerator.getAuthor()).thenReturn(person);
+        when(mockDataGenerator.getPerson()).thenReturn(person);
         when(mockDataGenerator.getDateRegistration()).thenReturn(new GregorianCalendar(2021, Calendar.OCTOBER, 9).getTime());
         when(mockDataGenerator.getText()).thenReturn("Text test");
         when(mockDataGenerator.getRegistrationNumber()).thenReturn(1L);

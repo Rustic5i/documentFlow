@@ -1,7 +1,6 @@
-package com.example.document_flow.util.read;
+package com.example.document_flow.util.write.staff;
 
-import com.example.document_flow.entity.staff.Person;
-import com.example.document_flow.factory.generator.DataGenerator;
+import com.example.document_flow.entity.staff.Staff;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,26 +15,26 @@ import java.util.Set;
 /**
  * Это класс занимается сериализацией обьектов в формат xml
  */
-public class SerializableXML {
+public class PersonSerializableXML<T extends Staff> {
 
-    private List<Person> personList = DataGenerator.getInstance().personList.stream().limit(3).toList();
+   // private List<Person> personList = DataGenerator.getInstance().personList.stream().limit(3).toList();
 
-    private final Logger log = LoggerFactory.getLogger(SerializableXML.class.getName());
+    private final Logger log = LoggerFactory.getLogger(PersonSerializableXML.class.getName());
 
     /**
      * Сериализует три случайных обьекта <code>Person</code> в формат xml
      * @return Set наименования созданных файлов при сериализации
      */
-    public Set<String> serializableXmlStaff() {
+    public Set<String> serializableXmlStaff(List<T> list) {
         Set<String> nameFills = new HashSet<>();
-        for (Person person : personList) {
+        for (T object : list) {
             try {
-                String nameFile = "person" + person.getId() + ".xml";
-                JAXBContext jaxbContext = JAXBContext.newInstance(Person.class);
+                String nameFile = object.getClass().getSimpleName() + object.getId() + ".xml";
+                JAXBContext jaxbContext = JAXBContext.newInstance(object.getClass());
 
                 Marshaller marshaller = jaxbContext.createMarshaller();
                 marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-                marshaller.marshal(person, new File(nameFile));
+                marshaller.marshal(object, new File(nameFile));
                 nameFills.add(nameFile);
             } catch (JAXBException e) {
                 log.warn("Exception ", e);

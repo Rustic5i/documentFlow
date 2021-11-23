@@ -27,7 +27,7 @@ public class Department extends Staff{
     /**
      * Контактные телефоны
      */
-    private int contactPhoneNumber;
+    private String contactPhoneNumber;
 
     public String getFullName() {
         return fullName;
@@ -56,12 +56,12 @@ public class Department extends Staff{
         this.manager = manager;
     }
 
-    public int getContactPhoneNumber() {
+    public String getContactPhoneNumber() {
         return contactPhoneNumber;
     }
 
     @XmlElement
-    public void setContactPhoneNumber(int contactPhoneNumber) {
+    public void setContactPhoneNumber(String contactPhoneNumber) {
         this.contactPhoneNumber = contactPhoneNumber;
     }
 }

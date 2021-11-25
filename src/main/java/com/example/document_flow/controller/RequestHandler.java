@@ -2,7 +2,7 @@ package com.example.document_flow.controller;
 
 import com.example.document_flow.generator.DocumentGenerator;
 import com.example.document_flow.exception.InvalidParametersException;
-import com.example.document_flow.repository.RepositoryDocument;
+import com.example.document_flow.repository.document.RepositoryDocument;
 import com.example.document_flow.validation.ParametersValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +36,7 @@ public class RequestHandler {
         if (args.length != 0) {
             try {
                 int count = ParametersValidation.isNumber(args[0]);
-                repository.saveDocument(DocumentGenerator.run(count));
+                repository.saveAll(DocumentGenerator.run(count));
                 System.out.println(repository.groupByAuthorToString());
             } catch (InvalidParametersException e) {
                 log.warn("Exception ", e);
@@ -55,7 +55,7 @@ public class RequestHandler {
             try {
                 System.out.println("Введите количество требуемых документов");
                 int count = ParametersValidation.isNumber(scanner.nextLine());
-                repository.saveDocument(DocumentGenerator.run(count));
+                repository.saveAll(DocumentGenerator.run(count));
                 System.out.println(repository.groupByAuthorToString());
                 break;
             } catch (InvalidParametersException e) {

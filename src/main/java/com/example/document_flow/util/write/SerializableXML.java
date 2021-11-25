@@ -24,36 +24,33 @@ public class SerializableXML<T extends Staff> {
     /**
      * Сериализует лист обьектов в формат xml
      *
-     * @return Set наименования созданных файлов при сериализации
+     * @return Set путь к файлам
      */
-    public Set<String> serializable(List<T> Objectlist) {
-        Set<String> nameFills = new HashSet<>();
-        for (T object : Objectlist) {
-            nameFills.add(serializable(object));
+    public Set<String> toXML(List<T> Objects) {
+        Set<String> filesPath = new HashSet<>();
+        for (T object : Objects) {
+            filesPath.add(toXML(object));
         }
-        return nameFills;
+        return filesPath;
     }
 
     /**
      * Сериализует обьект в формат xml
+     *
      * @param object обьект для сериализации
-     * @return наименования созданного файла при сериализации
+     * @return путь к файлу
      */
-    public String serializable(T object) {
-        String nameFile = object.getClass().getSimpleName() + object.getId() + ".xml";
+    public String toXML(T object) {
+        String filePath = object.getClass().getSimpleName() + object.getId() + ".xml";
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(object.getClass());
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.marshal(object, new File(nameFile));
+            marshaller.marshal(object, new File(filePath));
         } catch (JAXBException e) {
             log.warn("Exception ", e);
         }
-        return nameFile;
+        return filePath;
     }
 
-    public boolean deleteXml(String pathName){
-        File file = new File(pathName);
-        return file.delete();
-    }
 }

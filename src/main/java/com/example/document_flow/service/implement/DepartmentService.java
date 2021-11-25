@@ -1,0 +1,63 @@
+package com.example.document_flow.service.implement;
+
+import com.example.document_flow.entity.staff.Department;
+import com.example.document_flow.repository.abstraction.DAO.DAO;
+import com.example.document_flow.repository.staff.implement.RepositoryXml;
+import com.example.document_flow.service.abstraction.Service;
+
+import java.util.List;
+
+/**
+ * Серсив для Подразделений
+ *
+ * @author Баратов Руслан
+ */
+public class DepartmentService implements Service<Department> {
+
+    private DAO<Department> repository = new RepositoryXml<>(Department.class);
+
+    private static DepartmentService departmentService;
+
+    private DepartmentService() {
+    }
+
+    /**
+     * Сохранить подразделение
+     *
+     * @param object подразделение
+     */
+    @Override
+    public void save(Department object) {
+        repository.save(object);
+    }
+
+    /**
+     * Сохранить список подразделений
+     *
+     * @param objects список подразделений
+     */
+    @Override
+    public void saveAll(List<Department> objects) {
+        repository.saveAll(objects);
+    }
+
+    /**
+     * Получить все подразделения
+     *
+     * @return список подразделений
+     */
+    @Override
+    public List<Department> getAll() {
+        return repository.getAll();
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static DepartmentService getInstance() {
+        if (departmentService == null) {
+            departmentService = new DepartmentService();
+        }
+        return departmentService;
+    }
+}

@@ -1,4 +1,4 @@
-package com.example.document_flow.repository;
+package com.example.document_flow.repository.document;
 
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.staff.Person;
@@ -40,19 +40,18 @@ public class RepositoryDocument {
      * @param document документ для регистрации
      * @throws DocumentExistsException если документ с таким регистрационным номером уже был создан ранее
      */
-    public void saveDocument(Document document) throws DocumentExistsException {
+    public void save(Document document) throws DocumentExistsException {
         Long registrationNumber = document.getRegistrationNumber();
         containsRegistrationNumber(registrationNumber);
         documentMap.put(registrationNumber, document);
     }
 
     /**
-     * Перегруженный метод <code>saveDocument()</code>
      * Метод для регистрации созданных документов
      *
      * @param document список документов для регистрации
      */
-    public void saveDocument(List<Document> document) {
+    public void saveAll(List<Document> document) {
         for (Document doc : document) {
             Long registrationNumber = doc.getRegistrationNumber();
             try {
@@ -75,14 +74,14 @@ public class RepositoryDocument {
     /**
      * @return Возвращает мапу, сгруппированные по автору
      */
-    public Map<Person, List<Document>> groupByAuthor(){
+    public Map<Person, List<Document>> groupByAuthor() {
         return grouper.groupByAuthor(documentMap.values().stream().toList());
     }
 
     /**
      * @return Получить список всех документов
      */
-    public List<Document> getAllDocument() {
+    public List<Document> getAll() {
         return documentMap.values().stream().toList();
     }
 

@@ -5,7 +5,7 @@ package com.example.document_flow.exception;
  * то необходимо выбрасывать исключение.
  *@author Баратов Руслан
  */
-public class DocumentExistsException extends Exception{
+public class DocumentExistsException extends RuntimeException{
     public DocumentExistsException(String message) {
         super(message);
     }

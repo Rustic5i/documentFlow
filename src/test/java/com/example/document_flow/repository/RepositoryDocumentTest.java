@@ -4,6 +4,7 @@ import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.document.Incoming;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.DocumentExistsException;
+import com.example.document_flow.repository.document.RepositoryDocument;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -54,7 +55,7 @@ public class RepositoryDocumentTest {
         expected.setDateRegistration(new GregorianCalendar(2018, 5, 11).getTime());
         expected.setName("Входящий документ");
 
-        registry.saveDocument(expected);
+        registry.save(expected);
         Document actual = registry.getDocumentByRegNumber(expected.getRegistrationNumber());
 
         assertNotNull(actual);
@@ -63,8 +64,8 @@ public class RepositoryDocumentTest {
 
     @Test
     public void getAllDocument() {
-        registry.saveDocument(documentList);
-        List<Document> actual = registry.getAllDocument();
+        registry.saveAll(documentList);
+        List<Document> actual = registry.getAll();
         assertNotNull(actual);
         assertEquals(documentList, actual);
     }
@@ -78,9 +79,9 @@ public class RepositoryDocumentTest {
         expected.setDateRegistration(new GregorianCalendar(2018, 5, 11).getTime());
         expected.setName("Входящий документ");
 
-        registry.saveDocument(expected);
+        registry.save(expected);
 
-        assertThrows(DocumentExistsException.class, () -> registry.saveDocument(expected));
+        assertThrows(DocumentExistsException.class, () -> registry.save(expected));
     }
 
     @DisplayName("RepositoryDocument должен быть синглтон")

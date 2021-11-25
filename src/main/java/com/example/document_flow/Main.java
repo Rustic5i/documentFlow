@@ -1,36 +1,40 @@
 package com.example.document_flow;
 
 import com.example.document_flow.controller.RequestHandler;
-import com.example.document_flow.entity.staff.Organization;
+import com.example.document_flow.entity.document.Document;
+import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.factory.generator.DataGenerator;
-import com.example.document_flow.repository.RepositoryDocument;
-import com.example.document_flow.util.read.DeserializationXML;
-import com.example.document_flow.util.write.SerializableJSON;
-import com.example.document_flow.util.write.SerializableXML;
+import com.example.document_flow.repository.document.RepositoryDocument;
+import com.example.document_flow.service.implement.DocumentService;
+import com.example.document_flow.service.implement.PersonService;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         RequestHandler requestHandler = new RequestHandler();
         requestHandler.setRequest(args);
 
-        //Сериализуем трех работников в xml
-        SerializableXML xmlSerializable = new SerializableXML();
-        Set<String> nameFills = xmlSerializable.serializable(DataGenerator.getInstance().personList.stream().limit(1).toList());
+        DataGenerator dataGenerator = DataGenerator.getInstance();
+        //Сохраняем 3 работника
+        PersonService personService = PersonService.getInstance();
+        personService.saveAll(dataGenerator.personList.stream().limit(3).toList());
+        //Получаем всех трех работников
+        System.out.println(personService.getAll());
 
-        //механизм загрузки оргштатных единиц из XML-документов.
-        DeserializationXML jaxbRead = new DeserializationXML();
-        List<Organization> list = jaxbRead.deserialization(nameFills, Organization.class);
 
-        //Отчеты по сгенерированным документам выгружены в файлы в формате JSON
-        RepositoryDocument repository = RepositoryDocument.getInstance();
-        SerializableJSON parserJSON = new SerializableJSON();
-        parserJSON.Serialization(repository.groupByAuthor());
+        RepositoryDocument repositoryDocument = RepositoryDocument.getInstance();
+        Map<Person, List<Document>> personListMap = repositoryDocument.groupByAuthor();
 
-        xmlSerializable.deleteXml("Person0.xml");
+        //////   Сохраняем все сгенерированные документы в JSON
+        DocumentService documentService = DocumentService.getInstance();
+        personListMap.values().forEach(documentService::saveAll);
+
+        System.out.println(documentService.getAll());
+        //Получаем все документы из JSON
+        System.out.println(documentService.getAll());
+
     }
 }

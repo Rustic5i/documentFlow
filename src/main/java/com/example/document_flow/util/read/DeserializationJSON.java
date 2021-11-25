@@ -57,14 +57,14 @@ public class DeserializationJSON {
      */
     private String readJson(String filePath) {
         String line = null;
-        String stringJSON = "";
+        StringBuilder stringJSON = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)))) {
             while ((line = br.readLine()) != null) {
-                stringJSON = stringJSON + line;
+                stringJSON.append(line);
             }
         } catch (IOException e) {
             log.warn("Ошибка ввода-вывода ", e);
         }
-        return stringJSON;
+        return stringJSON.toString();
     }
 }

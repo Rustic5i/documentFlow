@@ -1,8 +1,11 @@
 package com.example.document_flow.util.read;
 
+import com.example.document_flow.util.write.SerializableXML;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.internal.Primitives;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -17,6 +20,8 @@ import java.io.InputStreamReader;
 public class DeserializationJSON {
 
     private final Gson gson = new GsonBuilder().create();
+
+    private final Logger log = LoggerFactory.getLogger(DeserializationJSON.class.getName());
 
     /**
      * Десериализует файл в обьект
@@ -59,7 +64,7 @@ public class DeserializationJSON {
                 stringJSON = stringJSON + line;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.warn("Ошибка ввода-вывода ",e);
         }
         return stringJSON;
     }

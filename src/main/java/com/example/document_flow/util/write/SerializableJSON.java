@@ -2,6 +2,8 @@ package com.example.document_flow.util.write;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,6 +19,8 @@ public class SerializableJSON {
 
     private final Gson gson = new GsonBuilder().create();
 
+    private final Logger log = LoggerFactory.getLogger(SerializableJSON.class.getName());
+
     /**
      * Сериализует обьект в формат JSON
      *
@@ -30,7 +34,7 @@ public class SerializableJSON {
         try (Writer writer = new FileWriter(nameFile);) {
             gson.toJson(object, writer);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.warn("Файл не существует, или не может быть открыт по какой-либо другой причине", e);
         }
         return nameFile;
     }

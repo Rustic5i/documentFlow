@@ -24,6 +24,7 @@ public abstract class InMemoryRepository<T> implements DAO<T> {
      *
      * @param object какой-либо обьект для сохранения
      */
+    @Override
     public void save(T object) {
         String path = saveToRepository(object);
         objectWeakHashMap.put(path, object);
@@ -35,6 +36,7 @@ public abstract class InMemoryRepository<T> implements DAO<T> {
      *
      * @param objects список каких-либо обьектов
      */
+    @Override
     public void saveAll(List<T> objects) {
         Set<String> path = saveAllToRepository(objects);
         for (String str : path) {
@@ -58,6 +60,7 @@ public abstract class InMemoryRepository<T> implements DAO<T> {
 
     /**
      * Получить обьект из какого-либо репозитория
+     *
      * @param path путь к файлу
      * @return
      */
@@ -65,6 +68,7 @@ public abstract class InMemoryRepository<T> implements DAO<T> {
 
     /**
      * Сохранить список обьектов в репозиторий
+     *
      * @param objects список обьектов для сохранения
      * @return список путей к файлу
      */
@@ -72,6 +76,7 @@ public abstract class InMemoryRepository<T> implements DAO<T> {
 
     /**
      * Сохраняет обьект в репозиторий
+     *
      * @param object обьект для сохранения
      * @return путь к файлу
      */
@@ -79,6 +84,7 @@ public abstract class InMemoryRepository<T> implements DAO<T> {
 
     /**
      * Получить все сохраненные обьекты из репозитория
+     *
      * @return список сохраненных обьектов
      */
     public abstract List<T> getAll();

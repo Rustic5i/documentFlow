@@ -1,6 +1,5 @@
 package com.example.document_flow.util.read;
 
-import com.example.document_flow.util.write.SerializableXML;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.internal.Primitives;
@@ -64,7 +63,7 @@ public class DeserializationJSON {
                 stringJSON = stringJSON + line;
             }
         } catch (IOException e) {
-            log.warn("Ошибка ввода-вывода ",e);
+            log.warn("Ошибка ввода-вывода ", e);
         }
         return stringJSON;
     }

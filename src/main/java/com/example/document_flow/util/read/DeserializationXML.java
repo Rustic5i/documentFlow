@@ -21,6 +21,11 @@ public class DeserializationXML<T extends Staff> {
 
     private static final Logger log = LoggerFactory.getLogger(DeserializationXML.class.getName());
 
+    private static DeserializationXML deserializationXML;
+
+    private DeserializationXML() {
+    }
+
     /**
      * Десериализует обьект из формата XML
      *
@@ -51,5 +56,15 @@ public class DeserializationXML<T extends Staff> {
         List<T> objectsList = new ArrayList<>();
         pathNames.forEach(pathName -> objectsList.add(fromXMl(pathName, type)));
         return objectsList;
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static DeserializationXML getInstance() {
+        if (deserializationXML == null) {
+            deserializationXML = new DeserializationXML();
+        }
+        return deserializationXML;
     }
 }

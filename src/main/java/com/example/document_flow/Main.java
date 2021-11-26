@@ -2,14 +2,12 @@ package com.example.document_flow;
 
 import com.example.document_flow.controller.RequestHandler;
 import com.example.document_flow.entity.document.Document;
-import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.factory.generator.DataGenerator;
-import com.example.document_flow.repository.document.RepositoryDocument;
 import com.example.document_flow.service.implement.DocumentService;
+import com.example.document_flow.service.implement.DocumentServiceExpanded;
 import com.example.document_flow.service.implement.PersonService;
 
 import java.util.List;
-import java.util.Map;
 
 public class Main {
 
@@ -24,17 +22,14 @@ public class Main {
         //Получаем всех трех работников
         System.out.println(personService.getAll());
 
-
-        RepositoryDocument repositoryDocument = RepositoryDocument.getInstance();
-        Map<Person, List<Document>> personListMap = repositoryDocument.groupByAuthor();
+        DocumentServiceExpanded repositoryDocument = new DocumentServiceExpanded();
+        List<Document> personList = repositoryDocument.getAll();
 
         //////   Сохраняем все сгенерированные документы в JSON
         DocumentService documentService = DocumentService.getInstance();
-        personListMap.values().forEach(documentService::saveAll);
+        documentService.saveAll(personList);
 
-        System.out.println(documentService.getAll());
         //Получаем все документы из JSON
         System.out.println(documentService.getAll());
-
     }
 }

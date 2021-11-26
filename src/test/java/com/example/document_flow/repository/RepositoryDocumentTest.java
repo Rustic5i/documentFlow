@@ -4,7 +4,7 @@ import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.document.Incoming;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.DocumentExistsException;
-import com.example.document_flow.repository.document.RepositoryDocument;
+import com.example.document_flow.repository.document.DocumentRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RepositoryDocumentTest {
 
-    private RepositoryDocument registry = RepositoryDocument.getInstance();
+    private DocumentRepository registry = DocumentRepository.getInstance();
 
     private List<Document> documentList = new ArrayList<>();
 
@@ -84,10 +84,10 @@ public class RepositoryDocumentTest {
         assertThrows(DocumentExistsException.class, () -> registry.save(expected));
     }
 
-    @DisplayName("RepositoryDocument должен быть синглтон")
+    @DisplayName("DocumentRepository должен быть синглтон")
     @Test
     public void getInstance() {
-        RepositoryDocument actual = RepositoryDocument.getInstance();
+        DocumentRepository actual = DocumentRepository.getInstance();
 
         assertNotNull(actual);
         assertSame(registry, actual);

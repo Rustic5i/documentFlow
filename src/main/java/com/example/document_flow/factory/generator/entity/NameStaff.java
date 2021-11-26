@@ -3,7 +3,7 @@ package com.example.document_flow.factory.generator.entity;
 /**
  * Обьект хранит в себе различные типы наименований "организационных структур"
  */
-public class Names {
+public class NameStaff {
 
     /**
      * Полное наименование
@@ -15,10 +15,10 @@ public class Names {
      */
     private String shortName;
 
-    public Names() {
+    public NameStaff() {
     }
 
-    public Names(String fullName, String shortName) {
+    public NameStaff(String fullName, String shortName) {
         this.fullName = fullName;
         this.shortName = shortName;
     }

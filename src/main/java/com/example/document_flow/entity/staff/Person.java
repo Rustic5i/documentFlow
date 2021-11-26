@@ -3,6 +3,7 @@ package com.example.document_flow.entity.staff;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.text.MessageFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Objects;
 
@@ -10,7 +11,7 @@ import java.util.Objects;
  * Сотрудник
  */
 @XmlRootElement
-public class Person extends Staff{
+public class Person extends Staff implements Comparable<Person> {
 
     /**
      * Фамилия
@@ -98,7 +99,7 @@ public class Person extends Staff{
 
     @Override
     public String toString() {
-        return MessageFormat.format("{0} {1} {2}",surname,name,patronymic);
+        return MessageFormat.format("{0} {1} {2}", surname, name, patronymic);
     }
 
     @Override
@@ -112,5 +113,13 @@ public class Person extends Staff{
     @Override
     public int hashCode() {
         return Objects.hash(surname, name, patronymic, post, dateOfBirth, phoneNumber);
+    }
+
+    @Override
+    public int compareTo(Person o) {
+        return Comparator.comparing(Person::getSurname)
+                .thenComparing(Person::getName)
+                .thenComparing(Person::getPatronymic)
+                .compare(this, o);
     }
 }

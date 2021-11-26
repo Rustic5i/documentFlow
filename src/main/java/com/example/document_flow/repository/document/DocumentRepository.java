@@ -1,22 +1,27 @@
 package com.example.document_flow.repository.document;
 
 import com.example.document_flow.entity.document.Document;
-import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.DocumentExistsException;
-import com.example.document_flow.util.DocumentGroupService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Предстовляет из себя репозиторий по хранения всех созданных документов
+ * Репозиторий по хранения всех созданных документов
  *
  * @author Баратов Руслан
  */
-public class RepositoryDocument {
+public class DocumentRepository {
+
+    private static DocumentRepository registryDocuments;
+
+    private DocumentRepository() {
+    }
 
     /**
      * Хранит все созданные документы.
@@ -25,14 +30,25 @@ public class RepositoryDocument {
      */
     private static Map<Long, Document> documentMap = new HashMap<>();
 
-    private static DocumentGroupService grouper = new DocumentGroupService();
+    private static final Logger log = LoggerFactory.getLogger(DocumentRepository.class.getName());
 
-    private static final Logger log = LoggerFactory.getLogger(RepositoryDocument.class.getName());
-
-    private static RepositoryDocument registryDocuments;
-
-    private RepositoryDocument() {
-    }
+    List<Document> documentList = new ArrayList<>() {
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder();
+            StringBuilder author = new StringBuilder();
+            forEach((value) -> {
+                if (!(value.getAuthor().toString().equals(author.toString()))) {
+                    author.delete(0, 100);
+                    author.append(value.getAuthor());
+                    sb.append(value.getAuthor()).append(":").append("\n");
+                } else {
+                    sb.append(" * ").append(value).append("\n");
+                }
+            });
+            return sb.toString();
+        }
+    };
 
     /**
      * Метод для регистрации созданных документов
@@ -64,25 +80,12 @@ public class RepositoryDocument {
     }
 
     /**
-     * @return Возвращает строку, состоящий из значение полей документов, сгруппированные по автору
-     */
-    public String groupByAuthorToString() {
-        grouper.groupByAuthor(documentMap.values().stream().toList());
-        return grouper.groupByAuthorToString();
-    }
-
-    /**
-     * @return Возвращает мапу, сгруппированные по автору
-     */
-    public Map<Person, List<Document>> groupByAuthor() {
-        return grouper.groupByAuthor(documentMap.values().stream().toList());
-    }
-
-    /**
      * @return Получить список всех документов
      */
     public List<Document> getAll() {
-        return documentMap.values().stream().toList();
+        documentList.addAll(documentMap.values().stream().toList());
+        Collections.sort(documentList);
+        return documentList;
     }
 
     /**
@@ -97,9 +100,9 @@ public class RepositoryDocument {
 
     /**
      * Выбрасывает исключение DocumentExistsException,
-     * если в RepositoryDocument уже храниться документ с таким регистрациионым номером.
+     * если в DocumentRepository уже храниться документ с таким регистрационным номером.
      *
-     * @param registrationNumber регистрационый номер документа
+     * @param registrationNumber регистрационный номер документа
      * @throws DocumentExistsException если документ с таким регистрационным номером уже был создан ранее
      */
     public void containsRegistrationNumber(Long registrationNumber) throws DocumentExistsException {
@@ -111,9 +114,9 @@ public class RepositoryDocument {
     /**
      * @return синголтон обьект
      */
-    public static RepositoryDocument getInstance() {
+    public static DocumentRepository getInstance() {
         if (registryDocuments == null) {
-            registryDocuments = new RepositoryDocument();
+            registryDocuments = new DocumentRepository();
         }
         return registryDocuments;
     }

@@ -21,6 +21,11 @@ public class SerializableJSON {
 
     private final Logger log = LoggerFactory.getLogger(SerializableJSON.class.getName());
 
+    private static SerializableJSON serializableJSON;
+
+    private SerializableJSON() {
+    }
+
     /**
      * Сериализует обьект в формат JSON
      *
@@ -53,5 +58,15 @@ public class SerializableJSON {
             gson.toJson(objects, writer);
         }
         return nameFile;
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static SerializableJSON getInstance() {
+        if (serializableJSON == null) {
+            serializableJSON = new SerializableJSON();
+        }
+        return serializableJSON;
     }
 }

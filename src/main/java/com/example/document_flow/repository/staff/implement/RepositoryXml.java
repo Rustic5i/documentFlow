@@ -1,7 +1,7 @@
 package com.example.document_flow.repository.staff.implement;
 
 import com.example.document_flow.entity.staff.Staff;
-import com.example.document_flow.repository.abstraction.InMemoryRepository;
+import com.example.document_flow.repository.abstraction.AbstractInMemoryDAO;
 import com.example.document_flow.util.read.DeserializationXML;
 import com.example.document_flow.util.write.SerializableXML;
 
@@ -15,11 +15,11 @@ import java.util.Set;
  * @param <T> тип "организационных структур"
  * @author Баратов Руслан
  */
-public class RepositoryXml<T extends Staff> extends InMemoryRepository<T> {
+public class RepositoryXml<T extends Staff> extends AbstractInMemoryDAO<T> {
 
-    private final SerializableXML<T> serializable = new SerializableXML<>();
+    private final SerializableXML<T> serializable = SerializableXML.getInstance();
 
-    private final DeserializationXML<T> deserialization = new DeserializationXML<>();
+    private final DeserializationXML<T> deserialization = DeserializationXML.getInstance();
 
     private final Set<String> setPathFilXml = new HashSet<>();
 

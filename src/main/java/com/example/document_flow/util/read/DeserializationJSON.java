@@ -22,6 +22,11 @@ public class DeserializationJSON {
 
     private final Logger log = LoggerFactory.getLogger(DeserializationJSON.class.getName());
 
+    private static DeserializationJSON deserializationJSON;
+
+    private DeserializationJSON() {
+    }
+
     /**
      * Десериализует файл в обьект
      *
@@ -66,5 +71,15 @@ public class DeserializationJSON {
             log.warn("Ошибка ввода-вывода ", e);
         }
         return stringJSON.toString();
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static DeserializationJSON getInstance() {
+        if (deserializationJSON == null) {
+            deserializationJSON = new DeserializationJSON();
+        }
+        return deserializationJSON;
     }
 }

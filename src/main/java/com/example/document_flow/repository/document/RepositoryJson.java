@@ -1,7 +1,7 @@
 package com.example.document_flow.repository.document;
 
 import com.example.document_flow.entity.document.Document;
-import com.example.document_flow.repository.abstraction.InMemoryRepository;
+import com.example.document_flow.repository.abstraction.AbstractInMemoryDAO;
 import com.example.document_flow.util.read.DeserializationJSON;
 import com.example.document_flow.util.write.SerializableJSON;
 
@@ -16,11 +16,11 @@ import java.util.Set;
  * @param <T> тип документов
  * @author Баратов Руслан
  */
-public class RepositoryJson<T extends Document> extends InMemoryRepository<T> {
+public class RepositoryJson<T extends Document> extends AbstractInMemoryDAO<T> {
 
-    private final DeserializationJSON deserialization = new DeserializationJSON();
+    private final DeserializationJSON deserialization = DeserializationJSON.getInstance();
 
-    private final SerializableJSON serializable = new SerializableJSON();
+    private final SerializableJSON serializable = SerializableJSON.getInstance();
 
     private final Set<String> setPathFilJson = new HashSet<>();
 
@@ -50,11 +50,16 @@ public class RepositoryJson<T extends Document> extends InMemoryRepository<T> {
      */
     @Override
     protected Set<String> saveAllToRepository(List<T> objects) {
-        String filePath = objects.get(0).getAuthor().toString() + ".json";
-        setPathFilJson.add(filePath);
-        Set<String> set = new HashSet<>();
-        set.add(serializable.toJson(filePath, objects));
-        return set;
+        List<T> value = new ArrayList<>();
+        String author = objects.get(0).getAuthor().toString();
+        for (T object : objects) {
+            if (object.getAuthor().toString().equals(author)) {
+                value.add(object);
+            } else {
+                setPathFilJson.addAll(saveAllToRepository(value));
+            }
+        }
+        return setPathFilJson;
     }
 
     /**

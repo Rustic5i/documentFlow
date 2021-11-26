@@ -21,6 +21,11 @@ public class SerializableXML<T extends Staff> {
 
     private final Logger log = LoggerFactory.getLogger(SerializableXML.class.getName());
 
+    private static SerializableXML serializableXML;
+
+    private SerializableXML() {
+    }
+
     /**
      * Сериализует лист обьектов в формат xml
      *
@@ -53,4 +58,13 @@ public class SerializableXML<T extends Staff> {
         return filePath;
     }
 
+    /**
+     * @return синголтон обьект
+     */
+    public static SerializableXML getInstance() {
+        if (serializableXML == null) {
+            serializableXML = new SerializableXML();
+        }
+        return serializableXML;
+    }
 }

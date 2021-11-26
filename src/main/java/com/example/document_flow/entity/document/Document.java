@@ -4,11 +4,13 @@ import com.example.document_flow.entity.staff.Person;
 
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Objects;
 
 /**
  * Документ
+ *
  * @author Баратов Руслан
  */
 public class Document implements Comparable<Document> {
@@ -45,7 +47,9 @@ public class Document implements Comparable<Document> {
 
     @Override
     public int compareTo(Document o) {
-        return this.getDateRegistration().compareTo(o.dateRegistration);
+        return Comparator.comparing(Document::getAuthor)
+                .thenComparing(Document::getDateRegistration)
+                .compare(this, o);
     }
 
     public String getName() {

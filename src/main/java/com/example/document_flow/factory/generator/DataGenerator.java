@@ -1,7 +1,7 @@
 package com.example.document_flow.factory.generator;
 
 import com.example.document_flow.entity.staff.Person;
-import com.example.document_flow.factory.generator.entity.Names;
+import com.example.document_flow.factory.generator.entity.NameStaff;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -140,11 +140,11 @@ public class DataGenerator {
     /**
      * @return обеьект хранящий в себя два значения, "Полное наименование" и "Краткое наименование"
      */
-    public Names getNamesDepartment() {
+    public NameStaff getNamesDepartment() {
         String shortName = (String) namesDepartment.keySet().toArray()[random.nextInt(namesOrganization.size())];
         String fullName = namesDepartment.get(shortName);
 
-        Names names = new Names();
+        NameStaff names = new NameStaff();
         names.setShortName(shortName);
         names.setFullName(fullName);
 
@@ -154,11 +154,11 @@ public class DataGenerator {
     /**
      * @return обеьект хранящий в себя два значения, "Полное наименование" и "Краткое наименование"
      */
-    public Names getNamesOrganization() {
+    public NameStaff getNamesOrganization() {
         String shortName = (String) namesOrganization.keySet().toArray()[random.nextInt(namesOrganization.size())];
         String fullName = namesOrganization.get(shortName);
 
-        Names names = new Names();
+        NameStaff names = new NameStaff();
         names.setShortName(shortName);
         names.setFullName(fullName);
 

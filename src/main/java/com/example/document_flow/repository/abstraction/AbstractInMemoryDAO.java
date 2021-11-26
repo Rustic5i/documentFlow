@@ -14,7 +14,7 @@ import java.util.WeakHashMap;
  * @param <T> тип обьектов для хранения
  * @author Баратов Руслан
  */
-public abstract class InMemoryRepository<T> implements DAO<T> {
+public abstract class AbstractInMemoryDAO<T> implements DAO<T> {
 
     private WeakHashMap<String, Object> objectWeakHashMap = new WeakHashMap<>();
 
@@ -50,9 +50,9 @@ public abstract class InMemoryRepository<T> implements DAO<T> {
      * @param path путь к файлу
      * @return какой-либо обьект
      */
-    public Object getObject(String path) {
+    public T getObject(String path) {
         if (objectWeakHashMap.containsKey(path)) {
-            return objectWeakHashMap.get(path);
+            return (T) objectWeakHashMap.get(path);
         } else {
             return getObjectFromRepository(path);
         }

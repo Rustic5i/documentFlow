@@ -19,7 +19,7 @@ import java.util.Set;
  */
 public class SerializableXML<T extends Staff> {
 
-    private final Logger log = LoggerFactory.getLogger(SerializableXML.class.getName());
+    private final Logger LOGGER = LoggerFactory.getLogger(SerializableXML.class.getName());
 
     private static SerializableXML serializableXML;
 
@@ -31,11 +31,9 @@ public class SerializableXML<T extends Staff> {
      *
      * @return Set путь к файлам
      */
-    public Set<String> toXML(List<T> Objects) {
+    public Set<String> toXML(List<T> objects) {
         Set<String> filesPath = new HashSet<>();
-        for (T object : Objects) {
-            filesPath.add(toXML(object));
-        }
+        objects.stream().forEach(object -> filesPath.add(toXML(object)));
         return filesPath;
     }
 
@@ -53,7 +51,7 @@ public class SerializableXML<T extends Staff> {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(object, new File(filePath));
         } catch (JAXBException e) {
-            log.warn("Exception ", e);
+            LOGGER.warn("Exception ", e);
         }
         return filePath;
     }

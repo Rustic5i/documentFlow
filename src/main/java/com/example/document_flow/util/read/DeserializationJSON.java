@@ -18,9 +18,9 @@ import java.io.InputStreamReader;
  */
 public class DeserializationJSON {
 
-    private final Gson gson = new GsonBuilder().create();
+    private final Gson GSON = new GsonBuilder().create();
 
-    private final Logger log = LoggerFactory.getLogger(DeserializationJSON.class.getName());
+    private final Logger LOGGER = LoggerFactory.getLogger(DeserializationJSON.class.getName());
 
     private static DeserializationJSON deserializationJSON;
 
@@ -36,7 +36,7 @@ public class DeserializationJSON {
      * @return десериализованный обьект
      */
     public <T> T fromJson(String nameFile, Class<T> type) {
-        Object object = gson.fromJson(nameFile, type);
+        Object object = GSON.fromJson(nameFile, type);
         return Primitives.wrap(type).cast(object);
     }
 
@@ -50,7 +50,7 @@ public class DeserializationJSON {
      */
     public <T> T getListObjectFromJson(String nameFile, Class<T> type) {
         String stringJSON = readJson(nameFile);
-        Object object = gson.fromJson(stringJSON, type);
+        Object object = GSON.fromJson(stringJSON, type);
         return Primitives.wrap(type).cast(object);
     }
 
@@ -61,14 +61,14 @@ public class DeserializationJSON {
      * @return JSON  в формате String
      */
     private String readJson(String filePath) {
-        String line = null;
+        String line;
         StringBuilder stringJSON = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)))) {
             while ((line = br.readLine()) != null) {
                 stringJSON.append(line);
             }
         } catch (IOException e) {
-            log.warn("Ошибка ввода-вывода ", e);
+            LOGGER.warn("Ошибка ввода-вывода ", e);
         }
         return stringJSON.toString();
     }

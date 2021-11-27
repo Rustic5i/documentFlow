@@ -33,7 +33,7 @@ public class TaskDocumentFactory extends AbstractDocumentFactory<Task> {
     }
 
     /**
-     * @return Тип создваемого документа
+     * @return Тип создаваемого документа
      */
     @Override
     public Class getTypeObject() {

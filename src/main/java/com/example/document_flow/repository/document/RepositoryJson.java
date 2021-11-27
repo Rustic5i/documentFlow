@@ -18,16 +18,16 @@ import java.util.Set;
  */
 public class RepositoryJson<T extends Document> extends AbstractInMemoryDAO<T> {
 
-    private final DeserializationJSON deserialization = DeserializationJSON.getInstance();
+    private final DeserializationJSON DESERIALIZATION = DeserializationJSON.getInstance();
 
-    private final SerializableJSON serializable = SerializableJSON.getInstance();
+    private final SerializableJSON SERIALIZABLE = SerializableJSON.getInstance();
 
     private final Set<String> setPathFilJson = new HashSet<>();
 
-    private Class<T> type;
+    private final Class<T> TYPE;
 
     public RepositoryJson(Class<T> type) {
-        this.type = type;
+        this.TYPE = type;
     }
 
     /**
@@ -39,7 +39,7 @@ public class RepositoryJson<T extends Document> extends AbstractInMemoryDAO<T> {
      */
     @Override
     protected T getObjectFromRepository(String path) {
-        return deserialization.fromJson(path, type);
+        return DESERIALIZATION.fromJson(path, TYPE);
     }
 
     /**
@@ -73,7 +73,7 @@ public class RepositoryJson<T extends Document> extends AbstractInMemoryDAO<T> {
     protected String saveToRepository(T object) {
         String filePath = object.getAuthor().toString() + ".json";
         setPathFilJson.add(filePath);
-        return serializable.toJson(filePath, object);
+        return SERIALIZABLE.toJson(filePath, object);
     }
 
     /**
@@ -85,7 +85,7 @@ public class RepositoryJson<T extends Document> extends AbstractInMemoryDAO<T> {
     public List<T> getAll() {
         List<T> list = new ArrayList<>();
         for (String str : setPathFilJson) {
-            list.addAll(deserialization.getListObjectFromJson(str, list.getClass()));
+            list.addAll(DESERIALIZATION.getListObjectFromJson(str, list.getClass()));
         }
         return list;
     }

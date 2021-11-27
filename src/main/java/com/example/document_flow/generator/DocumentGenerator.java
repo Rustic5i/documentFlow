@@ -27,7 +27,7 @@ public class DocumentGenerator {
     public static List<Document> run(int count){
         for (int i = 0; i < count; i++) {
                 int randomEnum = random.nextInt(DocumentType.values().length);
-                Factory<Document> factory = new СreatorDocumentFactory().creatFactory(DocumentType.values()[randomEnum].getType());
+                Factory<Document> factory = new СreatorDocumentFactory().createFactory(DocumentType.values()[randomEnum].getType());
                 documentList.add(factory.create());
         }
         return documentList;

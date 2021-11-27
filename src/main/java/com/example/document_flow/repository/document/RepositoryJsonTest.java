@@ -7,14 +7,19 @@ import com.example.document_flow.repository.abstraction.DAO.DAO;
 import com.example.document_flow.util.read.DeserializationJSON;
 import com.example.document_flow.util.write.SerializableJSON;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class RepositoryJsonTest implements DAO<Document> {
 
-    private final DeserializationJSON deserialization = DeserializationJSON.getInstance();
+    private final DeserializationJSON DESERIALIZATION = DeserializationJSON.getInstance();
 
-    private final SerializableJSON serializable = SerializableJSON.getInstance();
+    private final SerializableJSON SERIALIZABLE = SerializableJSON.getInstance();
 
     private final InMemory<List<Document>> inMemory = new InMemory<>();
 
@@ -23,7 +28,7 @@ public class RepositoryJsonTest implements DAO<Document> {
     @Override
     public void save(Document object) {
         String filePath = object.getAuthor().toString() + ".json";
-        serializable.toJson(filePath, object);
+        SERIALIZABLE.toJson(filePath, object);
         setPathFilJson.add(filePath);
         inMemory.save(filePath, Arrays.asList(object));
     }
@@ -34,7 +39,7 @@ public class RepositoryJsonTest implements DAO<Document> {
         StringBuilder author = new StringBuilder();
         documentByAuthor.entrySet().stream().forEach(value -> {
             author.append(value.getKey()).append(".json");
-            serializable.toJson(author.toString(), value.getValue());
+            SERIALIZABLE.toJson(author.toString(), value.getValue());
             setPathFilJson.add(author.toString());
             inMemory.save(author.toString(), value.getValue());
             author.delete(0, author.length());
@@ -44,9 +49,8 @@ public class RepositoryJsonTest implements DAO<Document> {
     @Override
     public List<Document> getAll() {
         List<Document> list = new ArrayList<>();
-        for (String str : setPathFilJson) {
-            list.addAll(deserialization.getListObjectFromJson(str, list.getClass()));
-        }
+        setPathFilJson.stream()
+                .forEach(str -> list.addAll(DESERIALIZATION.getListObjectFromJson(str, list.getClass())));
         return list;
     }
 }

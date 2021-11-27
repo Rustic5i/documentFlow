@@ -16,7 +16,7 @@ public class СreatorDocumentFactory {
      * @param type тип документа
      * @return обьект фабрка
      */
-    public static Factory creatFactory(Class type) {
+    public static Factory createFactory(Class type) {
         return factoryHolder.getFactoryByTypeDocument(type);
     }
 }

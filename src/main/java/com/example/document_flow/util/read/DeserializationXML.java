@@ -19,7 +19,7 @@ import java.util.Set;
  */
 public class DeserializationXML<T extends Staff> {
 
-    private static final Logger log = LoggerFactory.getLogger(DeserializationXML.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeserializationXML.class.getName());
 
     private static DeserializationXML deserializationXML;
 
@@ -40,7 +40,7 @@ public class DeserializationXML<T extends Staff> {
             Unmarshaller marshaller = contextRead.createUnmarshaller();
             object = (T) marshaller.unmarshal(new File(pathName));
         } catch (JAXBException e) {
-            log.warn("Ошибка маппинга обьекта", e);
+            LOGGER.warn("Ошибка маппинга обьекта", e);
         }
         return object;
     }

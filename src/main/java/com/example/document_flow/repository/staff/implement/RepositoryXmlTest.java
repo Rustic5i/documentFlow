@@ -12,23 +12,23 @@ import java.util.Set;
 
 public class RepositoryXmlTest<T extends Staff> implements DAO<T> {
 
-    private final SerializableXML<T> serializable = SerializableXML.getInstance();
+    private final SerializableXML<T> SERIALIZABLE = SerializableXML.getInstance();
 
-    private final DeserializationXML<T> deserialization = DeserializationXML.getInstance();
+    private final DeserializationXML<T> DESERIALIZATION = DeserializationXML.getInstance();
 
     private final Set<String> setPathFilXml = new HashSet<>();
 
     private final InMemory<T> inMemory = new InMemory<>();
 
-    private Class<T> type;
+    private final Class<T> TYPE;
 
     public RepositoryXmlTest(Class<T> type) {
-        this.type = type;
+        this.TYPE = type;
     }
 
     @Override
     public void save(T object) {
-        String pathFile = serializable.toXML(object);
+        String pathFile = SERIALIZABLE.toXML(object);
         setPathFilXml.add(pathFile);
         inMemory.save(pathFile, object);
     }
@@ -40,7 +40,7 @@ public class RepositoryXmlTest<T extends Staff> implements DAO<T> {
 
     @Override
     public List<T> getAll() {
-        return deserialization.fromXMl(setPathFilXml, type);
+        return DESERIALIZATION.fromXMl(setPathFilXml, TYPE);
     }
 
 }

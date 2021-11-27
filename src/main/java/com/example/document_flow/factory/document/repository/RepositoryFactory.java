@@ -21,7 +21,7 @@ public class RepositoryFactory {
      */
     private static HashMap<Class, Factory> factoryHolder = new HashMap<>();
 
-   static  {
+    static {
         IncomingDocumentFactory factoryIncoming = new IncomingDocumentFactory();
         OutgoingDocumentFactory factoryOutgoing = new OutgoingDocumentFactory();
         TaskDocumentFactory factoryTask = new TaskDocumentFactory();
@@ -33,6 +33,7 @@ public class RepositoryFactory {
 
     /**
      * Возвращает нужную фабрику в зависимоти от переданного типа документа.
+     *
      * @param type Тип документа
      * @return инстанс фабрики
      */

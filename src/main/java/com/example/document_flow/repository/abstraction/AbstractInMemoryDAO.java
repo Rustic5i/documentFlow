@@ -16,7 +16,7 @@ import java.util.WeakHashMap;
  */
 public abstract class AbstractInMemoryDAO<T> implements DAO<T> {
 
-    private WeakHashMap<String, Object> objectWeakHashMap = new WeakHashMap<>();
+    private final WeakHashMap<String, Object> objectWeakHashMap = new WeakHashMap<>();
 
     /**
      * Сохраняет обьект в репозиторий,
@@ -38,10 +38,8 @@ public abstract class AbstractInMemoryDAO<T> implements DAO<T> {
      */
     @Override
     public void saveAll(List<T> objects) {
-        Set<String> path = saveAllToRepository(objects);
-        for (String str : path) {
-            objectWeakHashMap.put(str, objects);
-        }
+        Set<String> setPath = saveAllToRepository(objects);
+        setPath.stream().forEach(path -> objectWeakHashMap.put(path, objects));
     }
 
     /**

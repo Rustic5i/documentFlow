@@ -17,9 +17,9 @@ import java.util.List;
  */
 public class SerializableJSON {
 
-    private final Gson gson = new GsonBuilder().create();
+    private final Gson GSON = new GsonBuilder().create();
 
-    private final Logger log = LoggerFactory.getLogger(SerializableJSON.class.getName());
+    private final Logger LOGGER = LoggerFactory.getLogger(SerializableJSON.class.getName());
 
     private static SerializableJSON serializableJSON;
 
@@ -37,9 +37,9 @@ public class SerializableJSON {
      */
     public String toJson(String nameFile, Object object) {
         try (Writer writer = new FileWriter(nameFile);) {
-            gson.toJson(object, writer);
+            GSON.toJson(object, writer);
         } catch (IOException e) {
-            log.warn("Файл не существует, или не может быть открыт по какой-либо другой причине", e);
+            LOGGER.warn("Файл не существует, или не может быть открыт по какой-либо другой причине", e);
         }
         return nameFile;
     }
@@ -55,7 +55,7 @@ public class SerializableJSON {
      */
     public String toJson(String nameFile, List<Object> objects) throws IOException {
         try (Writer writer = new FileWriter(nameFile)) {
-            gson.toJson(objects, writer);
+            GSON.toJson(objects, writer);
         }
         return nameFile;
     }

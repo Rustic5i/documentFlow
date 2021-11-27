@@ -1,10 +1,7 @@
 package com.example.document_flow.controller;
 
-import com.example.document_flow.generator.DocumentGenerator;
 import com.example.document_flow.exception.InvalidParametersException;
-import com.example.document_flow.repository.document.DocumentRepository;
-import com.example.document_flow.service.abstraction.Service;
-import com.example.document_flow.service.implement.DocumentService;
+import com.example.document_flow.generator.DocumentGenerator;
 import com.example.document_flow.service.implement.DocumentServiceExpanded;
 import com.example.document_flow.validation.ParametersValidation;
 import org.slf4j.Logger;
@@ -19,13 +16,11 @@ import java.util.Scanner;
  */
 public class RequestHandler {
 
-    //private static final DocumentRepository repository = DocumentRepository.getInstance();
-
     private static DocumentServiceExpanded serviceExpanded = new DocumentServiceExpanded();
 
-    private final Scanner scanner = new Scanner(System.in);
+    private final Scanner SCANNER = new Scanner(System.in);
 
-    private static final Logger log = LoggerFactory.getLogger(RequestHandler.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(RequestHandler.class.getName());
 
     public void setRequest(String[] args) {
         handler(args);
@@ -42,9 +37,9 @@ public class RequestHandler {
             try {
                 int count = ParametersValidation.isNumber(args[0]);
                 serviceExpanded.saveAll(DocumentGenerator.run(count));
-                System.out.println(serviceExpanded.getAll().toString());
+                LOGGER.info(serviceExpanded.getAll().toString());
             } catch (InvalidParametersException e) {
-                log.warn("Exception ", e);
+                LOGGER.warn("Exception ", e);
                 handler();
             }
         } else {
@@ -59,12 +54,12 @@ public class RequestHandler {
         while (true) {
             try {
                 System.out.println("Введите количество требуемых документов");
-                int count = ParametersValidation.isNumber(scanner.nextLine());
+                int count = ParametersValidation.isNumber(SCANNER.nextLine());
                 serviceExpanded.saveAll(DocumentGenerator.run(count));
-                System.out.println(serviceExpanded.getAll());
+                LOGGER.info(serviceExpanded.getAll().toString());
                 break;
             } catch (InvalidParametersException e) {
-                log.warn("Exception ", e);
+                LOGGER.warn("Exception ", e);
             }
         }
     }

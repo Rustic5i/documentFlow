@@ -29,7 +29,7 @@ public class OutgoingDocumentFactory extends AbstractDocumentFactory<Outgoing> {
     }
 
     /**
-     * @return Тип создваемого документа
+     * @return Тип создаваемого документа
      */
     @Override
     public Class getTypeObject() {

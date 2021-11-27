@@ -106,7 +106,7 @@ public class DataGenerator {
      *
      * @return рандомный телефонный номер
      */
-    public String gePhoneNumber(){
+    public String getPhoneNumber(){
         return listPhoneNumber.get(random.nextInt(listPhoneNumber.size()));
     }
 

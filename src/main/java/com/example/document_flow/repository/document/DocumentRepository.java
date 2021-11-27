@@ -28,20 +28,21 @@ public class DocumentRepository {
      * Где <code>Long</code> это ключ, хранит в себе уникальный регистрационный номер документа
      * <code>Document</code> хранит созданный документ
      */
-    private static Map<Long, Document> documentMap = new HashMap<>();
+    private static final Map<Long, Document> documentMap = new HashMap<>();
 
-    private static final Logger log = LoggerFactory.getLogger(DocumentRepository.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(DocumentRepository.class.getName());
 
-    List<Document> documentList = new ArrayList<>() {
+    private final List<Document> documentList = new ArrayList<>() {
         @Override
         public String toString() {
             StringBuilder sb = new StringBuilder();
             StringBuilder author = new StringBuilder();
             forEach((value) -> {
                 if (!(value.getAuthor().toString().equals(author.toString()))) {
-                    author.delete(0, 100);
+                    author.delete(0, author.length());
                     author.append(value.getAuthor());
                     sb.append(value.getAuthor()).append(":").append("\n");
+                    sb.append(" * ").append(value).append("\n");
                 } else {
                     sb.append(" * ").append(value).append("\n");
                 }
@@ -73,7 +74,7 @@ public class DocumentRepository {
             try {
                 containsRegistrationNumber(registrationNumber);
             } catch (DocumentExistsException e) {
-                log.warn("Exception ", e);
+                LOGGER.warn("Exception ", e);
             }
             documentMap.put(registrationNumber, doc);
         }

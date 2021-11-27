@@ -35,7 +35,7 @@ public class Incoming extends Document {
     @Override
     public String toString() {
         return MessageFormat
-                .format("Входящее {0}", super.toString());
+                .format("Входящий {0}", super.toString());
     }
 
     public Person getSource() {

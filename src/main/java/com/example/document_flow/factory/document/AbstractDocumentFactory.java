@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Абстрактаня фабрика для создания различных типов документов
+ * Абстрактная фабрика для создания различных типов документов
  *
  * @param <T> Тип документа
  * @author Баратов Руслан
@@ -20,7 +20,7 @@ public abstract class AbstractDocumentFactory<T extends Document> implements Fac
     /**
      * Реализация фабричного метода
      *
-     * @return возращает новый инстанс документа с заполнеными поля
+     * @return возвращает новый инстанс документа с заполненными поля
      */
     public T create() {
         T document = createInstance();

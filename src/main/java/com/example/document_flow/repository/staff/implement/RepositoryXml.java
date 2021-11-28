@@ -1,7 +1,8 @@
 package com.example.document_flow.repository.staff.implement;
 
 import com.example.document_flow.entity.staff.Staff;
-import com.example.document_flow.repository.abstraction.AbstractInMemoryDAO;
+import com.example.document_flow.repository.InMemory;
+import com.example.document_flow.repository.DAO.DAO;
 import com.example.document_flow.util.read.DeserializationXML;
 import com.example.document_flow.util.write.SerializableXML;
 
@@ -15,65 +16,54 @@ import java.util.Set;
  * @param <T> тип "организационных структур"
  * @author Баратов Руслан
  */
-public class RepositoryXml<T extends Staff> extends AbstractInMemoryDAO<T> {
+public class RepositoryXml<T extends Staff> implements DAO<T> {
 
-    private final SerializableXML<T> serializable = SerializableXML.getInstance();
+    private final SerializableXML<T> SERIALIZABLE = SerializableXML.getInstance();
 
-    private final DeserializationXML<T> deserialization = DeserializationXML.getInstance();
+    private final DeserializationXML<T> DESERIALIZATION = DeserializationXML.getInstance();
 
     private final Set<String> setPathFilXml = new HashSet<>();
 
-    private Class<T> type;
+    private final InMemory<T> inMemory = new InMemory<>();
+
+    private final Class<T> TYPE;
 
     public RepositoryXml(Class<T> type) {
-        this.type = type;
+        this.TYPE = type;
     }
 
     /**
-     * Получает обьект из Xml
+     * Сохраняет какой-либо объект в формат xml
      *
-     * @param path путь к файлу
-     * @return какой-либо обьект
+     * @param object объект для сохранения
+     * @return путь к файлу
      */
     @Override
-    protected T getObjectFromRepository(String path) {
-        return deserialization.fromXMl(path, type);
+    public void save(T object) {
+        String pathFile = SERIALIZABLE.toXML(object);
+        setPathFilXml.add(pathFile);
+        inMemory.save(pathFile, object);
     }
 
     /**
      * Сохраняет список обьектов в формат Xml
      *
-     * @param objects список обьектов
+     * @param objects список объектов
      * @return пути к файлу
      */
     @Override
-    protected Set<String> saveAllToRepository(List<T> objects) {
-        for (T object : objects) {
-            setPathFilXml.add(saveToRepository(object));
-        }
-        return setPathFilXml;
+    public void saveAll(List<T> objects) {
+        objects.forEach(this::save);
     }
 
     /**
-     * Сохроняет какой-либо обьект в формат xml
+     * Получить все сохраненные объекты
      *
-     * @param object обьект для сохранения
-     * @return путь к файлу
-     */
-    @Override
-    protected String saveToRepository(T object) {
-        String pathFile = serializable.toXML(object);
-        setPathFilXml.add(pathFile);
-        return pathFile;
-    }
-
-    /**
-     * Получить все сохраненные обьекты
-     *
-     * @return списко каких-либо обьектов
+     * @return список каких-либо объектов
      */
     @Override
     public List<T> getAll() {
-        return deserialization.fromXMl(setPathFilXml, type);
+        return DESERIALIZATION.fromXMl(setPathFilXml, TYPE);
     }
+
 }

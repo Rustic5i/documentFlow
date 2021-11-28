@@ -12,23 +12,23 @@ import java.util.List;
 public interface Service<T> {
 
     /**
-     * Сохранить обьект
+     * Сохранить объект
      *
-     * @param object какой-либо обьект
+     * @param object какой-либо объект
      */
     void save(T object);
 
     /**
      * Сохранить список обьектов
      *
-     * @param objects список каких-либо обьектов
+     * @param objects список каких-либо объектов
      */
     void saveAll(List<T> objects);
 
     /**
-     * Получить все обьекты
+     * Получить все объекты
      *
-     * @return список каких-либо обьектов
+     * @return список каких-либо объектов
      */
     List<T> getAll();
 }

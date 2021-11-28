@@ -1,92 +1,78 @@
 package com.example.document_flow.repository.document;
 
 import com.example.document_flow.entity.document.Document;
-import com.example.document_flow.repository.abstraction.AbstractInMemoryDAO;
+import com.example.document_flow.entity.staff.Person;
+import com.example.document_flow.repository.InMemory;
+import com.example.document_flow.repository.DAO.DAO;
 import com.example.document_flow.util.read.DeserializationJSON;
 import com.example.document_flow.util.write.SerializableJSON;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Репозиторий для документов в формате JSON
  *
- * @param <T> тип документов
  * @author Баратов Руслан
  */
-public class RepositoryJson<T extends Document> extends AbstractInMemoryDAO<T> {
+public class RepositoryJson implements DAO<Document> {
 
     private final DeserializationJSON DESERIALIZATION = DeserializationJSON.getInstance();
 
     private final SerializableJSON SERIALIZABLE = SerializableJSON.getInstance();
 
+    private final InMemory<List<Document>> inMemory = new InMemory<>();
+
     private final Set<String> setPathFilJson = new HashSet<>();
 
-    private final Class<T> TYPE;
-
-    public RepositoryJson(Class<T> type) {
-        this.TYPE = type;
-    }
-
     /**
-     * Получить обьект из репозитория
-     * Получает обьект из Json
+     * Сохраняет обьект в репозиторий, в формате Json
+     * после чего сохраняет его в кеш
      *
-     * @param path путь к файлу Json
-     * @return
+     * @param object какой-либо обьект для сохранения
      */
     @Override
-    protected T getObjectFromRepository(String path) {
-        return DESERIALIZATION.fromJson(path, TYPE);
-    }
-
-    /**
-     * Сохранить список обьектов в формат Json
-     *
-     * @param objects список обьектов для сохранения
-     * @return путь к сохраненным файлам
-     */
-    @Override
-    protected Set<String> saveAllToRepository(List<T> objects) {
-        List<T> value = new ArrayList<>();
-        String author = objects.get(0).getAuthor().toString();
-        for (T object : objects) {
-            if (object.getAuthor().toString().equals(author)) {
-                value.add(object);
-            } else {
-                setPathFilJson.addAll(saveAllToRepository(value));
-            }
-        }
-        return setPathFilJson;
-    }
-
-    /**
-     * Сохранить обьект в репозиторий
-     * Сохраняет обьект в формат Json
-     *
-     * @param object обьект для сохранения
-     * @return путь к сохраненному файлу
-     */
-    @Override
-    protected String saveToRepository(T object) {
+    public void save(Document object) {
         String filePath = object.getAuthor().toString() + ".json";
+        SERIALIZABLE.toJson(filePath, object);
         setPathFilJson.add(filePath);
-        return SERIALIZABLE.toJson(filePath, object);
+        inMemory.save(filePath, Arrays.asList(object));
     }
 
     /**
-     * Получить список сохраненных документов
+     * Сохраняет список каких-либо объектов в репозиторий, в формате Json
+     * после чего сохраняет объекты в кеш
      *
-     * @return список документов
+     * @param objects список каких-либо объектов
      */
     @Override
-    public List<T> getAll() {
-        List<T> list = new ArrayList<>();
-        for (String str : setPathFilJson) {
-            list.addAll(DESERIALIZATION.getListObjectFromJson(str, list.getClass()));
-        }
+    public void saveAll(List<Document> objects) {
+        Map<Person, List<Document>> documentByAuthor = objects.stream().collect(Collectors.groupingBy(Document::getAuthor));
+        StringBuilder author = new StringBuilder();
+        documentByAuthor.entrySet().stream().forEach(value -> {
+            author.append(value.getKey()).append(".json");
+            SERIALIZABLE.toJson(author.toString(), value.getValue());
+            setPathFilJson.add(author.toString());
+            inMemory.save(author.toString(), value.getValue());
+            author.delete(0, author.length());
+        });
+    }
+
+    /**
+     * Получить все сохраненные объекты из репозитория
+     *
+     * @return список сохраненных объектов
+     */
+    @Override
+    public List<Document> getAll() {
+        List<Document> list = new ArrayList<>();
+        setPathFilJson.stream()
+                .forEach(str -> list.addAll(DESERIALIZATION.getListObjectFromJson(str, list.getClass())));
         return list;
     }
 }

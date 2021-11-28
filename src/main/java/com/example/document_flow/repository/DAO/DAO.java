@@ -1,11 +1,11 @@
-package com.example.document_flow.repository.abstraction.DAO;
+package com.example.document_flow.repository.DAO;
 
 import java.util.List;
 
 /**
  * Cписок общих методов для взаимодействия с базой данных/репозиторий
  *
- * @param <T> тип обьектов
+ * @param <T> тип объектов
  * @author Баратов Руслан
  */
 public interface DAO<T> {

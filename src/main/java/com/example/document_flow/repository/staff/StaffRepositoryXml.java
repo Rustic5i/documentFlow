@@ -1,4 +1,4 @@
-package com.example.document_flow.repository.staff.implement;
+package com.example.document_flow.repository.staff;
 
 import com.example.document_flow.entity.staff.Staff;
 import com.example.document_flow.repository.InMemory;
@@ -16,7 +16,7 @@ import java.util.Set;
  * @param <T> тип "организационных структур"
  * @author Баратов Руслан
  */
-public class RepositoryXml<T extends Staff> implements DAO<T> {
+public class StaffRepositoryXml<T extends Staff> implements DAO<T> {
 
     private final SerializableXML<T> SERIALIZABLE = SerializableXML.getInstance();
 
@@ -28,7 +28,7 @@ public class RepositoryXml<T extends Staff> implements DAO<T> {
 
     private final Class<T> TYPE;
 
-    public RepositoryXml(Class<T> type) {
+    public StaffRepositoryXml(Class<T> type) {
         this.TYPE = type;
     }
 

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  *
  * @author Баратов Руслан
  */
-public class RepositoryJson implements DAO<Document> {
+public class DocumentRepositoryJson implements DAO<Document> {
 
     private final DeserializationJSON DESERIALIZATION = DeserializationJSON.getInstance();
 

@@ -183,15 +183,15 @@ public class DataGenerator {
         Calendar calendar = new GregorianCalendar(year, month, day);
 
         for (int i = 0; i < 10; i++) {
-            Person person = new Person();
-            person.setId(random.nextInt(100));
-            person.setName(personName[random.nextInt(personName.length)]);
-            person.setSurname(personSurname[random.nextInt(personSurname.length)]);
-            person.setPatronymic(personPatronymic[random.nextInt(personPatronymic.length)]);
-            person.setPost(personPost[random.nextInt(personPost.length)]);
-            person.setDateOfBirth(calendar.getTime());
-            person.setPhoneNumber((int) (random.nextDouble() * 100000000));
-
+            Person person = new Person.Builder()
+                    .setId(random.nextInt(100))
+                    .setName(personName[random.nextInt(personName.length)])
+                    .setSurname(personSurname[random.nextInt(personSurname.length)])
+                    .setPatronymic(personPatronymic[random.nextInt(personPatronymic.length)])
+                    .setPost(personPost[random.nextInt(personPost.length)])
+                    .setDateOfBirth(calendar.getTime())
+                    .setPhoneNumber((int) (random.nextDouble() * 100000000))
+                    .build();
             personList.add(person);
         }
 

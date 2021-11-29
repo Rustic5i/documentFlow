@@ -6,20 +6,40 @@ import com.example.document_flow.service.abstraction.Service;
 
 import java.util.List;
 
+/**
+ * Сервис для Документов
+ *
+ * @author Баратов Руслан
+ */
 public class DocumentService implements Service<Document> {
 
     private DocumentRepository repository = DocumentRepository.getInstance();
 
+    /**
+     * Сохранить документ
+     *
+     * @param object документ
+     */
     @Override
     public void save(Document object) {
         repository.save(object);
     }
 
+    /**
+     * Сохранить список документов
+     *
+     * @param objects список документов
+     */
     @Override
     public void saveAll(List<Document> objects) {
         repository.saveAll(objects);
     }
 
+    /**
+     * Получить все документы
+     *
+     * @return список документов
+     */
     @Override
     public List<Document> getAll() {
         return repository.getAll();

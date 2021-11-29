@@ -24,18 +24,20 @@ public class RepositoryDocumentTest {
 
     private List<Document> documentList = new ArrayList<>();
 
-    private final Person person = new Person();
+    private Person person;
 
     @BeforeEach
     public void setUp() {
 
-        person.setId(2);
-        person.setName("Андрей");
-        person.setSurname("Сабиров");
-        person.setPatronymic("Васильевич");
-        person.setPost("Бугалтер");
-        person.setDateOfBirth(new GregorianCalendar(1998, 12, 12).getTime());
-        person.setPhoneNumber(866555445);
+        person = new Person.Builder()
+                .setId(2)
+                .setName("Андрей")
+                .setSurname("Сабиров")
+                .setPatronymic("Васильевич")
+                .setPost("Бугалтер")
+                .setDateOfBirth(new GregorianCalendar(1998, 12, 12).getTime())
+                .setPhoneNumber(866555445)
+                .build();
 
         for (int i = 0; i < 3; i++) {
             Incoming incoming = new Incoming();

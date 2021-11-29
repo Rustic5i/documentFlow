@@ -8,7 +8,7 @@ import com.example.document_flow.service.abstraction.Service;
 import java.util.List;
 
 /**
- * Серсив для Подразделений
+ * Сервис для Подразделений
  *
  * @author Баратов Руслан
  */

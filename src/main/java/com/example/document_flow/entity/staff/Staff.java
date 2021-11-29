@@ -7,12 +7,19 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Элемент организационной структуры
  */
 @XmlRootElement
-public abstract class Staff {
+public class Staff {
 
     /**
      * Идентификатор
      */
     private long id;
+
+    public Staff() {
+    }
+
+    protected Staff(Builder<?> builder) {
+        this.id = builder.id;
+    }
 
     @XmlAttribute
     public long getId() {
@@ -21,5 +28,25 @@ public abstract class Staff {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public static class Builder<T extends Builder<T>> {
+
+        /**
+         * Идентификатор
+         */
+        private long id;
+
+        public Builder() {
+        }
+
+        public T setId(long id) {
+            this.id = id;
+            return (T) this;
+        }
+
+        public Staff build() {
+            return new Staff(this);
+        }
     }
 }

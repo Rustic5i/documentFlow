@@ -30,6 +30,10 @@ public class Department extends Staff {
      */
     private String contactPhoneNumber;
 
+    protected Department(Builder<?> builder) {
+        super(builder);
+    }
+
     public String getFullName() {
         return fullName;
     }

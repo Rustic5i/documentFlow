@@ -38,7 +38,7 @@ public class SerializableXML<T extends Staff> {
     }
 
     /**
-     * Сериализует обьект в формат xml
+     * Сериализует объект в формат xml
      *
      * @param object обьект для сериализации
      * @return путь к файлу

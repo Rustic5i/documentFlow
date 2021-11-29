@@ -30,6 +30,10 @@ public class Organization extends Staff {
      */
     private String contactPhoneNumber;
 
+    protected Organization(Builder<?> builder) {
+        super(builder);
+    }
+
     public String getFullName() {
         return fullName;
     }

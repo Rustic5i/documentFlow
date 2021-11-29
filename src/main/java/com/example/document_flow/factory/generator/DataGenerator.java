@@ -1,17 +1,22 @@
 package com.example.document_flow.factory.generator;
 
-import com.example.document_flow.entity.person.Person;
+import com.example.document_flow.entity.staff.Person;
+import com.example.document_flow.factory.generator.entity.NameStaff;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
  * Класс — синглтон, с набором методов для предоставления рандомных данных
  * для наследников класса <code>Document</code>
+ *
  * @author Баратов Руслан
  */
 public class DataGenerator {
@@ -19,6 +24,29 @@ public class DataGenerator {
     private final Random random = new Random();
 
     private static DataGenerator dataGenerator;
+
+    /**
+     * Лист телефонных номеров
+     */
+    private static List<String> listPhoneNumber =  Arrays.asList("0(984)556-14-86",
+            "3(7740)563-93-84",
+            "559(4732)994-37-06",
+            "0(844)008-03-64",
+            "20(15)474-37-87",
+            "83(974)294-28-46",
+            "99(9284)327-70-64",
+            "48(46)884-20-37");
+
+    /**
+     * Мапа наименований организаций
+     */
+    private static final Map<String, String> namesOrganization = initNamesOrganization();
+
+    /**
+     * Мапа наименований подразделений
+     */
+    private static final Map<String, String> namesDepartment = initNamesDepartment();
+
 
     /**
      * Список Названия документа
@@ -69,15 +97,105 @@ public class DataGenerator {
     /**
      * Список людей
      */
-    public static final List<Person> personList = Arrays.asList(new Person("Кошелева Василиса Ивановна"),
-            new Person("Ильина Вера Арсентьевна"),
-            new Person("Новикова Есения Робертовна"),
-            new Person("Розанова Полина Дмитриевна"),
-            new Person("Симонова Есения Даниэльевна"),
-            new Person("Орлов Глеб Михайлович"),
-            new Person("Андреева Елизавета Павловна"));
+    public final List<Person> personList = getPersonList();
 
     private DataGenerator() {
+    }
+
+    /**
+     *
+     * @return рандомный телефонный номер
+     */
+    public String getPhoneNumber(){
+        return listPhoneNumber.get(random.nextInt(listPhoneNumber.size()));
+    }
+
+    /**
+     *
+     * @return проинициализируемую маппу с наименованиями Подразделений
+     */
+    private static Map<String, String> initNamesDepartment() {
+        Map<String, String> namesDepartment = new HashMap<>();
+        namesDepartment.put("AO \"Тандер\"", "Aкционерное общество \"Тандер\" ");
+        namesDepartment.put("Востокгазпром (АО)", "Aкционерное общество  Востокгазпром");
+        namesDepartment.put("ООО \"ЯНДЕКС.ТАКСИ\"", "ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"ЯНДЕКС.ТАКСИ\"");
+        namesDepartment.put("ООО \"АВИТО ТЕХ\"", "ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ \"АВИТО ТЕХ\"");
+        return namesDepartment;
+    }
+
+    /**
+     *
+     * @return проинициализируемую маппу с наименованиями Организаций
+     */
+    private static Map<String, String> initNamesOrganization() {
+        Map<String, String> namesOrganization = new HashMap<>();
+        namesOrganization.put("ПАО «Магнит»", "Публичное акционерное общество «Магнит»");
+        namesOrganization.put("ООО \"Мэйл.ру\"", "Общество с ограниченной ответственностью \"Мэйл.ру\"");
+        namesOrganization.put("АО \"Кфс\"", "Акционерное общество \"Кфс\"" );
+        namesOrganization.put("ООО \"Самсунг\"", "Общество с ограниченной ответственностью \"Самсунг\"");
+
+        return namesOrganization;
+    }
+
+    /**
+     * @return обеьект хранящий в себя два значения, "Полное наименование" и "Краткое наименование"
+     */
+    public NameStaff getNamesDepartment() {
+        String shortName = (String) namesDepartment.keySet().toArray()[random.nextInt(namesOrganization.size())];
+        String fullName = namesDepartment.get(shortName);
+
+        NameStaff names = new NameStaff();
+        names.setShortName(shortName);
+        names.setFullName(fullName);
+
+        return names;
+    }
+
+    /**
+     * @return обеьект хранящий в себя два значения, "Полное наименование" и "Краткое наименование"
+     */
+    public NameStaff getNamesOrganization() {
+        String shortName = (String) namesOrganization.keySet().toArray()[random.nextInt(namesOrganization.size())];
+        String fullName = namesOrganization.get(shortName);
+
+        NameStaff names = new NameStaff();
+        names.setShortName(shortName);
+        names.setFullName(fullName);
+
+        return names;
+    }
+
+    /**
+     * Генерация случайных работников
+     *
+     * @return список сгенерируемых работников
+     */
+    private List<Person> getPersonList() {
+        List<Person> personList = new ArrayList<>();
+
+        String[] personName = new String[]{"Василиса", "Вера", "Есения", "Полина", "Глеб", "Ольга", "Елизавета"};
+        String[] personSurname = new String[]{"Кошелева", "Ильина", "Новикова", "Розанова", "Симонова", "Орлов", "Андреева"};
+        String[] personPatronymic = new String[]{"Ивановна", "Арсентьевна", "Робертовна", "Дмитриевна", "Даниэльевна", "Михайлович", "Павловна"};
+        String[] personPost = new String[]{"Менеджер по работе с клиентами", "Юрист", "'Экономист", "Директор", "Главный бухгалтер"};
+        int year = random.nextInt(2000 - 1990) + 1990;
+        int month = random.nextInt(11);
+        int day = random.nextInt(28);
+        Calendar calendar = new GregorianCalendar(year, month, day);
+
+        for (int i = 0; i < 10; i++) {
+            Person person = new Person().newBuilder()
+                    .setId(random.nextInt(100))
+                    .setName(personName[random.nextInt(personName.length)])
+                    .setSurname(personSurname[random.nextInt(personSurname.length)])
+                    .setPatronymic(personPatronymic[random.nextInt(personPatronymic.length)])
+                    .setPost(personPost[random.nextInt(personPost.length)])
+                    .setDateOfBirth(calendar.getTime())
+                    .setPhoneNumber((int) (random.nextDouble() * 100000000))
+                    .build();
+            personList.add(person);
+        }
+
+        return personList;
     }
 
     /**
@@ -97,7 +215,7 @@ public class DataGenerator {
     /**
      * @return Ранодомный автор
      */
-    public Person getAuthor() {
+    public Person getPerson() {
         return personList.get(random.nextInt(personList.size()));
     }
 
@@ -207,5 +325,9 @@ public class DataGenerator {
             dataGenerator = new DataGenerator();
         }
         return dataGenerator;
+    }
+
+    public long getId() {
+        return random.nextInt(100);
     }
 }

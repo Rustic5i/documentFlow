@@ -1,6 +1,6 @@
 package com.example.document_flow.validation;
 
-import com.example.document_flow.myException.InvalidParametersException;
+import com.example.document_flow.exception.InvalidParametersException;
 
 /**
  * Класс занимается валидацией параметров

@@ -1,9 +1,8 @@
 package com.example.document_flow.factory.generator;
 
-import com.example.document_flow.entity.person.Person;
+import com.example.document_flow.entity.staff.Person;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import java.lang.reflect.Field;
@@ -14,13 +13,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class DataGeneratorTest {
 
-    private Random randomMock = Mockito.mock(Random.class);
+    private final Random randomMock = mock(Random.class);
 
-    private DataGenerator dataGenerator = DataGenerator.getInstance();
+    private final DataGenerator dataGenerator = DataGenerator.getInstance();
 
     public DataGeneratorTest() {
         MockitoAnnotations.initMocks(this);
@@ -38,8 +38,8 @@ public class DataGeneratorTest {
         Object registrationNumber = dataGenerator.getRegistrationNumber();
 
         assertNotNull(registrationNumber);
-         assertInstanceOf(Long.class, registrationNumber);
-        assertEquals(1L, registrationNumber);
+        assertInstanceOf(Long.class, registrationNumber);
+        assertEquals(10L, registrationNumber);
     }
 
     @Test
@@ -47,7 +47,7 @@ public class DataGeneratorTest {
         Object name = dataGenerator.getName();
 
         assertNotNull(name);
-         assertInstanceOf(String.class, name);
+        assertInstanceOf(String.class, name);
     }
 
     @Test
@@ -55,12 +55,12 @@ public class DataGeneratorTest {
         Object text = dataGenerator.getText();
 
         assertNotNull(text);
-          assertInstanceOf(String.class, text);
+        assertInstanceOf(String.class, text);
     }
 
     @Test
     public void getAuthor() {
-        Person author = dataGenerator.getAuthor();
+        Person author = dataGenerator.getPerson();
 
         assertNotNull(author);
         assertNotNull(author.getName());
@@ -71,7 +71,7 @@ public class DataGeneratorTest {
         Object dateRegistration = dataGenerator.getDateRegistration();
 
         assertNotNull(dateRegistration);
-         assertInstanceOf(Date.class, dateRegistration);
+        assertInstanceOf(Date.class, dateRegistration);
     }
 
     @Test
@@ -94,7 +94,7 @@ public class DataGeneratorTest {
         Object addressee = dataGenerator.getAddressee();
 
         assertNotNull(addressee);
-         assertInstanceOf(String.class, addressee);
+        assertInstanceOf(String.class, addressee);
     }
 
     @Test
@@ -109,7 +109,7 @@ public class DataGeneratorTest {
         Object deliveryMethod = dataGenerator.getDeliveryMethod();
 
         assertNotNull(deliveryMethod);
-         assertInstanceOf(String.class, deliveryMethod);
+        assertInstanceOf(String.class, deliveryMethod);
     }
 
     @Test
@@ -139,7 +139,7 @@ public class DataGeneratorTest {
         Object signOfControl = dataGenerator.getSignOfControl();
 
         assertNotNull(signOfControl);
-         assertInstanceOf(String.class, signOfControl);
+        assertInstanceOf(String.class, signOfControl);
     }
 
     @Test
@@ -147,10 +147,10 @@ public class DataGeneratorTest {
         Object orderController = dataGenerator.getOrderController();
 
         assertNotNull(orderController);
-          assertInstanceOf(Person.class, orderController);
+        assertInstanceOf(Person.class, orderController);
     }
 
-     @DisplayName("DataGenerator должен быть синглтон")
+    @DisplayName("DataGenerator должен быть синглтон")
     @Test
     public void getInstance() {
         DataGenerator actual = DataGenerator.getInstance();

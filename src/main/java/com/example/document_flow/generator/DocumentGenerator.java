@@ -1,9 +1,9 @@
 package com.example.document_flow.generator;
 
-import com.example.document_flow.entity.Document;
-import com.example.document_flow.entity.DocumentTypeEnum.DocumentType;
-import com.example.document_flow.factory.abstr.DocumentFactory;
-import com.example.document_flow.factory.documentFactory.СreatorDocumentFactory;
+import com.example.document_flow.entity.document.Document;
+import com.example.document_flow.entity.document.DocumentType;
+import com.example.document_flow.factory.Factory;
+import com.example.document_flow.factory.document.СreatorDocumentFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +15,9 @@ import java.util.Random;
  */
 public class DocumentGenerator {
 
-    private static final Random random = new Random();
+    private static final Random RANDOM = new Random();
 
-    private static List<Document> documentList = new ArrayList<>();
+    private static final List<Document> DOCUMENT_LIST = new ArrayList<>();
 
     /**
      * Генерирует документы.
@@ -26,10 +26,10 @@ public class DocumentGenerator {
      */
     public static List<Document> run(int count){
         for (int i = 0; i < count; i++) {
-                int randomEnum = random.nextInt(DocumentType.values().length);
-                DocumentFactory factory = new СreatorDocumentFactory().creatFactory(DocumentType.values()[randomEnum].getType());
-                documentList.add(factory.create());
+                int randomEnum = RANDOM.nextInt(DocumentType.values().length);
+                Factory<Document> factory = new СreatorDocumentFactory().createFactory(DocumentType.values()[randomEnum].getType());
+                DOCUMENT_LIST.add(factory.create());
         }
-        return documentList;
+        return DOCUMENT_LIST;
     }
 }

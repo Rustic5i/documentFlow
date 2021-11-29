@@ -14,13 +14,13 @@ import java.util.Scanner;
  *
  * @author Баратов Руслан
  */
-public class RequestHandler {
+public class DocumentRequestHandler {
 
     private static DocumentService serviceExpanded = new DocumentService();
 
     private final Scanner SCANNER = new Scanner(System.in);
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RequestHandler.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(DocumentRequestHandler.class.getName());
 
     public void setRequest(String[] args) {
         handler(args);

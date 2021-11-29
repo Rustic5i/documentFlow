@@ -1,6 +1,6 @@
 package com.example.document_flow;
 
-import com.example.document_flow.controller.RequestHandler;
+import com.example.document_flow.controller.DocumentRequestHandler;
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.factory.generator.DataGenerator;
 import com.example.document_flow.service.implement.DocumentService;
@@ -12,7 +12,7 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        RequestHandler requestHandler = new RequestHandler();
+        DocumentRequestHandler requestHandler = new DocumentRequestHandler();
         requestHandler.setRequest(args);
 
         DataGenerator dataGenerator = DataGenerator.getInstance();

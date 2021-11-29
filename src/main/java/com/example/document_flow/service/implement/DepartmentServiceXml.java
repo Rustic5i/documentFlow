@@ -12,13 +12,13 @@ import java.util.List;
  *
  * @author Баратов Руслан
  */
-public class DepartmentService implements Service<Department> {
+public class DepartmentServiceXml implements Service<Department> {
 
     private DAO<Department> repository = new StaffRepositoryXml<>(Department.class);
 
-    private static DepartmentService departmentService;
+    private static DepartmentServiceXml departmentService;
 
-    private DepartmentService() {
+    private DepartmentServiceXml() {
     }
 
     /**
@@ -54,9 +54,9 @@ public class DepartmentService implements Service<Department> {
     /**
      * @return синголтон обьект
      */
-    public static DepartmentService getInstance() {
+    public static DepartmentServiceXml getInstance() {
         if (departmentService == null) {
-            departmentService = new DepartmentService();
+            departmentService = new DepartmentServiceXml();
         }
         return departmentService;
     }

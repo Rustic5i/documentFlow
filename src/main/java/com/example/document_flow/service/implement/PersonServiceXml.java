@@ -11,13 +11,13 @@ import java.util.List;
  * Сервис по работникам
  * @author Баратов Руслан
  */
-public class PersonService implements Service<Person> {
+public class PersonServiceXml implements Service<Person> {
 
     private final DAO<Person> repository = new StaffRepositoryXml<>(Person.class);
 
-    private static PersonService personService = new PersonService();
+    private static PersonServiceXml personService = new PersonServiceXml();
 
-    private PersonService() {
+    private PersonServiceXml() {
     }
 
     /**
@@ -50,9 +50,9 @@ public class PersonService implements Service<Person> {
     /**
      * @return синголтон обьект
      */
-    public static PersonService getInstance() {
+    public static PersonServiceXml getInstance() {
         if (personService == null) {
-            personService = new PersonService();
+            personService = new PersonServiceXml();
         }
         return personService;
     }

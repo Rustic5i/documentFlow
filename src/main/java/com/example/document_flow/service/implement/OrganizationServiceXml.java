@@ -11,13 +11,13 @@ import java.util.List;
  * Сервис для Организации
  * @author Баратов Руслан
  */
-public class OrganizationService implements Service<Organization> {
+public class OrganizationServiceXml implements Service<Organization> {
 
     private DAO<Organization> repository = new StaffRepositoryXml<>(Organization.class);
 
-    private static OrganizationService organizationService;
+    private static OrganizationServiceXml organizationService;
 
-    private OrganizationService() {
+    private OrganizationServiceXml() {
     }
 
     /**
@@ -50,9 +50,9 @@ public class OrganizationService implements Service<Organization> {
     /**
      * @return синголтон обьект
      */
-    public static OrganizationService getInstance() {
+    public static OrganizationServiceXml getInstance() {
         if (organizationService == null) {
-            organizationService = new OrganizationService();
+            organizationService = new OrganizationServiceXml();
         }
         return organizationService;
     }

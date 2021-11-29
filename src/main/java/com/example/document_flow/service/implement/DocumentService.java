@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class DocumentService implements Service<Document> {
 
-    private DocumentRepository repository = DocumentRepository.getInstance();
+    private final DocumentRepository REPOSITORY = DocumentRepository.getInstance();
 
     private static DocumentService service;
 
@@ -27,7 +27,7 @@ public class DocumentService implements Service<Document> {
      */
     @Override
     public void save(Document object) {
-        repository.save(object);
+        REPOSITORY.save(object);
     }
 
     /**
@@ -37,7 +37,7 @@ public class DocumentService implements Service<Document> {
      */
     @Override
     public void saveAll(List<Document> objects) {
-        repository.saveAll(objects);
+        REPOSITORY.saveAll(objects);
     }
 
     /**
@@ -47,7 +47,7 @@ public class DocumentService implements Service<Document> {
      */
     @Override
     public List<Document> getAll() {
-        return repository.getAll();
+        return REPOSITORY.getAll();
     }
 
 

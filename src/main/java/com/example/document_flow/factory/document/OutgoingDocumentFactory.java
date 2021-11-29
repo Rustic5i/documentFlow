@@ -27,8 +27,8 @@ public class OutgoingDocumentFactory extends AbstractDocumentFactory<Outgoing> {
     @Override
     public void fillAdditionalFields(Outgoing outgoing) {
         outgoing.newBuilder()
-                .setAddressee(getDataGenerator().getAddressee())
-                .setDeliveryMethod(getDataGenerator().getDeliveryMethod());
+                .setAddressee(getDATA_GENERATOR().getAddressee())
+                .setDeliveryMethod(getDATA_GENERATOR().getDeliveryMethod());
     }
 
     /**

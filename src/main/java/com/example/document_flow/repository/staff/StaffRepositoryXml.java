@@ -22,9 +22,9 @@ public class StaffRepositoryXml<T extends Staff> implements DAO<T> {
 
     private final DeserializationXML<T> DESERIALIZATION = DeserializationXML.getInstance();
 
-    private final Set<String> setPathFilXml = new HashSet<>();
+    private final Set<String> SET_PATH_FILE_XML = new HashSet<>();
 
-    private final InMemory<T> inMemory = new InMemory<>();
+    private final InMemory<T> IN_MEMORY = new InMemory<>();
 
     private final Class<T> TYPE;
 
@@ -41,8 +41,8 @@ public class StaffRepositoryXml<T extends Staff> implements DAO<T> {
     @Override
     public void save(T object) {
         String pathFile = SERIALIZABLE.toXML(object);
-        setPathFilXml.add(pathFile);
-        inMemory.save(pathFile, object);
+        SET_PATH_FILE_XML.add(pathFile);
+        IN_MEMORY.save(pathFile, object);
     }
 
     /**
@@ -63,7 +63,7 @@ public class StaffRepositoryXml<T extends Staff> implements DAO<T> {
      */
     @Override
     public List<T> getAll() {
-        return DESERIALIZATION.fromXMl(setPathFilXml, TYPE);
+        return DESERIALIZATION.fromXMl(SET_PATH_FILE_XML, TYPE);
     }
 
 }

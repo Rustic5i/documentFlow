@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class PersonServiceXml implements Service<Person> {
 
-    private final DAO<Person> repository = new StaffRepositoryXml<>(Person.class);
+    private final DAO<Person> REPOSITORY = new StaffRepositoryXml<>(Person.class);
 
     private static PersonServiceXml personService = new PersonServiceXml();
 
@@ -26,7 +26,7 @@ public class PersonServiceXml implements Service<Person> {
      */
     @Override
     public void save(Person object) {
-        repository.save(object);
+        REPOSITORY.save(object);
     }
 
     /**
@@ -35,7 +35,7 @@ public class PersonServiceXml implements Service<Person> {
      */
     @Override
     public void saveAll(List<Person> objects) {
-        repository.saveAll(objects);
+        REPOSITORY.saveAll(objects);
     }
 
     /**
@@ -44,7 +44,7 @@ public class PersonServiceXml implements Service<Person> {
      */
     @Override
     public List<Person> getAll() {
-        return repository.getAll();
+        return REPOSITORY.getAll();
     }
 
     /**

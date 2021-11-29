@@ -4,9 +4,6 @@ import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.factory.Factory;
 import com.example.document_flow.factory.generator.DataGenerator;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Абстрактная фабрика для создания различных типов документов
  *
@@ -15,7 +12,7 @@ import java.util.List;
  */
 public abstract class AbstractDocumentFactory<T extends Document> implements Factory<Document> {
 
-    private final DataGenerator dataGenerator = DataGenerator.getInstance();
+    private final DataGenerator DATA_GENERATOR = DataGenerator.getInstance();
 
     /**
      * Реализация фабричного метода
@@ -24,11 +21,11 @@ public abstract class AbstractDocumentFactory<T extends Document> implements Fac
      */
     public T create() {
         T document = createInstance();
-        document.setName(dataGenerator.getName());
-        document.setText(dataGenerator.getText());
-        document.setAuthor(dataGenerator.getPerson());
-        document.setDateRegistration(dataGenerator.getDateRegistration());
-        document.setRegistrationNumber(dataGenerator.getRegistrationNumber());
+        document.setName(DATA_GENERATOR.getName());
+        document.setText(DATA_GENERATOR.getText());
+        document.setAuthor(DATA_GENERATOR.getPerson());
+        document.setDateRegistration(DATA_GENERATOR.getDateRegistration());
+        document.setRegistrationNumber(DATA_GENERATOR.getRegistrationNumber());
         fillAdditionalFields(document);
         return document;
     }
@@ -47,8 +44,8 @@ public abstract class AbstractDocumentFactory<T extends Document> implements Fac
      */
     abstract void fillAdditionalFields(T document);
 
-    DataGenerator getDataGenerator() {
-        return dataGenerator;
+    DataGenerator getDATA_GENERATOR() {
+        return DATA_GENERATOR;
     }
 
 }

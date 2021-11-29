@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class DepartmentServiceXml implements Service<Department> {
 
-    private DAO<Department> repository = new StaffRepositoryXml<>(Department.class);
+    private final DAO<Department> REPOSITORY = new StaffRepositoryXml<>(Department.class);
 
     private static DepartmentServiceXml departmentService;
 
@@ -28,7 +28,7 @@ public class DepartmentServiceXml implements Service<Department> {
      */
     @Override
     public void save(Department object) {
-        repository.save(object);
+        REPOSITORY.save(object);
     }
 
     /**
@@ -38,7 +38,7 @@ public class DepartmentServiceXml implements Service<Department> {
      */
     @Override
     public void saveAll(List<Department> objects) {
-        repository.saveAll(objects);
+        REPOSITORY.saveAll(objects);
     }
 
     /**
@@ -48,7 +48,7 @@ public class DepartmentServiceXml implements Service<Department> {
      */
     @Override
     public List<Department> getAll() {
-        return repository.getAll();
+        return REPOSITORY.getAll();
     }
 
     /**

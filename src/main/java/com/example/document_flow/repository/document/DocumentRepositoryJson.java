@@ -26,9 +26,9 @@ public class DocumentRepositoryJson implements DAO<Document> {
 
     private final SerializableJSON SERIALIZABLE = SerializableJSON.getInstance();
 
-    private final InMemory<List<Document>> inMemory = new InMemory<>();
+    private final InMemory<List<Document>> IN_MEMORY = new InMemory<>();
 
-    private final Set<String> setPathFilJson = new HashSet<>();
+    private final Set<String> SET_PATH_FILE_JSON = new HashSet<>();
 
     /**
      * Сохраняет обьект в репозиторий, в формате Json
@@ -40,8 +40,8 @@ public class DocumentRepositoryJson implements DAO<Document> {
     public void save(Document object) {
         String filePath = object.getAuthor().toString() + ".json";
         SERIALIZABLE.toJson(filePath, object);
-        setPathFilJson.add(filePath);
-        inMemory.save(filePath, Arrays.asList(object));
+        SET_PATH_FILE_JSON.add(filePath);
+        IN_MEMORY.save(filePath, Arrays.asList(object));
     }
 
     /**
@@ -57,8 +57,8 @@ public class DocumentRepositoryJson implements DAO<Document> {
         documentByAuthor.entrySet().stream().forEach(value -> {
             author.append(value.getKey()).append(".json");
             SERIALIZABLE.toJson(author.toString(), value.getValue());
-            setPathFilJson.add(author.toString());
-            inMemory.save(author.toString(), value.getValue());
+            SET_PATH_FILE_JSON.add(author.toString());
+            IN_MEMORY.save(author.toString(), value.getValue());
             author.delete(0, author.length());
         });
     }
@@ -71,7 +71,7 @@ public class DocumentRepositoryJson implements DAO<Document> {
     @Override
     public List<Document> getAll() {
         List<Document> list = new ArrayList<>();
-        setPathFilJson.stream()
+        SET_PATH_FILE_JSON.stream()
                 .forEach(str -> list.addAll(DESERIALIZATION.getListObjectFromJson(str, list.getClass())));
         return list;
     }

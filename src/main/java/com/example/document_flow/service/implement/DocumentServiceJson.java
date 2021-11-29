@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class DocumentServiceJson implements Service<Document> {
 
-    private DAO<Document> repository = new DocumentRepositoryJson();
+    private final DAO<Document> REPOSITORY = new DocumentRepositoryJson();
 
     private static DocumentServiceJson documentService;
 
@@ -28,7 +28,7 @@ public class DocumentServiceJson implements Service<Document> {
      */
     @Override
     public void save(Document object) {
-        repository.save(object);
+        REPOSITORY.save(object);
     }
 
     /**
@@ -38,7 +38,7 @@ public class DocumentServiceJson implements Service<Document> {
      */
     @Override
     public void saveAll(List<Document> objects) {
-        repository.saveAll(objects);
+        REPOSITORY.saveAll(objects);
     }
 
     /**
@@ -48,7 +48,7 @@ public class DocumentServiceJson implements Service<Document> {
      */
     @Override
     public List<Document> getAll() {
-        return repository.getAll();
+        return REPOSITORY.getAll();
     }
 
     /**

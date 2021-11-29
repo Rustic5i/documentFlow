@@ -22,7 +22,7 @@ public class Main {
         //Получаем всех трех работников
         System.out.println(personService.getAll());
 
-        DocumentService repositoryDocument = new DocumentService();
+        DocumentService repositoryDocument = DocumentService.getInstance();
         List<Document> personList = repositoryDocument.getAll();
 
         //////   Сохраняем все сгенерированные документы в JSON

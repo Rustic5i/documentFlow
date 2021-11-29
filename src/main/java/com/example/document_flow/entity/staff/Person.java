@@ -9,6 +9,7 @@ import java.util.Objects;
 
 /**
  * Сотрудник
+ * @author Баратов Руслан
  */
 @XmlRootElement
 public class Person extends Staff implements Comparable<Person> {

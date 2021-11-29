@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Элемент организационной структуры
+ *
+ * @author Баратов Руслан
  */
 @XmlRootElement
 public class Staff {

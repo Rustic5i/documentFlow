@@ -6,6 +6,8 @@ import java.util.Objects;
 
 /**
  * Организация
+ *
+ * @author Баратов Руслан
  */
 @XmlRootElement
 public class Organization extends Staff {

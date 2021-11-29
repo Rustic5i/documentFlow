@@ -6,6 +6,8 @@ import java.util.Objects;
 
 /**
  * Подразделение
+ *
+ * @author Баратов Руслан
  */
 @XmlRootElement
 public class Department extends Staff {
@@ -16,7 +18,7 @@ public class Department extends Staff {
     private String fullName;
 
     /**
-     * Краткое наименовани
+     * Краткое наименование
      */
     private String shortName;
 

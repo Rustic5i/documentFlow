@@ -16,6 +16,7 @@ public class Main {
         requestHandler.setRequest(args);
 
         DataGenerator dataGenerator = DataGenerator.getInstance();
+
         //Сохраняем 3 работника
         PersonServiceXml personService = PersonServiceXml.getInstance();
         personService.saveAll(dataGenerator.personList.stream().limit(3).toList());

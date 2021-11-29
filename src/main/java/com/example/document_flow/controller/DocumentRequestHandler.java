@@ -16,7 +16,7 @@ import java.util.Scanner;
  */
 public class DocumentRequestHandler {
 
-    private static DocumentService serviceExpanded = new DocumentService();
+    private static DocumentService serviceExpanded = DocumentService.getInstance();
 
     private final Scanner SCANNER = new Scanner(System.in);
 

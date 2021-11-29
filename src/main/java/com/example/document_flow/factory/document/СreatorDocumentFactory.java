@@ -9,7 +9,7 @@ import com.example.document_flow.factory.document.repository.RepositoryFactory;
  */
 public class СreatorDocumentFactory {
 
-    private static RepositoryFactory factoryHolder = new RepositoryFactory();
+    private static RepositoryFactory FACTORY_HOLDER = new RepositoryFactory();
 
     /**
      * Создает нужную фабрику в зависимости от переданного типа документа
@@ -17,6 +17,6 @@ public class СreatorDocumentFactory {
      * @return обьект фабрка
      */
     public static Factory createFactory(Class type) {
-        return factoryHolder.getFactoryByTypeDocument(type);
+        return FACTORY_HOLDER.getFactoryByTypeDocument(type);
     }
 }

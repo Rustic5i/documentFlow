@@ -19,16 +19,16 @@ public class RepositoryFactory {
      * Где ключ - это тип документа на которм специализуется фабрика.
      * Значение - сама фабрика
      */
-    private static HashMap<Class, Factory> factoryHolder = new HashMap<>();
+    private static final HashMap<Class, Factory> FACTORY_HOLDER = new HashMap<>();
 
     static {
         IncomingDocumentFactory factoryIncoming = new IncomingDocumentFactory();
         OutgoingDocumentFactory factoryOutgoing = new OutgoingDocumentFactory();
         TaskDocumentFactory factoryTask = new TaskDocumentFactory();
 
-        factoryHolder.put(factoryIncoming.getTypeObject(), factoryIncoming);
-        factoryHolder.put(factoryOutgoing.getTypeObject(), factoryOutgoing);
-        factoryHolder.put(factoryTask.getTypeObject(), factoryTask);
+        FACTORY_HOLDER.put(factoryIncoming.getTypeObject(), factoryIncoming);
+        FACTORY_HOLDER.put(factoryOutgoing.getTypeObject(), factoryOutgoing);
+        FACTORY_HOLDER.put(factoryTask.getTypeObject(), factoryTask);
     }
 
     /**
@@ -38,6 +38,6 @@ public class RepositoryFactory {
      * @return инстанс фабрики
      */
     public static Factory getFactoryByTypeDocument(Class type) {
-        return factoryHolder.get(type);
+        return FACTORY_HOLDER.get(type);
     }
 }

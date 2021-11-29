@@ -12,7 +12,7 @@ import java.util.WeakHashMap;
  */
 public class InMemory<T> {
 
-    private WeakHashMap<String, T> objectWeakHashMap = new WeakHashMap<>();
+    private final WeakHashMap<String, T> OBJECT_WEAK_HASH_MAP = new WeakHashMap<>();
 
     /**
      * Сохраняет объект в кэш
@@ -20,7 +20,7 @@ public class InMemory<T> {
      * @param object какой-либо объект для сохранения
      */
     public void save(String path, T object) {
-        objectWeakHashMap.put(path, object);
+        OBJECT_WEAK_HASH_MAP.put(path, object);
     }
 
     /**
@@ -30,7 +30,7 @@ public class InMemory<T> {
      * @return какой-либо объект
      */
     public T getObject(String path) {
-        return objectWeakHashMap.get(path);
+        return OBJECT_WEAK_HASH_MAP.get(path);
     }
 
     /**
@@ -39,6 +39,6 @@ public class InMemory<T> {
      * @return если объект есть в кэше возвращает true, если нет false
      */
     public boolean containsInMemory(String path) {
-        return objectWeakHashMap.containsKey(path);
+        return OBJECT_WEAK_HASH_MAP.containsKey(path);
     }
 }

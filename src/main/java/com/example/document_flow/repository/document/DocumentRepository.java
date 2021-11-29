@@ -3,6 +3,7 @@ package com.example.document_flow.repository.document;
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.exception.DocumentExistsException;
 import com.example.document_flow.repository.DAO.DAO;
+import com.example.document_flow.repository.DAO.DocumentDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +18,7 @@ import java.util.Map;
  *
  * @author Баратов Руслан
  */
-public class DocumentRepository implements DAO<Document> {
+public class DocumentRepository implements DocumentDAO {
 
     private static DocumentRepository registryDocuments;
 
@@ -88,6 +89,10 @@ public class DocumentRepository implements DAO<Document> {
         documentList.addAll(documentMap.values().stream().toList());
         Collections.sort(documentList);
         return documentList;
+    }
+
+    public List<Document> getDocumentByIdAuthor(int id) {
+        return documentList.stream().filter(document -> document.getAuthor().getId()==id).toList();
     }
 
     /**

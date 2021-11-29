@@ -2,7 +2,7 @@ package com.example.document_flow.service.implement;
 
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.repository.document.DocumentRepository;
-import com.example.document_flow.service.abstraction.Service;
+import com.example.document_flow.service.abstraction.AbstractDocumentService;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Баратов Руслан
  */
-public class DocumentService implements Service<Document> {
+public class DocumentService implements AbstractDocumentService {
 
     private final DocumentRepository REPOSITORY = DocumentRepository.getInstance();
 
@@ -61,4 +61,8 @@ public class DocumentService implements Service<Document> {
         return service;
     }
 
+    @Override
+    public List<Document> getDocumentByIdAuthor(int id) {
+        return service.getDocumentByIdAuthor(id);
+    }
 }

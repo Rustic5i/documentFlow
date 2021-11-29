@@ -11,6 +11,7 @@ import java.util.Random;
 
 /**
  * Генератор документации
+ *
  * @author Баратов Руслан
  */
 public class DocumentGenerator {
@@ -21,14 +22,15 @@ public class DocumentGenerator {
 
     /**
      * Генерирует документы.
+     *
      * @param count количество требуемых документов.
      * @return список генерируемых документов.
      */
-    public static List<Document> run(int count){
+    public static List<Document> run(int count) {
         for (int i = 0; i < count; i++) {
-                int randomEnum = RANDOM.nextInt(DocumentType.values().length);
-                Factory<Document> factory = new СreatorDocumentFactory().createFactory(DocumentType.values()[randomEnum].getType());
-                DOCUMENT_LIST.add(factory.create());
+            int randomEnum = RANDOM.nextInt(DocumentType.values().length);
+            Factory<Document> factory = new СreatorDocumentFactory().createFactory(DocumentType.values()[randomEnum].getType());
+            DOCUMENT_LIST.add(factory.create());
         }
         return DOCUMENT_LIST;
     }

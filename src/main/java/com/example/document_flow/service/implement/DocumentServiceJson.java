@@ -3,7 +3,7 @@ package com.example.document_flow.service.implement;
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.repository.DAO.DAO;
 import com.example.document_flow.repository.document.DocumentRepositoryJson;
-import com.example.document_flow.service.abstraction.Service;
+import com.example.document_flow.service.abstraction.AbstractService;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author Баратов Руслан
  */
-public class DocumentServiceJson implements Service<Document> {
+public class DocumentServiceJson implements AbstractService<Document> {
 
     private final DAO<Document> REPOSITORY = new DocumentRepositoryJson();
 

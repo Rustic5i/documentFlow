@@ -3,6 +3,7 @@ package com.example.document_flow;
 import com.example.document_flow.controller.DocumentRequestHandler;
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.factory.generator.DataGenerator;
+import com.example.document_flow.repository.document.DocumentRepository;
 import com.example.document_flow.service.implement.DocumentService;
 import com.example.document_flow.service.implement.DocumentServiceJson;
 import com.example.document_flow.service.implement.PersonServiceXml;
@@ -31,5 +32,10 @@ public class Main {
 
         //Получаем все документы из JSON
         System.out.println(documentService.getAll());
+
+        ///тест/
+        DocumentRepository repository = DocumentRepository.getInstance();
+        List<Document> list = repository.getDocumentByIdAuthor(5);
+        System.out.println(list);
     }
 }

@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Баратов Руслан
  */
 @XmlRootElement
-public class Staff {
+public abstract class Staff {
 
     /**
      * Идентификатор
@@ -17,10 +17,6 @@ public class Staff {
     private long id;
 
     public Staff() {
-    }
-
-    protected Staff(Builder<?> builder) {
-        this.id = builder.id;
     }
 
     @XmlAttribute
@@ -32,23 +28,4 @@ public class Staff {
         this.id = id;
     }
 
-    public static class Builder<T extends Builder<T>> {
-
-        /**
-         * Идентификатор
-         */
-        private long id;
-
-        public Builder() {
-        }
-
-        public T setId(long id) {
-            this.id = id;
-            return (T) this;
-        }
-
-        public Staff build() {
-            return new Staff(this);
-        }
-    }
 }

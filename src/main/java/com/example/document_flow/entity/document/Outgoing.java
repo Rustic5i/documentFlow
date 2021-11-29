@@ -1,6 +1,9 @@
 package com.example.document_flow.entity.document;
 
+import com.example.document_flow.entity.staff.Person;
+
 import java.text.MessageFormat;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -53,5 +56,60 @@ public class Outgoing extends Document {
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), addressee, deliveryMethod);
+    }
+
+
+    public Builder newBuilder() {
+        return new Builder();
+    }
+
+    public class Builder {
+
+        private Builder() {
+        }
+
+        public Outgoing build() {
+            return Outgoing.this;
+        }
+
+        public Builder setAddressee(String addressee) {
+            Outgoing.this.addressee = addressee;
+            return this;
+        }
+
+        public Builder setDeliveryMethod(String deliveryMethod) {
+            Outgoing.this.deliveryMethod = deliveryMethod;
+            return this;
+        }
+
+        public Builder setId(Long id) {
+            Outgoing.this.setId(id);
+            return this;
+        }
+
+        public Builder setName(String name) {
+            Outgoing.this.setName(name);
+            return this;
+        }
+
+        public Builder setText(String text) {
+            Outgoing.this.setText(text);
+            return this;
+        }
+
+        public Builder setRegistrationNumber(Long registrationNumber) {
+            Outgoing.this.setRegistrationNumber(registrationNumber);
+            return this;
+        }
+
+        public Builder setDateRegistration(Date dateRegistration) {
+            Outgoing.this.setDateRegistration(dateRegistration);
+            return this;
+        }
+
+        public Builder setAuthor(Person author) {
+            Outgoing.this.setAuthor(author);
+            return this;
+        }
     }
 }

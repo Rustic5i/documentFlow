@@ -81,4 +81,74 @@ public class Task extends Document {
     public void setOrderController(Person orderController) {
         this.orderController = orderController;
     }
+
+    public Builder newBuilder() {
+        return new Builder();
+    }
+
+    public class Builder {
+
+        private Builder() {
+        }
+
+
+        public Builder setDateOfIssue(Date dateOfIssue) {
+            Task.this.dateOfIssue = dateOfIssue;
+            return this;
+        }
+
+        public Builder setTermOfExecution(Date termOfExecution) {
+            Task.this.termOfExecution = termOfExecution;
+            return this;
+        }
+
+        public Builder setResponsibleExecutor(Person responsibleExecutor) {
+            Task.this.responsibleExecutor = responsibleExecutor;
+            return this;
+        }
+
+        public Builder setSignOfControl(String signOfControl) {
+            Task.this.signOfControl = signOfControl;
+            return this;
+        }
+
+        public Builder setOrderController(Person orderController) {
+            Task.this.orderController = orderController;
+            return this;
+        }
+
+        public Task build() {
+            return Task.this;
+        }
+
+        public Builder setId(Long id) {
+            Task.this.setId(id);
+            return this;
+        }
+
+        public Builder setName(String name) {
+            Task.this.setName(name);
+            return this;
+        }
+
+        public Builder setText(String text) {
+            Task.this.setText(text);
+            return this;
+        }
+
+        public Builder setRegistrationNumber(Long registrationNumber) {
+            Task.this.setRegistrationNumber(registrationNumber);
+            return this;
+        }
+
+        public Builder setDateRegistration(Date dateRegistration) {
+            Task.this.setDateRegistration(dateRegistration);
+            return this;
+        }
+
+        public Builder setAuthor(Person author) {
+            Task.this.setAuthor(author);
+            return this;
+        }
+    }
 }

@@ -26,10 +26,12 @@ public class IncomingDocumentFactory extends AbstractDocumentFactory<Incoming> {
      */
     @Override
     public void fillAdditionalFields(Incoming incoming) {
-        incoming.setSource(getDataGenerator().getSource());
-        incoming.setAddressee(getDataGenerator().getAddressee());
-        incoming.setOutgoingNumber(getDataGenerator().getOutgoingNumber());
-        incoming.setOutgoingRegistrationDate(getDataGenerator().getOutgoingRegistrationDate());
+        incoming.newBuilder()
+                .setSource(getDataGenerator().getSource())
+                .setAddressee(getDataGenerator().getAddressee())
+                .setOutgoingNumber(getDataGenerator().getOutgoingNumber())
+                .setOutgoingRegistrationDate(getDataGenerator().getOutgoingRegistrationDate())
+                .build();
     }
 
     /**

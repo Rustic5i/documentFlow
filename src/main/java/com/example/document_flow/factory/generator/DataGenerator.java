@@ -183,7 +183,7 @@ public class DataGenerator {
         Calendar calendar = new GregorianCalendar(year, month, day);
 
         for (int i = 0; i < 10; i++) {
-            Person person = new Person.Builder()
+            Person person = new Person().newBuilder()
                     .setId(random.nextInt(100))
                     .setName(personName[random.nextInt(personName.length)])
                     .setSurname(personSurname[random.nextInt(personSurname.length)])

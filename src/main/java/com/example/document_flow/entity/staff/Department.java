@@ -32,8 +32,7 @@ public class Department extends Staff {
      */
     private String contactPhoneNumber;
 
-    protected Department(Builder<?> builder) {
-        super(builder);
+    private Department() {
     }
 
     public String getFullName() {
@@ -83,5 +82,39 @@ public class Department extends Staff {
     @Override
     public int hashCode() {
         return Objects.hash(fullName, shortName, manager, contactPhoneNumber);
+    }
+
+    public Builder newBuilder() {
+        return new Builder();
+    }
+
+    public class Builder {
+
+        private Builder() {
+        }
+
+        public Builder setId(int id) {
+            Builder.this.setId(id);
+            return this;
+        }
+
+        public Builder setFullName(String fullName) {
+            Department.this.fullName = fullName;
+            return this;
+        }
+
+        public Builder setShortName(String shortName) {
+            Department.this.shortName = shortName;
+            return this;
+        }
+
+        public Builder setManager(Person manager) {
+            Department.this.manager = manager;
+            return this;
+        }
+
+        public Department build() {
+            return Department.this;
+        }
     }
 }

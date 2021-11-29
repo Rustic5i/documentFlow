@@ -92,6 +92,10 @@ public class Document implements Comparable<Document> {
         this.dateRegistration = dateRegistration;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return MessageFormat

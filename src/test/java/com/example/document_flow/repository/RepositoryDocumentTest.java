@@ -29,7 +29,7 @@ public class RepositoryDocumentTest {
     @BeforeEach
     public void setUp() {
 
-        person = new Person.Builder()
+        person = new Person().newBuilder()
                 .setId(2)
                 .setName("Андрей")
                 .setSurname("Сабиров")
@@ -40,22 +40,25 @@ public class RepositoryDocumentTest {
                 .build();
 
         for (int i = 0; i < 3; i++) {
-            Incoming incoming = new Incoming();
-            incoming.setAuthor(person);
-            incoming.setRegistrationNumber((long) 1 + i);
-            incoming.setDateRegistration(new GregorianCalendar(2018, 5, 11).getTime());
-            incoming.setName("Входящий документ" + i);
+            Incoming incoming = new Incoming().newBuilder()
+                    .setAuthor(person)
+                    .setRegistrationNumber((long)1 + i)
+                    .setDateRegistration(new GregorianCalendar(2018, 5, 11).getTime())
+                    .setName("Входящий документ"+ i)
+                    .build();;
+
             documentList.add(incoming);
         }
     }
 
     @Test
     public void saveDocument() throws DocumentExistsException {
-        Incoming expected = new Incoming();
-        expected.setAuthor(person);
-        expected.setRegistrationNumber((long) 99);
-        expected.setDateRegistration(new GregorianCalendar(2018, 5, 11).getTime());
-        expected.setName("Входящий документ");
+        Incoming expected = new Incoming().newBuilder()
+                .setAuthor(person)
+                .setRegistrationNumber((long)99)
+                .setDateRegistration(new GregorianCalendar(2018, 5, 11).getTime())
+                .setName("Входящий документ")
+                .build();
 
         registry.save(expected);
         Document actual = registry.getDocumentByRegNumber(expected.getRegistrationNumber());
@@ -75,11 +78,12 @@ public class RepositoryDocumentTest {
     @DisplayName("В случае, если документ с регистрационным номером уже существует, то необходимо выбрасить исключение DocumentExistsException")
     @Test
     public void trowsDocumentExistsException() throws DocumentExistsException {
-        Incoming expected = new Incoming();
-        expected.setAuthor(person);
-        expected.setRegistrationNumber((long) 88);
-        expected.setDateRegistration(new GregorianCalendar(2018, 5, 11).getTime());
-        expected.setName("Входящий документ");
+        Incoming expected = new Incoming().newBuilder()
+                .setAuthor(person)
+                .setRegistrationNumber((long)88)
+                .setDateRegistration(new GregorianCalendar(2018, 5, 11).getTime())
+                .setName("Входящий документ")
+                .build();
 
         registry.save(expected);
 

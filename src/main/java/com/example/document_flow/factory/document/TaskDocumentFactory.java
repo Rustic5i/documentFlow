@@ -25,11 +25,12 @@ public class TaskDocumentFactory extends AbstractDocumentFactory<Task> {
      */
     @Override
     public void fillAdditionalFields(Task task) {
-        task.setDateOfIssue(getDataGenerator().getDateOfIssue());
-        task.setTermOfExecution(getDataGenerator().getTermOfExecution());
-        task.setResponsibleExecutor(getDataGenerator().getResponsibleExecutor());
-        task.setSignOfControl(getDataGenerator().getSignOfControl());
-        task.setOrderController(getDataGenerator().getOrderController());
+        task.newBuilder()
+                .setDateOfIssue(getDataGenerator().getDateOfIssue())
+                .setTermOfExecution(getDataGenerator().getTermOfExecution())
+                .setResponsibleExecutor(getDataGenerator().getResponsibleExecutor())
+                .setSignOfControl(getDataGenerator().getSignOfControl())
+                .setOrderController(getDataGenerator().getOrderController());
     }
 
     /**

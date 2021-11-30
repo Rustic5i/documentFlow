@@ -19,7 +19,7 @@ public class Main {
         DataGenerator dataGenerator = DataGenerator.getInstance();
         //Сохраняем 3 работника
         PersonServiceXml personService = PersonServiceXml.getInstance();
-        personService.saveAll(dataGenerator.PERSON_LIST.stream().limit(3).toList());
+        personService.saveAll(dataGenerator.PERSON_LIST.stream().limit(100).toList());
         //Получаем всех трех работников
         System.out.println(personService.getAll());
 

@@ -2,6 +2,8 @@ package com.example.document_flow.entity.document;
 
 import com.example.document_flow.entity.staff.Person;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
@@ -13,6 +15,7 @@ import java.util.Objects;
  *
  * @author Баратов Руслан
  */
+@XmlRootElement
 public class Document implements Comparable<Document> {
 
     /**
@@ -56,6 +59,7 @@ public class Document implements Comparable<Document> {
         return name;
     }
 
+    @XmlElement
     public void setName(String name) {
         this.name = name;
     }
@@ -64,6 +68,7 @@ public class Document implements Comparable<Document> {
         return text;
     }
 
+    @XmlElement
     public void setText(String text) {
         this.text = text;
     }
@@ -72,6 +77,7 @@ public class Document implements Comparable<Document> {
         return registrationNumber;
     }
 
+    @XmlElement
     public void setRegistrationNumber(Long registrationNumber) {
         this.registrationNumber = registrationNumber;
     }
@@ -80,6 +86,7 @@ public class Document implements Comparable<Document> {
         return author;
     }
 
+    @XmlElement
     public void setAuthor(Person author) {
         this.author = author;
     }
@@ -88,10 +95,12 @@ public class Document implements Comparable<Document> {
         return dateRegistration;
     }
 
+    @XmlElement
     public void setDateRegistration(Date dateRegistration) {
         this.dateRegistration = dateRegistration;
     }
 
+    @XmlElement
     public void setId(Long id) {
         this.id = id;
     }

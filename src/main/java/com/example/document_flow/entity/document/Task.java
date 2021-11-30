@@ -2,13 +2,17 @@ package com.example.document_flow.entity.document;
 
 import com.example.document_flow.entity.staff.Person;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.text.MessageFormat;
 import java.util.Date;
 
 /**
  * Поручение
+ *
  * @author Баратов Руслан
  */
+@XmlRootElement
 public class Task extends Document {
 
     /**
@@ -46,6 +50,7 @@ public class Task extends Document {
         return dateOfIssue;
     }
 
+    @XmlElement
     public void setDateOfIssue(Date dateOfIssue) {
         this.dateOfIssue = dateOfIssue;
     }
@@ -54,6 +59,7 @@ public class Task extends Document {
         return termOfExecution;
     }
 
+    @XmlElement
     public void setTermOfExecution(Date termOfExecution) {
         this.termOfExecution = termOfExecution;
     }
@@ -62,6 +68,7 @@ public class Task extends Document {
         return responsibleExecutor;
     }
 
+    @XmlElement
     public void setResponsibleExecutor(Person responsibleExecutor) {
         this.responsibleExecutor = responsibleExecutor;
     }
@@ -70,6 +77,7 @@ public class Task extends Document {
         return signOfControl;
     }
 
+    @XmlElement
     public void setSignOfControl(String signOfControl) {
         this.signOfControl = signOfControl;
     }
@@ -78,6 +86,7 @@ public class Task extends Document {
         return orderController;
     }
 
+    @XmlElement
     public void setOrderController(Person orderController) {
         this.orderController = orderController;
     }

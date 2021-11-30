@@ -63,6 +63,6 @@ public class DocumentService implements AbstractDocumentService {
 
     @Override
     public List<Document> getDocumentByIdAuthor(int id) {
-        return service.getDocumentByIdAuthor(id);
+        return REPOSITORY.getDocumentByIdAuthor(id);
     }
 }

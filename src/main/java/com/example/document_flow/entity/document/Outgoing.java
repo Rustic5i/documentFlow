@@ -25,6 +25,9 @@ public class Outgoing extends Document {
      */
     private String deliveryMethod;
 
+    public Outgoing() {
+    }
+
     @Override
     public String toString() {
         return MessageFormat

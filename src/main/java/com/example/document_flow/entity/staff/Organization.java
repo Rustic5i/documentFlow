@@ -32,7 +32,7 @@ public class Organization extends Staff {
      */
     private String contactPhoneNumber;
 
-    private Organization() {
+    public Organization() {
     }
 
     public String getFullName() {

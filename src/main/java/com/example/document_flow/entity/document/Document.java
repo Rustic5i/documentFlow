@@ -48,61 +48,68 @@ public class Document implements Comparable<Document> {
      */
     private Person author;
 
+    public Document() {
+    }
+
     @Override
     public int compareTo(Document o) {
         return Comparator.comparing(Document::getAuthor)
                 .thenComparing(Document::getDateRegistration)
                 .compare(this, o);
     }
-
+    @XmlElement
     public String getName() {
         return name;
     }
 
-    @XmlElement
     public void setName(String name) {
         this.name = name;
     }
 
+    @XmlElement
     public String getText() {
         return text;
     }
 
-    @XmlElement
+
     public void setText(String text) {
         this.text = text;
     }
 
+    @XmlElement
     public Long getRegistrationNumber() {
         return registrationNumber;
     }
 
-    @XmlElement
     public void setRegistrationNumber(Long registrationNumber) {
         this.registrationNumber = registrationNumber;
     }
 
+    @XmlElement
     public Person getAuthor() {
         return author;
     }
 
-    @XmlElement
     public void setAuthor(Person author) {
         this.author = author;
     }
 
+    @XmlElement
     public Date getDateRegistration() {
         return dateRegistration;
     }
 
-    @XmlElement
     public void setDateRegistration(Date dateRegistration) {
         this.dateRegistration = dateRegistration;
     }
 
-    @XmlElement
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @XmlElement
+    public Long getId() {
+        return id;
     }
 
     @Override

@@ -40,6 +40,9 @@ public class Task extends Document {
      */
     private Person orderController;
 
+    public Task() {
+    }
+
     @Override
     public String toString() {
         return MessageFormat

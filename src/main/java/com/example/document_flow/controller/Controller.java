@@ -3,7 +3,6 @@ package com.example.document_flow.controller;
 import com.example.document_flow.Main;
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.staff.Person;
-import com.example.document_flow.entity.staff.Staff;
 import com.example.document_flow.service.abstraction.AbstractDocumentService;
 import com.example.document_flow.service.abstraction.AbstractService;
 import com.example.document_flow.service.implement.DocumentService;
@@ -37,7 +36,7 @@ public class Controller {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Person> getAllPerson(){
+    public List<Person> getAllPerson() {
         return PERSON_SERVICE.getAll();
     }
 

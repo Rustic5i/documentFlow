@@ -1,6 +1,5 @@
 package com.example.document_flow.controller;
 
-import com.example.document_flow.Main;
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.service.abstraction.AbstractDocumentService;
@@ -15,6 +14,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
 
+/**
+ * Контроллер
+ * Принимает HTTP-запросы
+ *
+ * @author Баратов Руслан
+ */
 @Path("/employees")
 public class Controller {
 
@@ -22,11 +27,13 @@ public class Controller {
 
     private final AbstractService<Person> PERSON_SERVICE = PersonServiceXml.getInstance();
 
-    {
-        String[] args = {"100"};
-        Main.main(args);
-    }
-
+    /**
+     * Принимает GET HTTP-запрос.
+     * Выполняет поиск документов по id автора
+     *
+     * @param id id работника
+     * @return перечень документов, созданных автором с указанным id в формате XML
+     */
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_XML)
@@ -34,10 +41,15 @@ public class Controller {
         return SERVICE.getDocumentByIdAuthor(id);
     }
 
+    /**
+     * Принимает GET HTTP-запрос.
+     *
+     * @return перечень загруженных в приложение исполнителей,
+     * в формате JSON
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Person> getAllPerson() {
         return PERSON_SERVICE.getAll();
     }
-
 }

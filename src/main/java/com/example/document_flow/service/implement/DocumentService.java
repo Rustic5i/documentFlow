@@ -50,6 +50,16 @@ public class DocumentService implements AbstractDocumentService {
         return REPOSITORY.getAll();
     }
 
+    /**
+     * Получить все документы по автору
+     *
+     * @param id автора документов
+     * @return перечень документов, созданных автором с указанным id
+     */
+    @Override
+    public List<Document> getDocumentByIdAuthor(int id) {
+        return REPOSITORY.getDocumentByIdAuthor(id);
+    }
 
     /**
      * @return синголтон обьект
@@ -59,10 +69,5 @@ public class DocumentService implements AbstractDocumentService {
             service = new DocumentService();
         }
         return service;
-    }
-
-    @Override
-    public List<Document> getDocumentByIdAuthor(int id) {
-        return REPOSITORY.getDocumentByIdAuthor(id);
     }
 }

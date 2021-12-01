@@ -57,7 +57,7 @@ public class DocumentService implements AbstractDocumentService {
      * @return перечень документов, созданных автором с указанным id
      */
     @Override
-    public List<Document> getDocumentByIdAuthor(int id) {
+    public List<Document> getDocumentByIdAuthor(long id) {
         return REPOSITORY.getDocumentByIdAuthor(id);
     }
 

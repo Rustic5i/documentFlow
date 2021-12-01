@@ -37,7 +37,7 @@ public class PersonController {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_XML)
-    public List<Document> getPerson(@PathParam("id") int id) {
+    public List<Document> getPerson(@PathParam("id") long id) {
         return DOCUMENT_SERVICE.getDocumentByIdAuthor(id);
     }
 

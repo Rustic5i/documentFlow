@@ -19,5 +19,5 @@ public interface AbstractDocumentService extends AbstractService<Document> {
      * @param id автора документов
      * @return перечень документов, созданных автором с указанным id
      */
-    List<Document> getDocumentByIdAuthor(int id);
+    List<Document> getDocumentByIdAuthor(long id);
 }

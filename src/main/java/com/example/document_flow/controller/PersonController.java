@@ -5,7 +5,7 @@ import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.service.abstraction.AbstractDocumentService;
 import com.example.document_flow.service.abstraction.AbstractService;
 import com.example.document_flow.service.implement.DocumentService;
-import com.example.document_flow.service.implement.PersonServiceXml;
+import com.example.document_flow.service.implement.PersonService;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -21,11 +21,11 @@ import java.util.List;
  * @author Баратов Руслан
  */
 @Path("/employees")
-public class RESTController {
+public class PersonController {
 
     private final AbstractDocumentService SERVICE = DocumentService.getInstance();
 
-    private final AbstractService<Person> PERSON_SERVICE = PersonServiceXml.getInstance();
+    private final AbstractService<Person> PERSON_SERVICE = PersonService.getInstance();
 
     /**
      * Принимает GET HTTP-запрос.

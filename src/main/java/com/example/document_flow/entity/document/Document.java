@@ -48,9 +48,6 @@ public class Document implements Comparable<Document> {
      */
     private Person author;
 
-    public Document() {
-    }
-
     @Override
     public int compareTo(Document o) {
         return Comparator.comparing(Document::getAuthor)

@@ -6,7 +6,7 @@ import com.example.document_flow.factory.generator.DataGenerator;
 import com.example.document_flow.repository.document.DocumentRepository;
 import com.example.document_flow.service.implement.DocumentService;
 import com.example.document_flow.service.implement.DocumentServiceJson;
-import com.example.document_flow.service.implement.PersonServiceXml;
+import com.example.document_flow.service.implement.PersonService;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ public class Main {
 
         DataGenerator dataGenerator = DataGenerator.getInstance();
         //Сохраняем 3 работника
-        PersonServiceXml personService = PersonServiceXml.getInstance();
+        PersonService personService = PersonService.getInstance();
         personService.saveAll(dataGenerator.PERSON_LIST.stream().limit(100).toList());
         //Получаем всех трех работников
         System.out.println(personService.getAll());

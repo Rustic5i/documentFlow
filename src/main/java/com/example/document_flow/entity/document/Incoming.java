@@ -42,9 +42,6 @@ public class Incoming extends Document {
                 .format("Входящий {0}", super.toString());
     }
 
-    public Incoming() {
-    }
-
     public Person getSource() {
         return source;
     }

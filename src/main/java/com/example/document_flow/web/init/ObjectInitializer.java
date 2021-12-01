@@ -3,10 +3,10 @@ package com.example.document_flow.web.init;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.factory.generator.DataGenerator;
 import com.example.document_flow.generator.DocumentGenerator;
-import com.example.document_flow.service.abstraction.AbstractDocumentService;
-import com.example.document_flow.service.abstraction.AbstractService;
-import com.example.document_flow.service.implement.DocumentService;
-import com.example.document_flow.service.implement.PersonService;
+import com.example.document_flow.repository.DAO.DAO;
+import com.example.document_flow.repository.DAO.DocumentDAO;
+import com.example.document_flow.repository.document.DocumentRepository;
+import com.example.document_flow.repository.staff.StaffRepositoryXml;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -20,9 +20,9 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class ObjectInitializer implements ServletContextListener {
 
-    private final AbstractDocumentService DOCUMENT_SERVICE = DocumentService.getInstance();
+    private final DocumentDAO DOCUMENT_REPOSITORY = DocumentRepository.getInstance();
 
-    private final AbstractService<Person> PERSON_SERVICE = PersonService.getInstance();
+    private final DAO<Person> PERSON_REPOSITORY = new StaffRepositoryXml<>(Person.class);
 
     private final DataGenerator DATA_GENERATOR = DataGenerator.getInstance();
 
@@ -33,8 +33,8 @@ public class ObjectInitializer implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        DOCUMENT_SERVICE.saveAll(DocumentGenerator.run(100));
-        PERSON_SERVICE.saveAll(DATA_GENERATOR.PERSON_LIST.stream().limit(100).toList());
+        DOCUMENT_REPOSITORY.saveAll(DocumentGenerator.run(100));
+        PERSON_REPOSITORY.saveAll(DATA_GENERATOR.PERSON_LIST.stream().limit(100).toList());
     }
 
     @Override

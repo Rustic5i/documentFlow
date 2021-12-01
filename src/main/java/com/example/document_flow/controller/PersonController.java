@@ -15,8 +15,7 @@ import javax.ws.rs.core.MediaType;
 import java.util.List;
 
 /**
- * Контроллер
- * Принимает HTTP-запросы
+ * Контроллер отвечает за обработку HTTP-вызовов.
  *
  * @author Баратов Руслан
  */

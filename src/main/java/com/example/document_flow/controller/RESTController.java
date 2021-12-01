@@ -21,7 +21,7 @@ import java.util.List;
  * @author Баратов Руслан
  */
 @Path("/employees")
-public class Controller {
+public class RESTController {
 
     private final AbstractDocumentService SERVICE = DocumentService.getInstance();
 

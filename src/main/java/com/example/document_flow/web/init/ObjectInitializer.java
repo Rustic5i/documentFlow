@@ -1,4 +1,6 @@
-package com.example.document_flow;
+package com.example.document_flow.web.init;
+
+import com.example.document_flow.Main;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

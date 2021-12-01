@@ -1,4 +1,4 @@
-package com.example.document_flow.controller;
+package com.example.document_flow.web.controller;
 
 import com.example.document_flow.exception.InvalidParametersException;
 import com.example.document_flow.generator.DocumentGenerator;

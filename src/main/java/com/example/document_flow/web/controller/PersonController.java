@@ -1,4 +1,4 @@
-package com.example.document_flow.controller;
+package com.example.document_flow.web.controller;
 
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.staff.Person;

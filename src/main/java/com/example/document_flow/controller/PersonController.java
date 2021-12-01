@@ -23,7 +23,7 @@ import java.util.List;
 @Path("/employees")
 public class PersonController {
 
-    private final AbstractDocumentService SERVICE = DocumentService.getInstance();
+    private final AbstractDocumentService DOCUMENT_SERVICE = DocumentService.getInstance();
 
     private final AbstractService<Person> PERSON_SERVICE = PersonService.getInstance();
 
@@ -38,7 +38,7 @@ public class PersonController {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_XML)
     public List<Document> getPerson(@PathParam("id") int id) {
-        return SERVICE.getDocumentByIdAuthor(id);
+        return DOCUMENT_SERVICE.getDocumentByIdAuthor(id);
     }
 
     /**

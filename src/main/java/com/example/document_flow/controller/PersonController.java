@@ -17,6 +17,7 @@ import java.util.List;
 /**
  * Контроллер отвечает за обработку HTTP-вызовов.
  * Принимать запросы связанных с Работником <code>Person</code>
+ * по url localhost:8080/ecm/employees/*
  *
  * @author Баратов Руслан
  */

@@ -16,7 +16,7 @@ import java.util.Scanner;
  */
 public class DocumentRequestHandler {
 
-    private static final DocumentService SERVICE = DocumentService.getInstance();
+    private static final DocumentService DOCUMENT_SERVICE = DocumentService.getInstance();
 
     private final Scanner SCANNER = new Scanner(System.in);
 
@@ -36,8 +36,8 @@ public class DocumentRequestHandler {
         if (args.length != 0) {
             try {
                 int count = ParametersValidation.isNumber(args[0]);
-                SERVICE.saveAll(DocumentGenerator.run(count));
-                LOGGER.info(SERVICE.getAll().toString());
+                DOCUMENT_SERVICE.saveAll(DocumentGenerator.run(count));
+                LOGGER.info(DOCUMENT_SERVICE.getAll().toString());
             } catch (InvalidParametersException e) {
                 LOGGER.warn("Exception ", e);
                 handler();
@@ -55,8 +55,8 @@ public class DocumentRequestHandler {
             try {
                 System.out.println("Введите количество требуемых документов");
                 int count = ParametersValidation.isNumber(SCANNER.nextLine());
-                SERVICE.saveAll(DocumentGenerator.run(count));
-                LOGGER.info(SERVICE.getAll().toString());
+                DOCUMENT_SERVICE.saveAll(DocumentGenerator.run(count));
+                LOGGER.info(DOCUMENT_SERVICE.getAll().toString());
                 break;
             } catch (InvalidParametersException e) {
                 LOGGER.warn("Exception ", e);

@@ -98,7 +98,7 @@ public class DocumentRepository implements DocumentDAO {
      * @return перечень документов, созданных автором с указанным id
      */
     public List<Document> getDocumentByIdAuthor(long id) {
-        return documentList.stream().filter(document -> document.getAuthor().getId() == id).toList();
+        return documentMap.values().stream().filter(document -> document.getAuthor().getId() == id).toList();
     }
 
     /**

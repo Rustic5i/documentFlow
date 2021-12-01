@@ -13,7 +13,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 /**
- * Отвечает за инициализацию и заполнения репозитории данными
+ * Отвечает за инициализацию и заполнения репозитории данными при запуске приложения
  *
  * @author Баратов Руслан
  */
@@ -27,7 +27,7 @@ public class ObjectInitializer implements ServletContextListener {
     private final DataGenerator DATA_GENERATOR = DataGenerator.getInstance();
 
     /**
-     * Заполняет репозиторий данными
+     * Заполняет репозиторий данными при запуске приложения
      *
      * @param servletContextEvent
      */

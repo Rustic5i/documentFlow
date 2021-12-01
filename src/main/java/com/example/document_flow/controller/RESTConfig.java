@@ -5,6 +5,7 @@ import javax.ws.rs.core.Application;
 
 /**
  * Конфигурационный класс для jax rs-api
+ *
  * @author Баратов Руслан
  */
 @ApplicationPath("/ecm")

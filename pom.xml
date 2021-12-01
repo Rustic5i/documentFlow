@@ -20,6 +20,8 @@
         <javax.activation.version>1.1</javax.activation.version>
         <jaxb-runtime.version>2.3.3</jaxb-runtime.version>
         <javaee-api.version>7.0</javaee-api.version>
+        <jersey-container-servlet>2.25.1</jersey-container-servlet>
+        <jersey-media-json-jackson>2.27</jersey-media-json-jackson>
     </properties>
     <dependencies>
         <dependency>
@@ -69,6 +71,16 @@
             <artifactId>javaee-api</artifactId>
             <version>${javaee-api.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-servlet</artifactId>
+            <version>${jersey-container-servlet}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <version>${jersey-media-json-jackson}</version>
         </dependency>
     </dependencies>
 </project>

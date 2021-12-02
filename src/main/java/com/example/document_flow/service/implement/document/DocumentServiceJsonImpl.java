@@ -4,6 +4,7 @@ import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.repository.absraction.Repository;
 import com.example.document_flow.repository.implement.document.DocumentRepositoryJsonImpl;
 import com.example.document_flow.service.abstraction.Service;
+import com.example.document_flow.service.abstraction.document.DocumentServiceJson;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author Баратов Руслан
  */
-public class DocumentServiceJsonImpl implements Service<Document> {
+public class DocumentServiceJsonImpl implements DocumentServiceJson {
 
     private final Repository<Document> REPOSITORY = DocumentRepositoryJsonImpl.getInstance();
 

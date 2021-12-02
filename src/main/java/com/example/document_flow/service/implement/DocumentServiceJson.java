@@ -1,7 +1,7 @@
 package com.example.document_flow.service.implement;
 
 import com.example.document_flow.entity.document.Document;
-import com.example.document_flow.repository.DAO.DAO;
+import com.example.document_flow.repository.DAO.Repository;
 import com.example.document_flow.repository.document.DocumentRepositoryJson;
 import com.example.document_flow.service.abstraction.Service;
 
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class DocumentServiceJson implements Service<Document> {
 
-    private final DAO<Document> REPOSITORY = new DocumentRepositoryJson();
+    private final Repository<Document> REPOSITORY = new DocumentRepositoryJson();
 
     private static DocumentServiceJson documentService;
 

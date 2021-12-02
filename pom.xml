@@ -82,5 +82,11 @@
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>${jersey-media-json-jackson}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.15.2.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>

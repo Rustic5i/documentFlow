@@ -1,27 +1,29 @@
-package com.example.document_flow.service.implement;
+package com.example.document_flow.service.implement.staff;
 
 import com.example.document_flow.entity.staff.Organization;
-import com.example.document_flow.repository.DAO.DAO;
-import com.example.document_flow.repository.staff.StaffRepositoryXml;
-import com.example.document_flow.service.abstraction.Service;
+import com.example.document_flow.repository.absraction.staff.OrganizationRepository;
+import com.example.document_flow.repository.implement.staff.OrganizationRepositoryImpl;
+import com.example.document_flow.service.abstraction.staff.OrganizationService;
 
 import java.util.List;
 
 /**
- * Сервис для Организации
+ * Класс сервис для управления Organization
+ *
  * @author Баратов Руслан
  */
-public class OrganizationServiceXml implements Service<Organization> {
+public class OrganizationServiceImpl implements OrganizationService {
 
-    private final DAO<Organization> REPOSITORY = new StaffRepositoryXml<>(Organization.class);
+    private final OrganizationRepository REPOSITORY = OrganizationRepositoryImpl.getInstance();
 
-    private static OrganizationServiceXml organizationService;
+    private static OrganizationServiceImpl organizationService;
 
-    private OrganizationServiceXml() {
+    private OrganizationServiceImpl() {
     }
 
     /**
      * Сохранить организацию
+     *
      * @param object организация
      */
     @Override
@@ -31,6 +33,7 @@ public class OrganizationServiceXml implements Service<Organization> {
 
     /**
      * Сохранить список организаций
+     *
      * @param objects список организаций
      */
     @Override
@@ -40,6 +43,7 @@ public class OrganizationServiceXml implements Service<Organization> {
 
     /**
      * Получить все организации
+     *
      * @return список организаций
      */
     @Override
@@ -50,9 +54,9 @@ public class OrganizationServiceXml implements Service<Organization> {
     /**
      * @return синголтон обьект
      */
-    public static OrganizationServiceXml getInstance() {
+    public static OrganizationServiceImpl getInstance() {
         if (organizationService == null) {
-            organizationService = new OrganizationServiceXml();
+            organizationService = new OrganizationServiceImpl();
         }
         return organizationService;
     }

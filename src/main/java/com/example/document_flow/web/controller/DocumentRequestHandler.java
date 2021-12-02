@@ -1,8 +1,8 @@
-package com.example.document_flow.controller;
+package com.example.document_flow.web.controller;
 
 import com.example.document_flow.exception.InvalidParametersException;
 import com.example.document_flow.generator.DocumentGenerator;
-import com.example.document_flow.service.implement.DocumentService;
+import com.example.document_flow.service.implement.document.DocumentServiceImpl;
 import com.example.document_flow.validation.ParametersValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ import java.util.Scanner;
  */
 public class DocumentRequestHandler {
 
-    private static DocumentService serviceExpanded = DocumentService.getInstance();
+    private static final DocumentServiceImpl DOCUMENT_SERVICE = DocumentServiceImpl.getInstance();
 
     private final Scanner SCANNER = new Scanner(System.in);
 
@@ -36,8 +36,8 @@ public class DocumentRequestHandler {
         if (args.length != 0) {
             try {
                 int count = ParametersValidation.isNumber(args[0]);
-                serviceExpanded.saveAll(DocumentGenerator.run(count));
-                LOGGER.info(serviceExpanded.getAll().toString());
+                DOCUMENT_SERVICE.saveAll(DocumentGenerator.run(count));
+                LOGGER.info(DOCUMENT_SERVICE.getAll().toString());
             } catch (InvalidParametersException e) {
                 LOGGER.warn("Exception ", e);
                 handler();
@@ -55,8 +55,8 @@ public class DocumentRequestHandler {
             try {
                 System.out.println("Введите количество требуемых документов");
                 int count = ParametersValidation.isNumber(SCANNER.nextLine());
-                serviceExpanded.saveAll(DocumentGenerator.run(count));
-                LOGGER.info(serviceExpanded.getAll().toString());
+                DOCUMENT_SERVICE.saveAll(DocumentGenerator.run(count));
+                LOGGER.info(DOCUMENT_SERVICE.getAll().toString());
                 break;
             } catch (InvalidParametersException e) {
                 LOGGER.warn("Exception ", e);

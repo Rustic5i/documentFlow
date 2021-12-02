@@ -1,9 +1,9 @@
-package com.example.document_flow.repository.document;
+package com.example.document_flow.repository.implement.document;
 
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.repository.InMemory;
-import com.example.document_flow.repository.DAO.DAO;
+import com.example.document_flow.repository.absraction.document.DocumentRepositoryJSON;
 import com.example.document_flow.util.read.DeserializationJSON;
 import com.example.document_flow.util.write.SerializableJSON;
 
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  *
  * @author Баратов Руслан
  */
-public class DocumentRepositoryJson implements DAO<Document> {
+public class DocumentRepositoryJsonImpl implements DocumentRepositoryJSON {
 
     private final DeserializationJSON DESERIALIZATION = DeserializationJSON.getInstance();
 
@@ -30,11 +30,16 @@ public class DocumentRepositoryJson implements DAO<Document> {
 
     private final Set<String> SET_PATH_FILE_JSON = new HashSet<>();
 
+    private static DocumentRepositoryJsonImpl implDocumentRepositoryJson;
+
+    private DocumentRepositoryJsonImpl() {
+    }
+
     /**
-     * Сохраняет обьект в репозиторий, в формате Json
+     * Сохраняет объект в репозиторий, в формате Json
      * после чего сохраняет его в кеш
      *
-     * @param object какой-либо обьект для сохранения
+     * @param object какой-либо объект для сохранения
      */
     @Override
     public void save(Document object) {
@@ -74,5 +79,15 @@ public class DocumentRepositoryJson implements DAO<Document> {
         SET_PATH_FILE_JSON.stream()
                 .forEach(str -> list.addAll(DESERIALIZATION.getListObjectFromJson(str, list.getClass())));
         return list;
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static DocumentRepositoryJsonImpl getInstance() {
+        if (implDocumentRepositoryJson == null) {
+            implDocumentRepositoryJson = new DocumentRepositoryJsonImpl();
+        }
+        return implDocumentRepositoryJson;
     }
 }

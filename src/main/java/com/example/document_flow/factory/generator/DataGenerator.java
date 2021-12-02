@@ -21,14 +21,14 @@ import java.util.Random;
  */
 public class DataGenerator {
 
-    private final Random random = new Random();
+    private final Random RANDOM = new Random();
 
     private static DataGenerator dataGenerator;
 
     /**
      * Лист телефонных номеров
      */
-    private static List<String> listPhoneNumber =  Arrays.asList("0(984)556-14-86",
+    private static final List<String> LIST_PHONE_NUMBER =  Arrays.asList("0(984)556-14-86",
             "3(7740)563-93-84",
             "559(4732)994-37-06",
             "0(844)008-03-64",
@@ -40,18 +40,18 @@ public class DataGenerator {
     /**
      * Мапа наименований организаций
      */
-    private static final Map<String, String> namesOrganization = initNamesOrganization();
+    private static final Map<String, String> NAME_ORGANIZATION = initNamesOrganization();
 
     /**
      * Мапа наименований подразделений
      */
-    private static final Map<String, String> namesDepartment = initNamesDepartment();
+    private static final Map<String, String> NAMES_DEPARTMENT = initNamesDepartment();
 
 
     /**
      * Список Названия документа
      */
-    private static final List<String> name = Arrays.asList("Первый документ",
+    private static final List<String> NAME = Arrays.asList("Первый документ",
             "Второй документ",
             "Третий документ",
             "Четвертый документ");
@@ -59,7 +59,7 @@ public class DataGenerator {
     /**
      * Список Текста документа
      */
-    private static final List<String> text = Arrays.asList("Текстовый текст Документа",
+    private static final List<String> TEXT = Arrays.asList("Текстовый текст Документа",
             "Помыть кошку",
             "Сделай то, не знаю что",
             "Сходи туда, не знаю куда");
@@ -67,7 +67,7 @@ public class DataGenerator {
     /**
      * Список Адресатов
      */
-    private static final List<String> addressee = Arrays.asList("Астраханская область, город Щёлково, шоссе Косиора, 30",
+    private static final List<String> ADDRESSEE = Arrays.asList("Астраханская область, город Щёлково, шоссе Косиора, 30",
             "Курская область, город Павловский Посад, пр. Гагарина, 13",
             "Оренбургская область, город Орехово-Зуево, пл. Чехова, 18",
             "Кемеровская область, город Волоколамск, шоссе Гоголя, 14",
@@ -80,24 +80,24 @@ public class DataGenerator {
     /**
      * Список Признак контрольности
      */
-    private static final List<String> signOfControl = Arrays.asList("Признак контрольности 1",
+    private static final List<String> SIGN_OF_CONTROL = Arrays.asList("Признак контрольности 1",
             "Признак контрольности 2",
             "Признак контрольности 3");
 
     /**
      * Список Способов доставки
      */
-    private static final List<String> deliveryMethod = Arrays.asList("Почта России", "СДЭК", "Самовывоз");
+    private static final List<String> DELIVERY_METHOD = Arrays.asList("Почта России", "СДЭК", "Самовывоз");
 
     /**
      * Срок исполнения поручения
      */
-    private static final Date termOfExecution = new Date();
+    private static final Date TERM_OF_EXECUTION = new Date();
 
     /**
      * Список людей
      */
-    public final List<Person> personList = getPersonList();
+    public final List<Person> PERSON_LIST = getPERSON_LIST();
 
     private DataGenerator() {
     }
@@ -107,7 +107,7 @@ public class DataGenerator {
      * @return рандомный телефонный номер
      */
     public String getPhoneNumber(){
-        return listPhoneNumber.get(random.nextInt(listPhoneNumber.size()));
+        return LIST_PHONE_NUMBER.get(RANDOM.nextInt(LIST_PHONE_NUMBER.size()));
     }
 
     /**
@@ -141,8 +141,8 @@ public class DataGenerator {
      * @return обеьект хранящий в себя два значения, "Полное наименование" и "Краткое наименование"
      */
     public NameStaff getNamesDepartment() {
-        String shortName = (String) namesDepartment.keySet().toArray()[random.nextInt(namesOrganization.size())];
-        String fullName = namesDepartment.get(shortName);
+        String shortName = (String) NAMES_DEPARTMENT.keySet().toArray()[RANDOM.nextInt(NAME_ORGANIZATION.size())];
+        String fullName = NAMES_DEPARTMENT.get(shortName);
 
         NameStaff names = new NameStaff();
         names.setShortName(shortName);
@@ -155,8 +155,8 @@ public class DataGenerator {
      * @return обеьект хранящий в себя два значения, "Полное наименование" и "Краткое наименование"
      */
     public NameStaff getNamesOrganization() {
-        String shortName = (String) namesOrganization.keySet().toArray()[random.nextInt(namesOrganization.size())];
-        String fullName = namesOrganization.get(shortName);
+        String shortName = (String) NAME_ORGANIZATION.keySet().toArray()[RANDOM.nextInt(NAME_ORGANIZATION.size())];
+        String fullName = NAME_ORGANIZATION.get(shortName);
 
         NameStaff names = new NameStaff();
         names.setShortName(shortName);
@@ -170,27 +170,27 @@ public class DataGenerator {
      *
      * @return список сгенерируемых работников
      */
-    private List<Person> getPersonList() {
+    private List<Person> getPERSON_LIST() {
         List<Person> personList = new ArrayList<>();
 
         String[] personName = new String[]{"Василиса", "Вера", "Есения", "Полина", "Глеб", "Ольга", "Елизавета"};
         String[] personSurname = new String[]{"Кошелева", "Ильина", "Новикова", "Розанова", "Симонова", "Орлов", "Андреева"};
         String[] personPatronymic = new String[]{"Ивановна", "Арсентьевна", "Робертовна", "Дмитриевна", "Даниэльевна", "Михайлович", "Павловна"};
         String[] personPost = new String[]{"Менеджер по работе с клиентами", "Юрист", "'Экономист", "Директор", "Главный бухгалтер"};
-        int year = random.nextInt(2000 - 1990) + 1990;
-        int month = random.nextInt(11);
-        int day = random.nextInt(28);
+        int year = RANDOM.nextInt(2000 - 1990) + 1990;
+        int month = RANDOM.nextInt(11);
+        int day = RANDOM.nextInt(28);
         Calendar calendar = new GregorianCalendar(year, month, day);
 
         for (int i = 0; i < 10; i++) {
             Person person = new Person().newBuilder()
-                    .setId(random.nextInt(100))
-                    .setName(personName[random.nextInt(personName.length)])
-                    .setSurname(personSurname[random.nextInt(personSurname.length)])
-                    .setPatronymic(personPatronymic[random.nextInt(personPatronymic.length)])
-                    .setPost(personPost[random.nextInt(personPost.length)])
+                    .setId(RANDOM.nextInt(10))
+                    .setName(personName[RANDOM.nextInt(personName.length)])
+                    .setSurname(personSurname[RANDOM.nextInt(personSurname.length)])
+                    .setPatronymic(personPatronymic[RANDOM.nextInt(personPatronymic.length)])
+                    .setPost(personPost[RANDOM.nextInt(personPost.length)])
                     .setDateOfBirth(calendar.getTime())
-                    .setPhoneNumber((int) (random.nextDouble() * 100000000))
+                    .setPhoneNumber((int) (RANDOM.nextDouble() * 100000000))
                     .build();
             personList.add(person);
         }
@@ -202,77 +202,77 @@ public class DataGenerator {
      * @return Рандомное имя
      */
     public String getName() {
-        return name.get(random.nextInt(name.size()));
+        return NAME.get(RANDOM.nextInt(NAME.size()));
     }
 
     /**
      * @return Рандомный текст
      */
     public String getText() {
-        return text.get(random.nextInt(text.size()));
+        return TEXT.get(RANDOM.nextInt(TEXT.size()));
     }
 
     /**
      * @return Ранодомный автор
      */
     public Person getPerson() {
-        return personList.get(random.nextInt(personList.size()));
+        return PERSON_LIST.get(RANDOM.nextInt(PERSON_LIST.size()));
     }
 
     /**
      * @return Рандомный Oтправитель
      */
     public Person getSource() {
-        return personList.get(random.nextInt(personList.size()));
+        return PERSON_LIST.get(RANDOM.nextInt(PERSON_LIST.size()));
     }
 
     /**
      * @return Рандомный адресат
      */
     public String getAddressee() {
-        return addressee.get(random.nextInt(addressee.size()));
+        return ADDRESSEE.get(RANDOM.nextInt(ADDRESSEE.size()));
     }
 
     /**
      * @return Рандомный исходящий номер
      */
     public Long getOutgoingNumber() {
-        return Long.valueOf(random.nextInt(100));
+        return Long.valueOf(RANDOM.nextInt(100));
     }
 
     /**
      * @return Рандомный способ доставки
      */
     public String getDeliveryMethod() {
-        return deliveryMethod.get(random.nextInt(deliveryMethod.size()));
+        return DELIVERY_METHOD.get(RANDOM.nextInt(DELIVERY_METHOD.size()));
     }
 
     /**
      * @return рандомный ответственный исполнитель
      */
     public Person getResponsibleExecutor() {
-        return personList.get(random.nextInt(personList.size()));
+        return PERSON_LIST.get(RANDOM.nextInt(PERSON_LIST.size()));
     }
 
     /**
      * @return Рандомный признак контрольности
      */
     public String getSignOfControl() {
-        return signOfControl.get(random.nextInt(signOfControl.size()));
+        return SIGN_OF_CONTROL.get(RANDOM.nextInt(SIGN_OF_CONTROL.size()));
     }
 
     /**
      * @return Рандомный Контролер поручения
      */
     public Person getOrderController() {
-        return personList.get(random.nextInt(personList.size()));
+        return PERSON_LIST.get(RANDOM.nextInt(PERSON_LIST.size()));
     }
 
     /**
      * @return Рандомный регистрационный номер
      */
     public Long getRegistrationNumber() {
-        return (long) (random.nextDouble() * 1000);
+        return (long) (RANDOM.nextDouble() * 1000);
     }
 
     /**
@@ -280,17 +280,17 @@ public class DataGenerator {
      */
     public Date getTermOfExecution() {
         final long DAY = 86400000L;
-        termOfExecution.setTime(getDateOfIssue().getTime() + DAY * (random.nextLong() * 10));
-        return termOfExecution;
+        TERM_OF_EXECUTION.setTime(getDateOfIssue().getTime() + DAY * (RANDOM.nextLong() * 10));
+        return TERM_OF_EXECUTION;
     }
 
     /**
      * @return Рандомную дату регистрации документа
      */
     public Date getDateRegistration() {
-        int year = random.nextInt(2022 - 2017) + 2017;
-        int month = random.nextInt(11);
-        int day = random.nextInt(28);
+        int year = RANDOM.nextInt(2022 - 2017) + 2017;
+        int month = RANDOM.nextInt(11);
+        int day = RANDOM.nextInt(28);
         Calendar calendar = new GregorianCalendar(year, month, day);
         return calendar.getTime();
     }
@@ -299,8 +299,8 @@ public class DataGenerator {
      * @return Рандомную Исходящую дату регистрации
      */
     public Date getOutgoingRegistrationDate() {
-        int month = random.nextInt(12);
-        int dayOfMonth = random.nextInt(28);
+        int month = RANDOM.nextInt(12);
+        int dayOfMonth = RANDOM.nextInt(28);
         Calendar calendar = new GregorianCalendar(2021, month, dayOfMonth);
         return calendar.getTime();
     }
@@ -309,9 +309,9 @@ public class DataGenerator {
      * @return Рандомную дату выдачу поручения
      */
     public Date getDateOfIssue() {
-        int year = random.nextInt(2022 - 2017) + 2017;
-        int month = random.nextInt(11);
-        int day = random.nextInt(28);
+        int year = RANDOM.nextInt(2022 - 2017) + 2017;
+        int month = RANDOM.nextInt(11);
+        int day = RANDOM.nextInt(28);
         Calendar calendar = new GregorianCalendar(year, month, day);
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
@@ -328,6 +328,6 @@ public class DataGenerator {
     }
 
     public long getId() {
-        return random.nextInt(100);
+        return RANDOM.nextInt(100);
     }
 }

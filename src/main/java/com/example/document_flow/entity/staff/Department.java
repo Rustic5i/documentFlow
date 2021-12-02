@@ -32,7 +32,7 @@ public class Department extends Staff {
      */
     private String contactPhoneNumber;
 
-    private Department() {
+    public Department() {
     }
 
     public String getFullName() {

@@ -1,24 +1,26 @@
-package com.example.document_flow.service.implement;
+package com.example.document_flow.service.implement.staff;
 
 import com.example.document_flow.entity.staff.Department;
-import com.example.document_flow.repository.DAO.DAO;
-import com.example.document_flow.repository.staff.StaffRepositoryXml;
+import com.example.document_flow.repository.absraction.staff.DepartmentRepository;
+import com.example.document_flow.repository.implement.staff.DepartmentRepositoryImpl;
+import com.example.document_flow.repository.implement.staff.StaffRepositoryXml;
 import com.example.document_flow.service.abstraction.Service;
+import com.example.document_flow.service.abstraction.staff.DepartmentService;
 
 import java.util.List;
 
 /**
- * Сервис для Подразделений
+ * Класс сервис для управления Department
  *
  * @author Баратов Руслан
  */
-public class DepartmentServiceXml implements Service<Department> {
+public class DepartmentServiceImpl implements DepartmentService {
 
-    private final DAO<Department> REPOSITORY = new StaffRepositoryXml<>(Department.class);
+    private final DepartmentRepository REPOSITORY = DepartmentRepositoryImpl.getInstance();
 
-    private static DepartmentServiceXml departmentService;
+    private static DepartmentServiceImpl departmentService;
 
-    private DepartmentServiceXml() {
+    private DepartmentServiceImpl() {
     }
 
     /**
@@ -54,9 +56,9 @@ public class DepartmentServiceXml implements Service<Department> {
     /**
      * @return синголтон обьект
      */
-    public static DepartmentServiceXml getInstance() {
+    public static DepartmentServiceImpl getInstance() {
         if (departmentService == null) {
-            departmentService = new DepartmentServiceXml();
+            departmentService = new DepartmentServiceImpl();
         }
         return departmentService;
     }

@@ -1,8 +1,8 @@
-package com.example.document_flow.repository.document;
+package com.example.document_flow.repository.implement.document;
 
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.exception.DocumentExistsException;
-import com.example.document_flow.repository.DAO.DAO;
+import com.example.document_flow.repository.absraction.document.DocumentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,11 +17,11 @@ import java.util.Map;
  *
  * @author Баратов Руслан
  */
-public class DocumentRepository implements DAO<Document> {
+public class DocumentRepositoryImpl implements DocumentRepository {
 
-    private static DocumentRepository registryDocuments;
+    private static DocumentRepositoryImpl implDocumentRepository;
 
-    private DocumentRepository() {
+    private DocumentRepositoryImpl() {
     }
 
     /**
@@ -31,7 +31,7 @@ public class DocumentRepository implements DAO<Document> {
      */
     private static final Map<Long, Document> documentMap = new HashMap<>();
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DocumentRepository.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(DocumentRepositoryImpl.class.getName());
 
     private final List<Document> documentList = new ArrayList<>() {
         @Override
@@ -91,6 +91,16 @@ public class DocumentRepository implements DAO<Document> {
     }
 
     /**
+     * Выполняет поиск документов по id автора
+     *
+     * @param id id работника
+     * @return перечень документов, созданных автором с указанным id
+     */
+    public List<Document> getDocumentByIdAuthor(long id) {
+        return documentMap.values().stream().filter(document -> document.getAuthor().getId() == id).toList();
+    }
+
+    /**
      * Получить документ по регистрационному номеру
      *
      * @param registrationNumber регистрационный номер документа
@@ -102,7 +112,7 @@ public class DocumentRepository implements DAO<Document> {
 
     /**
      * Выбрасывает исключение DocumentExistsException,
-     * если в DocumentRepository уже храниться документ с таким регистрационным номером.
+     * если в DocumentRepositoryImpl уже храниться документ с таким регистрационным номером.
      *
      * @param registrationNumber регистрационный номер документа
      * @throws DocumentExistsException если документ с таким регистрационным номером уже был создан ранее
@@ -116,10 +126,10 @@ public class DocumentRepository implements DAO<Document> {
     /**
      * @return синголтон обьект
      */
-    public static DocumentRepository getInstance() {
-        if (registryDocuments == null) {
-            registryDocuments = new DocumentRepository();
+    public static DocumentRepositoryImpl getInstance() {
+        if (implDocumentRepository == null) {
+            implDocumentRepository = new DocumentRepositoryImpl();
         }
-        return registryDocuments;
+        return implDocumentRepository;
     }
 }

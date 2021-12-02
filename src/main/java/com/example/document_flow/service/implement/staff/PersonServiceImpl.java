@@ -1,27 +1,29 @@
-package com.example.document_flow.service.implement;
+package com.example.document_flow.service.implement.staff;
 
 import com.example.document_flow.entity.staff.Person;
-import com.example.document_flow.repository.DAO.DAO;
-import com.example.document_flow.repository.staff.StaffRepositoryXml;
-import com.example.document_flow.service.abstraction.Service;
+import com.example.document_flow.repository.absraction.staff.PersonRepository;
+import com.example.document_flow.repository.implement.staff.PersonRepositoryImpl;
+import com.example.document_flow.service.abstraction.staff.PersonService;
 
 import java.util.List;
 
 /**
- * Сервис по работникам
+ * Класс сервис для управления Person
+ *
  * @author Баратов Руслан
  */
-public class PersonServiceXml implements Service<Person> {
+public class PersonServiceImpl implements PersonService {
 
-    private final DAO<Person> REPOSITORY = new StaffRepositoryXml<>(Person.class);
+    private final PersonRepository REPOSITORY = PersonRepositoryImpl.getInstance();
 
-    private static PersonServiceXml personService = new PersonServiceXml();
+    private static PersonServiceImpl personService = new PersonServiceImpl();
 
-    private PersonServiceXml() {
+    private PersonServiceImpl() {
     }
 
     /**
      * Сохранить работника
+     *
      * @param object работник
      */
     @Override
@@ -31,6 +33,7 @@ public class PersonServiceXml implements Service<Person> {
 
     /**
      * Сохранить список работников
+     *
      * @param objects лист работников
      */
     @Override
@@ -40,6 +43,7 @@ public class PersonServiceXml implements Service<Person> {
 
     /**
      * Получить всех работников
+     *
      * @return список работников
      */
     @Override
@@ -50,9 +54,9 @@ public class PersonServiceXml implements Service<Person> {
     /**
      * @return синголтон обьект
      */
-    public static PersonServiceXml getInstance() {
+    public static PersonServiceImpl getInstance() {
         if (personService == null) {
-            personService = new PersonServiceXml();
+            personService = new PersonServiceImpl();
         }
         return personService;
     }

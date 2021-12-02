@@ -2,6 +2,8 @@ package com.example.document_flow.entity.document;
 
 import com.example.document_flow.entity.staff.Person;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.Objects;
@@ -11,6 +13,7 @@ import java.util.Objects;
  *
  * @author Баратов Руслан
  */
+@XmlRootElement
 public class Incoming extends Document {
 
     /**
@@ -39,13 +42,11 @@ public class Incoming extends Document {
                 .format("Входящий {0}", super.toString());
     }
 
-    public Incoming() {
-    }
-
     public Person getSource() {
         return source;
     }
 
+    @XmlElement
     public void setSource(Person source) {
         this.source = source;
     }
@@ -54,6 +55,7 @@ public class Incoming extends Document {
         return addressee;
     }
 
+    @XmlElement
     public void setAddressee(String addressee) {
         this.addressee = addressee;
     }
@@ -62,6 +64,7 @@ public class Incoming extends Document {
         return outgoingNumber;
     }
 
+    @XmlElement
     public void setOutgoingNumber(Long outgoingNumber) {
         this.outgoingNumber = outgoingNumber;
     }
@@ -70,6 +73,7 @@ public class Incoming extends Document {
         return outgoingRegistrationDate;
     }
 
+    @XmlElement
     public void setOutgoingRegistrationDate(Date outgoingRegistrationDate) {
         this.outgoingRegistrationDate = outgoingRegistrationDate;
     }

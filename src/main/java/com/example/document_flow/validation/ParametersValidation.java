@@ -12,7 +12,7 @@ public class ParametersValidation {
      * Проверяет, представляет ли строка целое число
      * @param args строка, содержащая представление int, подлежащее анализу
      * @return целочисленное значение, представленное аргументом в десятичной системе счисления
-     * @throws InvalidParametersException  если строка не является целым числом
+     * @throws InvalidParametersException если строка не является целым числом
      */
     public static int isNumber(String args) throws InvalidParametersException {
         int count = 0;

@@ -2,6 +2,8 @@ package com.example.document_flow.entity.document;
 
 import com.example.document_flow.entity.staff.Person;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.text.MessageFormat;
 import java.util.Date;
 import java.util.Objects;
@@ -10,6 +12,7 @@ import java.util.Objects;
  * Исходящий документ
  * @author Баратов Руслан
  */
+@XmlRootElement
 public class Outgoing extends Document {
 
     /**
@@ -32,6 +35,7 @@ public class Outgoing extends Document {
         return addressee;
     }
 
+    @XmlElement
     public void setAddressee(String addressee) {
         this.addressee = addressee;
     }
@@ -40,6 +44,7 @@ public class Outgoing extends Document {
         return deliveryMethod;
     }
 
+    @XmlElement
     public void setDeliveryMethod(String deliveryMethod) {
         this.deliveryMethod = deliveryMethod;
     }

@@ -31,7 +31,7 @@ public class DataGeneratorTest {
     public void getRegistrationNumber() throws NoSuchFieldException, IllegalAccessException {
         when(randomMock.nextDouble()).thenReturn(0.01);
 
-        Field field = dataGenerator.getClass().getDeclaredField("random");
+        Field field = dataGenerator.getClass().getDeclaredField("RANDOM");
         field.setAccessible(true);
         field.set(dataGenerator, randomMock);
 

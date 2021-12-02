@@ -1,24 +1,24 @@
-package com.example.document_flow.service.implement;
+package com.example.document_flow.service.implement.document;
 
 import com.example.document_flow.entity.document.Document;
-import com.example.document_flow.repository.DAO.DAO;
-import com.example.document_flow.repository.document.DocumentRepositoryJson;
-import com.example.document_flow.service.abstraction.AbstractService;
+import com.example.document_flow.repository.absraction.Repository;
+import com.example.document_flow.repository.implement.document.DocumentRepositoryJsonImpl;
+import com.example.document_flow.service.abstraction.Service;
 
 import java.util.List;
 
 /**
- * Сервис для документов
+ * Класс сервис для управления Document в формате json
  *
  * @author Баратов Руслан
  */
-public class DocumentServiceJson implements AbstractService<Document> {
+public class DocumentServiceJsonImpl implements Service<Document> {
 
-    private final DAO<Document> REPOSITORY = new DocumentRepositoryJson();
+    private final Repository<Document> REPOSITORY = DocumentRepositoryJsonImpl.getInstance();
 
-    private static DocumentServiceJson documentService;
+    private static DocumentServiceJsonImpl documentService;
 
-    private DocumentServiceJson() {
+    private DocumentServiceJsonImpl() {
     }
 
     /**
@@ -54,9 +54,9 @@ public class DocumentServiceJson implements AbstractService<Document> {
     /**
      * @return синголтон обьект
      */
-    public static DocumentServiceJson getInstance() {
+    public static DocumentServiceJsonImpl getInstance() {
         if (documentService == null) {
-            documentService = new DocumentServiceJson();
+            documentService = new DocumentServiceJsonImpl();
         }
         return documentService;
     }

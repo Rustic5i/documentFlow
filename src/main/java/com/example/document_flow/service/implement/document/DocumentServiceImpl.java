@@ -1,23 +1,23 @@
-package com.example.document_flow.service.implement;
+package com.example.document_flow.service.implement.document;
 
+import com.example.document_flow.repository.implement.document.DocumentRepositoryImpl;
 import com.example.document_flow.entity.document.Document;
-import com.example.document_flow.repository.document.DocumentRepository;
-import com.example.document_flow.service.abstraction.AbstractDocumentService;
+import com.example.document_flow.service.abstraction.document.DocumentService;
 
 import java.util.List;
 
 /**
- * Сервис для Документов
+ * Класс сервис для управления Document
  *
  * @author Баратов Руслан
  */
-public class DocumentService implements AbstractDocumentService {
+public class DocumentServiceImpl implements DocumentService {
 
-    private final DocumentRepository REPOSITORY = DocumentRepository.getInstance();
+    private final DocumentRepositoryImpl REPOSITORY = DocumentRepositoryImpl.getInstance();
 
-    private static DocumentService service;
+    private static DocumentServiceImpl service;
 
-    private DocumentService() {
+    private DocumentServiceImpl() {
     }
 
     /**
@@ -64,9 +64,9 @@ public class DocumentService implements AbstractDocumentService {
     /**
      * @return синголтон обьект
      */
-    public static DocumentService getInstance() {
+    public static DocumentServiceImpl getInstance() {
         if (service == null) {
-            service = new DocumentService();
+            service = new DocumentServiceImpl();
         }
         return service;
     }

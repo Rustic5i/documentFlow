@@ -9,7 +9,7 @@ import java.util.List;
  * @param <T> тип сервиса
  * @author Баратов Руслан
  */
-public interface AbstractService<T> {
+public interface Service<T> {
 
     /**
      * Сохранить объект

@@ -2,7 +2,7 @@ package com.example.document_flow.web.controller;
 
 import com.example.document_flow.exception.InvalidParametersException;
 import com.example.document_flow.generator.DocumentGenerator;
-import com.example.document_flow.service.implement.DocumentService;
+import com.example.document_flow.service.implement.document.DocumentServiceImpl;
 import com.example.document_flow.validation.ParametersValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +16,7 @@ import java.util.Scanner;
  */
 public class DocumentRequestHandler {
 
-    private static final DocumentService DOCUMENT_SERVICE = DocumentService.getInstance();
+    private static final DocumentServiceImpl DOCUMENT_SERVICE = DocumentServiceImpl.getInstance();
 
     private final Scanner SCANNER = new Scanner(System.in);
 

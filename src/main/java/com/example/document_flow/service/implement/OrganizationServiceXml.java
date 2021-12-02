@@ -1,7 +1,7 @@
 package com.example.document_flow.service.implement;
 
 import com.example.document_flow.entity.staff.Organization;
-import com.example.document_flow.repository.DAO.Repository;
+import com.example.document_flow.repository.DAO.DAO;
 import com.example.document_flow.repository.staff.StaffRepositoryXml;
 import com.example.document_flow.service.abstraction.Service;
 
@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class OrganizationServiceXml implements Service<Organization> {
 
-    private final Repository<Organization> REPOSITORY = new StaffRepositoryXml<>(Organization.class);
+    private final DAO<Organization> REPOSITORY = new StaffRepositoryXml<>(Organization.class);
 
     private static OrganizationServiceXml organizationService;
 

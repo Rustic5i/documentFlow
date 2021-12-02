@@ -3,7 +3,7 @@ package com.example.document_flow.repository.document;
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.repository.InMemory;
-import com.example.document_flow.repository.DAO.Repository;
+import com.example.document_flow.repository.DAO.DAO;
 import com.example.document_flow.util.read.DeserializationJSON;
 import com.example.document_flow.util.write.SerializableJSON;
 
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  *
  * @author Баратов Руслан
  */
-public class DocumentRepositoryJson implements Repository<Document> {
+public class DocumentRepositoryJson implements DAO<Document> {
 
     private final DeserializationJSON DESERIALIZATION = DeserializationJSON.getInstance();
 

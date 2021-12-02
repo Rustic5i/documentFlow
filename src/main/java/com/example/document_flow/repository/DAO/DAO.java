@@ -8,7 +8,7 @@ import java.util.List;
  * @param <T> тип объектов
  * @author Баратов Руслан
  */
-public interface Repository<T> {
+public interface DAO<T> {
 
     /**
      * Сохранить какой-либо обьект в репозиторий

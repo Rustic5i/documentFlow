@@ -2,7 +2,7 @@ package com.example.document_flow.repository.document;
 
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.exception.DocumentExistsException;
-import com.example.document_flow.repository.DAO.Repository;
+import com.example.document_flow.repository.DAO.DAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +17,7 @@ import java.util.Map;
  *
  * @author Баратов Руслан
  */
-public class DocumentRepository implements Repository<Document> {
+public class DocumentRepository implements DAO<Document> {
 
     private static DocumentRepository registryDocuments;
 

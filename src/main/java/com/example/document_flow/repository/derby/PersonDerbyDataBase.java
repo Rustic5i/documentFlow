@@ -1,6 +1,7 @@
 package com.example.document_flow.repository.derby;
 
 import com.example.document_flow.entity.staff.Person;
+import com.example.document_flow.repository.absraction.dao.PersonDAO;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -11,7 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersonDerbyDataBase {
+public class PersonDerbyDataBase implements PersonDAO {
 
     private Connection connection;
 
@@ -54,6 +55,7 @@ public class PersonDerbyDataBase {
         }
     }
 
+    @Override
     public void savePerson(Person person) {
         try {
             preparedStatement = connection
@@ -72,6 +74,7 @@ public class PersonDerbyDataBase {
         }
     }
 
+    @Override
     public List<Person> getAllPerson() {
         List<Person> personList = new ArrayList<>();
         try {
@@ -93,6 +96,7 @@ public class PersonDerbyDataBase {
         return personList;
     }
 
+    @Override
     public void saveAllPerson(List<Person> personList) {
         try {
             connection.setAutoCommit(false);
@@ -103,6 +107,7 @@ public class PersonDerbyDataBase {
         }
     }
 
+    @Override
     public Person getPersonById(long id) {
         Person person = new Person();
         try {

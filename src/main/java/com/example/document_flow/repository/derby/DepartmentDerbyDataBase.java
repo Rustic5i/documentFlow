@@ -1,6 +1,7 @@
 package com.example.document_flow.repository.derby;
 
 import com.example.document_flow.entity.staff.Department;
+import com.example.document_flow.repository.absraction.dao.DepartmentDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DepartmentDerbyDataBase {
+public class DepartmentDerbyDataBase implements DepartmentDAO {
 
     private Connection connection;
 
@@ -55,6 +56,7 @@ public class DepartmentDerbyDataBase {
         }
     }
 
+    @Override
     public void saveDepartment(Department department) {
         try {
             preparedStatement = connection
@@ -71,6 +73,7 @@ public class DepartmentDerbyDataBase {
         }
     }
 
+    @Override
     public List<Department> getAllDepartment() {
         List<Department> departmentList = new ArrayList<>();
         try {
@@ -91,6 +94,7 @@ public class DepartmentDerbyDataBase {
         return departmentList;
     }
 
+    @Override
     public void saveAllDepartment(List<Department> departmentList) {
         try {
             connection.setAutoCommit(false);
@@ -99,6 +103,28 @@ public class DepartmentDerbyDataBase {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Department getDepartmentById(long id) {
+        Department department = new Department();
+        try {
+            preparedStatement = connection.prepareStatement("SELECT * FROM DEPARTMENT WHERE ID=?");
+            preparedStatement.setLong(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                department.newBuilder()
+                        .setId(rs.getInt(1))
+                        .setFullName(rs.getString(2))
+                        .setShortName(rs.getString(3))
+                        .setManager(personDerbyDataBase.getPersonById(rs.getInt(4)))
+                        .setContactPhoneNumber(rs.getString(5))
+                        .build();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return department;
     }
 
     /**

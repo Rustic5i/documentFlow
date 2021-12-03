@@ -2,6 +2,7 @@ package com.example.document_flow.repository.derby;
 
 import com.example.document_flow.entity.staff.Organization;
 import com.example.document_flow.entity.staff.Person;
+import com.example.document_flow.repository.absraction.dao.OrganizationDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,7 +12,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrganizationDerbyDataBase {
+public class OrganizationDerbyDataBase implements OrganizationDAO {
 
     private Connection connection;
 
@@ -56,6 +57,7 @@ public class OrganizationDerbyDataBase {
         }
     }
 
+    @Override
     public void saveOrganization(Organization organization) {
         try {
             preparedStatement = connection
@@ -72,6 +74,7 @@ public class OrganizationDerbyDataBase {
         }
     }
 
+    @Override
     public List<Organization> getAllOrganization() {
         List<Organization> organizationList = new ArrayList<>();
         try {
@@ -92,6 +95,7 @@ public class OrganizationDerbyDataBase {
         return organizationList;
     }
 
+    @Override
     public void saveAllOrganization(List<Organization> organizationList) {
         try {
             connection.setAutoCommit(false);
@@ -100,6 +104,28 @@ public class OrganizationDerbyDataBase {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Organization getOrganizationById(long id) {
+        Organization organization = new Organization();
+        try {
+            preparedStatement = connection.prepareStatement("SELECT * FROM ORGANIZATION WHERE ID=?");
+            preparedStatement.setLong(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()){
+                organization.newBuilder()
+                        .setId(rs.getInt(1))
+                        .setFullName(rs.getString(2))
+                        .setShortName(rs.getString(3))
+                        .setManager(personDerbyDataBase.getPersonById(rs.getInt(4)))
+                        .setContactPhoneNumber(rs.getString(5))
+                        .build();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return organization;
     }
 
     /**

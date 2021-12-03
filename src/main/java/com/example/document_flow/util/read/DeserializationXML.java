@@ -48,7 +48,7 @@ public class DeserializationXML<T extends Staff> {
     /**
      * Десериализует список обьектов
      *
-     * @param pathNames список наименнований обьектов формате XML для сериализации
+     * @param pathNames список наименований обьектов формате XML для сериализации
      * @param type      к какому типу обьекта маппить xml
      * @return список сериализованных обьектов
      */

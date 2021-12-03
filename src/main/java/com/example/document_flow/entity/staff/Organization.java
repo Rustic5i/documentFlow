@@ -23,7 +23,7 @@ public class Organization extends Staff {
     private String shortName;
 
     /**
-     * Руководител
+     * Руководитель
      */
     private Person manager;
 

@@ -1,6 +1,11 @@
 package com.example.document_flow;
 
-import com.example.document_flow.repository.derby.DepartmentDerbyDataBase;
+import com.example.document_flow.entity.staff.Person;
+import com.example.document_flow.factory.generator.DataGenerator;
+import com.example.document_flow.repository.derby.OrganizationDerbyDataBase;
+import com.example.document_flow.repository.derby.PersonDerbyDataBase;
+
+import java.util.List;
 
 public class Main {
 
@@ -8,7 +13,7 @@ public class Main {
 //        DocumentRequestHandler requestHandler = new DocumentRequestHandler();
 //        requestHandler.setRequest(args);
 //
-//        DataGenerator dataGenerator = DataGenerator.getInstance();
+        DataGenerator dataGenerator = DataGenerator.getInstance();
 //
 //        //Сохраняем 3 работника
 //        PersonService personService = PersonServiceImpl.getInstance();
@@ -26,6 +31,13 @@ public class Main {
 //        //Получаем все документы из JSON
 //        System.out.println(documentService.getAll());
 
-        DepartmentDerbyDataBase derbyDataBase = DepartmentDerbyDataBase.getInstance();
+        //////////////Person/////////////
+//        PersonDerbyDataBase derbyDataBase = PersonDerbyDataBase.getInstance();
+//        derbyDataBase.savePerson(dataGenerator.getPerson());
+//        derbyDataBase.savePerson(dataGenerator.getPerson());
+//        List<Person> personList = derbyDataBase.getAllPerson();
+//        derbyDataBase.saveAllPerson(dataGenerator.PERSON_LIST.stream().limit(10).toList());
+        //////////////////////createOrganizationTable//////////
+        OrganizationDerbyDataBase organizationDerbyDataBase = OrganizationDerbyDataBase.getInstance();
     }
 }

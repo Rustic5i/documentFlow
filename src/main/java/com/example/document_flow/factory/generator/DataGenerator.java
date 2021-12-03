@@ -184,7 +184,7 @@ public class DataGenerator {
 
         for (int i = 0; i < 10; i++) {
             Person person = new Person().newBuilder()
-                    .setId(RANDOM.nextInt(10))
+                  //  .setId(RANDOM.nextInt(1000))
                     .setName(personName[RANDOM.nextInt(personName.length)])
                     .setSurname(personSurname[RANDOM.nextInt(personSurname.length)])
                     .setPatronymic(personPatronymic[RANDOM.nextInt(personPatronymic.length)])

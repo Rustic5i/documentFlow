@@ -19,11 +19,13 @@ public class OrganizationDerbyDataBase {
 
     private PreparedStatement preparedStatement;
 
+    private PersonDerbyDataBase personDerbyDataBase = PersonDerbyDataBase.getInstance();
+
     private static OrganizationDerbyDataBase derbyDataBase;
 
     private OrganizationDerbyDataBase() {
         connectToDB();
-         createOrganizationTable();
+        //  createOrganizationTable();
     }
 
     private void connectToDB() {
@@ -56,48 +58,48 @@ public class OrganizationDerbyDataBase {
 
     public void saveOrganization(Organization organization) {
         try {
-
             preparedStatement = connection
-                    .prepareStatement("INSERT INTO ORGANIZATION (FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER) VALUE (?,?,?,?,?,)");
-            preparedStatement.setString(1, organization.getFullName());
-            preparedStatement.setString(2, organization.getShortName());
-            preparedStatement.setInt(3, (int) organization.getManager().getId());
-            preparedStatement.setString(4, organization.getContactPhoneNumber());
+                    .prepareStatement("INSERT INTO APP.ORGANIZATION (ID, FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER)\n" +
+                            "VALUES (?, ?, ?, ?, ?)");
+            preparedStatement.setInt(1, (int) organization.getId());
+            preparedStatement.setString(2, organization.getFullName());
+            preparedStatement.setString(3, organization.getShortName());
+            preparedStatement.setInt(4, (int) organization.getManager().getId());
+            preparedStatement.setString(5, organization.getContactPhoneNumber());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public List<Person> getAllOrganization() {
-        List<Person> personList = new ArrayList<>();
+    public List<Organization> getAllOrganization() {
+        List<Organization> organizationList = new ArrayList<>();
         try {
-            preparedStatement = connection.prepareStatement("SELECT * FROM PERSON");
+            preparedStatement = connection.prepareStatement("SELECT * FROM ORGANIZATION");
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                personList.add(new Person().newBuilder()
+                organizationList.add(new Organization().newBuilder()
                         .setId(rs.getInt(1))
-                        .setSurname(rs.getString(2))
-                        .setName(rs.getString(3))
-                        .setPatronymic(rs.getString(4))
-                        .setPost(rs.getString(5))
-                        .setDateOfBirth(rs.getDate(6))
-                        .setPhoneNumber(rs.getInt(7)).build());
+                        .setFullName(rs.getString(2))
+                        .setShortName(rs.getString(3))
+                        .setManager(personDerbyDataBase.getPersonById(rs.getInt(4)))
+                        .setContactPhoneNumber(rs.getString(5))
+                        .build());
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return personList;
+        return organizationList;
     }
 
-    public void saveAllOrganization(List<Person> personList) {
-//        try {
-//            connection.setAutoCommit(false);
-//            personList.stream().forEach(this::saveOrganization);
-//            connection.commit();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+    public void saveAllOrganization(List<Organization> organizationList) {
+        try {
+            connection.setAutoCommit(false);
+            organizationList.stream().forEach(this::saveOrganization);
+            connection.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

@@ -4,7 +4,6 @@ import com.example.document_flow.entity.staff.Person;
 
 import java.sql.Connection;
 import java.sql.Date;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +23,7 @@ public class PersonDerbyDataBase {
 
     private PersonDerbyDataBase() {
         connectToDB();
-        createPersonTable();
+        //createPersonTable();
     }
 
     private void connectToDB() {
@@ -38,17 +37,17 @@ public class PersonDerbyDataBase {
 
     private void createPersonTable() {
         try {
-            statement.executeUpdate("create table PERSON\n" +
+            statement.executeUpdate("create table person\n" +
                     "(\n" +
-                    "\tID int generated always as identity\n" +
-                    "\t\tconstraint TABLE_NAME_PK\n" +
+                    "\tid int not null\n" +
+                    "\t\tconstraint PERSON_PK\n" +
                     "\t\t\tprimary key,\n" +
-                    "\tSURNAME VARCHAR(25),\n" +
-                    "\tNAME VARCHAR(25),\n" +
-                    "\tPATRONYMIC VARCHAR(25),\n" +
-                    "\tPOST VARCHAR(100),\n" +
-                    "\tDATA_OF_BIRTH DATE,\n" +
-                    "\tPHONE_NUMBER int\n" +
+                    "\tsurname varchar(25),\n" +
+                    "\tname varchar(25),\n" +
+                    "\tpatronymic varchar(25),\n" +
+                    "\tpost varchar(100),\n" +
+                    "\tdata_of_birth date,\n" +
+                    "\tphone_number int\n" +
                     ")");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -58,15 +57,15 @@ public class PersonDerbyDataBase {
     public void savePerson(Person person) {
         try {
             preparedStatement = connection
-                    .prepareStatement("INSERT INTO APP.PERSON (SURNAME, NAME, PATRONYMIC, POST, DATA_OF_BIRTH, PHONE_NUMBER)\n" +
-                            "VALUES (?, ?, ?, ?, ?, ?)");
-//            preparedStatement.setInt(1, (int) person.getId());
-            preparedStatement.setString(1, person.getSurname());
-            preparedStatement.setString(2, person.getName());
-            preparedStatement.setString(3, person.getPatronymic());
-            preparedStatement.setString(4, person.getPost());
-            preparedStatement.setDate(5, new Date(person.getDateOfBirth().getTime()));
-            preparedStatement.setInt(6, person.getPhoneNumber());
+                    .prepareStatement("INSERT INTO APP.PERSON (ID, SURNAME, NAME, PATRONYMIC, POST, DATA_OF_BIRTH, PHONE_NUMBER)\n" +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?)");
+            preparedStatement.setInt(1, (int) person.getId());
+            preparedStatement.setString(2, person.getSurname());
+            preparedStatement.setString(3, person.getName());
+            preparedStatement.setString(4, person.getPatronymic());
+            preparedStatement.setString(5, person.getPost());
+            preparedStatement.setDate(6, new Date(person.getDateOfBirth().getTime()));
+            preparedStatement.setInt(7, person.getPhoneNumber());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -102,6 +101,29 @@ public class PersonDerbyDataBase {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Person getPersonById(long id) {
+        Person person = new Person();
+        try {
+            preparedStatement = connection.prepareStatement("SELECT * FROM PERSON WHERE ID=?");
+            preparedStatement.setLong(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            while (rs.next()){
+                person.newBuilder()
+                        .setId(rs.getInt(1))
+                        .setSurname(rs.getString(2))
+                        .setName(rs.getString(3))
+                        .setPatronymic(rs.getString(4))
+                        .setPost(rs.getString(5))
+                        .setDateOfBirth(rs.getDate(6))
+                        .setPhoneNumber(rs.getInt(7))
+                        .build();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return person;
     }
 
     /**

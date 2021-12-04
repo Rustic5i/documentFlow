@@ -12,6 +12,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс реализующий интерфейс <code>PersonDAO</code>
+ *
+ * @author Баратов Руслан
+ */
 public class PersonDerbyDataBase implements PersonDAO {
 
     private Connection connection;
@@ -55,6 +60,11 @@ public class PersonDerbyDataBase implements PersonDAO {
         }
     }
 
+    /**
+     * Сохранить объект класса <code>Person</code>
+     *
+     * @param person объект класса <code>Person</code> для сохранения
+     */
     @Override
     public void savePerson(Person person) {
         try {
@@ -74,6 +84,11 @@ public class PersonDerbyDataBase implements PersonDAO {
         }
     }
 
+    /**
+     * Получить список всех сохраненных объектов класса <code>Person</code>
+     *
+     * @return список сохраненных объектов класса <code>Person</code>
+     */
     @Override
     public List<Person> getAllPerson() {
         List<Person> personList = new ArrayList<>();
@@ -96,6 +111,11 @@ public class PersonDerbyDataBase implements PersonDAO {
         return personList;
     }
 
+    /**
+     * Сохранить список объектов класса <code>Person</code>
+     *
+     * @param personList список объектов класса <code>Person</code> для сохранения
+     */
     @Override
     public void saveAllPerson(List<Person> personList) {
         try {
@@ -107,14 +127,20 @@ public class PersonDerbyDataBase implements PersonDAO {
         }
     }
 
+    /**
+     * Найти объект класса <code>Person</code> по id
+     *
+     * @param id id объекта класса <code>Person</code>
+     * @return найденный объект класса <code>Person</code>
+     */
     @Override
-    public Person getPersonById(long id) {
+    public Person findPersonById(long id) {
         Person person = new Person();
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM PERSON WHERE ID=?");
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 person.newBuilder()
                         .setId(rs.getInt(1))
                         .setSurname(rs.getString(2))

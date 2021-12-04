@@ -58,7 +58,7 @@ public class Main {
 //
 //        //organizationDerbyDataBase.saveDepartment(organization);
 //        organizationDerbyDataBase.saveAllDepartment(departmentList.stream().limit(5).toList());
-//        derbyDataBase.getPersonById(715);
+//        derbyDataBase.findPersonById(715);
         List<Organization> organizationList1 = organizationDerbyDataBase.getAllOrganization();
         ////////////////////DEPARTMENT/////////////
 

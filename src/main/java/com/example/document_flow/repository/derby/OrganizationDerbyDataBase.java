@@ -1,7 +1,6 @@
 package com.example.document_flow.repository.derby;
 
 import com.example.document_flow.entity.staff.Organization;
-import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.repository.absraction.dao.OrganizationDAO;
 
 import java.sql.Connection;
@@ -12,6 +11,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс реализующий интерфейс <code>OrganizationDAO</code>
+ *
+ * @author Баратов Руслан
+ */
 public class OrganizationDerbyDataBase implements OrganizationDAO {
 
     private Connection connection;
@@ -57,6 +61,11 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
         }
     }
 
+    /**
+     * Сохранить объект класса <code>Organization</code>
+     *
+     * @param organization объект класса <code>Organization</code> для сохранения
+     */
     @Override
     public void saveOrganization(Organization organization) {
         try {
@@ -74,6 +83,11 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
         }
     }
 
+    /**
+     * Получить список всех сохраненных объектов класса <code>Organization</code>
+     *
+     * @return список сохраненных объектов класса <code>Organization</code>
+     */
     @Override
     public List<Organization> getAllOrganization() {
         List<Organization> organizationList = new ArrayList<>();
@@ -85,7 +99,7 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
                         .setId(rs.getInt(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(personDerbyDataBase.getPersonById(rs.getInt(4)))
+                        .setManager(personDerbyDataBase.findPersonById(rs.getInt(4)))
                         .setContactPhoneNumber(rs.getString(5))
                         .build());
             }
@@ -95,6 +109,11 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
         return organizationList;
     }
 
+    /**
+     * Сохранить список объектов класса <code>Organization</code>
+     *
+     * @param organizationList список объектов класса <code>Organization</code> для сохранения
+     */
     @Override
     public void saveAllOrganization(List<Organization> organizationList) {
         try {
@@ -106,19 +125,25 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
         }
     }
 
+    /**
+     * Найти объект класса <code>Organization</code> по id
+     *
+     * @param id id объекта класса <code>Organization</code>
+     * @return найденный объект класса <code>Organization</code>
+     */
     @Override
-    public Organization getOrganizationById(long id) {
+    public Organization findOrganizationById(long id) {
         Organization organization = new Organization();
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM ORGANIZATION WHERE ID=?");
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 organization.newBuilder()
                         .setId(rs.getInt(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(personDerbyDataBase.getPersonById(rs.getInt(4)))
+                        .setManager(personDerbyDataBase.findPersonById(rs.getInt(4)))
                         .setContactPhoneNumber(rs.getString(5))
                         .build();
             }

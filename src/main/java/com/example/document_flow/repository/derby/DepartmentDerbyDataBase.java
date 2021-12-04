@@ -11,6 +11,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Класс реализующий интерфейс <code>DepartmentDAO</code>
+ *
+ * @author Баратов Руслан
+ */
 public class DepartmentDerbyDataBase implements DepartmentDAO {
 
     private Connection connection;
@@ -56,6 +61,11 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
         }
     }
 
+    /**
+     * Сохранить объект класса  <code>Department</code>
+     *
+     * @param department объект класса <code>Department</code> для сохранения
+     */
     @Override
     public void saveDepartment(Department department) {
         try {
@@ -73,6 +83,11 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
         }
     }
 
+    /**
+     * Получить список всех сохраненных объектов класса <code>Department</code>
+     *
+     * @return список сохраненных объектов класса <code>Department</code>
+     */
     @Override
     public List<Department> getAllDepartment() {
         List<Department> departmentList = new ArrayList<>();
@@ -84,7 +99,7 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
                         .setId(rs.getInt(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(personDerbyDataBase.getPersonById(rs.getInt(4)))
+                        .setManager(personDerbyDataBase.findPersonById(rs.getInt(4)))
                         .setContactPhoneNumber(rs.getString(5))
                         .build());
             }
@@ -94,6 +109,11 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
         return departmentList;
     }
 
+    /**
+     * Сохранить список объектов класса <code>Department</code>
+     *
+     * @param departmentList список объектов класса <code>Department</code> для сохранения
+     */
     @Override
     public void saveAllDepartment(List<Department> departmentList) {
         try {
@@ -105,8 +125,14 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
         }
     }
 
+    /**
+     * Найти объект класса <code>Department</code> по id
+     *
+     * @param id id объекта класса <code>Department</code>
+     * @return найденный объект класса <code>Department</code>
+     */
     @Override
-    public Department getDepartmentById(long id) {
+    public Department findDepartmentById(long id) {
         Department department = new Department();
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM DEPARTMENT WHERE ID=?");
@@ -117,7 +143,7 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
                         .setId(rs.getInt(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(personDerbyDataBase.getPersonById(rs.getInt(4)))
+                        .setManager(personDerbyDataBase.findPersonById(rs.getInt(4)))
                         .setContactPhoneNumber(rs.getString(5))
                         .build();
             }

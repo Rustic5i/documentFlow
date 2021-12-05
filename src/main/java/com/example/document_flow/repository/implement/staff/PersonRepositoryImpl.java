@@ -50,6 +50,17 @@ public class PersonRepositoryImpl implements PersonRepository {
     }
 
     /**
+     * Искать сохраненный объект по id
+     *
+     * @param id id объекта
+     * @return найденный объект
+     */
+    @Override
+    public Person findById(long id) {
+        return REPOSITORY.findById(id);
+    }
+
+    /**
      * @return синголтон обьект
      */
     public static PersonRepositoryImpl getInstance() {

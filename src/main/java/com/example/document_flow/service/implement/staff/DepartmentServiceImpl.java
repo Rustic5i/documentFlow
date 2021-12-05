@@ -3,8 +3,6 @@ package com.example.document_flow.service.implement.staff;
 import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.repository.absraction.staff.DepartmentRepository;
 import com.example.document_flow.repository.implement.staff.DepartmentRepositoryImpl;
-import com.example.document_flow.repository.implement.staff.StaffRepositoryXml;
-import com.example.document_flow.service.abstraction.Service;
 import com.example.document_flow.service.abstraction.staff.DepartmentService;
 
 import java.util.List;
@@ -51,6 +49,17 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<Department> getAll() {
         return REPOSITORY.getAll();
+    }
+
+    /**
+     * Найти объект класса <code>Department</code> по id
+     *
+     * @param id id объекта класса <code>Department</code>
+     * @return найденный объект класса <code>Department</code>
+     */
+    @Override
+    public Department findDepartmentById(long id) {
+        return REPOSITORY.findById(id);
     }
 
     /**

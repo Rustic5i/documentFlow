@@ -31,4 +31,11 @@ public interface Repository<T> {
      */
     List<T> getAll();
 
+    /**
+     * Найти объект по id
+     *
+     * @param id id объекта
+     * @return найденный объект
+     */
+    T findById(long id);
 }

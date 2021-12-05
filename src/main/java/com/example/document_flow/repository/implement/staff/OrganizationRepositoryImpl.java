@@ -50,6 +50,17 @@ public class OrganizationRepositoryImpl implements OrganizationRepository {
     }
 
     /**
+     * Искать сохраненный объект по id
+     *
+     * @param id id объекта
+     * @return найденный объект
+     */
+    @Override
+    public Organization findById(long id) {
+        return REPOSITORY.findById(id);
+    }
+
+    /**
      * @return синголтон объект
      */
     public static OrganizationRepositoryImpl getInstance() {

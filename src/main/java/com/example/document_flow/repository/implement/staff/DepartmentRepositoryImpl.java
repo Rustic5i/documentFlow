@@ -50,6 +50,17 @@ public class DepartmentRepositoryImpl implements DepartmentRepository {
     }
 
     /**
+     * Искать сохраненный объект по id
+     *
+     * @param id id объекта
+     * @return найденный объект
+     */
+    @Override
+    public Department findById(long id) {
+        return REPOSITORY.findById(id);
+    }
+
+    /**
      * @return синголтон обьект
      */
     public static DepartmentRepositoryImpl getInstance() {

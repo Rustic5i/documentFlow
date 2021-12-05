@@ -1,8 +1,8 @@
 package com.example.document_flow.repository.implement.staff;
 
 import com.example.document_flow.entity.staff.Staff;
-import com.example.document_flow.repository.absraction.Repository;
 import com.example.document_flow.repository.InMemory;
+import com.example.document_flow.repository.absraction.Repository;
 import com.example.document_flow.util.read.DeserializationXML;
 import com.example.document_flow.util.write.SerializableXML;
 
@@ -66,4 +66,14 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
         return DESERIALIZATION.fromXMl(SET_PATH_FILE_XML, TYPE);
     }
 
+    /**
+     * Искать сохраненный объект по id
+     *
+     * @param id id объекта
+     * @return найденный объект
+     */
+    @Override
+    public T findById(long id) {
+        return (T) getAll().stream().filter(object -> object.getId() == id);
+    }
 }

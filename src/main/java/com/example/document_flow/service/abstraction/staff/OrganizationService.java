@@ -9,4 +9,12 @@ import com.example.document_flow.service.abstraction.Service;
  * @author Баратов Руслан
  */
 public interface OrganizationService extends Service<Organization> {
+
+    /**
+     * Найти объект класса <code>Organization</code> по id
+     *
+     * @param id id объекта класса <code>Organization</code>
+     * @return найденный объект класса <code>Organization</code>
+     */
+    Organization findOrganizationById(long id);
 }

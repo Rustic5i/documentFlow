@@ -52,6 +52,17 @@ public class PersonServiceImpl implements PersonService {
     }
 
     /**
+     * Найти объект класса <code>Person</code> по id
+     *
+     * @param id id объекта класса <code>Person</code>
+     * @return найденный объект класса <code>Person</code>
+     */
+    @Override
+    public Person findPersonById(long id) {
+        return REPOSITORY.findById(id);
+    }
+
+    /**
      * @return синголтон обьект
      */
     public static PersonServiceImpl getInstance() {

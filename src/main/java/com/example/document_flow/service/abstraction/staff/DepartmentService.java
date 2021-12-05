@@ -9,4 +9,12 @@ import com.example.document_flow.service.abstraction.Service;
  * @author Баратов Руслан
  */
 public interface DepartmentService extends Service<Department> {
+
+    /**
+     * Найти объект класса <code>Department</code> по id
+     *
+     * @param id id объекта класса <code>Department</code>
+     * @return найденный объект класса <code>Department</code>
+     */
+    Department findDepartmentById(long id);
 }

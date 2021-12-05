@@ -52,6 +52,17 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     /**
+     * Найти объект класса <code>Organization</code> по id
+     *
+     * @param id id объекта класса <code>Organization</code>
+     * @return найденный объект класса <code>Organization</code>
+     */
+    @Override
+    public Organization findOrganizationById(long id) {
+        return REPOSITORY.findById(id);
+    }
+
+    /**
      * @return синголтон обьект
      */
     public static OrganizationServiceImpl getInstance() {

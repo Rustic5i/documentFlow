@@ -1,4 +1,4 @@
-package com.example.document_flow.repository.derby;
+package com.example.document_flow.repository.implement.derby;
 
 import com.example.document_flow.entity.staff.Organization;
 import com.example.document_flow.repository.absraction.dao.OrganizationDAO;

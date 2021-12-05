@@ -21,7 +21,7 @@ public class PersonRepositoryInitializer implements ServletContextListener {
     private final DataGenerator DATA_GENERATOR = DataGenerator.getInstance();
 
     /**
-     * Заполняет <code>PersonDAO</code> данными при запуске приложения
+     * Заполняет <code>PersonRepository</code> данными при запуске приложения
      *
      * @param servletContextEvent
      */

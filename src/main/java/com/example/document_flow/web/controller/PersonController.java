@@ -1,7 +1,7 @@
 package com.example.document_flow.web.controller;
 
 import com.example.document_flow.entity.staff.Person;
-import com.example.document_flow.service.abstraction.Service;
+import com.example.document_flow.service.abstraction.staff.PersonService;
 import com.example.document_flow.service.implement.staff.PersonServiceImpl;
 
 import javax.ws.rs.GET;
@@ -20,7 +20,7 @@ import java.util.List;
 @Path("/employees")
 public class PersonController {
 
-    private final Service<Person> PERSON_SERVICE = PersonServiceImpl.getInstance();
+    private final PersonService PERSON_SERVICE = PersonServiceImpl.getInstance();
 
     /**
      * Принимает GET HTTP-запрос.

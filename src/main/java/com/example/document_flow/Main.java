@@ -4,9 +4,9 @@ import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.entity.staff.Organization;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.factory.generator.DataGenerator;
-import com.example.document_flow.repository.derby.DepartmentDerbyDataBase;
-import com.example.document_flow.repository.derby.OrganizationDerbyDataBase;
-import com.example.document_flow.repository.derby.PersonDerbyDataBase;
+import com.example.document_flow.repository.implement.derby.DepartmentDerbyDataBase;
+import com.example.document_flow.repository.implement.derby.OrganizationDerbyDataBase;
+import com.example.document_flow.repository.implement.derby.PersonDerbyDataBase;
 
 import java.util.ArrayList;
 import java.util.List;

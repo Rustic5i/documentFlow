@@ -1,6 +1,7 @@
 package com.example.document_flow.repository.implement.derby;
 
 import com.example.document_flow.entity.staff.Person;
+import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.repository.absraction.dao.PersonDAO;
 
 import java.sql.Connection;
@@ -8,12 +9,15 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
- * Класс реализующий интерфейс <code>PersonDAO</code>
+ * DAO слой отвечает за предоставления доступа к базе данных.
+ * Содержит методы связанные с сущностью <code>Person</code>
  *
  * @author Баратов Руслан
  */
@@ -64,9 +68,10 @@ public class PersonDerbyDataBase implements PersonDAO {
      * Сохранить объект класса <code>Person</code>
      *
      * @param person объект класса <code>Person</code> для сохранения
+     * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
      */
     @Override
-    public void savePerson(Person person) {
+    public void savePerson(Person person) throws SaveObjectException {
         try {
             preparedStatement = connection
                     .prepareStatement("INSERT INTO APP.PERSON (ID, SURNAME, NAME, PATRONYMIC, POST, DATA_OF_BIRTH, PHONE_NUMBER)\n" +
@@ -79,6 +84,8 @@ public class PersonDerbyDataBase implements PersonDAO {
             preparedStatement.setDate(6, new Date(person.getDateOfBirth().getTime()));
             preparedStatement.setInt(7, person.getPhoneNumber());
             preparedStatement.executeUpdate();
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw new SaveObjectException("Person с id " + person.getId() + " уже существует " + e);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -115,15 +122,23 @@ public class PersonDerbyDataBase implements PersonDAO {
      * Сохранить список объектов класса <code>Person</code>
      *
      * @param personList список объектов класса <code>Person</code> для сохранения
+     * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
      */
     @Override
-    public void saveAllPerson(List<Person> personList) {
+    public void saveAllPerson(List<Person> personList) throws SaveObjectException {
         try {
             connection.setAutoCommit(false);
-            personList.stream().forEach(this::savePerson);
+            for (Person person : personList) {
+                savePerson(person);
+            }
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -134,7 +149,7 @@ public class PersonDerbyDataBase implements PersonDAO {
      * @return найденный объект класса <code>Person</code>
      */
     @Override
-    public Person findPersonById(long id) {
+    public Optional<Person> findPersonById(long id) {
         Person person = new Person();
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM PERSON WHERE ID=?");
@@ -154,7 +169,7 @@ public class PersonDerbyDataBase implements PersonDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return person;
+        return Optional.of(person);
     }
 
     /**

@@ -3,12 +3,17 @@ package com.example.document_flow.repository.implement.staff;
 import com.example.document_flow.entity.staff.Staff;
 import com.example.document_flow.repository.InMemory;
 import com.example.document_flow.repository.absraction.Repository;
-import com.example.document_flow.util.read.DeserializationXML;
-import com.example.document_flow.util.write.SerializableXML;
+import com.example.document_flow.util.read.abstraction.Deserialization;
+import com.example.document_flow.util.read.impement.DeserializationXML;
+import com.example.document_flow.util.write.abstraction.Serializable;
+import com.example.document_flow.util.write.implement.SerializableXML;
 
-import java.util.HashSet;
+import java.io.File;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Репозиторий для “Элементов организационных структур” в формате Xml
@@ -18,15 +23,26 @@ import java.util.Set;
  */
 public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
 
-    private final SerializableXML<T> SERIALIZABLE = SerializableXML.getInstance();
+    private final Serializable SERIALIZABLE = SerializableXML.getInstance();
 
-    private final DeserializationXML<T> DESERIALIZATION = DeserializationXML.getInstance();
-
-    private final Set<String> SET_PATH_FILE_XML = new HashSet<>();
+    private final Deserialization DESERIALIZATION = DeserializationXML.getInstance();
 
     private final InMemory<T> IN_MEMORY = new InMemory<>();
 
     private final Class<T> TYPE;
+
+    private final String NAME_REPOSITORY = ".\\repositoryXml\\";
+
+    {
+        createRepository();
+    }
+
+    private void createRepository() {
+        File file = new File(NAME_REPOSITORY);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+    }
 
     public StaffRepositoryXml(Class<T> type) {
         this.TYPE = type;
@@ -40,8 +56,8 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
      */
     @Override
     public void save(T object) {
-        String pathFile = SERIALIZABLE.toXML(object);
-        SET_PATH_FILE_XML.add(pathFile);
+        String pathFile = NAME_REPOSITORY + object.getId() + ".xml";
+        SERIALIZABLE.save(new File(pathFile), object);
         IN_MEMORY.save(pathFile, object);
     }
 
@@ -63,7 +79,9 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
      */
     @Override
     public List<T> getAll() {
-        return DESERIALIZATION.fromXMl(SET_PATH_FILE_XML, TYPE);
+        File file = new File(NAME_REPOSITORY);
+        Set<File> fileSet = Arrays.stream(file.listFiles()).collect(Collectors.toSet());
+        return DESERIALIZATION.getList(fileSet, TYPE);
     }
 
     /**
@@ -73,7 +91,7 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
      * @return найденный объект
      */
     @Override
-    public T findById(long id) {
-        return (T) getAll().stream().filter(object -> object.getId() == id);
+    public Optional<T> findById(long id) {
+        return Optional.of((T) getAll().stream().filter(object -> object.getId() == id));
     }
 }

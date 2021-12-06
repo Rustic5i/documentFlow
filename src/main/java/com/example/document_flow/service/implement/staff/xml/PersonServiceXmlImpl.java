@@ -1,24 +1,25 @@
-package com.example.document_flow.service.implement.staff;
+package com.example.document_flow.service.implement.staff.xml;
 
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.repository.absraction.staff.PersonRepository;
-import com.example.document_flow.repository.implement.staff.PersonRepositoryImpl;
+import com.example.document_flow.repository.implement.staff.PersonRepositoryXmlImpl;
 import com.example.document_flow.service.abstraction.staff.PersonService;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Класс сервис для управления Person
  *
  * @author Баратов Руслан
  */
-public class PersonServiceImpl implements PersonService {
+public class PersonServiceXmlImpl implements PersonService {
 
-    private final PersonRepository REPOSITORY = PersonRepositoryImpl.getInstance();
+    private final PersonRepository REPOSITORY = PersonRepositoryXmlImpl.getInstance();
 
-    private static PersonServiceImpl personService = new PersonServiceImpl();
+    private static PersonServiceXmlImpl personService = new PersonServiceXmlImpl();
 
-    private PersonServiceImpl() {
+    private PersonServiceXmlImpl() {
     }
 
     /**
@@ -58,16 +59,16 @@ public class PersonServiceImpl implements PersonService {
      * @return найденный объект класса <code>Person</code>
      */
     @Override
-    public Person findPersonById(long id) {
+    public Optional<Person> findPersonById(long id) {
         return REPOSITORY.findById(id);
     }
 
     /**
      * @return синголтон обьект
      */
-    public static PersonServiceImpl getInstance() {
+    public static PersonServiceXmlImpl getInstance() {
         if (personService == null) {
-            personService = new PersonServiceImpl();
+            personService = new PersonServiceXmlImpl();
         }
         return personService;
     }

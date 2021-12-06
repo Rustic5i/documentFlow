@@ -1,5 +1,6 @@
-package com.example.document_flow.util.read;
+package com.example.document_flow.util.read.impement;
 
+import com.example.document_flow.util.read.abstraction.Deserialization;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.internal.Primitives;
@@ -7,16 +8,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Занимается десериализацией обьектов из формата JSON
  *
  * @author Баратов Руслан
  */
-public class DeserializationJSON {
+public class DeserializationJSON implements Deserialization {
 
     private final Gson GSON = new GsonBuilder().create();
 
@@ -28,31 +33,35 @@ public class DeserializationJSON {
     }
 
     /**
-     * Десериализует файл в обьект
+     * Десериализует файл в объект(ы)
      *
-     * @param nameFile имя файла
+     * @param filePath путь к файлу
      * @param type     к какому типу маппить обьект
      * @param <T>      тип десериализованного обьекта
-     * @return десериализованный обьект
+     * @return десериализованный обьект(ы)
      */
-    public <T> T fromJson(String nameFile, Class<T> type) {
-        Object object = GSON.fromJson(nameFile, type);
+    @Override
+    public <T> T get(File filePath, Class<T> type) {
+        String stringJSON = readJson(filePath.getPath());
+        Object object = GSON.fromJson(stringJSON, type);
         return Primitives.wrap(type).cast(object);
     }
 
     /**
-     * Десериализует файл в массив обьектов
+     * Десериализует список файлов в обьекты
      *
-     * @param nameFile имя файла
-     * @param type     к какому типу маппить обьект
-     * @param <T>      тип десериализованного обьекта
-     * @return массив обьектов
+     * @param filePaths список расположений/пути к файлу
+     * @param type      тип класса для маппинга
+     * @param <T>       к какому типу мапить обьекты
+     * @return список десериализуемых обьектов
      */
-    public <T> T getListObjectFromJson(String nameFile, Class<T> type) {
-        String stringJSON = readJson(nameFile);
-        Object object = GSON.fromJson(stringJSON, type);
-        return Primitives.wrap(type).cast(object);
+    @Override
+    public <T> List<T> getList(Set<File> filePaths, Class<T> type) {
+        List<T> objectList = new ArrayList<>();
+        filePaths.forEach(str -> objectList.add(get(str, type)));
+        return objectList;
     }
+
 
     /**
      * Читает файл Json

@@ -4,19 +4,20 @@ import com.example.document_flow.entity.staff.Organization;
 import com.example.document_flow.repository.absraction.staff.OrganizationRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Репозиторий для сущности Organization
  *
  * @author Баратов Руслан
  */
-public class OrganizationRepositoryImpl implements OrganizationRepository {
+public class OrganizationRepositoryXmlImpl implements OrganizationRepository {
 
     private final StaffRepositoryXml<Organization> REPOSITORY = new StaffRepositoryXml<>(Organization.class);
 
-    private static OrganizationRepositoryImpl organizationRepository;
+    private static OrganizationRepositoryXmlImpl organizationRepository;
 
-    private OrganizationRepositoryImpl() {
+    private OrganizationRepositoryXmlImpl() {
     }
 
     /**
@@ -56,16 +57,16 @@ public class OrganizationRepositoryImpl implements OrganizationRepository {
      * @return найденный объект
      */
     @Override
-    public Organization findById(long id) {
+    public Optional<Organization> findById(long id) {
         return REPOSITORY.findById(id);
     }
 
     /**
      * @return синголтон объект
      */
-    public static OrganizationRepositoryImpl getInstance() {
+    public static OrganizationRepositoryXmlImpl getInstance() {
         if (organizationRepository == null) {
-            organizationRepository = new OrganizationRepositoryImpl();
+            organizationRepository = new OrganizationRepositoryXmlImpl();
         }
         return organizationRepository;
     }

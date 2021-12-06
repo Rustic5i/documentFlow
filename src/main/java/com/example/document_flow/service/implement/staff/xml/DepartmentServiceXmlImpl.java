@@ -1,24 +1,25 @@
-package com.example.document_flow.service.implement.staff;
+package com.example.document_flow.service.implement.staff.xml;
 
 import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.repository.absraction.staff.DepartmentRepository;
-import com.example.document_flow.repository.implement.staff.DepartmentRepositoryImpl;
+import com.example.document_flow.repository.implement.staff.DepartmentRepositoryXmlImpl;
 import com.example.document_flow.service.abstraction.staff.DepartmentService;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Класс сервис для управления Department
  *
  * @author Баратов Руслан
  */
-public class DepartmentServiceImpl implements DepartmentService {
+public class DepartmentServiceXmlImpl implements DepartmentService {
 
-    private final DepartmentRepository REPOSITORY = DepartmentRepositoryImpl.getInstance();
+    private final DepartmentRepository REPOSITORY = DepartmentRepositoryXmlImpl.getInstance();
 
-    private static DepartmentServiceImpl departmentService;
+    private static DepartmentServiceXmlImpl departmentService;
 
-    private DepartmentServiceImpl() {
+    private DepartmentServiceXmlImpl() {
     }
 
     /**
@@ -58,16 +59,16 @@ public class DepartmentServiceImpl implements DepartmentService {
      * @return найденный объект класса <code>Department</code>
      */
     @Override
-    public Department findDepartmentById(long id) {
+    public Optional<Department> findDepartmentById(long id) {
         return REPOSITORY.findById(id);
     }
 
     /**
      * @return синголтон обьект
      */
-    public static DepartmentServiceImpl getInstance() {
+    public static DepartmentServiceXmlImpl getInstance() {
         if (departmentService == null) {
-            departmentService = new DepartmentServiceImpl();
+            departmentService = new DepartmentServiceXmlImpl();
         }
         return departmentService;
     }

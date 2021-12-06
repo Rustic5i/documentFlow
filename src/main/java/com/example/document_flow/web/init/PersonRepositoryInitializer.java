@@ -2,7 +2,7 @@ package com.example.document_flow.web.init;
 
 import com.example.document_flow.factory.generator.DataGenerator;
 import com.example.document_flow.repository.absraction.staff.PersonRepository;
-import com.example.document_flow.repository.implement.staff.PersonRepositoryImpl;
+import com.example.document_flow.repository.implement.staff.PersonRepositoryXmlImpl;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -16,7 +16,7 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class PersonRepositoryInitializer implements ServletContextListener {
 
-    private final PersonRepository PERSON_REPOSITORY = PersonRepositoryImpl.getInstance();
+    private final PersonRepository PERSON_REPOSITORY = PersonRepositoryXmlImpl.getInstance();
 
     private final DataGenerator DATA_GENERATOR = DataGenerator.getInstance();
 

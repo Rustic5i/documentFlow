@@ -4,19 +4,20 @@ import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.repository.absraction.staff.PersonRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Репозиторий для сущности Person
  *
  * @author Баратов Руслан
  */
-public class PersonRepositoryImpl implements PersonRepository {
+public class PersonRepositoryXmlImpl implements PersonRepository {
 
     private StaffRepositoryXml<Person> REPOSITORY = new StaffRepositoryXml<>(Person.class);
 
-    private static PersonRepositoryImpl personRepository;
+    private static PersonRepositoryXmlImpl personRepository;
 
-    private PersonRepositoryImpl() {
+    private PersonRepositoryXmlImpl() {
     }
 
     /**
@@ -56,16 +57,16 @@ public class PersonRepositoryImpl implements PersonRepository {
      * @return найденный объект
      */
     @Override
-    public Person findById(long id) {
+    public Optional<Person> findById(long id) {
         return REPOSITORY.findById(id);
     }
 
     /**
      * @return синголтон обьект
      */
-    public static PersonRepositoryImpl getInstance() {
+    public static PersonRepositoryXmlImpl getInstance() {
         if (personRepository == null) {
-            personRepository = new PersonRepositoryImpl();
+            personRepository = new PersonRepositoryXmlImpl();
         }
         return personRepository;
     }

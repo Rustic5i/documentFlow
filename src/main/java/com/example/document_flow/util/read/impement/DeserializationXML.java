@@ -1,6 +1,6 @@
-package com.example.document_flow.util.read;
+package com.example.document_flow.util.read.impement;
 
-import com.example.document_flow.entity.staff.Staff;
+import com.example.document_flow.util.read.abstraction.Deserialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +17,7 @@ import java.util.Set;
  *
  * @author Баратов Руслан
  */
-public class DeserializationXML<T extends Staff> {
+public class DeserializationXML implements Deserialization {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeserializationXML.class.getName());
 
@@ -27,18 +27,19 @@ public class DeserializationXML<T extends Staff> {
     }
 
     /**
-     * Десериализует обьект из формата XML
+     * Десериализует объект(ы) из формата XML
      *
-     * @param pathName имя файла XML
-     * @param type     к какому типу обьекта, маппить xml
-     * @return десериализуемый обьект
+     * @param filePath путь к файлу XML
+     * @param type     к какому типу объекта, маппить xml
+     * @return десериализуемый объект
      */
-    public T fromXMl(String pathName, Class<T> type) {
+    @Override
+    public <T> T get(File filePath, Class<T> type) {
         T object = null;
         try {
             JAXBContext contextRead = JAXBContext.newInstance(type);
             Unmarshaller marshaller = contextRead.createUnmarshaller();
-            object = (T) marshaller.unmarshal(new File(pathName));
+            object = (T) marshaller.unmarshal(new File(filePath.getPath()));
         } catch (JAXBException e) {
             LOGGER.warn("Ошибка маппинга обьекта", e);
         }
@@ -46,15 +47,16 @@ public class DeserializationXML<T extends Staff> {
     }
 
     /**
-     * Десериализует список обьектов
+     * Десериализует из файлов список объектов
      *
-     * @param pathNames список наименований обьектов формате XML для сериализации
-     * @param type      к какому типу обьекта маппить xml
-     * @return список сериализованных обьектов
+     * @param filePaths список расположений/пути к файлу
+     * @param type      к какому типу объекта маппить xml
+     * @return список сериализованных объектов
      */
-    public List<T> fromXMl(Set<String> pathNames, Class<T> type) {
+    @Override
+    public <T> List<T> getList(Set<File> filePaths, Class<T> type) {
         List<T> objectsList = new ArrayList<>();
-        pathNames.forEach(pathName -> objectsList.add(fromXMl(pathName, type)));
+        filePaths.forEach(pathName -> objectsList.add(get(pathName, type)));
         return objectsList;
     }
 

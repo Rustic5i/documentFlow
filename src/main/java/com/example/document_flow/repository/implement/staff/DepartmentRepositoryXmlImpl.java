@@ -4,19 +4,20 @@ import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.repository.absraction.staff.DepartmentRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Репозиторий для сущности Department
  *
  * @author Баратов Руслан
  */
-public class DepartmentRepositoryImpl implements DepartmentRepository {
+public class DepartmentRepositoryXmlImpl implements DepartmentRepository {
 
     private final StaffRepositoryXml<Department> REPOSITORY = new StaffRepositoryXml<>(Department.class);
 
-    private static DepartmentRepositoryImpl departmentRepository;
+    private static DepartmentRepositoryXmlImpl departmentRepository;
 
-    private DepartmentRepositoryImpl() {
+    private DepartmentRepositoryXmlImpl() {
     }
 
     /**
@@ -56,16 +57,16 @@ public class DepartmentRepositoryImpl implements DepartmentRepository {
      * @return найденный объект
      */
     @Override
-    public Department findById(long id) {
+    public Optional<Department> findById(long id) {
         return REPOSITORY.findById(id);
     }
 
     /**
      * @return синголтон обьект
      */
-    public static DepartmentRepositoryImpl getInstance() {
+    public static DepartmentRepositoryXmlImpl getInstance() {
         if (departmentRepository == null) {
-            departmentRepository = new DepartmentRepositoryImpl();
+            departmentRepository = new DepartmentRepositoryXmlImpl();
         }
         return departmentRepository;
     }

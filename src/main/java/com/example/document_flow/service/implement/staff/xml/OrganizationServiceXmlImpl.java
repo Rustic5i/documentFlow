@@ -1,24 +1,25 @@
-package com.example.document_flow.service.implement.staff;
+package com.example.document_flow.service.implement.staff.xml;
 
 import com.example.document_flow.entity.staff.Organization;
 import com.example.document_flow.repository.absraction.staff.OrganizationRepository;
-import com.example.document_flow.repository.implement.staff.OrganizationRepositoryImpl;
+import com.example.document_flow.repository.implement.staff.OrganizationRepositoryXmlImpl;
 import com.example.document_flow.service.abstraction.staff.OrganizationService;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Класс сервис для управления Organization
  *
  * @author Баратов Руслан
  */
-public class OrganizationServiceImpl implements OrganizationService {
+public class OrganizationServiceXmlImpl implements OrganizationService {
 
-    private final OrganizationRepository REPOSITORY = OrganizationRepositoryImpl.getInstance();
+    private final OrganizationRepository REPOSITORY = OrganizationRepositoryXmlImpl.getInstance();
 
-    private static OrganizationServiceImpl organizationService;
+    private static OrganizationServiceXmlImpl organizationService;
 
-    private OrganizationServiceImpl() {
+    private OrganizationServiceXmlImpl() {
     }
 
     /**
@@ -58,16 +59,16 @@ public class OrganizationServiceImpl implements OrganizationService {
      * @return найденный объект класса <code>Organization</code>
      */
     @Override
-    public Organization findOrganizationById(long id) {
+    public Optional<Organization> findOrganizationById(long id) {
         return REPOSITORY.findById(id);
     }
 
     /**
      * @return синголтон обьект
      */
-    public static OrganizationServiceImpl getInstance() {
+    public static OrganizationServiceXmlImpl getInstance() {
         if (organizationService == null) {
-            organizationService = new OrganizationServiceImpl();
+            organizationService = new OrganizationServiceXmlImpl();
         }
         return organizationService;
     }

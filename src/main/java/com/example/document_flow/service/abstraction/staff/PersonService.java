@@ -3,6 +3,8 @@ package com.example.document_flow.service.abstraction.staff;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.service.abstraction.Service;
 
+import java.util.Optional;
+
 /**
  * Интерфейс сервис для управления Person
  *
@@ -16,5 +18,5 @@ public interface PersonService extends Service<Person> {
      * @param id id объекта класса <code>Person</code>
      * @return найденный объект класса <code>Person</code>
      */
-    Person findPersonById(long id);
+    Optional<Person> findPersonById(long id);
 }

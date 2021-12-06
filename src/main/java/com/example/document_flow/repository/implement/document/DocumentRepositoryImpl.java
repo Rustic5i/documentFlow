@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Репозиторий по хранения всех созданных документов
@@ -90,6 +91,11 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         return documentList;
     }
 
+    @Override
+    public Optional<Document> findById(long id) {
+        return Optional.of((Document) getAll().stream().filter(document -> document.getId() == 0));
+    }
+
     /**
      * Выполняет поиск документов по id автора
      *
@@ -97,7 +103,7 @@ public class DocumentRepositoryImpl implements DocumentRepository {
      * @return перечень документов, созданных автором с указанным id
      */
     public List<Document> getDocumentByIdAuthor(long id) {
-        return documentMap.values().stream().filter(document -> document.getAuthor().getId() == id).toList();
+        return getAll().stream().filter(document -> document.getAuthor().getId() == id).toList();
     }
 
     /**

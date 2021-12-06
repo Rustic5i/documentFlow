@@ -1,6 +1,7 @@
 package com.example.document_flow.repository.absraction;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Список общих методов для взаимодействия с базой данных/репозиторий
@@ -37,5 +38,5 @@ public interface Repository<T> {
      * @param id id объекта
      * @return найденный объект
      */
-    T findById(long id);
+    Optional<T> findById(long id);
 }

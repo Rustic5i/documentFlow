@@ -1,18 +1,22 @@
 package com.example.document_flow.repository.implement.derby;
 
 import com.example.document_flow.entity.staff.Department;
+import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.repository.absraction.dao.DepartmentDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
- * Класс реализующий интерфейс <code>DepartmentDAO</code>
+ * DAO слой отвечает за предоставления доступа к базе данных.
+ * Содержит методы связанные с сущностью <code>Department</code>
  *
  * @author Баратов Руслан
  */
@@ -65,9 +69,10 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
      * Сохранить объект класса  <code>Department</code>
      *
      * @param department объект класса <code>Department</code> для сохранения
+     * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
      */
     @Override
-    public void saveDepartment(Department department) {
+    public void saveDepartment(Department department) throws SaveObjectException {
         try {
             preparedStatement = connection
                     .prepareStatement("INSERT INTO APP.DEPARTMENT (ID, FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER)\n" +
@@ -78,6 +83,8 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
             preparedStatement.setInt(4, (int) department.getManager().getId());
             preparedStatement.setString(5, department.getContactPhoneNumber());
             preparedStatement.executeUpdate();
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw new SaveObjectException("Department с id " + department.getId() + " уже существует " + e);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -99,7 +106,7 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
                         .setId(rs.getInt(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(personDerbyDataBase.findPersonById(rs.getInt(4)))
+                        .setManager(personDerbyDataBase.findPersonById(rs.getInt(4)).get())
                         .setContactPhoneNumber(rs.getString(5))
                         .build());
             }
@@ -113,14 +120,22 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
      * Сохранить список объектов класса <code>Department</code>
      *
      * @param departmentList список объектов класса <code>Department</code> для сохранения
+     * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
      */
     @Override
-    public void saveAllDepartment(List<Department> departmentList) {
+    public void saveAllDepartment(List<Department> departmentList) throws SaveObjectException {
         try {
             connection.setAutoCommit(false);
-            departmentList.stream().forEach(this::saveDepartment);
+            for (Department department : departmentList) {
+                saveDepartment(department);
+            }
             connection.commit();
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -132,7 +147,7 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
      * @return найденный объект класса <code>Department</code>
      */
     @Override
-    public Department findDepartmentById(long id) {
+    public Optional<Department> findDepartmentById(long id) {
         Department department = new Department();
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM DEPARTMENT WHERE ID=?");
@@ -143,14 +158,14 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
                         .setId(rs.getInt(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(personDerbyDataBase.findPersonById(rs.getInt(4)))
+                        .setManager(personDerbyDataBase.findPersonById(rs.getInt(4)).get())
                         .setContactPhoneNumber(rs.getString(5))
                         .build();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return department;
+        return Optional.of(department);
     }
 
     /**

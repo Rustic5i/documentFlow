@@ -1,18 +1,22 @@
 package com.example.document_flow.repository.implement.derby;
 
 import com.example.document_flow.entity.staff.Organization;
+import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.repository.absraction.dao.OrganizationDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
- * Класс реализующий интерфейс <code>OrganizationDAO</code>
+ * DAO слой отвечает за предоставления доступа к базе данных.
+ * Содержит методы связанные с сущностью <code>Organization</code>
  *
  * @author Баратов Руслан
  */
@@ -65,9 +69,10 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
      * Сохранить объект класса <code>Organization</code>
      *
      * @param organization объект класса <code>Organization</code> для сохранения
+     * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
      */
     @Override
-    public void saveOrganization(Organization organization) {
+    public void saveOrganization(Organization organization) throws SaveObjectException {
         try {
             preparedStatement = connection
                     .prepareStatement("INSERT INTO APP.ORGANIZATION (ID, FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER)\n" +
@@ -78,6 +83,8 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
             preparedStatement.setInt(4, (int) organization.getManager().getId());
             preparedStatement.setString(5, organization.getContactPhoneNumber());
             preparedStatement.executeUpdate();
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw new SaveObjectException("Organization с id " + organization.getId() + " уже существует " + e);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -99,7 +106,7 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
                         .setId(rs.getInt(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(personDerbyDataBase.findPersonById(rs.getInt(4)))
+                        .setManager(personDerbyDataBase.findPersonById(rs.getInt(4)).get())
                         .setContactPhoneNumber(rs.getString(5))
                         .build());
             }
@@ -113,15 +120,23 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
      * Сохранить список объектов класса <code>Organization</code>
      *
      * @param organizationList список объектов класса <code>Organization</code> для сохранения
+     * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
      */
     @Override
-    public void saveAllOrganization(List<Organization> organizationList) {
+    public void saveAllOrganization(List<Organization> organizationList) throws SaveObjectException {
         try {
             connection.setAutoCommit(false);
-            organizationList.stream().forEach(this::saveOrganization);
+            for (Organization organization : organizationList) {
+                saveOrganization(organization);
+            }
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -132,7 +147,7 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
      * @return найденный объект класса <code>Organization</code>
      */
     @Override
-    public Organization findOrganizationById(long id) {
+    public Optional<Organization> findOrganizationById(long id) {
         Organization organization = new Organization();
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM ORGANIZATION WHERE ID=?");
@@ -143,14 +158,14 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
                         .setId(rs.getInt(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(personDerbyDataBase.findPersonById(rs.getInt(4)))
+                        .setManager(personDerbyDataBase.findPersonById(rs.getInt(4)).get())
                         .setContactPhoneNumber(rs.getString(5))
                         .build();
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return organization;
+        return Optional.of(organization);
     }
 
     /**

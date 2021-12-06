@@ -3,6 +3,8 @@ package com.example.document_flow.service.abstraction.staff;
 import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.service.abstraction.Service;
 
+import java.util.Optional;
+
 /**
  * Интерфейс сервис для управления Department
  *
@@ -16,5 +18,5 @@ public interface DepartmentService extends Service<Department> {
      * @param id id объекта класса <code>Department</code>
      * @return найденный объект класса <code>Department</code>
      */
-    Department findDepartmentById(long id);
+    Optional<Department> findDepartmentById(long id);
 }

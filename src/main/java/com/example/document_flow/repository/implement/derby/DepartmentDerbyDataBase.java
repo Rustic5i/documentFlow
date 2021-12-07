@@ -30,16 +30,18 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
 
     private PersonDerbyDataBase personDerbyDataBase = PersonDerbyDataBase.getInstance();
 
+    private final SessionDerbyDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
+
     private static DepartmentDerbyDataBase derbyDataBase;
 
     private DepartmentDerbyDataBase() {
         connectToDB();
-        // createDepartmentTable();
+        createDepartmentTable();
     }
 
     private void connectToDB() {
         try {
-            connection = SessionDerbyDataBase.connectToDB();
+            connection = SESSION_DERBY_DATA_BASE.getConnection();
             statement = connection.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();

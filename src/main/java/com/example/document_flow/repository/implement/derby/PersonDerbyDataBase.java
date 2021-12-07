@@ -29,16 +29,18 @@ public class PersonDerbyDataBase implements PersonDAO {
 
     private PreparedStatement preparedStatement;
 
+    private final SessionDerbyDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
+
     private static PersonDerbyDataBase derbyDataBase;
 
     private PersonDerbyDataBase() {
         connectToDB();
-        //createPersonTable();
+        createPersonTable();
     }
 
     private void connectToDB() {
         try {
-            connection = SessionDerbyDataBase.connectToDB();
+            connection = SESSION_DERBY_DATA_BASE.getConnection();
             statement = connection.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();

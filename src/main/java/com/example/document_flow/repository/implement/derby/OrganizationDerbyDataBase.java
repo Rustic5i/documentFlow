@@ -30,16 +30,18 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
 
     private PersonDerbyDataBase personDerbyDataBase = PersonDerbyDataBase.getInstance();
 
+    private final SessionDerbyDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
+
     private static OrganizationDerbyDataBase derbyDataBase;
 
     private OrganizationDerbyDataBase() {
         connectToDB();
-        //  createOrganizationTable();
+        createOrganizationTable();
     }
 
     private void connectToDB() {
         try {
-            connection = SessionDerbyDataBase.connectToDB();
+            connection = SESSION_DERBY_DATA_BASE.getConnection();
             statement = connection.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();

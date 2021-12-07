@@ -17,8 +17,11 @@ import com.example.document_flow.service.implement.document.DocumentServiceJsonI
 import com.example.document_flow.service.implement.staff.xml.PersonServiceXmlImpl;
 import com.example.document_flow.web.controller.DocumentRequestHandler;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class Main {
 
@@ -46,48 +49,64 @@ public class Main {
         //////////////////////////////////////////////////////////////////////////////////////////
 
 
-        PersonDerbyDataBase derbyDataBase = PersonDerbyDataBase.getInstance();
-        derbyDataBase.savePerson(dataGenerator.getPerson());
-        derbyDataBase.savePerson(dataGenerator.getPerson());
-        List<Person> personList11 = derbyDataBase.getAllPerson();
-        derbyDataBase.saveAllPerson(dataGenerator.PERSON_LIST.stream().limit(10).toList());
+//        PersonDerbyDataBase derbyDataBase = PersonDerbyDataBase.getInstance();
+//        derbyDataBase.savePerson(dataGenerator.getPerson());
+//        derbyDataBase.savePerson(dataGenerator.getPerson());
+//        List<Person> personList11 = derbyDataBase.getAllPerson();
+//        derbyDataBase.saveAllPerson(dataGenerator.PERSON_LIST.stream().limit(10).toList());
         //////////////////////createOrganizationTable//////////
-        OrganizationDerbyDataBase organizationDerbyDataBase = OrganizationDerbyDataBase.getInstance();
-        int count = 10;
-        List<Organization> departmentList = new ArrayList<>();
-        for (Person per : personList11) {
-            Organization organization = new Organization();
-            organization.setId(count);
-            organization.setShortName("wdawd" + count);
-            organization.setFullName("wdwad" + count);
-            organization.setContactPhoneNumber("12321321" + count);
-            organization.setManager(per);
-            organizationDerbyDataBase.saveOrganization(organization);
-//            count1++;
-            departmentList.add(organization);
-        }
+//        OrganizationDerbyDataBase organizationDerbyDataBase = OrganizationDerbyDataBase.getInstance();
+//        int count = 10;
+//        List<Organization> departmentList = new ArrayList<>();
+//        for (Person per : personList11) {
+//            Organization organization = new Organization();
+//            organization.setId(count);
+//            organization.setShortName("wdawd" + count);
+//            organization.setFullName("wdwad" + count);
+//            organization.setContactPhoneNumber("12321321" + count);
+//            organization.setManager(per);
+//            organizationDerbyDataBase.saveOrganization(organization);
+////            count1++;
+//            departmentList.add(organization);
+//        }
 
         //organizationDerbyDataBase.saveDepartment(organization);
-        organizationDerbyDataBase.saveAllOrganization(departmentList.stream().limit(5).toList());
-        derbyDataBase.findPersonById(715);
-        List<Organization> organizationList1 = organizationDerbyDataBase.getAllOrganization();
+//        organizationDerbyDataBase.saveAllOrganization(departmentList.stream().limit(5).toList());
+//        derbyDataBase.findPersonById(715);
+   //     List<Organization> organizationList1 = organizationDerbyDataBase.getAllOrganization();
         ////////////////////DEPARTMENT/////////////
-
-        DepartmentDerbyDataBase departmentDerbyDataBase = DepartmentDerbyDataBase.getInstance();
-
-        int count1 = 10;
-        List<Department> departmentList1 = new ArrayList<>();
-        for (Person per : personList11) {
-            Department department = new Department();
-            department.setId(count1);
-            department.setShortName("wdawd" + count1);
-            department.setFullName("wdwad" + count1);
-            department.setContactPhoneNumber("12321321" + count1);
-            department.setManager(per);
-            count1++;
-            departmentList1.add(department);
-        }
+//
+//        DepartmentDerbyDataBase departmentDerbyDataBase = DepartmentDerbyDataBase.getInstance();
+//
+//        int count1 = 10;
+//        List<Department> departmentList1 = new ArrayList<>();
+//        for (Person per : personList11) {
+//            Department department = new Department();
+//            department.setId(count1);
+//            department.setShortName("wdawd" + count1);
+//            department.setFullName("wdwad" + count1);
+//            department.setContactPhoneNumber("12321321" + count1);
+//            department.setManager(per);
+//            count1++;
+//            departmentList1.add(department);
+//        }
         //   departmentDerbyDataBase.saveAllDepartment(departmentList1);
        // List<Department> departmentList1 = departmentDerbyDataBase.getAllDepartment();
+        /////////////TEST PROPERTIES /////////////////
+        readPropertied();
+    }
+
+    private static String readPropertied(){
+        InputStream inputStream = Main.class.getClassLoader().getResourceAsStream("config.properties");
+
+        Properties properties = new Properties();
+        String derbyDatasourceUrl = "";
+        try {
+            properties.load(inputStream);
+            derbyDatasourceUrl  = properties.getProperty("derby.datasource.url");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return derbyDatasourceUrl;
     }
 }

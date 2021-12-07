@@ -36,7 +36,7 @@ public class InitiatorCreatingTables implements ServletContextListener {
 
     private void readSqlFile(){
         File file = new File("classes\\import.sql");
-        String path = file.getAbsolutePath();
+        String path = Thread.currentThread().getContextClassLoader().getResource("").getPath()+"import.sql";
         String delimiter = ";";
 
         try {
@@ -53,9 +53,9 @@ public class InitiatorCreatingTables implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        connectToDB();
+      //  connectToDB();
 //        PersonDerbyDataBase personDerbyDataBase = PersonDerbyDataBase.getInstance();
-   //     readSqlFile();
+        readSqlFile();
     //    readPropertied();
     }
 

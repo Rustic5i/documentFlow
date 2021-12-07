@@ -1,4 +1,4 @@
-package com.example.document_flow.web.config;
+package com.example.document_flow.config.web;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

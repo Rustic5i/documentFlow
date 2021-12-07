@@ -7,10 +7,13 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 import java.util.Scanner;
 
 @WebListener
@@ -50,13 +53,29 @@ public class InitiatorCreatingTables implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-//        connectToDB();
+        connectToDB();
 //        PersonDerbyDataBase personDerbyDataBase = PersonDerbyDataBase.getInstance();
-        readSqlFile();
+   //     readSqlFile();
+    //    readPropertied();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
 
+    }
+
+    private static void readPropertied() {
+        try {
+            String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+            String configPath = rootPath + "config/config.properties";
+
+            Properties properties = new Properties();
+            properties.load(new FileInputStream(configPath));
+
+            String sourcesDataBase = properties.getProperty("derby.datasource.url");
+            System.out.println(sourcesDataBase);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

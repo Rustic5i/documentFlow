@@ -1,14 +1,8 @@
 package com.example.document_flow;
 
 import com.example.document_flow.entity.document.Document;
-import com.example.document_flow.entity.staff.Department;
-import com.example.document_flow.entity.staff.Organization;
-import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.factory.generator.DataGenerator;
-import com.example.document_flow.repository.implement.derby.DepartmentDerbyDataBase;
-import com.example.document_flow.repository.implement.derby.OrganizationDerbyDataBase;
-import com.example.document_flow.repository.implement.derby.PersonDerbyDataBase;
 import com.example.document_flow.service.abstraction.document.DocumentService;
 import com.example.document_flow.service.abstraction.document.DocumentServiceJson;
 import com.example.document_flow.service.abstraction.staff.PersonService;
@@ -17,15 +11,14 @@ import com.example.document_flow.service.implement.document.DocumentServiceJsonI
 import com.example.document_flow.service.implement.staff.xml.PersonServiceXmlImpl;
 import com.example.document_flow.web.controller.DocumentRequestHandler;
 
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 public class Main {
 
-    public static void main(String[] args) throws SaveObjectException {
+    public static void main(String[] args) throws SaveObjectException, IOException {
         DocumentRequestHandler requestHandler = new DocumentRequestHandler();
         requestHandler.setRequest(args);
 
@@ -73,7 +66,7 @@ public class Main {
         //organizationDerbyDataBase.saveDepartment(organization);
 //        organizationDerbyDataBase.saveAllOrganization(departmentList.stream().limit(5).toList());
 //        derbyDataBase.findPersonById(715);
-   //     List<Organization> organizationList1 = organizationDerbyDataBase.getAllOrganization();
+        //     List<Organization> organizationList1 = organizationDerbyDataBase.getAllOrganization();
         ////////////////////DEPARTMENT/////////////
 //
 //        DepartmentDerbyDataBase departmentDerbyDataBase = DepartmentDerbyDataBase.getInstance();
@@ -91,22 +84,25 @@ public class Main {
 //            departmentList1.add(department);
 //        }
         //   departmentDerbyDataBase.saveAllDepartment(departmentList1);
-       // List<Department> departmentList1 = departmentDerbyDataBase.getAllDepartment();
+        // List<Department> departmentList1 = departmentDerbyDataBase.getAllDepartment();
         /////////////TEST PROPERTIES /////////////////
+        CrunchifyGetPropertyValues propertyValues = new CrunchifyGetPropertyValues();
+        propertyValues.getPropValues();
         readPropertied();
     }
 
-    private static String readPropertied(){
-        InputStream inputStream = Main.class.getClassLoader().getResourceAsStream("config.properties");
-
-        Properties properties = new Properties();
-        String derbyDatasourceUrl = "";
+    private static void readPropertied() {
         try {
-            properties.load(inputStream);
-            derbyDatasourceUrl  = properties.getProperty("derby.datasource.url");
+            String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+            String configPath = rootPath + "config/config.properties";
+
+            Properties properties = new Properties();
+            properties.load(new FileInputStream(configPath));
+
+            String sourcesDataBase = properties.getProperty("derby.datasource.url");
+            System.out.println(sourcesDataBase);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return derbyDatasourceUrl;
     }
 }

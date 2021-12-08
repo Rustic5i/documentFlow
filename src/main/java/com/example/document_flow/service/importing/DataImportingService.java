@@ -4,7 +4,7 @@ import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.service.abstraction.Service;
 
 /**
- * Сервисный класс отвечающий за импортирование данных из разных сервисов
+ * Сервисный класс отвечающий за импортирование данных из разных репозиторий/базы данных
  *
  * @author Баратов Руслан
  */

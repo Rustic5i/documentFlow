@@ -11,10 +11,11 @@ import com.example.document_flow.service.implement.staff.xml.DepartmentServiceXm
 import com.example.document_flow.service.implement.staff.xml.OrganizationServiceXmlImpl;
 import com.example.document_flow.service.implement.staff.xml.PersonServiceXmlImpl;
 import com.example.document_flow.service.importing.DataImportingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
 
 /**
  * Класс импортирует данные после старта приложения, из репозитория xml в базу данных Derby
@@ -36,8 +37,11 @@ public class ImportDataInitiator implements ServletContextListener {
 
     private PersonService personServiceXml = PersonServiceXmlImpl.getInstance();
 
+    private Logger LOGGER = LoggerFactory.getLogger(ImportDataInitiator.class.getName());
+
     /**
      * Импортирует данные из репозитория Xml в базу данных Derby
+     *
      * @param servletContextEvent
      */
     @Override
@@ -47,7 +51,7 @@ public class ImportDataInitiator implements ServletContextListener {
             DataImportingService.importAll(organizationServiceXml, organizationServiceDerby);
             DataImportingService.importAll(personServiceXml, personServiceDerby);
         } catch (SaveObjectException e) {
-            e.printStackTrace();
+            LOGGER.error("Ошибка при попытки импортирования данных", e);
         }
     }
 

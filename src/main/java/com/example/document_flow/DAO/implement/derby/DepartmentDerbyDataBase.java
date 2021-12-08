@@ -1,10 +1,12 @@
 package com.example.document_flow.DAO.implement.derby;
 
+import com.example.document_flow.DAO.abstraction.DepartmentDAO;
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
 import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.exception.SaveObjectException;
-import com.example.document_flow.DAO.abstraction.DepartmentDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,14 +33,19 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
 
     private final SessionDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
 
+    private final Logger LOGGER = LoggerFactory.getLogger(DepartmentDerbyDataBase.class.getName());
+
     private static DepartmentDerbyDataBase derbyDataBase;
 
     private DepartmentDerbyDataBase() {
         connectToDB();
     }
 
+    /***
+     * Получение соединения (сеанса) к бд Derby
+     */
     private void connectToDB() {
-            connection = SESSION_DERBY_DATA_BASE.getConnection();
+        connection = SESSION_DERBY_DATA_BASE.getConnection();
     }
 
     /**
@@ -62,7 +69,7 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
         } catch (SQLIntegrityConstraintViolationException e) {
             throw new SaveObjectException("Department с id " + department.getId() + " уже существует " + e);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
         }
     }
 
@@ -87,7 +94,7 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
                         .build());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
         }
         return departmentList;
     }
@@ -107,12 +114,12 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
             }
             connection.commit();
         } catch (SQLException e) {
+            LOGGER.error("Ошибка при попытки зафиксировать изменения ", e);
             try {
                 connection.rollback();
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                LOGGER.error("Ошибка при попытки отменить транзакцию ", ex);
             }
-            e.printStackTrace();
         }
     }
 
@@ -139,7 +146,7 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
                         .build();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
         }
         return Optional.of(department);
     }

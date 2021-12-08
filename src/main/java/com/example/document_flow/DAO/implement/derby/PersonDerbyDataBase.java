@@ -1,10 +1,12 @@
 package com.example.document_flow.DAO.implement.derby;
 
+import com.example.document_flow.DAO.abstraction.PersonDAO;
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.SaveObjectException;
-import com.example.document_flow.DAO.abstraction.PersonDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -27,45 +29,23 @@ public class PersonDerbyDataBase implements PersonDAO {
 
     private Connection connection;
 
-    private Statement statement;
-
     private PreparedStatement preparedStatement;
 
     private final SessionDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
+
+    private final Logger LOGGER = LoggerFactory.getLogger(PersonDerbyDataBase.class.getName());
 
     private static PersonDerbyDataBase derbyDataBase;
 
     private PersonDerbyDataBase() {
         connectToDB();
-        createPersonTable();
     }
 
+    /***
+     * Получение соединения (сеанса) к бд Derby
+     */
     private void connectToDB() {
-        try {
-            connection = SESSION_DERBY_DATA_BASE.getConnection();
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void createPersonTable() {
-        try {
-            statement.executeUpdate("create table person\n" +
-                    "(\n" +
-                    "\tid int not null\n" +
-                    "\t\tconstraint PERSON_PK\n" +
-                    "\t\t\tprimary key,\n" +
-                    "\tsurname varchar(25),\n" +
-                    "\tname varchar(25),\n" +
-                    "\tpatronymic varchar(25),\n" +
-                    "\tpost varchar(100),\n" +
-                    "\tdata_of_birth date,\n" +
-                    "\tphone_number int\n" +
-                    ")");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        connection = SESSION_DERBY_DATA_BASE.getConnection();
     }
 
     /**
@@ -91,7 +71,7 @@ public class PersonDerbyDataBase implements PersonDAO {
         } catch (SQLIntegrityConstraintViolationException e) {
             throw new SaveObjectException("Person с id " + person.getId() + " уже существует " + e);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
         }
     }
 
@@ -117,13 +97,14 @@ public class PersonDerbyDataBase implements PersonDAO {
                         .setPhoneNumber(rs.getInt(7)).build());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
         }
         return personList;
     }
 
     /**
      * Сохранить список объектов класса <code>Person</code>
+     * Сохранение происходит в рамках одной транзакции, в случае неудачи отменяются все изменения
      *
      * @param personList список объектов класса <code>Person</code> для сохранения
      * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
@@ -137,11 +118,11 @@ public class PersonDerbyDataBase implements PersonDAO {
             }
             connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Ошибка при попытки зафиксировать изменения ", e);
             try {
                 connection.rollback();
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                LOGGER.error("Ошибка при попытки отменить транзакцию ", ex);
             }
         }
     }
@@ -171,7 +152,7 @@ public class PersonDerbyDataBase implements PersonDAO {
                         .build();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
         }
         return Optional.of(person);
     }

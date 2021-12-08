@@ -2,6 +2,8 @@ package com.example.document_flow.config.DataBase.implement;
 
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.util.read.ReadFileProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -22,6 +24,8 @@ public class SessionDerbyDataBase implements SessionDataBase {
 
     private static SessionDerbyDataBase sessionDerbyDataBase;
 
+    private final Logger LOGGER = LoggerFactory.getLogger(SessionDerbyDataBase.class.getName());
+
     private SessionDerbyDataBase() {
         connectToDB();
     }
@@ -35,7 +39,7 @@ public class SessionDerbyDataBase implements SessionDataBase {
             Class.forName(PROPERTIES.getProperty("db.driver"));
             connection = DriverManager.getConnection(PROPERTIES.getProperty("derby.datasource.url"));
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            LOGGER.error("Ошибка подключение к базе данных Derby", e);
         }
     }
 
@@ -49,20 +53,18 @@ public class SessionDerbyDataBase implements SessionDataBase {
 
     /**
      * Закрывает соединение(сеанс) к базе данных
+     *
+     * @throws SQLException если возникает ошибка доступа к базе данных
      */
     @Override
-    public void close() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void close() throws SQLException {
+        connection.close();
     }
 
     /**
      * @return синголтон обьект
      */
-    public static SessionDerbyDataBase getInstance() {
+    public synchronized static SessionDerbyDataBase getInstance() {
         if (sessionDerbyDataBase == null) {
             sessionDerbyDataBase = new SessionDerbyDataBase();
         }

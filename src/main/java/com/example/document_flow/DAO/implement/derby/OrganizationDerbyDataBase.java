@@ -1,17 +1,18 @@
 package com.example.document_flow.DAO.implement.derby;
 
+import com.example.document_flow.DAO.abstraction.OrganizationDAO;
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
 import com.example.document_flow.entity.staff.Organization;
 import com.example.document_flow.exception.SaveObjectException;
-import com.example.document_flow.DAO.abstraction.OrganizationDAO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,47 +27,25 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
 
     private Connection connection;
 
-    private Statement statement;
-
     private PreparedStatement preparedStatement;
 
     private PersonDerbyDataBase personDerbyDataBase = PersonDerbyDataBase.getInstance();
 
     private final SessionDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
 
+    private final Logger LOGGER = LoggerFactory.getLogger(OrganizationDerbyDataBase.class.getName());
+
     private static OrganizationDerbyDataBase derbyDataBase;
 
     private OrganizationDerbyDataBase() {
         connectToDB();
-        createOrganizationTable();
     }
 
+    /***
+     * Получение соединения (сеанса) к бд Derby
+     */
     private void connectToDB() {
-        try {
-            connection = SESSION_DERBY_DATA_BASE.getConnection();
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void createOrganizationTable() {
-        try {
-            statement.executeUpdate("create table organization\n" +
-                    "(\n" +
-                    "\tid int not null\n" +
-                    "\t\tconstraint ORGANIZATION_PK\n" +
-                    "\t\t\tprimary key,\n" +
-                    "\tfull_name varchar(25),\n" +
-                    "\tshort_name varchar(25),\n" +
-                    "\tmanager_id int\n" +
-                    "\t\tconstraint manager\n" +
-                    "\t\t\treferences PERSON,\n" +
-                    "\tcontact_phone_number varchar(25)\n" +
-                    ")");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        connection = SESSION_DERBY_DATA_BASE.getConnection();
     }
 
     /**
@@ -90,7 +69,7 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
         } catch (SQLIntegrityConstraintViolationException e) {
             throw new SaveObjectException("Organization с id " + organization.getId() + " уже существует " + e);
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
         }
     }
 
@@ -115,7 +94,7 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
                         .build());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
         }
         return organizationList;
     }
@@ -135,11 +114,11 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
             }
             connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Ошибка при попытки зафиксировать изменения ", e);
             try {
                 connection.rollback();
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                LOGGER.error("Ошибка при попытки отменить транзакцию ", ex);
             }
         }
     }
@@ -167,7 +146,7 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
                         .build();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
         }
         return Optional.of(organization);
     }

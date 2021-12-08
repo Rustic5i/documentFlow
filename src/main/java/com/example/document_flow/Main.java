@@ -1,6 +1,7 @@
 package com.example.document_flow;
 
 import com.example.document_flow.entity.document.Document;
+import com.example.document_flow.entity.staff.Organization;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.factory.generator.DataGenerator;
 import com.example.document_flow.service.abstraction.document.DocumentService;
@@ -8,11 +9,13 @@ import com.example.document_flow.service.abstraction.document.DocumentServiceJso
 import com.example.document_flow.service.abstraction.staff.PersonService;
 import com.example.document_flow.service.implement.document.DocumentServiceImpl;
 import com.example.document_flow.service.implement.document.DocumentServiceJsonImpl;
+import com.example.document_flow.service.implement.staff.xml.OrganizationServiceXmlImpl;
 import com.example.document_flow.service.implement.staff.xml.PersonServiceXmlImpl;
 import com.example.document_flow.web.controller.DocumentRequestHandler;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -29,6 +32,19 @@ public class Main {
         personService.saveAll(dataGenerator.PERSON_LIST.stream().limit(10).toList());
         //Получаем всех трех работников
         System.out.println(personService.getAll());
+        ///Сохранить Организацию
+        List<Organization> organizationList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Organization organization = new Organization();
+            organization.setId(dataGenerator.getId());
+            organization.setManager(dataGenerator.getPerson());
+            organization.setFullName(dataGenerator.getNamesOrganization().getFullName());
+            organization.setShortName(dataGenerator.getNamesOrganization().getShortName());
+            organization.setContactPhoneNumber(dataGenerator.getPhoneNumber());
+            organizationList.add(organization);
+        }
+        OrganizationServiceXmlImpl organizationServiceXml = OrganizationServiceXmlImpl.getInstance();
+        organizationServiceXml.saveAll(organizationList);
 
         DocumentService repositoryDocument = DocumentServiceImpl.getInstance();
         List<Document> personList = repositoryDocument.getAll();

@@ -10,6 +10,9 @@ import java.sql.Statement;
 import java.util.List;
 
 /**
+ * Класс занимается созданием нужных таблиц в базе данных Derby,
+ * указанных в файле import.sql в папке resources
+ *
  * @author Баратов Руслан
  */
 public class StaffDerbyTableCreator implements TableCreator {

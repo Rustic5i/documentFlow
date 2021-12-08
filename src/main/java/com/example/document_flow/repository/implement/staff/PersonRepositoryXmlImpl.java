@@ -3,6 +3,7 @@ package com.example.document_flow.repository.implement.staff;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.repository.absraction.staff.PersonRepository;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,9 +14,13 @@ import java.util.Optional;
  */
 public class PersonRepositoryXmlImpl implements PersonRepository {
 
-    private StaffRepositoryXml<Person> REPOSITORY = new StaffRepositoryXml<>(Person.class);
+    private final StaffRepositoryXml<Person> REPOSITORY = new StaffRepositoryXml<>(Person.class);
 
     private static PersonRepositoryXmlImpl personRepository;
+
+    {
+        REPOSITORY.createRepository(new File(".\\PersonXml\\"));
+    }
 
     private PersonRepositoryXmlImpl() {
     }

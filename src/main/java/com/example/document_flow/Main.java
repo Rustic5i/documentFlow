@@ -29,12 +29,12 @@ public class Main {
 
         //Сохраняем 3 работника
         PersonService personService = PersonServiceXmlImpl.getInstance();
-        personService.saveAll(dataGenerator.PERSON_LIST.stream().limit(10).toList());
+        personService.saveAll(dataGenerator.PERSON_LIST.stream().limit(3).toList());
         //Получаем всех трех работников
         System.out.println(personService.getAll());
         ///Сохранить Организацию
         List<Organization> organizationList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 3; i++) {
             Organization organization = new Organization();
             organization.setId(dataGenerator.getId());
             organization.setManager(dataGenerator.getPerson());
@@ -45,6 +45,9 @@ public class Main {
         }
         OrganizationServiceXmlImpl organizationServiceXml = OrganizationServiceXmlImpl.getInstance();
         organizationServiceXml.saveAll(organizationList);
+        ///Получаем список всех организаций из XML
+        List<Organization> organizationList1 = organizationServiceXml.getAll();
+        System.out.println(organizationList1);
 
         DocumentService repositoryDocument = DocumentServiceImpl.getInstance();
         List<Document> personList = repositoryDocument.getAll();

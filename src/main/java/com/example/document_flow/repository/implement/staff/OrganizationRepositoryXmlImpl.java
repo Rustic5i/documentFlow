@@ -3,6 +3,7 @@ package com.example.document_flow.repository.implement.staff;
 import com.example.document_flow.entity.staff.Organization;
 import com.example.document_flow.repository.absraction.staff.OrganizationRepository;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,10 @@ public class OrganizationRepositoryXmlImpl implements OrganizationRepository {
     private final StaffRepositoryXml<Organization> REPOSITORY = new StaffRepositoryXml<>(Organization.class);
 
     private static OrganizationRepositoryXmlImpl organizationRepository;
+
+    {
+        REPOSITORY.createRepository(new File(".\\OrganizationXml\\"));
+    }
 
     private OrganizationRepositoryXmlImpl() {
     }

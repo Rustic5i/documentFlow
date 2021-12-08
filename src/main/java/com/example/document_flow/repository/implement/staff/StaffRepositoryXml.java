@@ -31,16 +31,16 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
 
     private final Class<T> TYPE;
 
-    private final String NAME_REPOSITORY = ".\\repositoryXml\\";
+    private File file;
 
-    {
-        createRepository();
-    }
-
-    private void createRepository() {
-        File file = new File(NAME_REPOSITORY);
-        if (!file.exists()) {
-            file.mkdir();
+    /**
+     * Создает репозиторий
+     * @param filePath путь/наименования репозитория
+     */
+    public void createRepository(File filePath) {
+        this.file = filePath;
+        if (!filePath.exists()) {
+            filePath.mkdir();
         }
     }
 
@@ -52,20 +52,18 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
      * Сохраняет какой-либо объект в формат xml
      *
      * @param object объект для сохранения
-     * @return путь к файлу
      */
     @Override
     public void save(T object) {
-        String pathFile = NAME_REPOSITORY + object.getId() + ".xml";
+        String pathFile = file.getPath()+"\\" + object.getId() + ".xml";
         SERIALIZABLE.save(new File(pathFile), object);
         IN_MEMORY.save(pathFile, object);
     }
 
     /**
-     * Сохраняет список обьектов в формат Xml
+     * Сохраняет список объектов в формат Xml
      *
      * @param objects список объектов
-     * @return пути к файлу
      */
     @Override
     public void saveAll(List<T> objects) {
@@ -79,7 +77,6 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
      */
     @Override
     public List<T> getAll() {
-        File file = new File(NAME_REPOSITORY);
         Set<File> fileSet = Arrays.stream(file.listFiles()).collect(Collectors.toSet());
         return DESERIALIZATION.getList(fileSet, TYPE);
     }

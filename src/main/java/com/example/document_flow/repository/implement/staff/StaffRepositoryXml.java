@@ -35,6 +35,7 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
 
     /**
      * Создает репозиторий
+     *
      * @param filePath путь/наименования репозитория
      */
     public void createRepository(File filePath) {
@@ -55,7 +56,7 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
      */
     @Override
     public void save(T object) {
-        String pathFile = file.getPath()+"\\" + object.getId() + ".xml";
+        String pathFile = file.getPath() + "\\" + object.getId() + ".xml";
         SERIALIZABLE.save(new File(pathFile), object);
         IN_MEMORY.save(pathFile, object);
     }

@@ -1,16 +1,16 @@
-package com.example.document_flow.repository.implement.derby;
+package com.example.document_flow.DAO.implement.derby;
 
+import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
 import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.exception.SaveObjectException;
-import com.example.document_flow.repository.absraction.dao.DepartmentDAO;
+import com.example.document_flow.DAO.abstraction.DepartmentDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +29,7 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
 
     private PersonDerbyDataBase personDerbyDataBase = PersonDerbyDataBase.getInstance();
 
-    private final SessionDerbyDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
+    private final SessionDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
 
     private static DepartmentDerbyDataBase derbyDataBase;
 

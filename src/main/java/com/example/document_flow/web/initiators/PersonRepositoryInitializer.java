@@ -1,4 +1,4 @@
-package com.example.document_flow.web.init;
+package com.example.document_flow.web.initiators;
 
 import com.example.document_flow.factory.generator.DataGenerator;
 import com.example.document_flow.repository.absraction.staff.PersonRepository;

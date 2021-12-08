@@ -4,8 +4,8 @@ import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.repository.InMemory;
 import com.example.document_flow.repository.absraction.document.DocumentRepositoryJSON;
-import com.example.document_flow.util.read.abstraction.Deserialization;
-import com.example.document_flow.util.read.impement.DeserializationJSON;
+import com.example.document_flow.util.read.deserialization.abstraction.Deserialization;
+import com.example.document_flow.util.read.deserialization.impement.DeserializationJSON;
 import com.example.document_flow.util.write.abstraction.Serializable;
 import com.example.document_flow.util.write.implement.SerializableJSON;
 

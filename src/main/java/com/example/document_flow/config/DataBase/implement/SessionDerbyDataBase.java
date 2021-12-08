@@ -1,14 +1,17 @@
 package com.example.document_flow.config.DataBase.implement;
 
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
-import com.example.document_flow.config.ReadFileProperties;
+import com.example.document_flow.util.read.ReadFileProperties;
 
-import java.io.Closeable;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Конфигурационный класс для настройки соединение к базе данных Derby
+ *
+ * @author Баратов Руслан
+ */
 public class SessionDerbyDataBase implements SessionDataBase {
 
     private final ReadFileProperties PROPERTIES = new ReadFileProperties();
@@ -23,6 +26,9 @@ public class SessionDerbyDataBase implements SessionDataBase {
         connectToDB();
     }
 
+    /**
+     * Подключение к базе данных Derby
+     */
     private synchronized void connectToDB() {
         PROPERTIES.load(CONFIG_PATH);
         try {
@@ -33,11 +39,18 @@ public class SessionDerbyDataBase implements SessionDataBase {
         }
     }
 
+    /**
+     * @return соединение (сеанс) с определенной базой данных.
+     */
     @Override
     public Connection getConnection() {
         return connection;
     }
 
+    /**
+     * Закрывает соединение(сеанс) к базе данных
+     */
+    @Override
     public void close() {
         try {
             connection.close();

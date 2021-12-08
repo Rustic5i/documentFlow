@@ -1,4 +1,4 @@
-package com.example.document_flow.util.read.abstraction;
+package com.example.document_flow.util.read.deserialization.abstraction;
 
 import java.io.File;
 import java.util.List;

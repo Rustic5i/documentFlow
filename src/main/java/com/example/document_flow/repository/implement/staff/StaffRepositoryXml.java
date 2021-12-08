@@ -3,8 +3,8 @@ package com.example.document_flow.repository.implement.staff;
 import com.example.document_flow.entity.staff.Staff;
 import com.example.document_flow.repository.InMemory;
 import com.example.document_flow.repository.absraction.Repository;
-import com.example.document_flow.util.read.abstraction.Deserialization;
-import com.example.document_flow.util.read.impement.DeserializationXML;
+import com.example.document_flow.util.read.deserialization.abstraction.Deserialization;
+import com.example.document_flow.util.read.deserialization.impement.DeserializationXML;
 import com.example.document_flow.util.write.abstraction.Serializable;
 import com.example.document_flow.util.write.implement.SerializableXML;
 

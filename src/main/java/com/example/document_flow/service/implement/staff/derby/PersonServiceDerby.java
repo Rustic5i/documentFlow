@@ -1,9 +1,9 @@
 package com.example.document_flow.service.implement.staff.derby;
 
+import com.example.document_flow.DAO.abstraction.PersonDAO;
+import com.example.document_flow.DAO.implement.derby.PersonDerbyDataBase;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.SaveObjectException;
-import com.example.document_flow.repository.absraction.dao.PersonDAO;
-import com.example.document_flow.repository.implement.derby.PersonDerbyDataBase;
 import com.example.document_flow.service.abstraction.staff.PersonService;
 
 import java.util.List;
@@ -17,6 +17,11 @@ import java.util.Optional;
 public class PersonServiceDerby implements PersonService {
 
     private final PersonDAO DAO = PersonDerbyDataBase.getInstance();
+
+    private static PersonServiceDerby personServiceDerby;
+
+    private PersonServiceDerby() {
+    }
 
     /**
      * Сохранить объект класса <code>Person</code>
@@ -59,5 +64,15 @@ public class PersonServiceDerby implements PersonService {
     @Override
     public Optional<Person> findPersonById(long id) {
         return DAO.findPersonById(id);
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static PersonServiceDerby getInstance() {
+        if (personServiceDerby == null) {
+            personServiceDerby = new PersonServiceDerby();
+        }
+        return personServiceDerby;
     }
 }

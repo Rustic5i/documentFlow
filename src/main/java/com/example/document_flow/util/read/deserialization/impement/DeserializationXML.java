@@ -1,6 +1,6 @@
-package com.example.document_flow.util.read.impement;
+package com.example.document_flow.util.read.deserialization.impement;
 
-import com.example.document_flow.util.read.abstraction.Deserialization;
+import com.example.document_flow.util.read.deserialization.abstraction.Deserialization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

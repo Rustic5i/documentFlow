@@ -1,9 +1,10 @@
-package com.example.document_flow.repository.implement.derby;
+package com.example.document_flow.DAO.implement.derby;
 
+import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.SaveObjectException;
-import com.example.document_flow.repository.absraction.dao.PersonDAO;
+import com.example.document_flow.DAO.abstraction.PersonDAO;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -30,7 +31,7 @@ public class PersonDerbyDataBase implements PersonDAO {
 
     private PreparedStatement preparedStatement;
 
-    private final SessionDerbyDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
+    private final SessionDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
 
     private static PersonDerbyDataBase derbyDataBase;
 

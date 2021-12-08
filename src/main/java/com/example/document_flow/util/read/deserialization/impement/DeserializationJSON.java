@@ -1,6 +1,6 @@
-package com.example.document_flow.util.read.impement;
+package com.example.document_flow.util.read.deserialization.impement;
 
-import com.example.document_flow.util.read.abstraction.Deserialization;
+import com.example.document_flow.util.read.deserialization.abstraction.Deserialization;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.internal.Primitives;

@@ -1,4 +1,4 @@
-package com.example.document_flow.web.init;
+package com.example.document_flow.web.initiators;
 
 import com.example.document_flow.repository.absraction.document.DocumentRepository;
 import com.example.document_flow.repository.implement.document.DocumentRepositoryImpl;

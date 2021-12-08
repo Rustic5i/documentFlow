@@ -23,6 +23,7 @@
         <jersey-container-servlet>2.25.1</jersey-container-servlet>
         <jersey-media-json-jackson>2.27</jersey-media-json-jackson>
         <derby.version>10.13.1.1</derby.version>
+        <maven.war.plugin>3.2.0</maven.war.plugin>
     </properties>
     <dependencies>
         <dependency>
@@ -94,7 +95,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>${maven.war.plugin}</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>

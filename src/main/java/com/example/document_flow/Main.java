@@ -86,23 +86,6 @@ public class Main {
         //   departmentDerbyDataBase.saveAllDepartment(departmentList1);
         // List<Department> departmentList1 = departmentDerbyDataBase.getAllDepartment();
         /////////////TEST PROPERTIES /////////////////
-        CrunchifyGetPropertyValues propertyValues = new CrunchifyGetPropertyValues();
-        propertyValues.getPropValues();
-        readPropertied();
     }
 
-    private static void readPropertied() {
-        try {
-            String rootPath = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-            String configPath = rootPath + "config/config.properties";
-
-            Properties properties = new Properties();
-            properties.load(new FileInputStream(configPath));
-
-            String sourcesDataBase = properties.getProperty("derby.datasource.url");
-            System.out.println(sourcesDataBase);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

@@ -1,5 +1,6 @@
 package com.example.document_flow.repository.implement.derby;
 
+import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
 import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.repository.absraction.dao.DepartmentDAO;
@@ -24,8 +25,6 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
 
     private Connection connection;
 
-    private Statement statement;
-
     private PreparedStatement preparedStatement;
 
     private PersonDerbyDataBase personDerbyDataBase = PersonDerbyDataBase.getInstance();
@@ -36,35 +35,10 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
 
     private DepartmentDerbyDataBase() {
         connectToDB();
-        createDepartmentTable();
     }
 
     private void connectToDB() {
-        try {
             connection = SESSION_DERBY_DATA_BASE.getConnection();
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void createDepartmentTable() {
-        try {
-            statement.executeUpdate("create table DEPARTMENT\n" +
-                    "(\n" +
-                    "\tID int not null\n" +
-                    "\t\tconstraint DEPARTMENT_PK\n" +
-                    "\t\t\tprimary key,\n" +
-                    "\tFULL_NAME VARCHAR(25),\n" +
-                    "\tSHORT_NAME VARCHAR(25),\n" +
-                    "\tMANAGER_ID int\n" +
-                    "\t\tconstraint MANAGER_ID\n" +
-                    "\t\t\treferences PERSON,\n" +
-                    "\tCONTACT_PHONE_NUMBER VARCHAR(25)\n" +
-                    ")");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     /**

@@ -1,3 +1,15 @@
+create table PERSON
+(
+    ID            INTEGER not null
+        constraint PERSON_PK
+            primary key,
+    SURNAME       VARCHAR(25),
+    NAME          VARCHAR(25),
+    PATRONYMIC    VARCHAR(25),
+    POST          VARCHAR(100),
+    DATA_OF_BIRTH DATE,
+    PHONE_NUMBER  INTEGER
+);
 create table DEPARTMENT
 (
     ID                   INTEGER not null
@@ -21,16 +33,4 @@ create table ORGANIZATION
         constraint MANAGER
             references PERSON,
     CONTACT_PHONE_NUMBER VARCHAR(25)
-);
-create table PERSON
-(
-    ID            INTEGER not null
-        constraint PERSON_PK
-            primary key,
-    SURNAME       VARCHAR(25),
-    NAME          VARCHAR(25),
-    PATRONYMIC    VARCHAR(25),
-    POST          VARCHAR(100),
-    DATA_OF_BIRTH DATE,
-    PHONE_NUMBER  INTEGER
 );

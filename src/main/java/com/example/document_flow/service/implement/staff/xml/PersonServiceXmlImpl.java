@@ -63,6 +63,16 @@ public class PersonServiceXmlImpl implements PersonService {
         return REPOSITORY.findById(id);
     }
 
+    @Override
+    public void deleteById(long id) {
+
+    }
+
+    @Override
+    public void update(Person object) {
+
+    }
+
     /**
      * @return синголтон обьект
      */

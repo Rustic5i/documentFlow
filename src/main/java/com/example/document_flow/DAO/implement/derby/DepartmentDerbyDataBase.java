@@ -12,8 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,31 +46,6 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
      */
     private void connectToDB() {
         connection = SESSION_DERBY_DATA_BASE.getConnection();
-    }
-
-    /**
-     * Сохранить объект класса  <code>Department</code>
-     *
-     * @param department объект класса <code>Department</code> для сохранения
-     * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
-     */
-    @Override
-    public void save(Department department) throws SaveObjectException {
-        try {
-            preparedStatement = connection
-                    .prepareStatement("INSERT INTO APP.DEPARTMENT (ID, FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER)\n" +
-                            "VALUES (?, ?, ?, ?, ?)");
-            preparedStatement.setInt(1, (int) department.getId());
-            preparedStatement.setString(2, department.getFullName());
-            preparedStatement.setString(3, department.getShortName());
-            preparedStatement.setInt(4, (int) department.getManager().getId());
-            preparedStatement.setString(5, department.getContactPhoneNumber());
-            preparedStatement.executeUpdate();
-        } catch (SQLIntegrityConstraintViolationException e) {
-            throw new SaveObjectException("Department с id " + department.getId() + " уже существует " + e);
-        } catch (SQLException e) {
-            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
-        }
     }
 
     /**
@@ -143,20 +118,38 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
      */
     @Override
     public void saveAll(List<Department> departmentList) throws SaveObjectException {
-        try {
-            connection.setAutoCommit(false);
-            for (Department department : departmentList) {
-                save(department);
-            }
-            connection.commit();
-        } catch (SQLException e) {
-            LOGGER.error("Ошибка при попытки зафиксировать изменения ", e);
-            try {
+        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO APP.DEPARTMENT (ID, FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER)\n" +
+                    "VALUES (?, ?, ?, ?, ?)")) {
+                connection.setAutoCommit(false);
+                for (Department department : departmentList) {
+                    preparedStatement.setInt(1, (int) department.getId());
+                    preparedStatement.setString(2, department.getFullName());
+                    preparedStatement.setString(3, department.getShortName());
+                    preparedStatement.setInt(4, (int) department.getManager().getId());
+                    preparedStatement.setString(5, department.getContactPhoneNumber());
+                    preparedStatement.addBatch();
+                }
+                preparedStatement.executeBatch();
+                connection.commit();
+            } catch (SQLException e) {
                 connection.rollback();
-            } catch (SQLException ex) {
-                LOGGER.error("Ошибка при попытки отменить транзакцию ", ex);
+                throw new SaveObjectException("Ошибка сохранения объекта Department " + e);
             }
+        } catch (SQLException e) {
+            throw new SaveObjectException("Ошибка сохранения объекта Department" + e);
         }
+    }
+
+    /**
+     * Сохранить объект класса  <code>Department</code>
+     *
+     * @param department объект класса <code>Department</code> для сохранения
+     * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
+     */
+    @Override
+    public void save(Department department) throws SaveObjectException {
+        saveAll(Arrays.asList(department));
     }
 
     /**

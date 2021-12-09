@@ -17,30 +17,13 @@ import java.util.List;
  */
 public class StaffDerbyTableCreator implements TableCreator {
 
-    private Connection connection;
-
     private final SessionDerbyDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
 
     private final ReadFileSql READ_FILE_SQL = new ReadFileSql();
 
-    private Statement statement;
-
     private static StaffDerbyTableCreator staffDerbyTableCreator;
 
     private StaffDerbyTableCreator() {
-        connectToDB();
-    }
-
-    /***
-     * Получение соединения (сеанса) к бд Derby
-     */
-    private void connectToDB() {
-        try {
-            this.connection = SESSION_DERBY_DATA_BASE.getConnection();
-            statement = connection.createStatement();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -49,13 +32,13 @@ public class StaffDerbyTableCreator implements TableCreator {
     @Override
     public void creatTablesDB() {
         List<String> arraySqlScripts = getArraySqlScripts();
-
-        for (String sqlScript : arraySqlScripts) {
-            try {
+        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
+             Statement statement = connection.createStatement()) {
+            for (String sqlScript : arraySqlScripts) {
                 statement.executeUpdate(sqlScript);
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

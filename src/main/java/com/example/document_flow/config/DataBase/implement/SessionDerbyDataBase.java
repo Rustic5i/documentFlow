@@ -14,7 +14,7 @@ import java.sql.SQLException;
  *
  * @author Баратов Руслан
  */
-public class SessionDerbyDataBase implements SessionDataBase {
+public class SessionDerbyDataBase implements SessionDataBase, AutoCloseable {
 
     private final ReadFileProperties PROPERTIES = new ReadFileProperties();
 
@@ -27,27 +27,39 @@ public class SessionDerbyDataBase implements SessionDataBase {
     private final Logger LOGGER = LoggerFactory.getLogger(SessionDerbyDataBase.class.getName());
 
     private SessionDerbyDataBase() {
-        connectToDB();
     }
 
-    /**
-     * Подключение к базе данных Derby
-     */
-    private synchronized void connectToDB() {
-        PROPERTIES.load(CONFIG_PATH);
-        try {
-            Class.forName(PROPERTIES.getProperty("db.driver"));
-            connection = DriverManager.getConnection(PROPERTIES.getProperty("derby.datasource.url"));
-        } catch (SQLException | ClassNotFoundException e) {
-            LOGGER.error("Ошибка подключение к базе данных Derby", e);
-        }
-    }
+//    /**
+//     * Подключение к базе данных Derby
+//     */
+//    private synchronized void connectToDB() {
+//        PROPERTIES.load(CONFIG_PATH);
+//        try {
+//            Class.forName(PROPERTIES.getProperty("db.driver"));
+//            connection = DriverManager.getConnection(PROPERTIES.getProperty("derby.datasource.url"));
+//        } catch (SQLException | ClassNotFoundException e) {
+//            LOGGER.error("Ошибка подключение к базе данных Derby", e);
+//        }
+//    }
 
     /**
      * @return соединение (сеанс) с определенной базой данных.
      */
     @Override
     public Connection getConnection() {
+        try {
+            if (connection == null || !(connection.isValid(0))) {
+                PROPERTIES.load(CONFIG_PATH);
+                try {
+                    Class.forName(PROPERTIES.getProperty("db.driver"));
+                    connection = DriverManager.getConnection(PROPERTIES.getProperty("derby.datasource.url"));
+                } catch (SQLException | ClassNotFoundException e) {
+                    LOGGER.error("Ошибка подключение к базе данных Derby", e);
+                }
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Тайм-аут указан меньше 0", e);
+        }
         return connection;
     }
 
@@ -59,6 +71,7 @@ public class SessionDerbyDataBase implements SessionDataBase {
     @Override
     public void close() throws SQLException {
         connection.close();
+        System.out.println("Я ЗАКРЫЛ СОЕДИНЕНИЕ С БАЗАОЙ ДАННОЙ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
 
     /**

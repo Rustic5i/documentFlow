@@ -63,6 +63,16 @@ public class DepartmentServiceXmlImpl implements DepartmentService {
         return REPOSITORY.findById(id);
     }
 
+    @Override
+    public void deleteById(long id) {
+
+    }
+
+    @Override
+    public void update(Department object) {
+
+    }
+
     /**
      * @return синголтон обьект
      */

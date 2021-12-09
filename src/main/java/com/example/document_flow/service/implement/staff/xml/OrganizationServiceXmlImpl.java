@@ -63,6 +63,16 @@ public class OrganizationServiceXmlImpl implements OrganizationService {
         return REPOSITORY.findById(id);
     }
 
+    @Override
+    public void deleteById(long id) {
+
+    }
+
+    @Override
+    public void update(Organization object) {
+
+    }
+
     /**
      * @return синголтон обьект
      */

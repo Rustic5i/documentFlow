@@ -22,7 +22,6 @@ import javax.servlet.ServletContextListener;
  *
  * @author Баратов Руслан
  */
-//@WebListener
 public class ImportDataObserver implements ServletContextListener {
 
     private DepartmentService departmentServiceDerby = DepartmentServiceDerby.getInstance();
@@ -47,9 +46,9 @@ public class ImportDataObserver implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         try {
+            DataImportingService.importAll(personServiceXml, personServiceDerby);
             DataImportingService.importAll(departmentServiceXml, departmentServiceDerby);
             DataImportingService.importAll(organizationServiceXml, organizationServiceDerby);
-            DataImportingService.importAll(personServiceXml, personServiceDerby);
         } catch (SaveObjectException e) {
             LOGGER.error("Ошибка при попытки импортирования данных", e);
         }

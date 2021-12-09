@@ -1,4 +1,4 @@
-package com.example.document_flow.web.initiators;
+package com.example.document_flow.web.observer;
 
 import com.example.document_flow.repository.absraction.document.DocumentRepository;
 import com.example.document_flow.repository.implement.document.DocumentRepositoryImpl;
@@ -14,7 +14,7 @@ import javax.servlet.annotation.WebListener;
  * @author Баратов Руслан
  */
 @WebListener
-public class DocumentRepositoryInitializer implements ServletContextListener {
+public class DocumentRepositoryInitObserver implements ServletContextListener {
 
     private final DocumentRepository DOCUMENT_REPOSITORY = DocumentRepositoryImpl.getInstance();
 

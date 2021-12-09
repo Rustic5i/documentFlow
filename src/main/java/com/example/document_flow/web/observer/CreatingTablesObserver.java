@@ -1,4 +1,4 @@
-package com.example.document_flow.web.initiators;
+package com.example.document_flow.web.observer;
 
 import com.example.document_flow.DAO.abstraction.TableCreator;
 import com.example.document_flow.DAO.implement.derby.table.implement.StaffDerbyTableCreator;
@@ -13,7 +13,7 @@ import javax.servlet.annotation.WebListener;
  * @author Баратов Руслан
  */
 @WebListener
-public class CreatingTablesInitiator implements ServletContextListener {
+public class CreatingTablesObserver implements ServletContextListener {
 
     private final TableCreator CREATOR = StaffDerbyTableCreator.getInstance();
 

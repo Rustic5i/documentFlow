@@ -1,4 +1,4 @@
-package com.example.document_flow.web.initiators;
+package com.example.document_flow.web.observer;
 
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.service.abstraction.staff.DepartmentService;
@@ -23,7 +23,7 @@ import javax.servlet.ServletContextListener;
  * @author Баратов Руслан
  */
 //@WebListener
-public class ImportDataInitiator implements ServletContextListener {
+public class ImportDataObserver implements ServletContextListener {
 
     private DepartmentService departmentServiceDerby = DepartmentServiceDerby.getInstance();
 
@@ -37,7 +37,7 @@ public class ImportDataInitiator implements ServletContextListener {
 
     private PersonService personServiceXml = PersonServiceXmlImpl.getInstance();
 
-    private Logger LOGGER = LoggerFactory.getLogger(ImportDataInitiator.class.getName());
+    private Logger LOGGER = LoggerFactory.getLogger(ImportDataObserver.class.getName());
 
     /**
      * Импортирует данные из репозитория Xml в базу данных Derby

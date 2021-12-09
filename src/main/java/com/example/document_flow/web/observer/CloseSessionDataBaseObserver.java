@@ -1,4 +1,4 @@
-package com.example.document_flow.web.initiators;
+package com.example.document_flow.web.observer;
 
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
@@ -16,11 +16,11 @@ import java.sql.SQLException;
  * @author Баратов Руслан
  */
 @WebListener
-public class CloseSessionDataBaseInitiator implements ServletContextListener {
+public class CloseSessionDataBaseObserver implements ServletContextListener {
 
     private final SessionDataBase SESSION_DATA_BASE = SessionDerbyDataBase.getInstance();
 
-    private final Logger LOGGER = LoggerFactory.getLogger(CloseSessionDataBaseInitiator.class.getName());
+    private final Logger LOGGER = LoggerFactory.getLogger(CloseSessionDataBaseObserver.class.getName());
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {

@@ -1,4 +1,4 @@
-package com.example.document_flow.web.initiators;
+package com.example.document_flow.web.observer;
 
 import com.example.document_flow.factory.generator.DataGenerator;
 import com.example.document_flow.repository.absraction.staff.PersonRepository;
@@ -14,7 +14,7 @@ import javax.servlet.annotation.WebListener;
  * @author Баратов Руслан
  */
 @WebListener
-public class PersonRepositoryInitializer implements ServletContextListener {
+public class PersonRepositoryInitObserver implements ServletContextListener {
 
     private final PersonRepository PERSON_REPOSITORY = PersonRepositoryXmlImpl.getInstance();
 

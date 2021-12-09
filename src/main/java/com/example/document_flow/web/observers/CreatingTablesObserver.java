@@ -1,4 +1,4 @@
-package com.example.document_flow.web.observer;
+package com.example.document_flow.web.observers;
 
 import com.example.document_flow.DAO.abstraction.TableCreator;
 import com.example.document_flow.DAO.implement.derby.table.implement.StaffDerbyTableCreator;

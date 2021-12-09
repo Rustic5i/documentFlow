@@ -1,4 +1,4 @@
-package com.example.document_flow.web.observer;
+package com.example.document_flow.web.observers;
 
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;

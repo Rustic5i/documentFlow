@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd"
          version="4.0">
     <listener>
-        <listener-class>com.example.document_flow.web.observer.CreatingTablesObserver</listener-class>
+        <listener-class>com.example.document_flow.web.observers.CreatingTablesObserver</listener-class>
     </listener>
     <listener>
-        <listener-class>com.example.document_flow.web.observer.ImportDataObserver</listener-class>
+        <listener-class>com.example.document_flow.web.observers.ImportDataObserver</listener-class>
     </listener>
 </web-app>

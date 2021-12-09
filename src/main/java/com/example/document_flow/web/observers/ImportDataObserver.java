@@ -1,4 +1,4 @@
-package com.example.document_flow.web.observer;
+package com.example.document_flow.web.observers;
 
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.service.abstraction.staff.DepartmentService;

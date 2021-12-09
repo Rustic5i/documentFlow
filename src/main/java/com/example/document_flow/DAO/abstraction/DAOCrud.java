@@ -25,6 +25,7 @@ public interface DAOCrud<T> {
      * Удалить объект по id
      *
      * @param id - id объекта
+     * @throws DeleteObjectException когда удаление объекта терпит неудачу по какой-либо причине
      */
     void deleteById(long id) throws DeleteObjectException;
 
@@ -32,6 +33,7 @@ public interface DAOCrud<T> {
      * Обновить данные объекта
      *
      * @param object объект с обновленными данными
+     * @throws SaveObjectException когда изменение объекта терпит не удачу по какой-либо причине
      */
     void update(T object) throws SaveObjectException;
 

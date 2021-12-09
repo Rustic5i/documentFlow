@@ -4,6 +4,7 @@ import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
 import com.example.document_flow.entity.staff.Organization;
+import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,7 @@ import java.util.Optional;
  */
 public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
 
-    private PersonDerbyDataBase personDerbyDataBase = PersonDerbyDataBase.getInstance();
+    private final PersonDerbyDataBase PERSON_DERBY = PersonDerbyDataBase.getInstance();
 
     private final SessionDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
 
@@ -40,15 +41,16 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
      * Удалить по id
      *
      * @param id - id объекта
+     * @throws DeleteObjectException когда удаление объекта терпит неудачу по какой-либо причине
      */
     @Override
-    public void deleteById(long id) {
+    public void deleteById(long id) throws DeleteObjectException {
         try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM APP.ORGANIZATION WHERE ID = ?")) {
             preparedStatement.setInt(1, (int) id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
+            throw new DeleteObjectException("Ошибка удаление Organization c id " + id);
         }
     }
 
@@ -56,9 +58,10 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
      * Обновить данные объекта
      *
      * @param object объект с обновленными данными
+     * @throws SaveObjectException когда изменение объекта терпит не удачу по какой-либо причине
      */
     @Override
-    public void update(Organization object) {
+    public void update(Organization object) throws SaveObjectException {
         try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
              PreparedStatement preparedStatement = connection
                      .prepareStatement("UPDATE APP.ORGANIZATION t SET t.FULL_NAME = ?, t.SHORT_NAME = ?, t.CONTACT_PHONE_NUMBER = ? WHERE t.ID = ?")) {
@@ -68,7 +71,7 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
             preparedStatement.setInt(4, (int) object.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
+            throw new SaveObjectException("Ошибка при обновления объекта Organization c id " + object.getId());
         }
     }
 
@@ -89,7 +92,7 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
                         .setId(rs.getInt(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(personDerbyDataBase.findById(rs.getInt(4)).get())
+                        .setManager(PERSON_DERBY.findById(rs.getInt(4)).get())
                         .setContactPhoneNumber(rs.getString(5))
                         .build());
             }
@@ -160,7 +163,7 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
                         .setId(rs.getInt(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(personDerbyDataBase.findById(rs.getInt(4)).get())
+                        .setManager(PERSON_DERBY.findById(rs.getInt(4)).get())
                         .setContactPhoneNumber(rs.getString(5))
                         .build();
             }

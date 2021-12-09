@@ -4,6 +4,7 @@ import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
 import com.example.document_flow.entity.staff.Person;
+import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,15 +40,16 @@ public class PersonDerbyDataBase implements DAOCrud<Person> {
      * Удалить по id
      *
      * @param id - id объекта
+     * @throws DeleteObjectException когда удаление объекта терпит неудачу по какой-либо причине
      */
     @Override
-    public void deleteById(long id) {
+    public void deleteById(long id) throws DeleteObjectException {
         try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM APP.PERSON WHERE ID = ?")) {
             preparedStatement.setInt(1, (int) id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
+            throw new DeleteObjectException("Ошибка удаление Person c id " + id);
         }
     }
 
@@ -55,9 +57,10 @@ public class PersonDerbyDataBase implements DAOCrud<Person> {
      * Обновить данные объекта
      *
      * @param object объект с обновленными данными
+     * @throws SaveObjectException когда изменение объекта терпит не удачу по какой-либо причине
      */
     @Override
-    public void update(Person object) {
+    public void update(Person object) throws SaveObjectException {
         try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
              PreparedStatement preparedStatement = connection
                      .prepareStatement("UPDATE APP.PERSON t SET t.SURNAME = ?, t.NAME = ?, " +
@@ -71,7 +74,7 @@ public class PersonDerbyDataBase implements DAOCrud<Person> {
             preparedStatement.setInt(7, (int) object.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
+            throw new SaveObjectException("Ошибка при обновления объекта Person c id " + object.getId());
         }
     }
 

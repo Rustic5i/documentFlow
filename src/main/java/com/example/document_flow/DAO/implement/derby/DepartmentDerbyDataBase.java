@@ -41,6 +41,7 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
      * Удалить по id
      *
      * @param id - id объекта
+     * @throws DeleteObjectException когда удаление объекта терпит неудачу по какой-либо причине
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
@@ -57,6 +58,7 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
      * Обновить данные объекта
      *
      * @param object объект с обновленными данными
+     * @throws SaveObjectException когда изменение объекта терпит не удачу по какой-либо причине
      */
     @Override
     public void update(Department object) throws SaveObjectException {

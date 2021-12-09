@@ -19,4 +19,18 @@ public interface DepartmentService extends Service<Department> {
      * @return найденный объект класса <code>Department</code>
      */
     Optional<Department> findDepartmentById(long id);
+
+    /**
+     * Удалить объект по id
+     *
+     * @param id - id объекта
+     */
+    void deleteById(long id);
+
+    /**
+     * Обновить данные объекта
+     *
+     * @param object объект с обновленными данными
+     */
+    void update(Department object);
 }

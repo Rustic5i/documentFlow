@@ -1,6 +1,6 @@
 package com.example.document_flow.service.implement.staff.derby;
 
-import com.example.document_flow.DAO.abstraction.OrganizationDAO;
+import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.DAO.implement.derby.OrganizationDerbyDataBase;
 import com.example.document_flow.entity.staff.Organization;
 import com.example.document_flow.exception.SaveObjectException;
@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 public class OrganizationServiceDerby implements OrganizationService {
 
-    private final OrganizationDAO DAO = OrganizationDerbyDataBase.getInstance();
+    private final DAOCrud<Organization> DAO = OrganizationDerbyDataBase.getInstance();
 
     private static OrganizationServiceDerby organizationService;
 
@@ -31,7 +31,7 @@ public class OrganizationServiceDerby implements OrganizationService {
      */
     @Override
     public void save(Organization object) throws SaveObjectException {
-        DAO.saveOrganization(object);
+        DAO.save(object);
     }
 
     /**
@@ -42,7 +42,7 @@ public class OrganizationServiceDerby implements OrganizationService {
      */
     @Override
     public void saveAll(List<Organization> objects) throws SaveObjectException {
-        DAO.saveAllOrganization(objects);
+        DAO.saveAll(objects);
     }
 
     /**
@@ -52,7 +52,7 @@ public class OrganizationServiceDerby implements OrganizationService {
      */
     @Override
     public List<Organization> getAll() {
-        return DAO.getAllOrganization();
+        return DAO.getAll();
     }
 
     /**
@@ -63,7 +63,27 @@ public class OrganizationServiceDerby implements OrganizationService {
      */
     @Override
     public Optional<Organization> findOrganizationById(long id) {
-        return DAO.findOrganizationById(id);
+        return DAO.findById(id);
+    }
+
+    /**
+     * Удалить объект по id
+     *
+     * @param id - id объекта
+     */
+    @Override
+    public void deleteById(long id) {
+        DAO.deleteById(id);
+    }
+
+    /**
+     * Обновить данные объекта
+     *
+     * @param object объект с обновленными данными
+     */
+    @Override
+    public void update(Organization object) {
+        DAO.update(object);
     }
 
     /**

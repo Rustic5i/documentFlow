@@ -1,6 +1,6 @@
 package com.example.document_flow.service.implement.staff.derby;
 
-import com.example.document_flow.DAO.abstraction.DepartmentDAO;
+import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.DAO.implement.derby.DepartmentDerbyDataBase;
 import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.exception.SaveObjectException;
@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 public class DepartmentServiceDerby implements DepartmentService {
 
-    private final DepartmentDAO DAO = DepartmentDerbyDataBase.getInstance();
+    private final DAOCrud<Department> DAO = DepartmentDerbyDataBase.getInstance();
 
     private static DepartmentServiceDerby departmentServiceDerby;
 
@@ -31,7 +31,7 @@ public class DepartmentServiceDerby implements DepartmentService {
      */
     @Override
     public void save(Department object) throws SaveObjectException {
-        DAO.saveDepartment(object);
+        DAO.save(object);
     }
 
     /**
@@ -42,7 +42,7 @@ public class DepartmentServiceDerby implements DepartmentService {
      */
     @Override
     public void saveAll(List<Department> objects) throws SaveObjectException {
-        DAO.saveAllDepartment(objects);
+        DAO.saveAll(objects);
     }
 
     /**
@@ -52,7 +52,7 @@ public class DepartmentServiceDerby implements DepartmentService {
      */
     @Override
     public List<Department> getAll() {
-        return DAO.getAllDepartment();
+        return DAO.getAll();
     }
 
     /**
@@ -63,7 +63,27 @@ public class DepartmentServiceDerby implements DepartmentService {
      */
     @Override
     public Optional<Department> findDepartmentById(long id) {
-        return DAO.findDepartmentById(id);
+        return DAO.findById(id);
+    }
+
+    /**
+     * Удалить объект по id
+     *
+     * @param id - id объекта
+     */
+    @Override
+    public void deleteById(long id) {
+        DAO.deleteById(id);
+    }
+
+    /**
+     * Обновить данные объекта
+     *
+     * @param object объект с обновленными данными
+     */
+    @Override
+    public void update(Department object) {
+        DAO.update(object);
     }
 
     /**

@@ -1,6 +1,6 @@
 package com.example.document_flow.DAO.implement.derby;
 
-import com.example.document_flow.DAO.abstraction.OrganizationDAO;
+import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
 import com.example.document_flow.entity.staff.Organization;
@@ -23,7 +23,7 @@ import java.util.Optional;
  *
  * @author Баратов Руслан
  */
-public class OrganizationDerbyDataBase implements OrganizationDAO {
+public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
 
     private Connection connection;
 
@@ -55,7 +55,7 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
      * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
      */
     @Override
-    public void saveOrganization(Organization organization) throws SaveObjectException {
+    public void save(Organization organization) throws SaveObjectException {
         try {
             preparedStatement = connection
                     .prepareStatement("INSERT INTO APP.ORGANIZATION (ID, FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER)\n" +
@@ -74,12 +74,48 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
     }
 
     /**
+     * Удалить по id
+     *
+     * @param id - id объекта
+     */
+    @Override
+    public void deleteById(long id) {
+        try {
+            preparedStatement = connection.prepareStatement("DELETE FROM APP.ORGANIZATION WHERE ID = ?");
+            preparedStatement.setInt(1, (int) id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
+        }
+    }
+
+    /**
+     * Обновить данные объекта
+     *
+     * @param object объект с обновленными данными
+     */
+    @Override
+    public void update(Organization object) {
+        try {
+            preparedStatement = connection
+                    .prepareStatement("UPDATE APP.ORGANIZATION t SET t.FULL_NAME = ?, t.SHORT_NAME = ?, t.CONTACT_PHONE_NUMBER = ? WHERE t.ID = ?");
+            preparedStatement.setString(1, object.getFullName());
+            preparedStatement.setString(2, object.getShortName());
+            preparedStatement.setString(3, object.getContactPhoneNumber());
+            preparedStatement.setInt(4, (int) object.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
+        }
+    }
+
+    /**
      * Получить список всех сохраненных объектов класса <code>Organization</code>
      *
      * @return список сохраненных объектов класса <code>Organization</code>
      */
     @Override
-    public List<Organization> getAllOrganization() {
+    public List<Organization> getAll() {
         List<Organization> organizationList = new ArrayList<>();
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM ORGANIZATION");
@@ -89,7 +125,7 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
                         .setId(rs.getInt(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(personDerbyDataBase.findPersonById(rs.getInt(4)).get())
+                        .setManager(personDerbyDataBase.findById(rs.getInt(4)).get())
                         .setContactPhoneNumber(rs.getString(5))
                         .build());
             }
@@ -106,11 +142,11 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
      * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
      */
     @Override
-    public void saveAllOrganization(List<Organization> organizationList) throws SaveObjectException {
+    public void saveAll(List<Organization> organizationList) throws SaveObjectException {
         try {
             connection.setAutoCommit(false);
             for (Organization organization : organizationList) {
-                saveOrganization(organization);
+                save(organization);
             }
             connection.commit();
         } catch (SQLException e) {
@@ -130,7 +166,7 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
      * @return найденный объект класса <code>Organization</code>
      */
     @Override
-    public Optional<Organization> findOrganizationById(long id) {
+    public Optional<Organization> findById(long id) {
         Organization organization = new Organization();
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM ORGANIZATION WHERE ID=?");
@@ -141,7 +177,7 @@ public class OrganizationDerbyDataBase implements OrganizationDAO {
                         .setId(rs.getInt(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(personDerbyDataBase.findPersonById(rs.getInt(4)).get())
+                        .setManager(personDerbyDataBase.findById(rs.getInt(4)).get())
                         .setContactPhoneNumber(rs.getString(5))
                         .build();
             }

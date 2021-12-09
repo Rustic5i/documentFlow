@@ -1,6 +1,6 @@
 package com.example.document_flow.DAO.implement.derby;
 
-import com.example.document_flow.DAO.abstraction.DepartmentDAO;
+import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
 import com.example.document_flow.entity.staff.Department;
@@ -23,7 +23,7 @@ import java.util.Optional;
  *
  * @author Баратов Руслан
  */
-public class DepartmentDerbyDataBase implements DepartmentDAO {
+public class DepartmentDerbyDataBase implements DAOCrud<Department> {
 
     private Connection connection;
 
@@ -55,7 +55,7 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
      * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
      */
     @Override
-    public void saveDepartment(Department department) throws SaveObjectException {
+    public void save(Department department) throws SaveObjectException {
         try {
             preparedStatement = connection
                     .prepareStatement("INSERT INTO APP.DEPARTMENT (ID, FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER)\n" +
@@ -74,12 +74,48 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
     }
 
     /**
+     * Удалить по id
+     *
+     * @param id - id объекта
+     */
+    @Override
+    public void deleteById(long id) {
+        try {
+            preparedStatement = connection.prepareStatement("DELETE FROM APP.DEPARTMENT WHERE ID = ?");
+            preparedStatement.setInt(1, (int) id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
+        }
+    }
+
+    /**
+     * Обновить данные объекта
+     *
+     * @param object объект с обновленными данными
+     */
+    @Override
+    public void update(Department object) {
+        try {
+            preparedStatement = connection
+                    .prepareStatement("UPDATE APP.DEPARTMENT t SET t.FULL_NAME = ?, t.SHORT_NAME = ?, t.CONTACT_PHONE_NUMBER = ? WHERE t.ID = ?");
+            preparedStatement.setString(1, object.getFullName());
+            preparedStatement.setString(2, object.getShortName());
+            preparedStatement.setString(3, object.getContactPhoneNumber());
+            preparedStatement.setInt(4, (int) object.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
+        }
+    }
+
+    /**
      * Получить список всех сохраненных объектов класса <code>Department</code>
      *
      * @return список сохраненных объектов класса <code>Department</code>
      */
     @Override
-    public List<Department> getAllDepartment() {
+    public List<Department> getAll() {
         List<Department> departmentList = new ArrayList<>();
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM DEPARTMENT");
@@ -89,7 +125,7 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
                         .setId(rs.getInt(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(personDerbyDataBase.findPersonById(rs.getInt(4)).get())
+                        .setManager(personDerbyDataBase.findById(rs.getInt(4)).get())
                         .setContactPhoneNumber(rs.getString(5))
                         .build());
             }
@@ -106,11 +142,11 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
      * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
      */
     @Override
-    public void saveAllDepartment(List<Department> departmentList) throws SaveObjectException {
+    public void saveAll(List<Department> departmentList) throws SaveObjectException {
         try {
             connection.setAutoCommit(false);
             for (Department department : departmentList) {
-                saveDepartment(department);
+                save(department);
             }
             connection.commit();
         } catch (SQLException e) {
@@ -130,7 +166,7 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
      * @return найденный объект класса <code>Department</code>
      */
     @Override
-    public Optional<Department> findDepartmentById(long id) {
+    public Optional<Department> findById(long id) {
         Department department = new Department();
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM DEPARTMENT WHERE ID=?");
@@ -141,7 +177,7 @@ public class DepartmentDerbyDataBase implements DepartmentDAO {
                         .setId(rs.getInt(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(personDerbyDataBase.findPersonById(rs.getInt(4)).get())
+                        .setManager(personDerbyDataBase.findById(rs.getInt(4)).get())
                         .setContactPhoneNumber(rs.getString(5))
                         .build();
             }

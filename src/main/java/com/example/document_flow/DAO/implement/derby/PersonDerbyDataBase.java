@@ -1,6 +1,6 @@
 package com.example.document_flow.DAO.implement.derby;
 
-import com.example.document_flow.DAO.abstraction.PersonDAO;
+import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
 import com.example.document_flow.entity.staff.Person;
@@ -14,7 +14,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +24,7 @@ import java.util.Optional;
  *
  * @author Баратов Руслан
  */
-public class PersonDerbyDataBase implements PersonDAO {
+public class PersonDerbyDataBase implements DAOCrud<Person> {
 
     private Connection connection;
 
@@ -55,7 +54,7 @@ public class PersonDerbyDataBase implements PersonDAO {
      * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
      */
     @Override
-    public void savePerson(Person person) throws SaveObjectException {
+    public void save(Person person) throws SaveObjectException {
         try {
             preparedStatement = connection
                     .prepareStatement("INSERT INTO APP.PERSON (ID, SURNAME, NAME, PATRONYMIC, POST, DATA_OF_BIRTH, PHONE_NUMBER)\n" +
@@ -76,12 +75,52 @@ public class PersonDerbyDataBase implements PersonDAO {
     }
 
     /**
+     * Удалить по id
+     *
+     * @param id - id объекта
+     */
+    @Override
+    public void deleteById(long id) {
+        try {
+            preparedStatement = connection.prepareStatement("DELETE FROM APP.PERSON WHERE ID = ?");
+            preparedStatement.setInt(1, (int) id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
+        }
+    }
+
+    /**
+     * Обновить данные объекта
+     *
+     * @param object объект с обновленными данными
+     */
+    @Override
+    public void update(Person object) {
+        try {
+            preparedStatement = connection
+                    .prepareStatement("UPDATE APP.PERSON t SET t.SURNAME = ?, t.NAME = ?, " +
+                            "t.PATRONYMIC = ?, t.POST = ?, t.DATA_OF_BIRTH = ?, t.PHONE_NUMBER  = ? WHERE t.ID = ?");
+            preparedStatement.setString(1, object.getSurname());
+            preparedStatement.setString(2, object.getName());
+            preparedStatement.setString(3, object.getPatronymic());
+            preparedStatement.setString(4, object.getPost());
+            preparedStatement.setDate(5, new Date(object.getDateOfBirth().getTime()));
+            preparedStatement.setInt(6, object.getPhoneNumber());
+            preparedStatement.setInt(7, (int) object.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
+        }
+    }
+
+    /**
      * Получить список всех сохраненных объектов класса <code>Person</code>
      *
      * @return список сохраненных объектов класса <code>Person</code>
      */
     @Override
-    public List<Person> getAllPerson() {
+    public List<Person> getAll() {
         List<Person> personList = new ArrayList<>();
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM PERSON");
@@ -110,11 +149,11 @@ public class PersonDerbyDataBase implements PersonDAO {
      * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
      */
     @Override
-    public void saveAllPerson(List<Person> personList) throws SaveObjectException {
+    public void saveAll(List<Person> personList) throws SaveObjectException {
         try {
             connection.setAutoCommit(false);
             for (Person person : personList) {
-                savePerson(person);
+                save(person);
             }
             connection.commit();
         } catch (SQLException e) {
@@ -134,7 +173,7 @@ public class PersonDerbyDataBase implements PersonDAO {
      * @return найденный объект класса <code>Person</code>
      */
     @Override
-    public Optional<Person> findPersonById(long id) {
+    public Optional<Person> findById(long id) {
         Person person = new Person();
         try {
             preparedStatement = connection.prepareStatement("SELECT * FROM PERSON WHERE ID=?");

@@ -1,6 +1,6 @@
 package com.example.document_flow.service.implement.staff.derby;
 
-import com.example.document_flow.DAO.abstraction.PersonDAO;
+import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.DAO.implement.derby.PersonDerbyDataBase;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.SaveObjectException;
@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 public class PersonServiceDerby implements PersonService {
 
-    private final PersonDAO DAO = PersonDerbyDataBase.getInstance();
+    private final DAOCrud<Person> DAO = PersonDerbyDataBase.getInstance();
 
     private static PersonServiceDerby personServiceDerby;
 
@@ -31,7 +31,7 @@ public class PersonServiceDerby implements PersonService {
      */
     @Override
     public void save(Person object) throws SaveObjectException {
-        DAO.savePerson(object);
+        DAO.save(object);
     }
 
     /**
@@ -42,7 +42,7 @@ public class PersonServiceDerby implements PersonService {
      */
     @Override
     public void saveAll(List<Person> objects) throws SaveObjectException {
-        DAO.saveAllPerson(objects);
+        DAO.saveAll(objects);
     }
 
     /**
@@ -52,7 +52,7 @@ public class PersonServiceDerby implements PersonService {
      */
     @Override
     public List<Person> getAll() {
-        return DAO.getAllPerson();
+        return DAO.getAll();
     }
 
     /**
@@ -63,7 +63,27 @@ public class PersonServiceDerby implements PersonService {
      */
     @Override
     public Optional<Person> findPersonById(long id) {
-        return DAO.findPersonById(id);
+        return DAO.findById(id);
+    }
+
+    /**
+     * Удалить объект по id
+     *
+     * @param id - id объекта
+     */
+    @Override
+    public void deleteById(long id) {
+        DAO.deleteById(id);
+    }
+
+    /**
+     * Обновить данные объекта
+     *
+     * @param object объект с обновленными данными
+     */
+    @Override
+    public void update(Person object) {
+        DAO.update(object);
     }
 
     /**

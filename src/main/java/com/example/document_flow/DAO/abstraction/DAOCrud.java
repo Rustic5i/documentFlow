@@ -1,5 +1,6 @@
 package com.example.document_flow.DAO.abstraction;
 
+import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 
 import java.util.List;
@@ -25,14 +26,14 @@ public interface DAOCrud<T> {
      *
      * @param id - id объекта
      */
-    void deleteById(long id);
+    void deleteById(long id) throws DeleteObjectException;
 
     /**
      * Обновить данные объекта
      *
      * @param object объект с обновленными данными
      */
-    void update(T object);
+    void update(T object) throws SaveObjectException;
 
     /**
      * Получить список всех сохраненных объектов

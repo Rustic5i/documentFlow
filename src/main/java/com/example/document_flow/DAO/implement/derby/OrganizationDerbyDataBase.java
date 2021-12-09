@@ -25,10 +25,6 @@ import java.util.Optional;
  */
 public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
 
-    private Connection connection;
-
-    private PreparedStatement preparedStatement;
-
     private PersonDerbyDataBase personDerbyDataBase = PersonDerbyDataBase.getInstance();
 
     private final SessionDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
@@ -38,14 +34,6 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
     private static OrganizationDerbyDataBase derbyDataBase;
 
     private OrganizationDerbyDataBase() {
-        connectToDB();
-    }
-
-    /***
-     * Получение соединения (сеанса) к бд Derby
-     */
-    private void connectToDB() {
-        connection = SESSION_DERBY_DATA_BASE.getConnection();
     }
 
     /**
@@ -55,8 +43,8 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
      */
     @Override
     public void deleteById(long id) {
-        try {
-            preparedStatement = connection.prepareStatement("DELETE FROM APP.ORGANIZATION WHERE ID = ?");
+        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM APP.ORGANIZATION WHERE ID = ?")) {
             preparedStatement.setInt(1, (int) id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -71,9 +59,9 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
      */
     @Override
     public void update(Organization object) {
-        try {
-            preparedStatement = connection
-                    .prepareStatement("UPDATE APP.ORGANIZATION t SET t.FULL_NAME = ?, t.SHORT_NAME = ?, t.CONTACT_PHONE_NUMBER = ? WHERE t.ID = ?");
+        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
+             PreparedStatement preparedStatement = connection
+                     .prepareStatement("UPDATE APP.ORGANIZATION t SET t.FULL_NAME = ?, t.SHORT_NAME = ?, t.CONTACT_PHONE_NUMBER = ? WHERE t.ID = ?")) {
             preparedStatement.setString(1, object.getFullName());
             preparedStatement.setString(2, object.getShortName());
             preparedStatement.setString(3, object.getContactPhoneNumber());
@@ -92,9 +80,10 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
     @Override
     public List<Organization> getAll() {
         List<Organization> organizationList = new ArrayList<>();
-        try {
-            preparedStatement = connection.prepareStatement("SELECT * FROM ORGANIZATION");
-            ResultSet rs = preparedStatement.executeQuery();
+        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
+             PreparedStatement preparedStatement = connection
+                     .prepareStatement("SELECT * FROM ORGANIZATION");
+             ResultSet rs = preparedStatement.executeQuery()) {
             while (rs.next()) {
                 organizationList.add(new Organization().newBuilder()
                         .setId(rs.getInt(1))
@@ -119,8 +108,9 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
     @Override
     public void saveAll(List<Organization> organizationList) throws SaveObjectException {
         try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO APP.ORGANIZATION (ID, FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER)\n" +
-                    "VALUES (?, ?, ?, ?, ?)")) {
+            try (PreparedStatement preparedStatement = connection
+                    .prepareStatement("INSERT INTO APP.ORGANIZATION (ID, FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER)\n" +
+                            "VALUES (?, ?, ?, ?, ?)")) {
                 connection.setAutoCommit(false);
                 for (Organization organization : organizationList) {
                     preparedStatement.setInt(1, (int) organization.getId());
@@ -161,10 +151,10 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
     @Override
     public Optional<Organization> findById(long id) {
         Organization organization = new Organization();
-        try {
-            preparedStatement = connection.prepareStatement("SELECT * FROM ORGANIZATION WHERE ID=?");
+        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ORGANIZATION WHERE ID=?");
+             ResultSet rs = preparedStatement.executeQuery()) {
             preparedStatement.setLong(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 organization.newBuilder()
                         .setId(rs.getInt(1))

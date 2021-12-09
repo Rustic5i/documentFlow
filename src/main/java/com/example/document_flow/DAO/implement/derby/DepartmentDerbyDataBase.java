@@ -4,6 +4,7 @@ import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
 import com.example.document_flow.entity.staff.Department;
+import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,10 +26,6 @@ import java.util.Optional;
  */
 public class DepartmentDerbyDataBase implements DAOCrud<Department> {
 
-    private Connection connection;
-
-    private PreparedStatement preparedStatement;
-
     private PersonDerbyDataBase personDerbyDataBase = PersonDerbyDataBase.getInstance();
 
     private final SessionDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
@@ -38,14 +35,6 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
     private static DepartmentDerbyDataBase derbyDataBase;
 
     private DepartmentDerbyDataBase() {
-        connectToDB();
-    }
-
-    /***
-     * Получение соединения (сеанса) к бд Derby
-     */
-    private void connectToDB() {
-        connection = SESSION_DERBY_DATA_BASE.getConnection();
     }
 
     /**
@@ -54,13 +43,13 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
      * @param id - id объекта
      */
     @Override
-    public void deleteById(long id) {
-        try {
-            preparedStatement = connection.prepareStatement("DELETE FROM APP.DEPARTMENT WHERE ID = ?");
+    public void deleteById(long id) throws DeleteObjectException {
+        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM APP.DEPARTMENT WHERE ID = ?")) {
             preparedStatement.setInt(1, (int) id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
+            throw new DeleteObjectException("Ошибка удаление Department c id " + id);
         }
     }
 
@@ -70,17 +59,17 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
      * @param object объект с обновленными данными
      */
     @Override
-    public void update(Department object) {
-        try {
-            preparedStatement = connection
-                    .prepareStatement("UPDATE APP.DEPARTMENT t SET t.FULL_NAME = ?, t.SHORT_NAME = ?, t.CONTACT_PHONE_NUMBER = ? WHERE t.ID = ?");
+    public void update(Department object) throws SaveObjectException {
+        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
+             PreparedStatement preparedStatement = connection
+                     .prepareStatement("UPDATE APP.DEPARTMENT t SET t.FULL_NAME = ?, t.SHORT_NAME = ?, t.CONTACT_PHONE_NUMBER = ? WHERE t.ID = ?")) {
             preparedStatement.setString(1, object.getFullName());
             preparedStatement.setString(2, object.getShortName());
             preparedStatement.setString(3, object.getContactPhoneNumber());
             preparedStatement.setInt(4, (int) object.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
+            throw new SaveObjectException("Ошибка при обновления объекта Department c id " + object.getId());
         }
     }
 
@@ -92,9 +81,10 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
     @Override
     public List<Department> getAll() {
         List<Department> departmentList = new ArrayList<>();
-        try {
-            preparedStatement = connection.prepareStatement("SELECT * FROM DEPARTMENT");
-            ResultSet rs = preparedStatement.executeQuery();
+        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
+             PreparedStatement preparedStatement = connection
+                     .prepareStatement("SELECT * FROM DEPARTMENT");
+             ResultSet rs = preparedStatement.executeQuery()) {
             while (rs.next()) {
                 departmentList.add(new Department().newBuilder()
                         .setId(rs.getInt(1))
@@ -119,8 +109,9 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
     @Override
     public void saveAll(List<Department> departmentList) throws SaveObjectException {
         try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO APP.DEPARTMENT (ID, FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER)\n" +
-                    "VALUES (?, ?, ?, ?, ?)")) {
+            try (PreparedStatement preparedStatement = connection
+                    .prepareStatement("INSERT INTO APP.DEPARTMENT (ID, FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER)\n" +
+                            "VALUES (?, ?, ?, ?, ?)")) {
                 connection.setAutoCommit(false);
                 for (Department department : departmentList) {
                     preparedStatement.setInt(1, (int) department.getId());
@@ -161,8 +152,9 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
     @Override
     public Optional<Department> findById(long id) {
         Department department = new Department();
-        try {
-            preparedStatement = connection.prepareStatement("SELECT * FROM DEPARTMENT WHERE ID=?");
+        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
+             PreparedStatement preparedStatement = connection
+                     .prepareStatement("SELECT * FROM DEPARTMENT WHERE ID=?")) {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {

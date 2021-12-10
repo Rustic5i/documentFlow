@@ -1,8 +1,11 @@
 package com.example.document_flow.web.observers;
 
+import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.repository.absraction.document.DocumentRepository;
 import com.example.document_flow.repository.implement.document.DocumentRepositoryImpl;
 import com.example.document_flow.generator.DocumentGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -18,6 +21,8 @@ public class DocumentRepositoryInitObserver implements ServletContextListener {
 
     private final DocumentRepository DOCUMENT_REPOSITORY = DocumentRepositoryImpl.getInstance();
 
+    private final Logger LOGGER = LoggerFactory.getLogger(DocumentRepositoryInitObserver.class.getName());
+
     /**
      * Заполняет <code>DocumentRepository</code> данными при запуске приложения
      *
@@ -25,7 +30,11 @@ public class DocumentRepositoryInitObserver implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        DOCUMENT_REPOSITORY.saveAll(DocumentGenerator.run(100));
+        try {
+            DOCUMENT_REPOSITORY.saveAll(DocumentGenerator.run(100));
+        } catch (SaveObjectException e) {
+            LOGGER.warn("",e);
+        }
     }
 
     @Override

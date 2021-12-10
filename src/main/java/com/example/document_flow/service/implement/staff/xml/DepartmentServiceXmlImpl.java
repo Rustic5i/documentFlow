@@ -30,7 +30,7 @@ public class DepartmentServiceXmlImpl implements DepartmentService {
      * @param object подразделение
      */
     @Override
-    public void save(Department object) {
+    public void save(Department object) throws SaveObjectException {
         REPOSITORY.save(object);
     }
 
@@ -40,7 +40,7 @@ public class DepartmentServiceXmlImpl implements DepartmentService {
      * @param objects список подразделений
      */
     @Override
-    public void saveAll(List<Department> objects) {
+    public void saveAll(List<Department> objects) throws SaveObjectException {
         REPOSITORY.saveAll(objects);
     }
 

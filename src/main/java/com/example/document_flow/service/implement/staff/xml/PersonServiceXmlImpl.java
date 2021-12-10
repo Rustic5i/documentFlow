@@ -30,7 +30,7 @@ public class PersonServiceXmlImpl implements PersonService {
      * @param object работник
      */
     @Override
-    public void save(Person object) {
+    public void save(Person object) throws SaveObjectException {
         REPOSITORY.save(object);
     }
 
@@ -40,7 +40,7 @@ public class PersonServiceXmlImpl implements PersonService {
      * @param objects лист работников
      */
     @Override
-    public void saveAll(List<Person> objects) {
+    public void saveAll(List<Person> objects) throws SaveObjectException {
         REPOSITORY.saveAll(objects);
     }
 

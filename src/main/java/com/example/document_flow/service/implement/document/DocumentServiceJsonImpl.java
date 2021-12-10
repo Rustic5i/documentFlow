@@ -31,7 +31,7 @@ public class DocumentServiceJsonImpl implements DocumentServiceJson {
      * @param object документ
      */
     @Override
-    public void save(Document object) {
+    public void save(Document object) throws SaveObjectException {
         REPOSITORY.save(object);
     }
 
@@ -41,7 +41,7 @@ public class DocumentServiceJsonImpl implements DocumentServiceJson {
      * @param objects список документов
      */
     @Override
-    public void saveAll(List<Document> objects) {
+    public void saveAll(List<Document> objects) throws SaveObjectException {
         REPOSITORY.saveAll(objects);
     }
 

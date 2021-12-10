@@ -30,7 +30,7 @@ public class OrganizationServiceXmlImpl implements OrganizationService {
      * @param object организация
      */
     @Override
-    public void save(Organization object) {
+    public void save(Organization object) throws SaveObjectException {
         REPOSITORY.save(object);
     }
 
@@ -40,7 +40,7 @@ public class OrganizationServiceXmlImpl implements OrganizationService {
      * @param objects список организаций
      */
     @Override
-    public void saveAll(List<Organization> objects) {
+    public void saveAll(List<Organization> objects) throws SaveObjectException {
         REPOSITORY.saveAll(objects);
     }
 

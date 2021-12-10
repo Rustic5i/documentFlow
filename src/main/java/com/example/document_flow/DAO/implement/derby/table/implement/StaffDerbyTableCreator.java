@@ -42,7 +42,7 @@ public class StaffDerbyTableCreator implements TableCreator {
                 statement.executeUpdate(sqlScript);
             }
         } catch (SQLException e) {
-           LOGGER.error("Ошибка при создание таблицы в базе данной Derby",e);
+            LOGGER.error("Ошибка при создание таблицы в базе данной Derby", e);
         }
     }
 

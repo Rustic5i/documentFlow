@@ -33,7 +33,7 @@ public class PersonRepositoryXmlImpl implements PersonRepository {
      * @param object объект для сохранения
      */
     @Override
-    public void save(Person object) {
+    public void save(Person object) throws SaveObjectException {
         REPOSITORY.save(object);
     }
 
@@ -43,7 +43,7 @@ public class PersonRepositoryXmlImpl implements PersonRepository {
      * @param objects список объектов для сохранения
      */
     @Override
-    public void saveAll(List<Person> objects) {
+    public void saveAll(List<Person> objects) throws SaveObjectException {
         REPOSITORY.saveAll(objects);
     }
 

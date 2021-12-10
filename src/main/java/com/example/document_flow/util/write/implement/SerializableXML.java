@@ -1,6 +1,7 @@
 package com.example.document_flow.util.write.implement;
 
 import com.example.document_flow.entity.staff.Staff;
+import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.util.write.abstraction.Serializable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,16 +35,18 @@ public class SerializableXML<T extends Staff> implements Serializable {
      * @param filePath путь - куда сохранять обьект
      * @param object   объект для сохранения
      * @return путь к сохраненному объекту
+     * @throws SaveObjectException когда сохранения объекта терпит не удачу по какой-либо причине.
+     * Основная причины если при создании объекта маршаллера возникла ошибка или Файл Xml не существует, или не может быть создан.
      */
     @Override
-    public Path save(File filePath, Object object) {
+    public Path save(File filePath, Object object) throws SaveObjectException {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(object.getClass());
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(object, filePath);
         } catch (JAXBException e) {
-            LOGGER.warn("Exception ", e);
+            throw new SaveObjectException("Файл Xml не существует, или не может быть создан " + e);
         }
         return filePath.toPath();
     }
@@ -55,11 +58,15 @@ public class SerializableXML<T extends Staff> implements Serializable {
      *                  Где значение - сам объект для десериализации
      * @param <T>       тип объектов для сериализации
      * @return список расположения сохраненных файлов
+     * @throws SaveObjectException когда сохранения объекта терпит не удачу по какой-либо причине.
+     * Основная причины если при создании объекта маршаллера возникла ошибка или Файл Xml не существует, или не может быть создан.
      */
     @Override
-    public <T> Set<Path> saveAll(Map<File, T> filePaths) {
+    public <T> Set<Path> saveAll(Map<File, T> filePaths) throws SaveObjectException {
         Set<Path> filesPath = new HashSet<>();
-        filePaths.keySet().forEach(key -> save(key, filePaths.get(key)));
+        for (File key : filePaths.keySet()) {
+            save(key, filePaths.get(key));
+        }
         return filesPath;
     }
 

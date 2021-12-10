@@ -18,6 +18,7 @@ public interface Repository<T> {
      * Сохранить какой-либо объект в репозиторий
      *
      * @param object объект для сохранения
+     * @throws SaveObjectException когда сохранения объекта терпит не удачу по какой-либо причине
      */
     void save(T object) throws SaveObjectException;
 
@@ -25,6 +26,7 @@ public interface Repository<T> {
      * Сохранить список объектов в репозиторий
      *
      * @param objects список объектов для сохранения
+     * @throws SaveObjectException когда сохранения объекта терпит не удачу по какой-либо причине
      */
     void saveAll(List<T> objects) throws SaveObjectException;
 

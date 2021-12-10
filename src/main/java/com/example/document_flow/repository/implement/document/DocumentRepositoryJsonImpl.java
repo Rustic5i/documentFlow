@@ -130,6 +130,9 @@ public class DocumentRepositoryJsonImpl implements DocumentRepositoryJSON {
         save(object);
     }
 
+    /**
+     * Создает папку для хранения файлов Json
+     */
     private void createRepository() {
         File file = new File(NAME_REPOSITORY);
         if (!file.exists()) {

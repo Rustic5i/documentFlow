@@ -4,8 +4,6 @@ import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.util.write.abstraction.Serializable;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -25,8 +23,6 @@ public class SerializableJSON implements Serializable {
 
     private final Gson GSON = new GsonBuilder().create();
 
-    private final Logger LOGGER = LoggerFactory.getLogger(SerializableJSON.class.getName());
-
     private static SerializableJSON serializableJSON;
 
     private SerializableJSON() {
@@ -38,13 +34,14 @@ public class SerializableJSON implements Serializable {
      * @param filePath путь к директории и наименования файла
      * @param object   объект для сериализации
      * @return путь к сохраненному объекту
+     * @throws SaveObjectException когда сохранения объекта терпит не удачу по какой-либо причине
      */
     @Override
     public Path save(File filePath, Object object) throws SaveObjectException {
         try (Writer writer = new FileWriter(filePath)) {
             GSON.toJson(object, writer);
         } catch (IOException e) {
-            throw new SaveObjectException("Файл не существует, или не может быть создан " + e);
+            throw new SaveObjectException("Файл Json не существует, или не может быть создан " + e);
         }
         return filePath.toPath();
     }
@@ -56,6 +53,7 @@ public class SerializableJSON implements Serializable {
      *                  Где значение - сам объект для десериализации
      * @param <T>       тип объектов для сериализации
      * @return список расположения сохраненных файлов
+     * @throws SaveObjectException когда сохранения объекта терпит не удачу по какой-либо причине
      */
     @Override
     public <T> Set<Path> saveAll(Map<File, T> filePaths) throws SaveObjectException {

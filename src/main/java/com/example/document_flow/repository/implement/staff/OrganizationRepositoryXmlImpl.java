@@ -31,6 +31,7 @@ public class OrganizationRepositoryXmlImpl implements OrganizationRepository {
      * Сохраняет объект Organization в репозиторий
      *
      * @param object объект для сохранения
+     * @throws SaveObjectException когда сохранения объекта терпит не удачу по какой-либо причине
      */
     @Override
     public void save(Organization object) throws SaveObjectException {
@@ -41,6 +42,7 @@ public class OrganizationRepositoryXmlImpl implements OrganizationRepository {
      * Сохраняет список объектов Organization в репозиторий
      *
      * @param objects список объектов для сохранения
+     * @throws SaveObjectException когда сохранения объекта терпит не удачу по какой-либо причине
      */
     @Override
     public void saveAll(List<Organization> objects) throws SaveObjectException {

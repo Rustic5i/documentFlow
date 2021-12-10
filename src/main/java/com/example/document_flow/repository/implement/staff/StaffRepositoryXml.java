@@ -59,6 +59,7 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
      * Сохраняет какой-либо объект в формат xml
      *
      * @param object объект для сохранения
+     * @throws SaveObjectException когда сохранения объекта терпит не удачу по какой-либо причине
      */
     @Override
     public void save(T object) throws SaveObjectException {
@@ -73,6 +74,7 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
      * Сохраняет список объектов в формат Xml
      *
      * @param objects список объектов
+     * @throws SaveObjectException когда сохранения объекта терпит не удачу по какой-либо причине
      */
     @Override
     public void saveAll(List<T> objects) throws SaveObjectException {

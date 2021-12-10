@@ -20,6 +20,7 @@ public interface Serializable {
      * @param filePath путь - куда сохранять обьект
      * @param object   объект для сохранения
      * @return путь к сохраненному объекту
+     * @throws SaveObjectException когда сохранения объекта терпит не удачу по какой-либо причине
      */
     Path save(File filePath, Object object) throws SaveObjectException;
 
@@ -30,6 +31,7 @@ public interface Serializable {
      *                  Где значение - сам объект для десериализации
      * @param <T>       тип объектов для сериализации
      * @return список расположения сохраненных файлов
+     * @throws SaveObjectException когда сохранения объекта терпит не удачу по какой-либо причине
      */
-    <T> Set<Path> saveAll(Map<File, T> filePaths)throws SaveObjectException;
+    <T> Set<Path> saveAll(Map<File, T> filePaths) throws SaveObjectException;
 }

@@ -31,6 +31,7 @@ public class DepartmentRepositoryXmlImpl implements DepartmentRepository {
      * Сохраняет объект Department в репозиторий
      *
      * @param object объект для сохранения
+     * @throws SaveObjectException когда сохранения объекта терпит не удачу по какой-либо причине
      */
     @Override
     public void save(Department object) throws SaveObjectException {
@@ -41,6 +42,7 @@ public class DepartmentRepositoryXmlImpl implements DepartmentRepository {
      * Сохраняет список объектов Department в репозиторий
      *
      * @param objects список объектов для сохранения
+     * @throws SaveObjectException когда сохранения объекта терпит не удачу по какой-либо причине
      */
     @Override
     public void saveAll(List<Department> objects) throws SaveObjectException {

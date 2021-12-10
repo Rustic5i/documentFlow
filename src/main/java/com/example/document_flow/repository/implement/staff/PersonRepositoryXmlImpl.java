@@ -31,6 +31,7 @@ public class PersonRepositoryXmlImpl implements PersonRepository {
      * Сохраняет объект Person в репозиторий
      *
      * @param object объект для сохранения
+     * @throws SaveObjectException когда сохранения объекта терпит не удачу по какой-либо причине
      */
     @Override
     public void save(Person object) throws SaveObjectException {
@@ -41,6 +42,7 @@ public class PersonRepositoryXmlImpl implements PersonRepository {
      * Сохраняет список объектов Person в репозиторий
      *
      * @param objects список объектов для сохранения
+     * @throws SaveObjectException когда сохранения объекта терпит не удачу по какой-либо причине
      */
     @Override
     public void saveAll(List<Person> objects) throws SaveObjectException {

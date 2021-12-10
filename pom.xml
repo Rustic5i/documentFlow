@@ -24,6 +24,7 @@
         <jersey-media-json-jackson>2.27</jersey-media-json-jackson>
         <derby.version>10.13.1.1</derby.version>
         <maven.war.plugin>3.2.0</maven.war.plugin>
+        <cargo-maven2-plugin.version>1.7.6</cargo-maven2-plugin.version>
     </properties>
     <dependencies>
         <dependency>
@@ -99,6 +100,43 @@
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven2-plugin</artifactId>
+                <version>${cargo-maven2-plugin.version}</version>
+                <configuration>
+                    <container>
+                        <containerId>tomcat9x</containerId>
+                        <type>embedded</type>
+                    </container>
+                    <configuration>
+                        <properties>
+                            <cargo.servlet.uriencoding>UTF-8</cargo.servlet.uriencoding>
+                            <cargo.servlet.port>8080</cargo.servlet.port>
+                            <cargo.tomcat.manager.url>http://localhost:8080</cargo.tomcat.manager.url>
+                        </properties>
+                    </configuration>
+                    <deployables>
+                        <deployable>
+                            <groupId>com.example</groupId>
+                            <artifactId>document_flow</artifactId>
+                            <type>war</type>
+                            <properties>
+                                <context>/</context>
+                            </properties>
+                        </deployable>
+                    </deployables>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
         <resources>

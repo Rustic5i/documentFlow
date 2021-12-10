@@ -3,6 +3,8 @@ package com.example.document_flow.DAO.implement.derby.table.implement;
 import com.example.document_flow.DAO.abstraction.TableCreator;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
 import com.example.document_flow.util.read.ReadFileSql;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -23,6 +25,8 @@ public class StaffDerbyTableCreator implements TableCreator {
 
     private static StaffDerbyTableCreator staffDerbyTableCreator;
 
+    private Logger LOGGER = LoggerFactory.getLogger(StaffDerbyTableCreator.class.getName());
+
     private StaffDerbyTableCreator() {
     }
 
@@ -38,7 +42,7 @@ public class StaffDerbyTableCreator implements TableCreator {
                 statement.executeUpdate(sqlScript);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+           LOGGER.error("Ошибка при создание таблицы в базе данной Derby",e);
         }
     }
 

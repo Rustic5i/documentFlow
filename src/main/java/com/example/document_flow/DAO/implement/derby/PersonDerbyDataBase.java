@@ -49,7 +49,7 @@ public class PersonDerbyDataBase implements DAOCrud<Person> {
             preparedStatement.setInt(1, (int) id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DeleteObjectException("Ошибка удаление Person c id " + id);
+            throw new DeleteObjectException("Ошибка удаление Person c id " + id + e);
         }
     }
 

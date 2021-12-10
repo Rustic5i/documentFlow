@@ -1,7 +1,7 @@
-package com.example.document_flow.util.read;
+package com.example.document_flow.config;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 import java.util.Properties;
 
@@ -14,17 +14,18 @@ public class ReadFileProperties {
 
     private final Properties PROPERTIES = new Properties();
 
-    private final String RESOURCE_PATH = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource(""),
-            "Папка ресурсов не найдено").getPath();
+    private final String RESOURCE_PATH = "config/config.properties";
+
+    private final InputStream INPUT_STREAM_PROPERTIES_FILE = Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream(RESOURCE_PATH),
+            "Папка ресурсов"+RESOURCE_PATH+" не найдено");
 
     /**
      * Считывает список свойств (пары ключей и элементов) из файла формата properties
      *
-     * @param propertiesPath расположения файла в папке resources
      */
-    public synchronized void load(String propertiesPath) {
+    public synchronized void load() {
         try {
-            PROPERTIES.load(new FileInputStream(RESOURCE_PATH + propertiesPath));
+            PROPERTIES.load(INPUT_STREAM_PROPERTIES_FILE);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,7 +1,7 @@
 package com.example.document_flow.config.DataBase.implement;
 
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
-import com.example.document_flow.util.read.ReadFileProperties;
+import com.example.document_flow.config.ReadFileProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,19 +29,6 @@ public class SessionDerbyDataBase implements SessionDataBase, AutoCloseable {
     private SessionDerbyDataBase() {
     }
 
-//    /**
-//     * Подключение к базе данных Derby
-//     */
-//    private synchronized void connectToDB() {
-//        PROPERTIES.load(CONFIG_PATH);
-//        try {
-//            Class.forName(PROPERTIES.getProperty("db.driver"));
-//            connection = DriverManager.getConnection(PROPERTIES.getProperty("derby.datasource.url"));
-//        } catch (SQLException | ClassNotFoundException e) {
-//            LOGGER.error("Ошибка подключение к базе данных Derby", e);
-//        }
-//    }
-
     /**
      * @return соединение (сеанс) с определенной базой данных.
      */
@@ -49,7 +36,7 @@ public class SessionDerbyDataBase implements SessionDataBase, AutoCloseable {
     public Connection getConnection() {
         try {
             if (connection == null || !(connection.isValid(0))) {
-                PROPERTIES.load(CONFIG_PATH);
+                PROPERTIES.load();
                 try {
                     Class.forName(PROPERTIES.getProperty("db.driver"));
                     connection = DriverManager.getConnection(PROPERTIES.getProperty("derby.datasource.url"));
@@ -71,13 +58,12 @@ public class SessionDerbyDataBase implements SessionDataBase, AutoCloseable {
     @Override
     public void close() throws SQLException {
         connection.close();
-        System.out.println("Я ЗАКРЫЛ СОЕДИНЕНИЕ С БАЗАОЙ ДАННОЙ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     }
 
     /**
      * @return синголтон обьект
      */
-    public synchronized static SessionDerbyDataBase getInstance() {
+    public static synchronized  SessionDerbyDataBase getInstance() {
         if (sessionDerbyDataBase == null) {
             sessionDerbyDataBase = new SessionDerbyDataBase();
         }

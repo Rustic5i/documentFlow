@@ -22,8 +22,6 @@ import java.util.Set;
  */
 public class SerializableXML<T extends Staff> implements Serializable {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(SerializableXML.class.getName());
-
     private static SerializableXML serializableXML;
 
     private SerializableXML() {

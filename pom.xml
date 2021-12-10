@@ -6,7 +6,7 @@
     <artifactId>document_flow</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>document_flow</name>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <java.version>16</java.version>
@@ -25,6 +25,7 @@
         <derby.version>10.13.1.1</derby.version>
         <maven.war.plugin>3.2.0</maven.war.plugin>
         <cargo-maven2-plugin.version>1.7.6</cargo-maven2-plugin.version>
+        <tomcat.version>8.0.48</tomcat.version>
     </properties>
     <dependencies>
         <dependency>
@@ -90,53 +91,96 @@
             <artifactId>derby</artifactId>
             <version>${derby.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+            <version>${tomcat.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <version>${tomcat.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-logging-juli</artifactId>
+            <version>${tomcat.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>${maven.war.plugin}</version>
-                <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.cargo</groupId>
-                <artifactId>cargo-maven2-plugin</artifactId>
-                <version>${cargo-maven2-plugin.version}</version>
-                <configuration>
-                    <container>
-                        <containerId>tomcat9x</containerId>
-                        <type>embedded</type>
-                    </container>
-                    <configuration>
-                        <properties>
-                            <cargo.servlet.uriencoding>UTF-8</cargo.servlet.uriencoding>
-                            <cargo.servlet.port>8080</cargo.servlet.port>
-                            <cargo.tomcat.manager.url>http://localhost:8080</cargo.tomcat.manager.url>
-                        </properties>
-                    </configuration>
-                    <deployables>
-                        <deployable>
-                            <groupId>com.example</groupId>
-                            <artifactId>document_flow</artifactId>
-                            <type>war</type>
-                            <properties>
-                                <context>/</context>
-                            </properties>
-                        </deployable>
-                    </deployables>
-                </configuration>
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-war-plugin</artifactId>-->
+<!--                <version>${maven.war.plugin}</version>-->
+<!--                <configuration>-->
+<!--                    <failOnMissingWebXml>false</failOnMissingWebXml>-->
+<!--                    <archive>-->
+<!--                        <manifest>-->
+<!--                            <addClasspath>true</addClasspath>-->
+<!--                            <mainClass>com.example.document_flow.Main</mainClass>-->
+<!--                        </manifest>-->
+<!--                    </archive>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--            <plugin>-->
+<!--                <groupId>org.codehaus.cargo</groupId>-->
+<!--                <artifactId>cargo-maven2-plugin</artifactId>-->
+<!--                <version>${cargo-maven2-plugin.version}</version>-->
+<!--                <configuration>-->
+<!--                    <container>-->
+<!--                        <containerId>tomcat9x</containerId>-->
+<!--                        <type>embedded</type>-->
+<!--                    </container>-->
+<!--                    <configuration>-->
+<!--                        <properties>-->
+<!--                            <cargo.servlet.uriencoding>UTF-8</cargo.servlet.uriencoding>-->
+<!--                            <cargo.servlet.port>8080</cargo.servlet.port>-->
+<!--                            <cargo.tomcat.manager.url>http://localhost:8080</cargo.tomcat.manager.url>-->
+<!--                        </properties>-->
+<!--                    </configuration>-->
+<!--                    <deployables>-->
+<!--                        <deployable>-->
+<!--                            <groupId>com.example</groupId>-->
+<!--                            <artifactId>document_flow</artifactId>-->
+<!--                            <type>war</type>-->
+<!--                            <properties>-->
+<!--                                <context>/</context>-->
+<!--                            </properties>-->
+<!--                        </deployable>-->
+<!--                    </deployables>-->
+<!--                </configuration>-->
 
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <phase>package</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>run</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
                 <executions>
                     <execution>
                         <phase>package</phase>
                         <goals>
-                            <goal>run</goal>
+                            <goal>single</goal>
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>com.example.document_flow.Main</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
             </plugin>
         </plugins>
         <resources>

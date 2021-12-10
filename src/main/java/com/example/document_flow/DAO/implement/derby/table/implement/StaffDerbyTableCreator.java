@@ -2,7 +2,7 @@ package com.example.document_flow.DAO.implement.derby.table.implement;
 
 import com.example.document_flow.DAO.abstraction.TableCreator;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
-import com.example.document_flow.util.read.ReadFileSql;
+import com.example.document_flow.config.ReadFileSql;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +25,7 @@ public class StaffDerbyTableCreator implements TableCreator {
 
     private static StaffDerbyTableCreator staffDerbyTableCreator;
 
-    private Logger LOGGER = LoggerFactory.getLogger(StaffDerbyTableCreator.class.getName());
+    private final Logger LOGGER = LoggerFactory.getLogger(StaffDerbyTableCreator.class.getName());
 
     private StaffDerbyTableCreator() {
     }
@@ -50,7 +50,7 @@ public class StaffDerbyTableCreator implements TableCreator {
      * @return список SQL скриптов из файла import.sql
      */
     private List<String> getArraySqlScripts() {
-        return READ_FILE_SQL.read("import.sql");
+        return READ_FILE_SQL.read();
     }
 
     /**

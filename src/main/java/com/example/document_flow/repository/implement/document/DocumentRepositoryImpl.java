@@ -1,7 +1,9 @@
 package com.example.document_flow.repository.implement.document;
 
 import com.example.document_flow.entity.document.Document;
+import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.DocumentExistsException;
+import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.repository.absraction.document.DocumentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -91,9 +94,46 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         return documentList;
     }
 
+    /**
+     * Найти объект по id
+     *
+     * @param id id объекта
+     * @return найденный объект
+     */
     @Override
     public Optional<Document> findById(long id) {
         return Optional.of((Document) getAll().stream().filter(document -> document.getId() == 0));
+    }
+
+    /**
+     * Удалить объект по id
+     *
+     * @param id - id объекта
+     * @throws DeleteObjectException когда удаление объекта терпит неудачу по какой-либо причине
+     */
+    @Override
+    public void deleteById(long id) throws DeleteObjectException {
+        try {
+            documentList.remove(Objects.requireNonNull(findById(id).get()));
+        } catch (NullPointerException e) {
+            throw new DeleteObjectException("Ошибка при попытка удаление Document с id" + id);
+        }
+    }
+
+    /**
+     * Обновить данные объекта
+     *
+     * @param object объект с обновленными данными
+     * @throws SaveObjectException когда изменение объекта терпит не удачу по какой-либо причине
+     */
+    @Override
+    public void update(Document object) throws SaveObjectException {
+        try {
+            Document document = Objects.requireNonNull(findById(object.getId()).get());
+            documentList.set(documentList.indexOf(document), object);
+        } catch (NullPointerException e) {
+            throw new SaveObjectException("Ошибка при попытки обновить Document с id " + object.getId());
+        }
     }
 
     /**

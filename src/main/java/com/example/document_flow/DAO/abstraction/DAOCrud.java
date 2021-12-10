@@ -53,7 +53,7 @@ public interface DAOCrud<T> {
     void saveAll(List<T> objectList) throws SaveObjectException;
 
     /**
-     * Найти объект класса <code>Department</code> по id
+     * Найти объект по id
      *
      * @param id id объекта класса <code>Department</code>
      * @return найденный объект класса <code>Department</code>

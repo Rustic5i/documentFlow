@@ -3,6 +3,7 @@ package com.example.document_flow.service.implement.staff.derby;
 import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.DAO.implement.derby.OrganizationDerbyDataBase;
 import com.example.document_flow.entity.staff.Organization;
+import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.service.abstraction.staff.OrganizationService;
 
@@ -62,7 +63,7 @@ public class OrganizationServiceDerby implements OrganizationService {
      * @return найденный объект класса <code>Organization</code>
      */
     @Override
-    public Optional<Organization> findOrganizationById(long id) {
+    public Optional<Organization> findById(long id) {
         return DAO.findById(id);
     }
 
@@ -70,9 +71,10 @@ public class OrganizationServiceDerby implements OrganizationService {
      * Удалить объект по id
      *
      * @param id - id объекта
+     * @throws DeleteObjectException когда удаление объекта терпит неудачу по какой-либо причине
      */
     @Override
-    public void deleteById(long id) {
+    public void deleteById(long id) throws DeleteObjectException {
         DAO.deleteById(id);
     }
 
@@ -80,9 +82,10 @@ public class OrganizationServiceDerby implements OrganizationService {
      * Обновить данные объекта
      *
      * @param object объект с обновленными данными
+     * @throws SaveObjectException когда изменение объекта терпит не удачу по какой-либо причине
      */
     @Override
-    public void update(Organization object) {
+    public void update(Organization object) throws SaveObjectException {
         DAO.update(object);
     }
 

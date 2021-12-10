@@ -1,6 +1,8 @@
 package com.example.document_flow.service.implement.staff.xml;
 
 import com.example.document_flow.entity.staff.Person;
+import com.example.document_flow.exception.DeleteObjectException;
+import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.repository.absraction.staff.PersonRepository;
 import com.example.document_flow.repository.implement.staff.PersonRepositoryXmlImpl;
 import com.example.document_flow.service.abstraction.staff.PersonService;
@@ -59,18 +61,30 @@ public class PersonServiceXmlImpl implements PersonService {
      * @return найденный объект класса <code>Person</code>
      */
     @Override
-    public Optional<Person> findPersonById(long id) {
+    public Optional<Person> findById(long id) {
         return REPOSITORY.findById(id);
     }
 
+    /**
+     * Удалить объект по id
+     *
+     * @param id - id объекта
+     * @throws DeleteObjectException когда удаление объекта терпит неудачу по какой-либо причине
+     */
     @Override
-    public void deleteById(long id) {
-
+    public void deleteById(long id) throws DeleteObjectException {
+        REPOSITORY.deleteById(id);
     }
 
+    /**
+     * Обновить данные объекта
+     *
+     * @param object объект с обновленными данными
+     * @throws SaveObjectException когда изменение объекта терпит не удачу по какой-либо причине
+     */
     @Override
-    public void update(Person object) {
-
+    public void update(Person object) throws SaveObjectException {
+        REPOSITORY.update(object);
     }
 
     /**

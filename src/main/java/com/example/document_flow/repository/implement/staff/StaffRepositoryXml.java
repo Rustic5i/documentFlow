@@ -1,6 +1,8 @@
 package com.example.document_flow.repository.implement.staff;
 
 import com.example.document_flow.entity.staff.Staff;
+import com.example.document_flow.exception.DeleteObjectException;
+import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.repository.InMemory;
 import com.example.document_flow.repository.absraction.Repository;
 import com.example.document_flow.util.read.deserialization.abstraction.Deserialization;
@@ -10,7 +12,9 @@ import com.example.document_flow.util.write.implement.SerializableXML;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,6 +32,8 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
     private final Deserialization DESERIALIZATION = DeserializationXML.getInstance();
 
     private final InMemory<T> IN_MEMORY = new InMemory<>();
+
+    private final Map<T, File> fileMap = new HashMap<>();
 
     private final Class<T> TYPE;
 
@@ -55,9 +61,11 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
      * @param object объект для сохранения
      */
     @Override
-    public void save(T object) {
+    public void save(T object) throws SaveObjectException {
         String pathFile = file.getPath() + "\\" + object.getId() + ".xml";
-        SERIALIZABLE.save(new File(pathFile), object);
+        File file = new File(pathFile);
+        SERIALIZABLE.save(file, object);
+        fileMap.put(object, file);
         IN_MEMORY.save(pathFile, object);
     }
 
@@ -67,8 +75,10 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
      * @param objects список объектов
      */
     @Override
-    public void saveAll(List<T> objects) {
-        objects.forEach(this::save);
+    public void saveAll(List<T> objects) throws SaveObjectException {
+        for (T staff : objects) {
+            save(staff);
+        }
     }
 
     /**
@@ -91,5 +101,30 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
     @Override
     public Optional<T> findById(long id) {
         return Optional.of((T) getAll().stream().filter(object -> object.getId() == id));
+    }
+
+    /**
+     * Удалить объект по id
+     *
+     * @param id - id объекта
+     * @throws DeleteObjectException когда удаление объекта терпит неудачу по какой-либо причине
+     */
+    @Override
+    public void deleteById(long id) throws DeleteObjectException {
+        fileMap.keySet().stream().filter(obj -> obj.getId() == id).forEach(obj -> {
+            fileMap.get(obj).delete();
+            fileMap.remove(obj);
+        });
+    }
+
+    /**
+     * Обновить данные объекта
+     *
+     * @param object объект с обновленными данными
+     * @throws SaveObjectException когда изменение объекта терпит не удачу по какой-либо причине
+     */
+    @Override
+    public void update(T object) throws SaveObjectException {
+        save(object);
     }
 }

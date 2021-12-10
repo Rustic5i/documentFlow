@@ -11,26 +11,4 @@ import java.util.Optional;
  * @author Баратов Руслан
  */
 public interface OrganizationService extends Service<Organization> {
-
-    /**
-     * Найти объект класса <code>Organization</code> по id
-     *
-     * @param id id объекта класса <code>Organization</code>
-     * @return найденный объект класса <code>Organization</code>
-     */
-    Optional<Organization> findOrganizationById(long id);
-
-    /**
-     * Удалить объект по id
-     *
-     * @param id - id объекта
-     */
-    void deleteById(long id);
-
-    /**
-     * Обновить данные объекта
-     *
-     * @param object объект с обновленными данными
-     */
-    void update(Organization object);
 }

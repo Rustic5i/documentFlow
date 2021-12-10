@@ -1,5 +1,6 @@
 package com.example.document_flow.util.write.implement;
 
+import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.util.write.abstraction.Serializable;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -39,11 +40,11 @@ public class SerializableJSON implements Serializable {
      * @return путь к сохраненному объекту
      */
     @Override
-    public Path save(File filePath, Object object) {
+    public Path save(File filePath, Object object) throws SaveObjectException {
         try (Writer writer = new FileWriter(filePath)) {
             GSON.toJson(object, writer);
         } catch (IOException e) {
-            LOGGER.warn("Файл не существует, или не может быть создан ", e);
+            throw new SaveObjectException("Файл не существует, или не может быть создан " + e);
         }
         return filePath.toPath();
     }
@@ -57,9 +58,11 @@ public class SerializableJSON implements Serializable {
      * @return список расположения сохраненных файлов
      */
     @Override
-    public <T> Set<Path> saveAll(Map<File, T> filePaths) {
+    public <T> Set<Path> saveAll(Map<File, T> filePaths) throws SaveObjectException {
         Set<Path> filesPath = new HashSet<>();
-        filePaths.keySet().forEach(key -> save(key, filePaths.get(key)));
+        for (File key : filePaths.keySet()) {
+            save(key, filePaths.get(key));
+        }
         return filesPath;
     }
 

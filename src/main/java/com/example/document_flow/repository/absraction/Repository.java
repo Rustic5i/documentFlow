@@ -1,5 +1,8 @@
 package com.example.document_flow.repository.absraction;
 
+import com.example.document_flow.exception.DeleteObjectException;
+import com.example.document_flow.exception.SaveObjectException;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,18 +15,18 @@ import java.util.Optional;
 public interface Repository<T> {
 
     /**
-     * Сохранить какой-либо обьект в репозиторий
+     * Сохранить какой-либо объект в репозиторий
      *
      * @param object объект для сохранения
      */
-    void save(T object);
+    void save(T object) throws SaveObjectException;
 
     /**
      * Сохранить список объектов в репозиторий
      *
      * @param objects список объектов для сохранения
      */
-    void saveAll(List<T> objects);
+    void saveAll(List<T> objects) throws SaveObjectException;
 
     /**
      * Получить все сохраненные обьекты из репозитория
@@ -39,4 +42,21 @@ public interface Repository<T> {
      * @return найденный объект
      */
     Optional<T> findById(long id);
+
+    /**
+     * Удалить объект по id
+     *
+     * @param id - id объекта
+     * @throws DeleteObjectException когда удаление объекта терпит неудачу по какой-либо причине
+     */
+    void deleteById(long id) throws DeleteObjectException;
+
+    /**
+     * Обновить данные объекта
+     *
+     * @param object объект с обновленными данными
+     * @throws SaveObjectException когда изменение объекта терпит не удачу по какой-либо причине
+     */
+    void update(T object) throws SaveObjectException;
+
 }

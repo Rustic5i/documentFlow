@@ -1,8 +1,10 @@
 package com.example.document_flow.service.abstraction;
 
+import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Сервис
@@ -35,4 +37,28 @@ public interface Service<T> {
      * @return список каких-либо объектов
      */
     List<T> getAll();
+
+    /**
+     * Удалить объект по id
+     *
+     * @param id - id объекта
+     * @throws DeleteObjectException когда удаление объекта терпит неудачу по какой-либо причине
+     */
+    void deleteById(long id) throws DeleteObjectException;
+
+    /**
+     * Обновить данные объекта
+     *
+     * @param object объект с обновленными данными
+     * @throws SaveObjectException когда изменение объекта терпит не удачу по какой-либо причине
+     */
+    void update(T object) throws SaveObjectException;
+
+    /**
+     * Найти объект по id
+     *
+     * @param id id объекта класса <code>Department</code>
+     * @return найденный объект класса <code>Department</code>
+     */
+    Optional<T> findById(long id);
 }

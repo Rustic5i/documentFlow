@@ -16,11 +16,21 @@ import java.util.Optional;
  */
 public class DocumentServiceImpl implements DocumentService {
 
-    private final DocumentRepositoryImpl REPOSITORY = DocumentRepositoryImpl.getInstance();
-
     private static DocumentServiceImpl service;
 
+    private final DocumentRepositoryImpl REPOSITORY = DocumentRepositoryImpl.getInstance();
+
     private DocumentServiceImpl() {
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static DocumentServiceImpl getInstance() {
+        if (service == null) {
+            service = new DocumentServiceImpl();
+        }
+        return service;
     }
 
     /**
@@ -95,15 +105,5 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public List<Document> getDocumentByIdAuthor(long id) {
         return REPOSITORY.getDocumentByIdAuthor(id);
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static DocumentServiceImpl getInstance() {
-        if (service == null) {
-            service = new DocumentServiceImpl();
-        }
-        return service;
     }
 }

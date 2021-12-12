@@ -27,13 +27,23 @@ import java.util.Optional;
  */
 public class PersonDerbyDataBase implements DAOCrud<Person> {
 
+    private static PersonDerbyDataBase derbyDataBase;
+
     private final SessionDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
 
     private final Logger LOGGER = LoggerFactory.getLogger(PersonDerbyDataBase.class.getName());
 
-    private static PersonDerbyDataBase derbyDataBase;
-
     private PersonDerbyDataBase() {
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static PersonDerbyDataBase getInstance() {
+        if (derbyDataBase == null) {
+            derbyDataBase = new PersonDerbyDataBase();
+        }
+        return derbyDataBase;
     }
 
     /**
@@ -178,15 +188,5 @@ public class PersonDerbyDataBase implements DAOCrud<Person> {
             LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
         }
         return Optional.of(person);
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static PersonDerbyDataBase getInstance() {
-        if (derbyDataBase == null) {
-            derbyDataBase = new PersonDerbyDataBase();
-        }
-        return derbyDataBase;
     }
 }

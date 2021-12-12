@@ -26,15 +26,25 @@ import java.util.Optional;
  */
 public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
 
+    private static OrganizationDerbyDataBase derbyDataBase;
+
     private final PersonDerbyDataBase PERSON_DERBY = PersonDerbyDataBase.getInstance();
 
     private final SessionDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
 
     private final Logger LOGGER = LoggerFactory.getLogger(OrganizationDerbyDataBase.class.getName());
 
-    private static OrganizationDerbyDataBase derbyDataBase;
-
     private OrganizationDerbyDataBase() {
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static OrganizationDerbyDataBase getInstance() {
+        if (derbyDataBase == null) {
+            derbyDataBase = new OrganizationDerbyDataBase();
+        }
+        return derbyDataBase;
     }
 
     /**
@@ -171,15 +181,5 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
             LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
         }
         return Optional.of(organization);
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static OrganizationDerbyDataBase getInstance() {
-        if (derbyDataBase == null) {
-            derbyDataBase = new OrganizationDerbyDataBase();
-        }
-        return derbyDataBase;
     }
 }

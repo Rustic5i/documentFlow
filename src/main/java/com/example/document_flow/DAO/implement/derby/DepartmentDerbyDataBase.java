@@ -26,15 +26,25 @@ import java.util.Optional;
  */
 public class DepartmentDerbyDataBase implements DAOCrud<Department> {
 
-    private PersonDerbyDataBase personDerbyDataBase = PersonDerbyDataBase.getInstance();
+    private static DepartmentDerbyDataBase derbyDataBase;
+
+    private final PersonDerbyDataBase PERSON_DERBY_DATA_BASE = PersonDerbyDataBase.getInstance();
 
     private final SessionDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
 
     private final Logger LOGGER = LoggerFactory.getLogger(DepartmentDerbyDataBase.class.getName());
 
-    private static DepartmentDerbyDataBase derbyDataBase;
-
     private DepartmentDerbyDataBase() {
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static DepartmentDerbyDataBase getInstance() {
+        if (derbyDataBase == null) {
+            derbyDataBase = new DepartmentDerbyDataBase();
+        }
+        return derbyDataBase;
     }
 
     /**
@@ -92,7 +102,7 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
                         .setId(rs.getLong(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(personDerbyDataBase.findById(rs.getLong(4)).get())
+                        .setManager(PERSON_DERBY_DATA_BASE.findById(rs.getLong(4)).get())
                         .setContactPhoneNumber(rs.getString(5))
                         .build());
             }
@@ -164,7 +174,7 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
                         .setId(rs.getLong(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(personDerbyDataBase.findById(rs.getLong(4)).get())
+                        .setManager(PERSON_DERBY_DATA_BASE.findById(rs.getLong(4)).get())
                         .setContactPhoneNumber(rs.getString(5))
                         .build();
             }
@@ -172,15 +182,5 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
             LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
         }
         return Optional.of(department);
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static DepartmentDerbyDataBase getInstance() {
-        if (derbyDataBase == null) {
-            derbyDataBase = new DepartmentDerbyDataBase();
-        }
-        return derbyDataBase;
     }
 }

@@ -18,11 +18,21 @@ import java.util.Optional;
  */
 public class DocumentServiceJsonImpl implements DocumentServiceJson {
 
-    private final Repository<Document> REPOSITORY = DocumentRepositoryJsonImpl.getInstance();
-
     private static DocumentServiceJsonImpl documentService;
 
+    private final Repository<Document> REPOSITORY = DocumentRepositoryJsonImpl.getInstance();
+
     private DocumentServiceJsonImpl() {
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static DocumentServiceJsonImpl getInstance() {
+        if (documentService == null) {
+            documentService = new DocumentServiceJsonImpl();
+        }
+        return documentService;
     }
 
     /**
@@ -86,15 +96,5 @@ public class DocumentServiceJsonImpl implements DocumentServiceJson {
     @Override
     public Optional<Document> findById(long id) {
         return REPOSITORY.findById(id);
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static DocumentServiceJsonImpl getInstance() {
-        if (documentService == null) {
-            documentService = new DocumentServiceJsonImpl();
-        }
-        return documentService;
     }
 }

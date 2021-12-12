@@ -23,13 +23,23 @@ import java.util.Set;
  */
 public class DeserializationJSON implements Deserialization {
 
+    private static DeserializationJSON deserializationJSON;
+
     private final Gson GSON = new GsonBuilder().create();
 
     private final Logger LOGGER = LoggerFactory.getLogger(DeserializationJSON.class.getName());
 
-    private static DeserializationJSON deserializationJSON;
-
     private DeserializationJSON() {
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static DeserializationJSON getInstance() {
+        if (deserializationJSON == null) {
+            deserializationJSON = new DeserializationJSON();
+        }
+        return deserializationJSON;
     }
 
     /**
@@ -62,7 +72,6 @@ public class DeserializationJSON implements Deserialization {
         return objectList;
     }
 
-
     /**
      * Читает файл Json
      *
@@ -80,15 +89,5 @@ public class DeserializationJSON implements Deserialization {
             LOGGER.warn("Ошибка ввода-вывода ", e);
         }
         return stringJSON.toString();
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static DeserializationJSON getInstance() {
-        if (deserializationJSON == null) {
-            deserializationJSON = new DeserializationJSON();
-        }
-        return deserializationJSON;
     }
 }

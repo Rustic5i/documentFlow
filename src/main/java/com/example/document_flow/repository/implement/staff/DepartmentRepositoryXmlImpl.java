@@ -16,12 +16,22 @@ import java.util.Optional;
  */
 public class DepartmentRepositoryXmlImpl implements DepartmentRepository {
 
-    private final StaffRepositoryXml<Department> REPOSITORY = new StaffRepositoryXml<>(Department.class);
-
     private static DepartmentRepositoryXmlImpl departmentRepository;
+
+    private final StaffRepositoryXml<Department> REPOSITORY = new StaffRepositoryXml<>(Department.class);
 
     {
         REPOSITORY.createRepository(new File(".\\DepartmentXml\\"));
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static DepartmentRepositoryXmlImpl getInstance() {
+        if (departmentRepository == null) {
+            departmentRepository = new DepartmentRepositoryXmlImpl();
+        }
+        return departmentRepository;
     }
 
     private DepartmentRepositoryXmlImpl() {
@@ -90,15 +100,5 @@ public class DepartmentRepositoryXmlImpl implements DepartmentRepository {
     @Override
     public void update(Department object) throws SaveObjectException {
         REPOSITORY.update(object);
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static DepartmentRepositoryXmlImpl getInstance() {
-        if (departmentRepository == null) {
-            departmentRepository = new DepartmentRepositoryXmlImpl();
-        }
-        return departmentRepository;
     }
 }

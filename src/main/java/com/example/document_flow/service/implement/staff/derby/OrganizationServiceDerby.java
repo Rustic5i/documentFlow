@@ -17,11 +17,21 @@ import java.util.Optional;
  */
 public class OrganizationServiceDerby implements OrganizationService {
 
-    private final DAOCrud<Organization> DAO = OrganizationDerbyDataBase.getInstance();
-
     private static OrganizationServiceDerby organizationService;
 
+    private final DAOCrud<Organization> DAO = OrganizationDerbyDataBase.getInstance();
+
     public OrganizationServiceDerby() {
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static OrganizationServiceDerby getInstance() {
+        if (organizationService == null) {
+            organizationService = new OrganizationServiceDerby();
+        }
+        return organizationService;
     }
 
     /**
@@ -87,15 +97,5 @@ public class OrganizationServiceDerby implements OrganizationService {
     @Override
     public void update(Organization object) throws SaveObjectException {
         DAO.update(object);
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static OrganizationServiceDerby getInstance() {
-        if (organizationService == null) {
-            organizationService = new OrganizationServiceDerby();
-        }
-        return organizationService;
     }
 }

@@ -16,15 +16,25 @@ import java.util.Optional;
  */
 public class PersonRepositoryXmlImpl implements PersonRepository {
 
-    private final StaffRepositoryXml<Person> REPOSITORY = new StaffRepositoryXml<>(Person.class);
-
     private static PersonRepositoryXmlImpl personRepository;
+
+    private final StaffRepositoryXml<Person> REPOSITORY = new StaffRepositoryXml<>(Person.class);
 
     {
         REPOSITORY.createRepository(new File(".\\PersonXml\\"));
     }
 
     private PersonRepositoryXmlImpl() {
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static PersonRepositoryXmlImpl getInstance() {
+        if (personRepository == null) {
+            personRepository = new PersonRepositoryXmlImpl();
+        }
+        return personRepository;
     }
 
     /**
@@ -91,15 +101,5 @@ public class PersonRepositoryXmlImpl implements PersonRepository {
     @Override
     public void update(Person object) throws SaveObjectException {
         REPOSITORY.update(object);
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static PersonRepositoryXmlImpl getInstance() {
-        if (personRepository == null) {
-            personRepository = new PersonRepositoryXmlImpl();
-        }
-        return personRepository;
     }
 }

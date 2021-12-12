@@ -28,6 +28,8 @@ import java.util.stream.Collectors;
  */
 public class DocumentRepositoryJsonImpl implements DocumentRepositoryJSON {
 
+    private static DocumentRepositoryJsonImpl implDocumentRepositoryJson;
+
     private final Deserialization DESERIALIZATION = DeserializationJSON.getInstance();
 
     private final Serializable SERIALIZABLE = SerializableJSON.getInstance();
@@ -36,8 +38,6 @@ public class DocumentRepositoryJsonImpl implements DocumentRepositoryJSON {
 
     private final String NAME_REPOSITORY = ".\\repositoryJson\\";
 
-    private static DocumentRepositoryJsonImpl implDocumentRepositoryJson;
-
     private final Map<Document, File> fileMap = new HashMap<>();
 
     {
@@ -45,6 +45,16 @@ public class DocumentRepositoryJsonImpl implements DocumentRepositoryJSON {
     }
 
     private DocumentRepositoryJsonImpl() {
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static DocumentRepositoryJsonImpl getInstance() {
+        if (implDocumentRepositoryJson == null) {
+            implDocumentRepositoryJson = new DocumentRepositoryJsonImpl();
+        }
+        return implDocumentRepositoryJson;
     }
 
     /**
@@ -138,15 +148,5 @@ public class DocumentRepositoryJsonImpl implements DocumentRepositoryJSON {
         if (!file.exists()) {
             file.mkdir();
         }
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static DocumentRepositoryJsonImpl getInstance() {
-        if (implDocumentRepositoryJson == null) {
-            implDocumentRepositoryJson = new DocumentRepositoryJsonImpl();
-        }
-        return implDocumentRepositoryJson;
     }
 }

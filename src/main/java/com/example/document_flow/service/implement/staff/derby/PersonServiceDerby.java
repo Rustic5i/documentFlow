@@ -17,11 +17,21 @@ import java.util.Optional;
  */
 public class PersonServiceDerby implements PersonService {
 
-    private final DAOCrud<Person> DAO = PersonDerbyDataBase.getInstance();
-
     private static PersonServiceDerby personServiceDerby;
 
+    private final DAOCrud<Person> DAO = PersonDerbyDataBase.getInstance();
+
     private PersonServiceDerby() {
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static PersonServiceDerby getInstance() {
+        if (personServiceDerby == null) {
+            personServiceDerby = new PersonServiceDerby();
+        }
+        return personServiceDerby;
     }
 
     /**
@@ -87,15 +97,5 @@ public class PersonServiceDerby implements PersonService {
     @Override
     public void update(Person object) throws SaveObjectException {
         DAO.update(object);
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static PersonServiceDerby getInstance() {
-        if (personServiceDerby == null) {
-            personServiceDerby = new PersonServiceDerby();
-        }
-        return personServiceDerby;
     }
 }

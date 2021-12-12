@@ -17,11 +17,21 @@ import java.util.Optional;
  */
 public class DepartmentServiceXmlImpl implements DepartmentService {
 
-    private final DepartmentRepository REPOSITORY = DepartmentRepositoryXmlImpl.getInstance();
-
     private static DepartmentServiceXmlImpl departmentService;
 
+    private final DepartmentRepository REPOSITORY = DepartmentRepositoryXmlImpl.getInstance();
+
     private DepartmentServiceXmlImpl() {
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static DepartmentServiceXmlImpl getInstance() {
+        if (departmentService == null) {
+            departmentService = new DepartmentServiceXmlImpl();
+        }
+        return departmentService;
     }
 
     /**
@@ -85,15 +95,5 @@ public class DepartmentServiceXmlImpl implements DepartmentService {
     @Override
     public void update(Department object) throws SaveObjectException {
         REPOSITORY.update(object);
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static DepartmentServiceXmlImpl getInstance() {
-        if (departmentService == null) {
-            departmentService = new DepartmentServiceXmlImpl();
-        }
-        return departmentService;
     }
 }

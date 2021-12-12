@@ -21,11 +21,21 @@ import java.util.Set;
  */
 public class SerializableJSON implements Serializable {
 
-    private final Gson GSON = new GsonBuilder().create();
-
     private static SerializableJSON serializableJSON;
 
+    private final Gson GSON = new GsonBuilder().create();
+
     private SerializableJSON() {
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static SerializableJSON getInstance() {
+        if (serializableJSON == null) {
+            serializableJSON = new SerializableJSON();
+        }
+        return serializableJSON;
     }
 
     /**
@@ -62,15 +72,5 @@ public class SerializableJSON implements Serializable {
             save(key, filePaths.get(key));
         }
         return filesPath;
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static SerializableJSON getInstance() {
-        if (serializableJSON == null) {
-            serializableJSON = new SerializableJSON();
-        }
-        return serializableJSON;
     }
 }

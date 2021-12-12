@@ -16,15 +16,23 @@ import java.sql.SQLException;
  */
 public class SessionDerbyDataBase implements SessionDataBase, AutoCloseable {
 
+    private static SessionDerbyDataBase sessionDerbyDataBase;
+
     private final ReadFileProperties PROPERTIES = new ReadFileProperties();
+
+    private final Logger LOGGER = LoggerFactory.getLogger(SessionDerbyDataBase.class.getName());
 
     private Connection connection;
 
-    private final String CONFIG_PATH = "config/config.properties";
-
-    private static SessionDerbyDataBase sessionDerbyDataBase;
-
-    private final Logger LOGGER = LoggerFactory.getLogger(SessionDerbyDataBase.class.getName());
+    /**
+     * @return синголтон обьект
+     */
+    public static synchronized SessionDerbyDataBase getInstance() {
+        if (sessionDerbyDataBase == null) {
+            sessionDerbyDataBase = new SessionDerbyDataBase();
+        }
+        return sessionDerbyDataBase;
+    }
 
     private SessionDerbyDataBase() {
     }
@@ -58,15 +66,5 @@ public class SessionDerbyDataBase implements SessionDataBase, AutoCloseable {
     @Override
     public void close() throws SQLException {
         connection.close();
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static synchronized  SessionDerbyDataBase getInstance() {
-        if (sessionDerbyDataBase == null) {
-            sessionDerbyDataBase = new SessionDerbyDataBase();
-        }
-        return sessionDerbyDataBase;
     }
 }

@@ -27,6 +27,16 @@ public class DeserializationXML implements Deserialization {
     }
 
     /**
+     * @return синголтон обьект
+     */
+    public static DeserializationXML getInstance() {
+        if (deserializationXML == null) {
+            deserializationXML = new DeserializationXML();
+        }
+        return deserializationXML;
+    }
+
+    /**
      * Десериализует объект(ы) из формата XML
      *
      * @param filePath путь к файлу XML
@@ -58,15 +68,5 @@ public class DeserializationXML implements Deserialization {
         List<T> objectsList = new ArrayList<>();
         filePaths.forEach(pathName -> objectsList.add(get(pathName, type)));
         return objectsList;
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static DeserializationXML getInstance() {
-        if (deserializationXML == null) {
-            deserializationXML = new DeserializationXML();
-        }
-        return deserializationXML;
     }
 }

@@ -40,5 +40,4 @@ public class TaskDocumentFactory extends AbstractDocumentFactory<Task> {
     public Class getTypeObject() {
         return Task.class;
     }
-
 }

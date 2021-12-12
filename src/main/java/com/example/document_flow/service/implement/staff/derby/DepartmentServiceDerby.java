@@ -17,11 +17,21 @@ import java.util.Optional;
  */
 public class DepartmentServiceDerby implements DepartmentService {
 
-    private final DAOCrud<Department> DAO = DepartmentDerbyDataBase.getInstance();
-
     private static DepartmentServiceDerby departmentServiceDerby;
 
+    private final DAOCrud<Department> DAO = DepartmentDerbyDataBase.getInstance();
+
     private DepartmentServiceDerby() {
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static DepartmentServiceDerby getInstance() {
+        if (departmentServiceDerby == null) {
+            departmentServiceDerby = new DepartmentServiceDerby();
+        }
+        return departmentServiceDerby;
     }
 
     /**
@@ -87,15 +97,5 @@ public class DepartmentServiceDerby implements DepartmentService {
     @Override
     public void update(Department object) throws SaveObjectException {
         DAO.update(object);
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static DepartmentServiceDerby getInstance() {
-        if (departmentServiceDerby == null) {
-            departmentServiceDerby = new DepartmentServiceDerby();
-        }
-        return departmentServiceDerby;
     }
 }

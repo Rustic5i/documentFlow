@@ -38,5 +38,4 @@ public class OutgoingDocumentFactory extends AbstractDocumentFactory<Outgoing> {
     public Class getTypeObject() {
         return Outgoing.class;
     }
-
 }

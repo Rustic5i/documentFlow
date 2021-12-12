@@ -28,6 +28,16 @@ public class SerializableXML<T extends Staff> implements Serializable {
     }
 
     /**
+     * @return синголтон обьект
+     */
+    public static SerializableXML getInstance() {
+        if (serializableXML == null) {
+            serializableXML = new SerializableXML();
+        }
+        return serializableXML;
+    }
+
+    /**
      * Сохраняет объект в файл
      *
      * @param filePath путь - куда сохранять обьект
@@ -66,15 +76,5 @@ public class SerializableXML<T extends Staff> implements Serializable {
             save(key, filePaths.get(key));
         }
         return filesPath;
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static SerializableXML getInstance() {
-        if (serializableXML == null) {
-            serializableXML = new SerializableXML();
-        }
-        return serializableXML;
     }
 }

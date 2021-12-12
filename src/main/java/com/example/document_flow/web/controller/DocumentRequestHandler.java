@@ -18,9 +18,9 @@ public class DocumentRequestHandler {
 
     private static final DocumentServiceImpl DOCUMENT_SERVICE = DocumentServiceImpl.getInstance();
 
-    private final Scanner SCANNER = new Scanner(System.in);
-
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentRequestHandler.class.getName());
+
+    private final Scanner SCANNER = new Scanner(System.in);
 
     public void setRequest(String[] args) {
         handler(args);

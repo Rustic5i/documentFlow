@@ -15,6 +15,20 @@ public abstract class AbstractDocumentFactory<T extends Document> implements Fac
     private final DataGenerator DATA_GENERATOR = DataGenerator.getInstance();
 
     /**
+     * Фабричный метод по созданию инстансов документов
+     *
+     * @return документ
+     */
+    abstract T createInstance();
+
+    /**
+     * Метод по заполения дополнительных полей документа
+     *
+     * @param document документ который нужно заполнить дополнительные поля
+     */
+    abstract void fillAdditionalFields(T document);
+
+    /**
      * Реализация фабричного метода
      *
      * @return возвращает новый инстанс документа с заполненными поля
@@ -30,22 +44,7 @@ public abstract class AbstractDocumentFactory<T extends Document> implements Fac
         return document;
     }
 
-    /**
-     * Фабричный метод по созданию инстансов документов
-     *
-     * @return документ
-     */
-    abstract T createInstance();
-
-    /**
-     * Метод по заполения дополнительных полей документа
-     *
-     * @param document документ который нужно заполнить дополнительные поля
-     */
-    abstract void fillAdditionalFields(T document);
-
     DataGenerator getDATA_GENERATOR() {
         return DATA_GENERATOR;
     }
-
 }

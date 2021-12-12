@@ -19,15 +19,25 @@ import java.util.List;
  */
 public class StaffDerbyTableCreator implements TableCreator {
 
+    private static StaffDerbyTableCreator staffDerbyTableCreator;
+
     private final SessionDerbyDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
 
     private final ReadFileSql READ_FILE_SQL = new ReadFileSql();
 
-    private static StaffDerbyTableCreator staffDerbyTableCreator;
-
     private final Logger LOGGER = LoggerFactory.getLogger(StaffDerbyTableCreator.class.getName());
 
     private StaffDerbyTableCreator() {
+    }
+
+    /**
+     * @return синголтон объект
+     */
+    public static StaffDerbyTableCreator getInstance() {
+        if (staffDerbyTableCreator == null) {
+            staffDerbyTableCreator = new StaffDerbyTableCreator();
+        }
+        return staffDerbyTableCreator;
     }
 
     /**
@@ -51,15 +61,5 @@ public class StaffDerbyTableCreator implements TableCreator {
      */
     private List<String> getArraySqlScripts() {
         return READ_FILE_SQL.read();
-    }
-
-    /**
-     * @return синголтон объект
-     */
-    public static StaffDerbyTableCreator getInstance() {
-        if (staffDerbyTableCreator == null) {
-            staffDerbyTableCreator = new StaffDerbyTableCreator();
-        }
-        return staffDerbyTableCreator;
     }
 }

@@ -17,11 +17,21 @@ import java.util.Optional;
  */
 public class PersonServiceXmlImpl implements PersonService {
 
-    private final PersonRepository REPOSITORY = PersonRepositoryXmlImpl.getInstance();
-
     private static PersonServiceXmlImpl personService = new PersonServiceXmlImpl();
 
+    private final PersonRepository REPOSITORY = PersonRepositoryXmlImpl.getInstance();
+
     private PersonServiceXmlImpl() {
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static PersonServiceXmlImpl getInstance() {
+        if (personService == null) {
+            personService = new PersonServiceXmlImpl();
+        }
+        return personService;
     }
 
     /**
@@ -85,15 +95,5 @@ public class PersonServiceXmlImpl implements PersonService {
     @Override
     public void update(Person object) throws SaveObjectException {
         REPOSITORY.update(object);
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static PersonServiceXmlImpl getInstance() {
-        if (personService == null) {
-            personService = new PersonServiceXmlImpl();
-        }
-        return personService;
     }
 }

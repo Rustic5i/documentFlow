@@ -17,11 +17,21 @@ import java.util.Optional;
  */
 public class OrganizationServiceXmlImpl implements OrganizationService {
 
-    private final OrganizationRepository REPOSITORY = OrganizationRepositoryXmlImpl.getInstance();
-
     private static OrganizationServiceXmlImpl organizationService;
 
+    private final OrganizationRepository REPOSITORY = OrganizationRepositoryXmlImpl.getInstance();
+
     private OrganizationServiceXmlImpl() {
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static OrganizationServiceXmlImpl getInstance() {
+        if (organizationService == null) {
+            organizationService = new OrganizationServiceXmlImpl();
+        }
+        return organizationService;
     }
 
     /**
@@ -87,13 +97,4 @@ public class OrganizationServiceXmlImpl implements OrganizationService {
         REPOSITORY.update(object);
     }
 
-    /**
-     * @return синголтон обьект
-     */
-    public static OrganizationServiceXmlImpl getInstance() {
-        if (organizationService == null) {
-            organizationService = new OrganizationServiceXmlImpl();
-        }
-        return organizationService;
-    }
 }

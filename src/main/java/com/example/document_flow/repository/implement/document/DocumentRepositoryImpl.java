@@ -25,9 +25,6 @@ public class DocumentRepositoryImpl implements DocumentRepository {
 
     private static DocumentRepositoryImpl implDocumentRepository;
 
-    private DocumentRepositoryImpl() {
-    }
-
     /**
      * Хранит все созданные документы.
      * Где <code>Long</code> это ключ, хранит в себе уникальный регистрационный номер документа
@@ -55,6 +52,19 @@ public class DocumentRepositoryImpl implements DocumentRepository {
             return sb.toString();
         }
     };
+
+    private DocumentRepositoryImpl() {
+    }
+
+    /**
+     * @return синголтон обьект
+     */
+    public static DocumentRepositoryImpl getInstance() {
+        if (implDocumentRepository == null) {
+            implDocumentRepository = new DocumentRepositoryImpl();
+        }
+        return implDocumentRepository;
+    }
 
     /**
      * Метод для регистрации созданных документов
@@ -167,15 +177,5 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         if (documentMap.containsKey(registrationNumber)) {
             throw new DocumentExistsException("Document с регистрационным номер " + registrationNumber + " уже существует ");
         }
-    }
-
-    /**
-     * @return синголтон обьект
-     */
-    public static DocumentRepositoryImpl getInstance() {
-        if (implDocumentRepository == null) {
-            implDocumentRepository = new DocumentRepositoryImpl();
-        }
-        return implDocumentRepository;
     }
 }

@@ -93,7 +93,7 @@ public class Department extends Staff {
         private Builder() {
         }
 
-        public Builder setId(int id) {
+        public Builder setId(long id) {
             Department.this.setId(id);
             return this;
         }

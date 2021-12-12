@@ -47,7 +47,7 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
     public void deleteById(long id) throws DeleteObjectException {
         try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM APP.ORGANIZATION WHERE ID = ?")) {
-            preparedStatement.setInt(1, (int) id);
+            preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DeleteObjectException("Ошибка удаление Organization c id " + id);
@@ -68,7 +68,7 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
             preparedStatement.setString(1, object.getFullName());
             preparedStatement.setString(2, object.getShortName());
             preparedStatement.setString(3, object.getContactPhoneNumber());
-            preparedStatement.setInt(4, (int) object.getId());
+            preparedStatement.setLong(4, object.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new SaveObjectException("Ошибка при обновления объекта Organization c id " + object.getId());
@@ -92,7 +92,7 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
                         .setId(rs.getInt(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(PERSON_DERBY.findById(rs.getInt(4)).get())
+                        .setManager(PERSON_DERBY.findById(rs.getLong(4)).get())
                         .setContactPhoneNumber(rs.getString(5))
                         .build());
             }
@@ -116,10 +116,10 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
                             "VALUES (?, ?, ?, ?, ?)")) {
                 connection.setAutoCommit(false);
                 for (Organization organization : organizationList) {
-                    preparedStatement.setInt(1, (int) organization.getId());
+                    preparedStatement.setLong(1, organization.getId());
                     preparedStatement.setString(2, organization.getFullName());
                     preparedStatement.setString(3, organization.getShortName());
-                    preparedStatement.setInt(4, (int) organization.getManager().getId());
+                    preparedStatement.setLong(4, organization.getManager().getId());
                     preparedStatement.setString(5, organization.getContactPhoneNumber());
                     preparedStatement.addBatch();
                 }
@@ -160,10 +160,10 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
             preparedStatement.setLong(1, id);
             while (rs.next()) {
                 organization.newBuilder()
-                        .setId(rs.getInt(1))
+                        .setId(rs.getLong(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(PERSON_DERBY.findById(rs.getInt(4)).get())
+                        .setManager(PERSON_DERBY.findById(rs.getLong(4)).get())
                         .setContactPhoneNumber(rs.getString(5))
                         .build();
             }

@@ -167,7 +167,7 @@ public class Person extends Staff implements Comparable<Person> {
             return this;
         }
 
-        public Builder setId(int id) {
+        public Builder setId(long id) {
             Person.this.setId(id);
             return this;
         }

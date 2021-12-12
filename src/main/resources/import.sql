@@ -1,8 +1,8 @@
 create table PERSON
 (
-    ID            INTEGER not null
+    ID            BIGINT not null
         constraint PERSON_PK
-            primary key,
+        primary key,
     SURNAME       VARCHAR(50),
     NAME          VARCHAR(50),
     PATRONYMIC    VARCHAR(50),
@@ -12,25 +12,27 @@ create table PERSON
 );
 create table DEPARTMENT
 (
-    ID                   INTEGER not null
+    ID                   BIGINT not null
         constraint DEPARTMENT_PK
-            primary key,
+        primary key,
     FULL_NAME            VARCHAR(50),
     SHORT_NAME           VARCHAR(50),
-    MANAGER_ID           INTEGER
+    MANAGER_ID           BIGINT
         constraint MANAGER_ID
-            references PERSON,
+            references PERSON
+            on delete set null,
     CONTACT_PHONE_NUMBER VARCHAR(50)
 );
 create table ORGANIZATION
 (
-    ID                   INTEGER not null
+    ID                   BIGINT not null
         constraint ORGANIZATION_PK
-            primary key,
+        primary key,
     FULL_NAME            VARCHAR(50),
     SHORT_NAME           VARCHAR(50),
-    MANAGER_ID           INTEGER
+    MANAGER_ID           BIGINT
         constraint MANAGER
-            references PERSON,
+            references PERSON
+            on delete set null,
     CONTACT_PHONE_NUMBER VARCHAR(50)
 );

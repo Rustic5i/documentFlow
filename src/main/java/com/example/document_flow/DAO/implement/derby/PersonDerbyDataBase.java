@@ -46,7 +46,7 @@ public class PersonDerbyDataBase implements DAOCrud<Person> {
     public void deleteById(long id) throws DeleteObjectException {
         try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM APP.PERSON WHERE ID = ?")) {
-            preparedStatement.setInt(1, (int) id);
+            preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DeleteObjectException("Ошибка удаление Person c id " + id + e);
@@ -71,7 +71,7 @@ public class PersonDerbyDataBase implements DAOCrud<Person> {
             preparedStatement.setString(4, object.getPost());
             preparedStatement.setDate(5, new Date(object.getDateOfBirth().getTime()));
             preparedStatement.setInt(6, object.getPhoneNumber());
-            preparedStatement.setInt(7, (int) object.getId());
+            preparedStatement.setLong(7, object.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new SaveObjectException("Ошибка при обновления объекта Person c id " + object.getId());
@@ -91,7 +91,7 @@ public class PersonDerbyDataBase implements DAOCrud<Person> {
              ResultSet rs = preparedStatement.executeQuery()) {
             while (rs.next()) {
                 personList.add(new Person().newBuilder()
-                        .setId(rs.getInt(1))
+                        .setId(rs.getLong(1))
                         .setSurname(rs.getString(2))
                         .setName(rs.getString(3))
                         .setPatronymic(rs.getString(4))
@@ -119,7 +119,7 @@ public class PersonDerbyDataBase implements DAOCrud<Person> {
                     "VALUES (?, ?, ?, ?, ?, ?, ?)")) {
                 connection.setAutoCommit(false);
                 for (Person person : personList) {
-                    preparedStatement.setInt(1, (int) person.getId());
+                    preparedStatement.setLong(1, person.getId());
                     preparedStatement.setString(2, person.getSurname());
                     preparedStatement.setString(3, person.getName());
                     preparedStatement.setString(4, person.getPatronymic());
@@ -165,7 +165,7 @@ public class PersonDerbyDataBase implements DAOCrud<Person> {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 person.newBuilder()
-                        .setId(rs.getInt(1))
+                        .setId(rs.getLong(1))
                         .setSurname(rs.getString(2))
                         .setName(rs.getString(3))
                         .setPatronymic(rs.getString(4))

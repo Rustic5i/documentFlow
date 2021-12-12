@@ -98,7 +98,7 @@ public class Organization extends Staff {
             return this;
         }
 
-        public Builder setId(int id) {
+        public Builder setId(long id) {
             Organization.this.setId(id);
             return this;
         }

@@ -47,7 +47,7 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
     public void deleteById(long id) throws DeleteObjectException {
         try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM APP.DEPARTMENT WHERE ID = ?")) {
-            preparedStatement.setInt(1, (int) id);
+            preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new DeleteObjectException("Ошибка удаление Department c id " + id);
@@ -68,7 +68,7 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
             preparedStatement.setString(1, object.getFullName());
             preparedStatement.setString(2, object.getShortName());
             preparedStatement.setString(3, object.getContactPhoneNumber());
-            preparedStatement.setInt(4, (int) object.getId());
+            preparedStatement.setLong(4, object.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new SaveObjectException("Ошибка при обновления объекта Department c id " + object.getId());
@@ -89,10 +89,10 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
              ResultSet rs = preparedStatement.executeQuery()) {
             while (rs.next()) {
                 departmentList.add(new Department().newBuilder()
-                        .setId(rs.getInt(1))
+                        .setId(rs.getLong(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(personDerbyDataBase.findById(rs.getInt(4)).get())
+                        .setManager(personDerbyDataBase.findById(rs.getLong(4)).get())
                         .setContactPhoneNumber(rs.getString(5))
                         .build());
             }
@@ -116,10 +116,10 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
                             "VALUES (?, ?, ?, ?, ?)")) {
                 connection.setAutoCommit(false);
                 for (Department department : departmentList) {
-                    preparedStatement.setInt(1, (int) department.getId());
+                    preparedStatement.setLong(1, department.getId());
                     preparedStatement.setString(2, department.getFullName());
                     preparedStatement.setString(3, department.getShortName());
-                    preparedStatement.setInt(4, (int) department.getManager().getId());
+                    preparedStatement.setLong(4, department.getManager().getId());
                     preparedStatement.setString(5, department.getContactPhoneNumber());
                     preparedStatement.addBatch();
                 }
@@ -161,10 +161,10 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
                 department.newBuilder()
-                        .setId(rs.getInt(1))
+                        .setId(rs.getLong(1))
                         .setFullName(rs.getString(2))
                         .setShortName(rs.getString(3))
-                        .setManager(personDerbyDataBase.findById(rs.getInt(4)).get())
+                        .setManager(personDerbyDataBase.findById(rs.getLong(4)).get())
                         .setContactPhoneNumber(rs.getString(5))
                         .build();
             }

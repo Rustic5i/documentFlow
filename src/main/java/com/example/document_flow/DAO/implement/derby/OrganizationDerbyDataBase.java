@@ -130,7 +130,7 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
                 throw new SaveObjectException("Ошибка сохранения объекта Organization " + e);
             }
         } catch (SQLException e) {
-            throw new SaveObjectException("Ошибка сохранения объекта Organization" + e);
+            throw new SaveObjectException("Ошибка сохранения объекта Organization " + e);
         }
     }
 

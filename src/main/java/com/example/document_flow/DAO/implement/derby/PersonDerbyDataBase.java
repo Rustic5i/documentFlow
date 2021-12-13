@@ -1,8 +1,8 @@
 package com.example.document_flow.DAO.implement.derby;
 
-import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.DAO.DTO.PreparedStatementDTO;
 import com.example.document_flow.DAO.DTO.ResultSetDTO;
+import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
 import com.example.document_flow.entity.staff.Person;
@@ -28,23 +28,23 @@ import java.util.Optional;
  */
 public class PersonDerbyDataBase implements DAOCrud<Person> {
 
+    private static final String SQL_DELETE_PERSON_BY_ID = "DELETE FROM APP.PERSON WHERE ID = ?";
+
+    private static final String SQL_UPDATE_PERSON = "UPDATE APP.PERSON t SET t.SURNAME = ?, t.NAME = ?, " +
+            "t.PATRONYMIC = ?, t.POST = ?, t.DATA_OF_BIRTH = ?, t.PHONE_NUMBER  = ? WHERE t.ID = ?";
+
+    private static final String SQL_GET_ALL_PERSON = "SELECT * FROM PERSON";
+
+    private static final String SQL_SAVE_PERSON = "INSERT INTO APP.PERSON (SURNAME, NAME, PATRONYMIC, POST, DATA_OF_BIRTH, PHONE_NUMBER,ID)\n" +
+            "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    private static final String SQL_FIND_PERSON_BY_ID = "SELECT * FROM PERSON WHERE ID=?";
+
     private static PersonDerbyDataBase derbyDataBase;
 
     private final SessionDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
 
     private final Logger LOGGER = LoggerFactory.getLogger(PersonDerbyDataBase.class.getName());
-
-    private final String SQL_DELETE_PERSON_BY_ID = "DELETE FROM APP.PERSON WHERE ID = ?";
-
-    private final String SQL_UPDATE_PERSON = "UPDATE APP.PERSON t SET t.SURNAME = ?, t.NAME = ?, " +
-            "t.PATRONYMIC = ?, t.POST = ?, t.DATA_OF_BIRTH = ?, t.PHONE_NUMBER  = ? WHERE t.ID = ?";
-
-    private final String SQL_GET_ALL_PERSON = "SELECT * FROM PERSON";
-
-    private final String SQL_SAVE_PERSON = "INSERT INTO APP.PERSON (SURNAME, NAME, PATRONYMIC, POST, DATA_OF_BIRTH, PHONE_NUMBER,ID)\n" +
-            "VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-    private final String SQL_FIND_PERSON_BY_ID = "SELECT * FROM PERSON WHERE ID=?";
 
     private PersonDerbyDataBase() {
     }

@@ -1,8 +1,8 @@
 package com.example.document_flow.DAO.implement.derby;
 
-import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.DAO.DTO.PreparedStatementDTO;
 import com.example.document_flow.DAO.DTO.ResultSetDTO;
+import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
 import com.example.document_flow.entity.staff.Department;
@@ -28,23 +28,23 @@ import java.util.Optional;
  */
 public class DepartmentDerbyDataBase implements DAOCrud<Department> {
 
+    private static final String SQL_DELETE_DEPARTMENT_BY_ID = "DELETE FROM APP.DEPARTMENT WHERE ID = ?";
+
+    private static final String SQL_UPDATE_DEPARTMENT = "UPDATE APP.DEPARTMENT t SET t.FULL_NAME = ?, t.SHORT_NAME = ?, t.CONTACT_PHONE_NUMBER = ?,t.MANAGER_ID=? WHERE t.ID = ?";
+
+    private static final String SQL_GET_ALL = "SELECT * FROM DEPARTMENT";
+
+    private static final String SQL_SAVE_ALL = "INSERT INTO APP.DEPARTMENT (FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER, ID)\n" +
+            "VALUES (?, ?, ?, ?, ?)";
+
+    private static final String SQL_FIND_DEPARTMENT_BY_ID = "SELECT * FROM DEPARTMENT " +
+            "JOIN PERSON P on P.ID = DEPARTMENT.MANAGER_ID where DEPARTMENT.ID =?";
+
     private static DepartmentDerbyDataBase derbyDataBase;
 
     private final SessionDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
 
     private final Logger LOGGER = LoggerFactory.getLogger(DepartmentDerbyDataBase.class.getName());
-
-    private final String SQL_DELETE_DEPARTMENT_BY_ID = "DELETE FROM APP.DEPARTMENT WHERE ID = ?";
-
-    private final String SQL_UPDATE_DEPARTMENT = "UPDATE APP.DEPARTMENT t SET t.FULL_NAME = ?, t.SHORT_NAME = ?, t.CONTACT_PHONE_NUMBER = ?,t.MANAGER_ID=? WHERE t.ID = ?";
-
-    private final String SQL_GET_ALL = "SELECT * FROM DEPARTMENT";
-
-    private final String SQL_SAVE_ALL = "INSERT INTO APP.DEPARTMENT (FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER, ID)\n" +
-            "VALUES (?, ?, ?, ?, ?)";
-
-    private final String SQL_FIND_DEPARTMENT_BY_ID = "SELECT * FROM DEPARTMENT " +
-            "JOIN PERSON P on P.ID = DEPARTMENT.MANAGER_ID where DEPARTMENT.ID =?";
 
     private DepartmentDerbyDataBase() {
     }

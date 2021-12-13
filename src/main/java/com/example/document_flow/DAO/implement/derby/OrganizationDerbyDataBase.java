@@ -1,8 +1,8 @@
 package com.example.document_flow.DAO.implement.derby;
 
-import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.DAO.DTO.PreparedStatementDTO;
 import com.example.document_flow.DAO.DTO.ResultSetDTO;
+import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
 import com.example.document_flow.entity.staff.Organization;
@@ -28,24 +28,24 @@ import java.util.Optional;
  */
 public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
 
+    private static final String SQL_FIND_ORGANIZATION_BY_ID = "SELECT * FROM ORGANIZATION " +
+            "JOIN PERSON P on P.ID = ORGANIZATION.MANAGER_ID where ORGANIZATION.ID =?";
+
+    private static final String SQL_DELETE_ORGANIZATION_BY_ID = "DELETE FROM APP.ORGANIZATION WHERE ID = ?";
+
+    private static final String SQL_UPDATE_ORGANIZATION = "UPDATE APP.ORGANIZATION t SET t.FULL_NAME = ?," +
+            " t.SHORT_NAME = ?, t.CONTACT_PHONE_NUMBER = ? WHERE t.ID = ?";
+
+    private static final String SQL_GET_ALL_ORGANIZATION = "SELECT * FROM ORGANIZATION";
+
+    private static final String SQL_SAVE_ALL = "INSERT INTO APP.ORGANIZATION (FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER, ID)\n" +
+            "VALUES (?, ?, ?, ?, ?)";
+
     private static OrganizationDerbyDataBase derbyDataBase;
 
     private final SessionDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
 
     private final Logger LOGGER = LoggerFactory.getLogger(OrganizationDerbyDataBase.class.getName());
-
-    private final String SQL_FIND_ORGANIZATION_BY_ID = "SELECT * FROM ORGANIZATION " +
-            "JOIN PERSON P on P.ID = ORGANIZATION.MANAGER_ID where ORGANIZATION.ID =?";
-
-    private final String SQL_DELETE_ORGANIZATION_BY_ID = "DELETE FROM APP.ORGANIZATION WHERE ID = ?";
-
-    private final String SQL_UPDATE_ORGANIZATION = "UPDATE APP.ORGANIZATION t SET t.FULL_NAME = ?," +
-            " t.SHORT_NAME = ?, t.CONTACT_PHONE_NUMBER = ? WHERE t.ID = ?";
-
-    private final String SQL_GET_ALL_ORGANIZATION = "SELECT * FROM ORGANIZATION";
-
-    private final String SQL_SAVE_ALL = "INSERT INTO APP.ORGANIZATION (FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER, ID)\n" +
-            "VALUES (?, ?, ?, ?, ?)";
 
     private OrganizationDerbyDataBase() {
     }

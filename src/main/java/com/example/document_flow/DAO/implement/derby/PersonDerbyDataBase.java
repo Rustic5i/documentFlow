@@ -1,6 +1,8 @@
 package com.example.document_flow.DAO.implement.derby;
 
 import com.example.document_flow.DAO.abstraction.DAOCrud;
+import com.example.document_flow.DAO.DTO.PreparedStatementDTO;
+import com.example.document_flow.DAO.DTO.ResultSetDTO;
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
 import com.example.document_flow.entity.staff.Person;
@@ -10,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,6 +34,18 @@ public class PersonDerbyDataBase implements DAOCrud<Person> {
 
     private final Logger LOGGER = LoggerFactory.getLogger(PersonDerbyDataBase.class.getName());
 
+    private final String SQL_DELETE_PERSON_BY_ID = "DELETE FROM APP.PERSON WHERE ID = ?";
+
+    private final String SQL_UPDATE_PERSON = "UPDATE APP.PERSON t SET t.SURNAME = ?, t.NAME = ?, " +
+            "t.PATRONYMIC = ?, t.POST = ?, t.DATA_OF_BIRTH = ?, t.PHONE_NUMBER  = ? WHERE t.ID = ?";
+
+    private final String SQL_GET_ALL_PERSON = "SELECT * FROM PERSON";
+
+    private final String SQL_SAVE_PERSON = "INSERT INTO APP.PERSON (SURNAME, NAME, PATRONYMIC, POST, DATA_OF_BIRTH, PHONE_NUMBER,ID)\n" +
+            "VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    private final String SQL_FIND_PERSON_BY_ID = "SELECT * FROM PERSON WHERE ID=?";
+
     private PersonDerbyDataBase() {
     }
 
@@ -54,8 +67,7 @@ public class PersonDerbyDataBase implements DAOCrud<Person> {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM APP.PERSON WHERE ID = ?")) {
+        try (PreparedStatement preparedStatement = SESSION_DERBY_DATA_BASE.getConnection().prepareStatement(SQL_DELETE_PERSON_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -71,17 +83,8 @@ public class PersonDerbyDataBase implements DAOCrud<Person> {
      */
     @Override
     public void update(Person object) throws SaveObjectException {
-        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
-             PreparedStatement preparedStatement = connection
-                     .prepareStatement("UPDATE APP.PERSON t SET t.SURNAME = ?, t.NAME = ?, " +
-                             "t.PATRONYMIC = ?, t.POST = ?, t.DATA_OF_BIRTH = ?, t.PHONE_NUMBER  = ? WHERE t.ID = ?")) {
-            preparedStatement.setString(1, object.getSurname());
-            preparedStatement.setString(2, object.getName());
-            preparedStatement.setString(3, object.getPatronymic());
-            preparedStatement.setString(4, object.getPost());
-            preparedStatement.setDate(5, new Date(object.getDateOfBirth().getTime()));
-            preparedStatement.setInt(6, object.getPhoneNumber());
-            preparedStatement.setLong(7, object.getId());
+        try (PreparedStatement preparedStatement = SESSION_DERBY_DATA_BASE.getConnection().prepareStatement(SQL_UPDATE_PERSON)) {
+            PreparedStatementDTO.transfer(object, preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new SaveObjectException("Ошибка при обновления объекта Person c id " + object.getId());
@@ -96,18 +99,9 @@ public class PersonDerbyDataBase implements DAOCrud<Person> {
     @Override
     public List<Person> getAll() {
         List<Person> personList = new ArrayList<>();
-        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM PERSON");
-             ResultSet rs = preparedStatement.executeQuery()) {
+        try (ResultSet rs = SESSION_DERBY_DATA_BASE.getConnection().prepareStatement(SQL_GET_ALL_PERSON).executeQuery()) {
             while (rs.next()) {
-                personList.add(new Person().newBuilder()
-                        .setId(rs.getLong(1))
-                        .setSurname(rs.getString(2))
-                        .setName(rs.getString(3))
-                        .setPatronymic(rs.getString(4))
-                        .setPost(rs.getString(5))
-                        .setDateOfBirth(rs.getDate(6))
-                        .setPhoneNumber(rs.getInt(7)).build());
+                personList.add(ResultSetDTO.transferPerson(rs));
             }
         } catch (SQLException e) {
             LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
@@ -125,17 +119,10 @@ public class PersonDerbyDataBase implements DAOCrud<Person> {
     @Override
     public void saveAll(List<Person> personList) throws SaveObjectException {
         try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO APP.PERSON (ID, SURNAME, NAME, PATRONYMIC, POST, DATA_OF_BIRTH, PHONE_NUMBER)\n" +
-                    "VALUES (?, ?, ?, ?, ?, ?, ?)")) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_PERSON)) {
                 connection.setAutoCommit(false);
                 for (Person person : personList) {
-                    preparedStatement.setLong(1, person.getId());
-                    preparedStatement.setString(2, person.getSurname());
-                    preparedStatement.setString(3, person.getName());
-                    preparedStatement.setString(4, person.getPatronymic());
-                    preparedStatement.setString(5, person.getPost());
-                    preparedStatement.setDate(6, new Date(person.getDateOfBirth().getTime()));
-                    preparedStatement.setInt(7, person.getPhoneNumber());
+                    PreparedStatementDTO.transfer(person, preparedStatement);
                     preparedStatement.addBatch();
                 }
                 preparedStatement.executeBatch();
@@ -169,20 +156,14 @@ public class PersonDerbyDataBase implements DAOCrud<Person> {
     @Override
     public Optional<Person> findById(long id) {
         Person person = new Person();
-        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM PERSON WHERE ID=?")) {
+        try (PreparedStatement preparedStatement = SESSION_DERBY_DATA_BASE.getConnection().prepareStatement(SQL_FIND_PERSON_BY_ID)) {
             preparedStatement.setLong(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                person.newBuilder()
-                        .setId(rs.getLong(1))
-                        .setSurname(rs.getString(2))
-                        .setName(rs.getString(3))
-                        .setPatronymic(rs.getString(4))
-                        .setPost(rs.getString(5))
-                        .setDateOfBirth(rs.getDate(6))
-                        .setPhoneNumber(rs.getInt(7))
-                        .build();
+            try (ResultSet rs = preparedStatement.executeQuery();) {
+                while (rs.next()) {
+                    person = ResultSetDTO.transferPerson(rs);
+                }
+            } catch (SQLException e) {
+                LOGGER.error("Ошибка получения ResultSet ", e);
             }
         } catch (SQLException e) {
             LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);

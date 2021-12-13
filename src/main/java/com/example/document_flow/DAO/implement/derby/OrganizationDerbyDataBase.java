@@ -1,6 +1,8 @@
 package com.example.document_flow.DAO.implement.derby;
 
 import com.example.document_flow.DAO.abstraction.DAOCrud;
+import com.example.document_flow.DAO.DTO.PreparedStatementDTO;
+import com.example.document_flow.DAO.DTO.ResultSetDTO;
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
 import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
 import com.example.document_flow.entity.staff.Organization;
@@ -28,11 +30,22 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
 
     private static OrganizationDerbyDataBase derbyDataBase;
 
-    private final PersonDerbyDataBase PERSON_DERBY = PersonDerbyDataBase.getInstance();
-
     private final SessionDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
 
     private final Logger LOGGER = LoggerFactory.getLogger(OrganizationDerbyDataBase.class.getName());
+
+    private final String SQL_FIND_ORGANIZATION_BY_ID = "SELECT * FROM ORGANIZATION " +
+            "JOIN PERSON P on P.ID = ORGANIZATION.MANAGER_ID where ORGANIZATION.ID =?";
+
+    private final String SQL_DELETE_ORGANIZATION_BY_ID = "DELETE FROM APP.ORGANIZATION WHERE ID = ?";
+
+    private final String SQL_UPDATE_ORGANIZATION = "UPDATE APP.ORGANIZATION t SET t.FULL_NAME = ?," +
+            " t.SHORT_NAME = ?, t.CONTACT_PHONE_NUMBER = ? WHERE t.ID = ?";
+
+    private final String SQL_GET_ALL_ORGANIZATION = "SELECT * FROM ORGANIZATION";
+
+    private final String SQL_SAVE_ALL = "INSERT INTO APP.ORGANIZATION (FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER, ID)\n" +
+            "VALUES (?, ?, ?, ?, ?)";
 
     private OrganizationDerbyDataBase() {
     }
@@ -55,8 +68,7 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("DELETE FROM APP.ORGANIZATION WHERE ID = ?")) {
+        try (PreparedStatement preparedStatement = SESSION_DERBY_DATA_BASE.getConnection().prepareStatement(SQL_DELETE_ORGANIZATION_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -72,13 +84,8 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
      */
     @Override
     public void update(Organization object) throws SaveObjectException {
-        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
-             PreparedStatement preparedStatement = connection
-                     .prepareStatement("UPDATE APP.ORGANIZATION t SET t.FULL_NAME = ?, t.SHORT_NAME = ?, t.CONTACT_PHONE_NUMBER = ? WHERE t.ID = ?")) {
-            preparedStatement.setString(1, object.getFullName());
-            preparedStatement.setString(2, object.getShortName());
-            preparedStatement.setString(3, object.getContactPhoneNumber());
-            preparedStatement.setLong(4, object.getId());
+        try (PreparedStatement preparedStatement = SESSION_DERBY_DATA_BASE.getConnection().prepareStatement(SQL_UPDATE_ORGANIZATION)) {
+            PreparedStatementDTO.transfer(object, preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new SaveObjectException("Ошибка при обновления объекта Organization c id " + object.getId());
@@ -93,18 +100,9 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
     @Override
     public List<Organization> getAll() {
         List<Organization> organizationList = new ArrayList<>();
-        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
-             PreparedStatement preparedStatement = connection
-                     .prepareStatement("SELECT * FROM ORGANIZATION");
-             ResultSet rs = preparedStatement.executeQuery()) {
+        try (ResultSet rs = SESSION_DERBY_DATA_BASE.getConnection().prepareStatement(SQL_GET_ALL_ORGANIZATION).executeQuery()) {
             while (rs.next()) {
-                organizationList.add(new Organization().newBuilder()
-                        .setId(rs.getInt(1))
-                        .setFullName(rs.getString(2))
-                        .setShortName(rs.getString(3))
-                        .setManager(PERSON_DERBY.findById(rs.getLong(4)).get())
-                        .setContactPhoneNumber(rs.getString(5))
-                        .build());
+                organizationList.add(ResultSetDTO.transferOrganization(rs));
             }
         } catch (SQLException e) {
             LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
@@ -121,16 +119,10 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
     @Override
     public void saveAll(List<Organization> organizationList) throws SaveObjectException {
         try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection()) {
-            try (PreparedStatement preparedStatement = connection
-                    .prepareStatement("INSERT INTO APP.ORGANIZATION (ID, FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER)\n" +
-                            "VALUES (?, ?, ?, ?, ?)")) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_ALL)) {
                 connection.setAutoCommit(false);
                 for (Organization organization : organizationList) {
-                    preparedStatement.setLong(1, organization.getId());
-                    preparedStatement.setString(2, organization.getFullName());
-                    preparedStatement.setString(3, organization.getShortName());
-                    preparedStatement.setLong(4, organization.getManager().getId());
-                    preparedStatement.setString(5, organization.getContactPhoneNumber());
+                    PreparedStatementDTO.transfer(organization, preparedStatement);
                     preparedStatement.addBatch();
                 }
                 preparedStatement.executeBatch();
@@ -164,18 +156,11 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
     @Override
     public Optional<Organization> findById(long id) {
         Organization organization = new Organization();
-        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM ORGANIZATION WHERE ID=?");
-             ResultSet rs = preparedStatement.executeQuery()) {
+        try (PreparedStatement preparedStatement = SESSION_DERBY_DATA_BASE.getConnection().prepareStatement(SQL_FIND_ORGANIZATION_BY_ID)) {
             preparedStatement.setLong(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                organization.newBuilder()
-                        .setId(rs.getLong(1))
-                        .setFullName(rs.getString(2))
-                        .setShortName(rs.getString(3))
-                        .setManager(PERSON_DERBY.findById(rs.getLong(4)).get())
-                        .setContactPhoneNumber(rs.getString(5))
-                        .build();
+                organization = ResultSetDTO.transferOrganization(rs);
             }
         } catch (SQLException e) {
             LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);

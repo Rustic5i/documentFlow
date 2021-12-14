@@ -13,12 +13,5 @@ public interface SessionDataBase {
     /**
      * @return соединение (сеанс) с определенной базой данных.
      */
-    Connection getConnection();
-
-    /**
-     * Закрывает соединение(сеанс) к базе данных
-     *
-     * @throws SQLException если возникает ошибка доступа к базе данных
-     */
-    void close() throws SQLException;
+    Connection getConnection() throws SQLException;
 }

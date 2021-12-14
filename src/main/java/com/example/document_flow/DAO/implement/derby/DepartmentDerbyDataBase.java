@@ -4,7 +4,7 @@ import com.example.document_flow.DAO.DTO.PreparedStatementDTO;
 import com.example.document_flow.DAO.DTO.ResultSetDTO;
 import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
-import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
+import com.example.document_flow.config.DataBase.implement.SessionManager;
 import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.SaveObjectException;
@@ -42,7 +42,7 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
 
     private static DepartmentDerbyDataBase derbyDataBase;
 
-    private final SessionDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
+    private final SessionDataBase SESSION_MANAGER = SessionManager.getInstance();
 
     private final Logger LOGGER = LoggerFactory.getLogger(DepartmentDerbyDataBase.class.getName());
 
@@ -67,7 +67,7 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        try (PreparedStatement preparedStatement = SESSION_DERBY_DATA_BASE.getConnection().prepareStatement(SQL_DELETE_DEPARTMENT_BY_ID)) {
+        try (PreparedStatement preparedStatement = SESSION_MANAGER.getConnection().prepareStatement(SQL_DELETE_DEPARTMENT_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -83,7 +83,7 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
      */
     @Override
     public void update(Department object) throws SaveObjectException {
-        try (PreparedStatement preparedStatement = SESSION_DERBY_DATA_BASE.getConnection().prepareStatement(SQL_UPDATE_DEPARTMENT)) {
+        try (PreparedStatement preparedStatement = SESSION_MANAGER.getConnection().prepareStatement(SQL_UPDATE_DEPARTMENT)) {
             PreparedStatementDTO.transfer(object, preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -99,7 +99,7 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
     @Override
     public List<Department> getAll() {
         List<Department> departmentList = new ArrayList<>();
-        try (ResultSet rs = SESSION_DERBY_DATA_BASE.getConnection().prepareStatement(SQL_GET_ALL).executeQuery()) {
+        try (ResultSet rs = SESSION_MANAGER.getConnection().prepareStatement(SQL_GET_ALL).executeQuery()) {
             while (rs.next()) {
                 departmentList.add(ResultSetDTO.transferDepartment(rs));
             }
@@ -117,7 +117,7 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
      */
     @Override
     public void saveAll(List<Department> departmentList) throws SaveObjectException {
-        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection()) {
+        try (Connection connection = SESSION_MANAGER.getConnection()) {
             try (PreparedStatement preparedStatement = connection
                     .prepareStatement(SQL_SAVE_ALL)) {
                 connection.setAutoCommit(false);
@@ -156,7 +156,7 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
     @Override
     public Optional<Department> findById(long id) {
         Department department = new Department();
-        try (PreparedStatement preparedStatement = SESSION_DERBY_DATA_BASE.getConnection().prepareStatement(SQL_FIND_DEPARTMENT_BY_ID)) {
+        try (PreparedStatement preparedStatement = SESSION_MANAGER.getConnection().prepareStatement(SQL_FIND_DEPARTMENT_BY_ID)) {
             preparedStatement.setLong(1, id);
             try (ResultSet rs = preparedStatement.executeQuery();) {
                 while (rs.next()) {

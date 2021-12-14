@@ -24,6 +24,7 @@
         <maven.war.plugin>3.2.0</maven.war.plugin>
         <cargo-maven2-plugin.version>1.7.6</cargo-maven2-plugin.version>
         <tomcat.version>8.0.48</tomcat.version>
+        <hikariCP.version>3.3.1</hikariCP.version>
     </properties>
     <dependencies>
         <dependency>
@@ -78,6 +79,11 @@
             <groupId>org.apache.derby</groupId>
             <artifactId>derby</artifactId>
             <version>${derby.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${hikariCP.version}</version>
         </dependency>
     </dependencies>
     <build>

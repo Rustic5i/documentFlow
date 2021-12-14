@@ -4,7 +4,7 @@ import com.example.document_flow.DAO.DTO.PreparedStatementDTO;
 import com.example.document_flow.DAO.DTO.ResultSetDTO;
 import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
-import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
+import com.example.document_flow.config.DataBase.implement.SessionManager;
 import com.example.document_flow.entity.staff.Organization;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.SaveObjectException;
@@ -43,7 +43,7 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
 
     private static OrganizationDerbyDataBase derbyDataBase;
 
-    private final SessionDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
+    private final SessionDataBase SESSION_MANAGER = SessionManager.getInstance();
 
     private final Logger LOGGER = LoggerFactory.getLogger(OrganizationDerbyDataBase.class.getName());
 
@@ -68,7 +68,7 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        try (PreparedStatement preparedStatement = SESSION_DERBY_DATA_BASE.getConnection().prepareStatement(SQL_DELETE_ORGANIZATION_BY_ID)) {
+        try (PreparedStatement preparedStatement = SESSION_MANAGER.getConnection().prepareStatement(SQL_DELETE_ORGANIZATION_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -84,7 +84,7 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
      */
     @Override
     public void update(Organization object) throws SaveObjectException {
-        try (PreparedStatement preparedStatement = SESSION_DERBY_DATA_BASE.getConnection().prepareStatement(SQL_UPDATE_ORGANIZATION)) {
+        try (PreparedStatement preparedStatement = SESSION_MANAGER.getConnection().prepareStatement(SQL_UPDATE_ORGANIZATION)) {
             PreparedStatementDTO.transfer(object, preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -100,7 +100,7 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
     @Override
     public List<Organization> getAll() {
         List<Organization> organizationList = new ArrayList<>();
-        try (ResultSet rs = SESSION_DERBY_DATA_BASE.getConnection().prepareStatement(SQL_GET_ALL_ORGANIZATION).executeQuery()) {
+        try (ResultSet rs = SESSION_MANAGER.getConnection().prepareStatement(SQL_GET_ALL_ORGANIZATION).executeQuery()) {
             while (rs.next()) {
                 organizationList.add(ResultSetDTO.transferOrganization(rs));
             }
@@ -118,7 +118,7 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
      */
     @Override
     public void saveAll(List<Organization> organizationList) throws SaveObjectException {
-        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection()) {
+        try (Connection connection = SESSION_MANAGER.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_ALL)) {
                 connection.setAutoCommit(false);
                 for (Organization organization : organizationList) {
@@ -156,7 +156,7 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
     @Override
     public Optional<Organization> findById(long id) {
         Organization organization = new Organization();
-        try (PreparedStatement preparedStatement = SESSION_DERBY_DATA_BASE.getConnection().prepareStatement(SQL_FIND_ORGANIZATION_BY_ID)) {
+        try (PreparedStatement preparedStatement = SESSION_MANAGER.getConnection().prepareStatement(SQL_FIND_ORGANIZATION_BY_ID)) {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {

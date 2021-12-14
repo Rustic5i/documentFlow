@@ -17,13 +17,16 @@ public class ReadFileProperties {
     private final String RESOURCE_PATH = "config/config.properties";
 
     private final InputStream INPUT_STREAM_PROPERTIES_FILE = Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream(RESOURCE_PATH),
-            "Папка ресурсов"+RESOURCE_PATH+" не найдено");
+            "Папка ресурсов" + RESOURCE_PATH + " не найдено");
+
+    {
+        load();
+    }
 
     /**
      * Считывает список свойств (пары ключей и элементов) из файла формата properties
-     *
      */
-    public synchronized void load() {
+    private synchronized void load() {
         try {
             PROPERTIES.load(INPUT_STREAM_PROPERTIES_FILE);
         } catch (IOException e) {

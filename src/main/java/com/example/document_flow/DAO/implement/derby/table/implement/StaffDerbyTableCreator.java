@@ -1,12 +1,11 @@
 package com.example.document_flow.DAO.implement.derby.table.implement;
 
 import com.example.document_flow.DAO.abstraction.TableCreator;
-import com.example.document_flow.config.DataBase.implement.SessionDerbyDataBase;
+import com.example.document_flow.config.DataBase.implement.SessionManager;
 import com.example.document_flow.config.ReadFileSql;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
@@ -21,7 +20,7 @@ public class StaffDerbyTableCreator implements TableCreator {
 
     private static StaffDerbyTableCreator staffDerbyTableCreator;
 
-    private final SessionDerbyDataBase SESSION_DERBY_DATA_BASE = SessionDerbyDataBase.getInstance();
+    private final SessionManager SESSION_DERBY_DATA_BASE = SessionManager.getInstance();
 
     private final ReadFileSql READ_FILE_SQL = new ReadFileSql();
 
@@ -46,8 +45,7 @@ public class StaffDerbyTableCreator implements TableCreator {
     @Override
     public void creatTablesDB() {
         List<String> arraySqlScripts = getArraySqlScripts();
-        try (Connection connection = SESSION_DERBY_DATA_BASE.getConnection();
-             Statement statement = connection.createStatement()) {
+        try (Statement statement = SESSION_DERBY_DATA_BASE.getConnection().createStatement()) {
             for (String sqlScript : arraySqlScripts) {
                 statement.executeUpdate(sqlScript);
             }

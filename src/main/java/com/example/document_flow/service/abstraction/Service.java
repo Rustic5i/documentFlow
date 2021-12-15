@@ -36,6 +36,7 @@ public interface Service<T> {
      * Получить все объекты
      *
      * @return список каких-либо объектов
+     * @throws GetDataObjectException когда получение данных терпит неудачу по какой-либо причине.
      */
     List<T> getAll() throws GetDataObjectException;
 
@@ -60,6 +61,7 @@ public interface Service<T> {
      *
      * @param id id объекта класса <code>Department</code>
      * @return найденный объект класса <code>Department</code>
+     * @throws GetDataObjectException когда получение данных терпит неудачу по какой-либо причине.
      */
     Optional<T> findById(long id) throws GetDataObjectException;
 }

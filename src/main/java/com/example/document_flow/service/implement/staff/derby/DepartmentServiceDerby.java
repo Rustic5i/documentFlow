@@ -61,6 +61,7 @@ public class DepartmentServiceDerby implements DepartmentService {
      * Получить список всех сохраненных объектов класса <code>Department</code>
      *
      * @return список сохраненных объектов класса <code>Department</code>
+     * @throws GetDataObjectException когда получение данных терпит неудачу по какой-либо причине.
      */
     @Override
     public List<Department> getAll() throws GetDataObjectException {
@@ -72,6 +73,7 @@ public class DepartmentServiceDerby implements DepartmentService {
      *
      * @param id id объекта класса <code>Department</code>
      * @return найденный объект класса <code>Department</code>
+     * @throws GetDataObjectException когда получение данных терпит неудачу по какой-либо причине.
      */
     @Override
     public Optional<Department> findById(long id) throws GetDataObjectException {

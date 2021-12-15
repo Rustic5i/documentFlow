@@ -44,6 +44,7 @@ public class SessionManagerIml implements SessionManager {
 
     /**
      * @return получение соединения <code>Connection</code> к базе данных.
+     * @throws SQLException если возникает ошибка доступа к базе данных
      */
     public Connection getConnection() throws SQLException {
         return DATA_SOURCE.getConnection();

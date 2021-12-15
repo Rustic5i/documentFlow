@@ -3,6 +3,7 @@ package com.example.document_flow.DAO.implement.table.implement;
 import com.example.document_flow.DAO.abstraction.TableCreator;
 import com.example.document_flow.config.DataBase.implement.SessionManagerIml;
 import com.example.document_flow.config.ReadFileSql;
+import com.example.document_flow.exception.CreateTableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,16 +42,17 @@ public class StaffTableCreator implements TableCreator {
 
     /**
      * Создает таблицы в базе данных
+     * @throws CreateTableException в случае если создание таблиц(ы) в бд терпит не удачу
      */
     @Override
-    public void creatTablesDB() {
+    public void creatTablesDB() throws CreateTableException {
         List<String> arraySqlScripts = getArraySqlScripts();
         try (Statement statement = SESSION_DERBY_DATA_BASE.getConnection().createStatement()) {
             for (String sqlScript : arraySqlScripts) {
                 statement.executeUpdate(sqlScript);
             }
         } catch (SQLException e) {
-            LOGGER.error("Ошибка при создание таблицы в базе данной Derby", e);
+            throw new CreateTableException("Ошибка при создание таблицы в бд"+e);
         }
     }
 

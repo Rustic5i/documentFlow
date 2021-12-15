@@ -12,6 +12,7 @@ public interface SessionManager {
 
     /**
      * @return соединение (сеанс) с определенной базой данных.
+     * @throws SQLException если возникает ошибка доступа к базе данных
      */
     Connection getConnection() throws SQLException;
 }

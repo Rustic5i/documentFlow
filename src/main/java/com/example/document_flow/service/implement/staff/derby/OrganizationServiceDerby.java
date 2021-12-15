@@ -61,6 +61,7 @@ public class OrganizationServiceDerby implements OrganizationService {
      * Получить список всех сохраненных объектов класса <code>Organization</code>
      *
      * @return список сохраненных объектов класса <code>Organization</code>
+     * @throws GetDataObjectException когда получение данных терпит неудачу по какой-либо причине.
      */
     @Override
     public List<Organization> getAll() throws GetDataObjectException {
@@ -72,6 +73,7 @@ public class OrganizationServiceDerby implements OrganizationService {
      *
      * @param id id объекта класса <code>Organization</code>
      * @return найденный объект класса <code>Organization</code>
+     * @throws GetDataObjectException когда получение данных терпит неудачу по какой-либо причине.
      */
     @Override
     public Optional<Organization> findById(long id) throws GetDataObjectException {

@@ -42,6 +42,7 @@ public interface DAOCrud<T> {
      * Получить список всех сохраненных объектов
      *
      * @return список сохраненных объектов
+     * @throws GetDataObjectException когда получение данных терпит неудачу по какой-либо причине.
      */
     List<T> getAll() throws GetDataObjectException;
 
@@ -58,6 +59,7 @@ public interface DAOCrud<T> {
      *
      * @param id id объекта класса <code>Department</code>
      * @return найденный объект класса <code>Department</code>
+     * @throws GetDataObjectException когда получение данных терпит неудачу по какой-либо причине.
      */
     Optional<T> findById(long id) throws GetDataObjectException;
 }

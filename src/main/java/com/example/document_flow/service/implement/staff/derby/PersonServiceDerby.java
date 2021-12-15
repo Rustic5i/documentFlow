@@ -61,6 +61,7 @@ public class PersonServiceDerby implements PersonService {
      * Получить список всех сохраненных объектов класса <code>Person</code>
      *
      * @return список сохраненных объектов класса <code>Person</code>
+     * @throws GetDataObjectException когда получение данных терпит неудачу по какой-либо причине.
      */
     @Override
     public List<Person> getAll() throws GetDataObjectException {
@@ -72,6 +73,7 @@ public class PersonServiceDerby implements PersonService {
      *
      * @param id id объекта класса <code>Person</code>
      * @return найденный объект класса <code>Person</code>
+     * @throws GetDataObjectException когда получение данных терпит неудачу по какой-либо причине.
      */
     @Override
     public Optional<Person> findById(long id) throws GetDataObjectException {

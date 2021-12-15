@@ -1,16 +1,14 @@
 package com.example.document_flow.DAO.implement;
 
+import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.DAO.mapper.PreparedStatementMapper;
 import com.example.document_flow.DAO.mapper.ResultSetMapper;
-import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.SessionManager;
 import com.example.document_flow.config.DataBase.implement.SessionManagerIml;
 import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -94,6 +92,7 @@ public class DepartmentDAO implements DAOCrud<Department> {
      * Получить список всех сохраненных объектов класса <code>Department</code>
      *
      * @return список сохраненных объектов класса <code>Department</code>
+     * @throws GetDataObjectException когда получение данных терпит неудачу по какой-либо причине.
      */
     @Override
     public List<Department> getAll() throws GetDataObjectException {
@@ -103,7 +102,7 @@ public class DepartmentDAO implements DAOCrud<Department> {
                 departmentList.add(ResultSetMapper.mappingDepartment(rs));
             }
         } catch (SQLException e) {
-            throw new GetDataObjectException("Ошибка при попытки получения данных "+e);
+            throw new GetDataObjectException("Ошибка при попытки получения данных " + e);
         }
         return departmentList;
     }
@@ -151,6 +150,7 @@ public class DepartmentDAO implements DAOCrud<Department> {
      *
      * @param id id объекта класса <code>Department</code>
      * @return найденный объект класса <code>Department</code>
+     * @throws GetDataObjectException когда получение данных терпит неудачу по какой-либо причине.
      */
     @Override
     public Optional<Department> findById(long id) throws GetDataObjectException {
@@ -162,10 +162,10 @@ public class DepartmentDAO implements DAOCrud<Department> {
                     department = ResultSetMapper.mappingDepartment(rs);
                 }
             } catch (SQLException e) {
-                throw new GetDataObjectException("Ошибка при попытки получения данных "+e);
+                throw new GetDataObjectException("Ошибка при попытки получения данных " + e);
             }
         } catch (SQLException e) {
-            throw new GetDataObjectException("Ошибка при попытки получения данных "+e);
+            throw new GetDataObjectException("Ошибка при попытки получения данных " + e);
         }
         return Optional.of(department);
     }

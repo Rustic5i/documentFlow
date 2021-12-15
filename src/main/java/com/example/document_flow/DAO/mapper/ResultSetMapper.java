@@ -14,6 +14,28 @@ import java.sql.SQLException;
  */
 public class ResultSetMapper {
 
+    private static final String ID = "ID";
+
+    private static final String SURNAME = "SURNAME";
+
+    private static final String NAME = "NAME";
+
+    private static final String PATRONYMIC = "PATRONYMIC";
+
+    private static final String POST = "POST";
+
+    private static final String DATA_OF_BIRTH = "DATA_OF_BIRTH";
+
+    private static final String PHONE_NUMBER = "PHONE_NUMBER";
+
+    private static final String FULL_NAME = "FULL_NAME";
+
+    private static final String SHORT_NAME = "SHORT_NAME";
+
+    private static final String MANAGER_ID = "MANAGER_ID";
+
+    private static final String CONTACT_PHONE_NUMBER = "CONTACT_PHONE_NUMBER";
+
     /**
      * Преобразует данные <code>ResultSet</code>  в Entity-объект класса <code>Person</code>
      *
@@ -24,13 +46,13 @@ public class ResultSetMapper {
      */
     public static Person mappingPerson(ResultSet rs) throws SQLException {
         return new Person().newBuilder()
-                .setId(rs.getLong("ID"))
-                .setSurname(rs.getString("SURNAME"))
-                .setName(rs.getString("NAME"))
-                .setPatronymic(rs.getString("PATRONYMIC"))
-                .setPost(rs.getString("POST"))
-                .setDateOfBirth(rs.getDate("DATA_OF_BIRTH"))
-                .setPhoneNumber(rs.getInt("PHONE_NUMBER"))
+                .setId(rs.getLong(ID))
+                .setSurname(rs.getString(SURNAME))
+                .setName(rs.getString(NAME))
+                .setPatronymic(rs.getString(PATRONYMIC))
+                .setPost(rs.getString(POST))
+                .setDateOfBirth(rs.getDate(DATA_OF_BIRTH))
+                .setPhoneNumber(rs.getInt(PHONE_NUMBER))
                 .build();
     }
 
@@ -44,18 +66,18 @@ public class ResultSetMapper {
      */
     public static Organization mappingOrganization(ResultSet rs) throws SQLException {
         return new Organization().newBuilder()
-                .setId(rs.getLong("ID"))
-                .setFullName(rs.getString("FULL_NAME"))
-                .setShortName(rs.getString("SHORT_NAME"))
-                .setContactPhoneNumber(rs.getString("CONTACT_PHONE_NUMBER"))
+                .setId(rs.getLong(ID))
+                .setFullName(rs.getString(FULL_NAME))
+                .setShortName(rs.getString(SHORT_NAME))
+                .setContactPhoneNumber(rs.getString(CONTACT_PHONE_NUMBER))
                 .setManager(new Person().newBuilder()
-                        .setId(rs.getLong("MANAGER_ID"))
-                        .setSurname(rs.getString("SURNAME"))
-                        .setName(rs.getString("NAME"))
-                        .setPatronymic(rs.getString("PATRONYMIC"))
-                        .setPost(rs.getString("POST"))
-                        .setDateOfBirth(rs.getDate("DATA_OF_BIRTH"))
-                        .setPhoneNumber(rs.getInt("PHONE_NUMBER"))
+                        .setId(rs.getLong(MANAGER_ID))
+                        .setSurname(rs.getString(SURNAME))
+                        .setName(rs.getString(NAME))
+                        .setPatronymic(rs.getString(PATRONYMIC))
+                        .setPost(rs.getString(POST))
+                        .setDateOfBirth(rs.getDate(DATA_OF_BIRTH))
+                        .setPhoneNumber(rs.getInt(PHONE_NUMBER))
                         .build())
                 .build();
     }
@@ -70,19 +92,19 @@ public class ResultSetMapper {
      */
     public static Department mappingDepartment(ResultSet rs) throws SQLException {
         return new Department().newBuilder()
-                .setId(rs.getLong("ID"))
-                .setFullName(rs.getString("FULL_NAME"))
-                .setShortName(rs.getString("SHORT_NAME"))
+                .setId(rs.getLong(ID))
+                .setFullName(rs.getString(FULL_NAME))
+                .setShortName(rs.getString(SHORT_NAME))
                 .setManager(new Person().newBuilder()
-                        .setId(rs.getLong("MANAGER_ID"))
-                        .setSurname(rs.getString("SURNAME"))
-                        .setName(rs.getString("NAME"))
-                        .setPatronymic(rs.getString("PATRONYMIC"))
-                        .setPost(rs.getString("POST"))
-                        .setDateOfBirth(rs.getDate("DATA_OF_BIRTH"))
-                        .setPhoneNumber(rs.getInt("PHONE_NUMBER"))
+                        .setId(rs.getLong(MANAGER_ID))
+                        .setSurname(rs.getString(SURNAME))
+                        .setName(rs.getString(NAME))
+                        .setPatronymic(rs.getString(PATRONYMIC))
+                        .setPost(rs.getString(POST))
+                        .setDateOfBirth(rs.getDate(DATA_OF_BIRTH))
+                        .setPhoneNumber(rs.getInt(PHONE_NUMBER))
                         .build())
-                .setContactPhoneNumber(rs.getString("CONTACT_PHONE_NUMBER"))
+                .setContactPhoneNumber(rs.getString(CONTACT_PHONE_NUMBER))
                 .build();
     }
 }

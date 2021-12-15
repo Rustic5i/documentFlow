@@ -17,6 +17,10 @@ public class SessionManagerIml implements SessionManager {
 
     private static SessionManagerIml sessionManager;
 
+    private static final String PROPERTIES_KEY_URL = "derby.datasource.url";
+
+    private static final String PROPERTIES_KEY_DRIVER = "db.driver";
+
     private final HikariDataSource DATA_SOURCE;
 
     private final HikariConfig CONFIG = new HikariConfig();
@@ -24,8 +28,8 @@ public class SessionManagerIml implements SessionManager {
     private final ReadFileProperties PROPERTIES = new ReadFileProperties();
 
     {
-        CONFIG.setJdbcUrl(PROPERTIES.getProperty("derby.datasource.url"));
-        CONFIG.setDriverClassName(PROPERTIES.getProperty("db.driver"));
+        CONFIG.setJdbcUrl(PROPERTIES.getProperty(PROPERTIES_KEY_URL));
+        CONFIG.setDriverClassName(PROPERTIES.getProperty(PROPERTIES_KEY_DRIVER));
         DATA_SOURCE = new HikariDataSource(CONFIG);
     }
 

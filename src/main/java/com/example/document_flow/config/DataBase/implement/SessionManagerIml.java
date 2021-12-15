@@ -9,7 +9,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 /**
- * Конфигурационный класс для настройки соединение к базе данных Derby
+ * Конфигурационный класс для настройки соединение c базой данных Derby
  *
  * @author Баратов Руслан
  */
@@ -43,7 +43,7 @@ public class SessionManagerIml implements SessionManager {
     }
 
     /**
-     * @return соединение (сеанс) с определенной базой данных.
+     * @return получение соединения <code>Connection</code> к базе данных.
      */
     public Connection getConnection() throws SQLException {
         return DATA_SOURCE.getConnection();

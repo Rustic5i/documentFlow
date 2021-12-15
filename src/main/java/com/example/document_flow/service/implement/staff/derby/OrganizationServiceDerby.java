@@ -1,7 +1,7 @@
 package com.example.document_flow.service.implement.staff.derby;
 
 import com.example.document_flow.DAO.abstraction.DAOCrud;
-import com.example.document_flow.DAO.implement.derby.OrganizationDerbyDataBase;
+import com.example.document_flow.DAO.implement.OrganizationDAO;
 import com.example.document_flow.entity.staff.Organization;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.SaveObjectException;
@@ -19,7 +19,7 @@ public class OrganizationServiceDerby implements OrganizationService {
 
     private static OrganizationServiceDerby organizationService;
 
-    private final DAOCrud<Organization> DAO = OrganizationDerbyDataBase.getInstance();
+    private final DAOCrud<Organization> DAO = OrganizationDAO.getInstance();
 
     public OrganizationServiceDerby() {
     }

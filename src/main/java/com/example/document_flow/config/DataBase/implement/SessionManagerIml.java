@@ -1,6 +1,6 @@
 package com.example.document_flow.config.DataBase.implement;
 
-import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
+import com.example.document_flow.config.DataBase.abstraction.SessionManager;
 import com.example.document_flow.config.ReadFileProperties;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -13,9 +13,9 @@ import java.sql.SQLException;
  *
  * @author Баратов Руслан
  */
-public class SessionManager implements SessionDataBase {
+public class SessionManagerIml implements SessionManager {
 
-    private static SessionManager sessionDerbyDataBase;
+    private static SessionManagerIml sessionManager;
 
     private final HikariDataSource DATA_SOURCE;
 
@@ -29,17 +29,17 @@ public class SessionManager implements SessionDataBase {
         DATA_SOURCE = new HikariDataSource(CONFIG);
     }
 
-    private SessionManager() {
+    private SessionManagerIml() {
     }
 
     /**
      * @return синголтон обьект
      */
-    public static synchronized SessionManager getInstance() {
-        if (sessionDerbyDataBase == null) {
-            sessionDerbyDataBase = new SessionManager();
+    public static synchronized SessionManagerIml getInstance() {
+        if (sessionManager == null) {
+            sessionManager = new SessionManagerIml();
         }
-        return sessionDerbyDataBase;
+        return sessionManager;
     }
 
     /**

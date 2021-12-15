@@ -1,4 +1,4 @@
-package com.example.document_flow.DAO.DTO;
+package com.example.document_flow.DAO.mapper;
 
 import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.entity.staff.Organization;
@@ -13,7 +13,7 @@ import java.sql.SQLException;
  *
  * @author Баратов Руслан
  */
-public class PreparedStatementDTO {
+public class PreparedStatementMapper {
 
     /**
      * Транспортирует данные объекта класса <code>Person</code> в <code>PreparedStatement</code>.
@@ -24,7 +24,7 @@ public class PreparedStatementDTO {
      * @throws SQLException если parameterIndex не соответствует маркеру параметра в инструкции SQL;
      *                      если возникла ошибка доступа к базе данных или этот метод вызывается при закрытом соединении.
      */
-    public static PreparedStatement transfer(Person person, PreparedStatement preparedStatement) throws SQLException {
+    public static PreparedStatement mapping(Person person, PreparedStatement preparedStatement) throws SQLException {
         preparedStatement.setString(1, person.getSurname());
         preparedStatement.setString(2, person.getName());
         preparedStatement.setString(3, person.getPatronymic());
@@ -44,7 +44,7 @@ public class PreparedStatementDTO {
      * @throws SQLException если parameterIndex не соответствует маркеру параметра в инструкции SQL;
      *                      если возникла ошибка доступа к базе данных или этот метод вызывается при закрытом соединении.
      */
-    public static PreparedStatement transfer(Department department, PreparedStatement preparedStatement) throws SQLException {
+    public static PreparedStatement mapping(Department department, PreparedStatement preparedStatement) throws SQLException {
         preparedStatement.setString(1, department.getFullName());
         preparedStatement.setString(2, department.getShortName());
         preparedStatement.setLong(3, department.getManager().getId());
@@ -62,7 +62,7 @@ public class PreparedStatementDTO {
      * @throws SQLException если parameterIndex не соответствует маркеру параметра в инструкции SQL;
      *                      если возникла ошибка доступа к базе данных или этот метод вызывается при закрытом соединении
      */
-    public static PreparedStatement transfer(Organization organization, PreparedStatement preparedStatement) throws SQLException {
+    public static PreparedStatement mapping(Organization organization, PreparedStatement preparedStatement) throws SQLException {
         preparedStatement.setString(1, organization.getFullName());
         preparedStatement.setString(2, organization.getShortName());
         preparedStatement.setLong(3, organization.getManager().getId());
@@ -70,5 +70,4 @@ public class PreparedStatementDTO {
         preparedStatement.setLong(5, organization.getId());
         return preparedStatement;
     }
-
 }

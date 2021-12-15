@@ -1,12 +1,10 @@
 package com.example.document_flow.web.observers;
 
 import com.example.document_flow.DAO.abstraction.TableCreator;
-import com.example.document_flow.DAO.implement.derby.table.implement.StaffDerbyTableCreator;
-import com.example.document_flow.config.DataBase.implement.SessionManager;
+import com.example.document_flow.DAO.implement.table.implement.StaffTableCreator;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import java.sql.SQLException;
 
 /**
  * Класс инициатор создания таблиц в базе банных Derby
@@ -15,7 +13,7 @@ import java.sql.SQLException;
  */
 public class CreatingTablesObserver implements ServletContextListener {
 
-    private final TableCreator CREATOR = StaffDerbyTableCreator.getInstance();
+    private final TableCreator CREATOR = StaffTableCreator.getInstance();
 
     /**
      * Создает таблицы в бд при запуске программы

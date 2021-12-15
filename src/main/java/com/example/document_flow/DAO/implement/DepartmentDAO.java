@@ -1,10 +1,10 @@
-package com.example.document_flow.DAO.implement.derby;
+package com.example.document_flow.DAO.implement;
 
-import com.example.document_flow.DAO.DTO.PreparedStatementDTO;
-import com.example.document_flow.DAO.DTO.ResultSetDTO;
+import com.example.document_flow.DAO.mapper.PreparedStatementMapper;
+import com.example.document_flow.DAO.mapper.ResultSetMapper;
 import com.example.document_flow.DAO.abstraction.DAOCrud;
-import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
-import com.example.document_flow.config.DataBase.implement.SessionManager;
+import com.example.document_flow.config.DataBase.abstraction.SessionManager;
+import com.example.document_flow.config.DataBase.implement.SessionManagerIml;
 import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.SaveObjectException;
@@ -26,7 +26,7 @@ import java.util.Optional;
  *
  * @author Баратов Руслан
  */
-public class DepartmentDerbyDataBase implements DAOCrud<Department> {
+public class DepartmentDAO implements DAOCrud<Department> {
 
     private static final String SQL_DELETE_DEPARTMENT_BY_ID = "DELETE FROM APP.DEPARTMENT WHERE ID = ?";
 
@@ -40,21 +40,21 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
     private static final String SQL_FIND_DEPARTMENT_BY_ID = "SELECT * FROM DEPARTMENT " +
             "JOIN PERSON P on P.ID = DEPARTMENT.MANAGER_ID where DEPARTMENT.ID =?";
 
-    private static DepartmentDerbyDataBase derbyDataBase;
+    private static DepartmentDAO derbyDataBase;
 
-    private final SessionDataBase SESSION_MANAGER = SessionManager.getInstance();
+    private final SessionManager SESSION_MANAGER = SessionManagerIml.getInstance();
 
-    private final Logger LOGGER = LoggerFactory.getLogger(DepartmentDerbyDataBase.class.getName());
+    private final Logger LOGGER = LoggerFactory.getLogger(DepartmentDAO.class.getName());
 
-    private DepartmentDerbyDataBase() {
+    private DepartmentDAO() {
     }
 
     /**
      * @return синголтон обьект
      */
-    public static DepartmentDerbyDataBase getInstance() {
+    public static DepartmentDAO getInstance() {
         if (derbyDataBase == null) {
-            derbyDataBase = new DepartmentDerbyDataBase();
+            derbyDataBase = new DepartmentDAO();
         }
         return derbyDataBase;
     }
@@ -84,7 +84,7 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
     @Override
     public void update(Department object) throws SaveObjectException {
         try (PreparedStatement preparedStatement = SESSION_MANAGER.getConnection().prepareStatement(SQL_UPDATE_DEPARTMENT)) {
-            PreparedStatementDTO.transfer(object, preparedStatement);
+            PreparedStatementMapper.mapping(object, preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new SaveObjectException("Ошибка при обновления объекта Department c id " + object.getId());
@@ -101,7 +101,7 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
         List<Department> departmentList = new ArrayList<>();
         try (ResultSet rs = SESSION_MANAGER.getConnection().prepareStatement(SQL_GET_ALL).executeQuery()) {
             while (rs.next()) {
-                departmentList.add(ResultSetDTO.transferDepartment(rs));
+                departmentList.add(ResultSetMapper.mappingDepartment(rs));
             }
         } catch (SQLException e) {
             LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
@@ -122,7 +122,7 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
                     .prepareStatement(SQL_SAVE_ALL)) {
                 connection.setAutoCommit(false);
                 for (Department department : departmentList) {
-                    PreparedStatementDTO.transfer(department, preparedStatement);
+                    PreparedStatementMapper.mapping(department, preparedStatement);
                     preparedStatement.addBatch();
                 }
                 preparedStatement.executeBatch();
@@ -160,7 +160,7 @@ public class DepartmentDerbyDataBase implements DAOCrud<Department> {
             preparedStatement.setLong(1, id);
             try (ResultSet rs = preparedStatement.executeQuery();) {
                 while (rs.next()) {
-                    department = ResultSetDTO.transferDepartment(rs);
+                    department = ResultSetMapper.mappingDepartment(rs);
                 }
             } catch (SQLException e) {
                 LOGGER.error("Ошибка при попытки получить ResultSet " + e);

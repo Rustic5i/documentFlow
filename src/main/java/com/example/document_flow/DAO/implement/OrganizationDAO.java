@@ -1,10 +1,10 @@
-package com.example.document_flow.DAO.implement.derby;
+package com.example.document_flow.DAO.implement;
 
-import com.example.document_flow.DAO.DTO.PreparedStatementDTO;
-import com.example.document_flow.DAO.DTO.ResultSetDTO;
+import com.example.document_flow.DAO.mapper.PreparedStatementMapper;
+import com.example.document_flow.DAO.mapper.ResultSetMapper;
 import com.example.document_flow.DAO.abstraction.DAOCrud;
-import com.example.document_flow.config.DataBase.abstraction.SessionDataBase;
-import com.example.document_flow.config.DataBase.implement.SessionManager;
+import com.example.document_flow.config.DataBase.abstraction.SessionManager;
+import com.example.document_flow.config.DataBase.implement.SessionManagerIml;
 import com.example.document_flow.entity.staff.Organization;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.SaveObjectException;
@@ -26,7 +26,7 @@ import java.util.Optional;
  *
  * @author Баратов Руслан
  */
-public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
+public class OrganizationDAO implements DAOCrud<Organization> {
 
     private static final String SQL_FIND_ORGANIZATION_BY_ID = "SELECT * FROM ORGANIZATION " +
             "JOIN PERSON P on P.ID = ORGANIZATION.MANAGER_ID where ORGANIZATION.ID =?";
@@ -41,21 +41,21 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
     private static final String SQL_SAVE_ALL = "INSERT INTO APP.ORGANIZATION (FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER, ID)\n" +
             "VALUES (?, ?, ?, ?, ?)";
 
-    private static OrganizationDerbyDataBase derbyDataBase;
+    private static OrganizationDAO derbyDataBase;
 
-    private final SessionDataBase SESSION_MANAGER = SessionManager.getInstance();
+    private final SessionManager SESSION_MANAGER = SessionManagerIml.getInstance();
 
-    private final Logger LOGGER = LoggerFactory.getLogger(OrganizationDerbyDataBase.class.getName());
+    private final Logger LOGGER = LoggerFactory.getLogger(OrganizationDAO.class.getName());
 
-    private OrganizationDerbyDataBase() {
+    private OrganizationDAO() {
     }
 
     /**
      * @return синголтон обьект
      */
-    public static OrganizationDerbyDataBase getInstance() {
+    public static OrganizationDAO getInstance() {
         if (derbyDataBase == null) {
-            derbyDataBase = new OrganizationDerbyDataBase();
+            derbyDataBase = new OrganizationDAO();
         }
         return derbyDataBase;
     }
@@ -85,7 +85,7 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
     @Override
     public void update(Organization object) throws SaveObjectException {
         try (PreparedStatement preparedStatement = SESSION_MANAGER.getConnection().prepareStatement(SQL_UPDATE_ORGANIZATION)) {
-            PreparedStatementDTO.transfer(object, preparedStatement);
+            PreparedStatementMapper.mapping(object, preparedStatement);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new SaveObjectException("Ошибка при обновления объекта Organization c id " + object.getId());
@@ -102,7 +102,7 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
         List<Organization> organizationList = new ArrayList<>();
         try (ResultSet rs = SESSION_MANAGER.getConnection().prepareStatement(SQL_GET_ALL_ORGANIZATION).executeQuery()) {
             while (rs.next()) {
-                organizationList.add(ResultSetDTO.transferOrganization(rs));
+                organizationList.add(ResultSetMapper.mappingOrganization(rs));
             }
         } catch (SQLException e) {
             LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
@@ -122,7 +122,7 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
             try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_ALL)) {
                 connection.setAutoCommit(false);
                 for (Organization organization : organizationList) {
-                    PreparedStatementDTO.transfer(organization, preparedStatement);
+                    PreparedStatementMapper.mapping(organization, preparedStatement);
                     preparedStatement.addBatch();
                 }
                 preparedStatement.executeBatch();
@@ -160,7 +160,7 @@ public class OrganizationDerbyDataBase implements DAOCrud<Organization> {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                organization = ResultSetDTO.transferOrganization(rs);
+                organization = ResultSetMapper.mappingOrganization(rs);
             }
         } catch (SQLException e) {
             LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);

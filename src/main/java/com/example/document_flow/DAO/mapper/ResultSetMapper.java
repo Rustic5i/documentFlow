@@ -1,4 +1,4 @@
-package com.example.document_flow.DAO.DTO;
+package com.example.document_flow.DAO.mapper;
 
 import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.entity.staff.Organization;
@@ -12,7 +12,7 @@ import java.sql.SQLException;
  *
  * @author Баратов Руслан
  */
-public class ResultSetDTO {
+public class ResultSetMapper {
 
     /**
      * Перенести данные <code>ResultSet</code>  в Entity-объект класса <code>Person</code>
@@ -22,7 +22,7 @@ public class ResultSetDTO {
      * @throws SQLException если метка столбца недоступна;
      *                      если произошла ошибка доступа к базе данных или этот метод вызывается при закрытом соединении
      */
-    public static Person transferPerson(ResultSet rs) throws SQLException {
+    public static Person mappingPerson(ResultSet rs) throws SQLException {
         return new Person().newBuilder()
                 .setId(rs.getLong("ID"))
                 .setSurname(rs.getString("SURNAME"))
@@ -42,7 +42,7 @@ public class ResultSetDTO {
      * @throws SQLException если метка столбца недоступна;
      *                      если произошла ошибка доступа к базе данных или этот метод вызывается при закрытом соединении
      */
-    public static Organization transferOrganization(ResultSet rs) throws SQLException {
+    public static Organization mappingOrganization(ResultSet rs) throws SQLException {
         return new Organization().newBuilder()
                 .setId(rs.getLong("ID"))
                 .setFullName(rs.getString("FULL_NAME"))
@@ -68,7 +68,7 @@ public class ResultSetDTO {
      * @throws SQLException если метка столбца недоступна;
      *                      если произошла ошибка доступа к базе данных или этот метод вызывается при закрытом соединении
      */
-    public static Department transferDepartment(ResultSet rs) throws SQLException {
+    public static Department mappingDepartment(ResultSet rs) throws SQLException {
         return new Department().newBuilder()
                 .setId(rs.getLong("ID"))
                 .setFullName(rs.getString("FULL_NAME"))

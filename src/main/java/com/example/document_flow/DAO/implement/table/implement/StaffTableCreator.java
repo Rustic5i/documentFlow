@@ -1,7 +1,7 @@
-package com.example.document_flow.DAO.implement.derby.table.implement;
+package com.example.document_flow.DAO.implement.table.implement;
 
 import com.example.document_flow.DAO.abstraction.TableCreator;
-import com.example.document_flow.config.DataBase.implement.SessionManager;
+import com.example.document_flow.config.DataBase.implement.SessionManagerIml;
 import com.example.document_flow.config.ReadFileSql;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,25 +16,25 @@ import java.util.List;
  *
  * @author Баратов Руслан
  */
-public class StaffDerbyTableCreator implements TableCreator {
+public class StaffTableCreator implements TableCreator {
 
-    private static StaffDerbyTableCreator staffDerbyTableCreator;
+    private static StaffTableCreator staffDerbyTableCreator;
 
-    private final SessionManager SESSION_DERBY_DATA_BASE = SessionManager.getInstance();
+    private final SessionManagerIml SESSION_DERBY_DATA_BASE = SessionManagerIml.getInstance();
 
     private final ReadFileSql READ_FILE_SQL = new ReadFileSql();
 
-    private final Logger LOGGER = LoggerFactory.getLogger(StaffDerbyTableCreator.class.getName());
+    private final Logger LOGGER = LoggerFactory.getLogger(StaffTableCreator.class.getName());
 
-    private StaffDerbyTableCreator() {
+    private StaffTableCreator() {
     }
 
     /**
      * @return синголтон объект
      */
-    public static StaffDerbyTableCreator getInstance() {
+    public static StaffTableCreator getInstance() {
         if (staffDerbyTableCreator == null) {
-            staffDerbyTableCreator = new StaffDerbyTableCreator();
+            staffDerbyTableCreator = new StaffTableCreator();
         }
         return staffDerbyTableCreator;
     }

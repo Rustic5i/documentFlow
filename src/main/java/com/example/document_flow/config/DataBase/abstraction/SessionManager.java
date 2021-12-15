@@ -8,7 +8,7 @@ import java.sql.SQLException;
  *
  * @author Баратов Руслан
  */
-public interface SessionDataBase {
+public interface SessionManager {
 
     /**
      * @return соединение (сеанс) с определенной базой данных.

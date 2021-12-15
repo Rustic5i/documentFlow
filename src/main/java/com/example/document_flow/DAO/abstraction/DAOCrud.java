@@ -1,6 +1,7 @@
 package com.example.document_flow.DAO.abstraction;
 
 import com.example.document_flow.exception.DeleteObjectException;
+import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public interface DAOCrud<T> {
      *
      * @return список сохраненных объектов
      */
-    List<T> getAll();
+    List<T> getAll() throws GetDataObjectException;
 
     /**
      * Сохранить список объектов
@@ -58,5 +59,5 @@ public interface DAOCrud<T> {
      * @param id id объекта класса <code>Department</code>
      * @return найденный объект класса <code>Department</code>
      */
-    Optional<T> findById(long id);
+    Optional<T> findById(long id) throws GetDataObjectException;
 }

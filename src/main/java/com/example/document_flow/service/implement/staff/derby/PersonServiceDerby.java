@@ -4,6 +4,7 @@ import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.DAO.implement.PersonDAO;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.DeleteObjectException;
+import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.service.abstraction.staff.PersonService;
 
@@ -62,7 +63,7 @@ public class PersonServiceDerby implements PersonService {
      * @return список сохраненных объектов класса <code>Person</code>
      */
     @Override
-    public List<Person> getAll() {
+    public List<Person> getAll() throws GetDataObjectException {
         return DAO.getAll();
     }
 
@@ -73,7 +74,7 @@ public class PersonServiceDerby implements PersonService {
      * @return найденный объект класса <code>Person</code>
      */
     @Override
-    public Optional<Person> findById(long id) {
+    public Optional<Person> findById(long id) throws GetDataObjectException {
         return DAO.findById(id);
     }
 

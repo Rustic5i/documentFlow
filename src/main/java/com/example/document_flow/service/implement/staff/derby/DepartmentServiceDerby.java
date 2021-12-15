@@ -4,6 +4,7 @@ import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.DAO.implement.DepartmentDAO;
 import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.exception.DeleteObjectException;
+import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.service.abstraction.staff.DepartmentService;
 
@@ -62,7 +63,7 @@ public class DepartmentServiceDerby implements DepartmentService {
      * @return список сохраненных объектов класса <code>Department</code>
      */
     @Override
-    public List<Department> getAll() {
+    public List<Department> getAll() throws GetDataObjectException {
         return DAO.getAll();
     }
 
@@ -73,7 +74,7 @@ public class DepartmentServiceDerby implements DepartmentService {
      * @return найденный объект класса <code>Department</code>
      */
     @Override
-    public Optional<Department> findById(long id) {
+    public Optional<Department> findById(long id) throws GetDataObjectException {
         return DAO.findById(id);
     }
 

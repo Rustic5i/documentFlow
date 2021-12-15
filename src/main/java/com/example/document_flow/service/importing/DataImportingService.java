@@ -1,5 +1,6 @@
 package com.example.document_flow.service.importing;
 
+import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.service.abstraction.Service;
 
@@ -17,7 +18,7 @@ public class DataImportingService {
      * @param where     куда импортируем
      * @throws SaveObjectException
      */
-    public static void importAll(Service fromWhere, Service where) throws SaveObjectException {
+    public static void importAll(Service fromWhere, Service where) throws SaveObjectException, GetDataObjectException {
         where.saveAll(fromWhere.getAll());
     }
 }

@@ -7,6 +7,7 @@ import com.example.document_flow.config.DataBase.abstraction.SessionManager;
 import com.example.document_flow.config.DataBase.implement.SessionManagerIml;
 import com.example.document_flow.entity.staff.Organization;
 import com.example.document_flow.exception.DeleteObjectException;
+import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,8 +45,6 @@ public class OrganizationDAO implements DAOCrud<Organization> {
     private static OrganizationDAO derbyDataBase;
 
     private final SessionManager SESSION_MANAGER = SessionManagerIml.getInstance();
-
-    private final Logger LOGGER = LoggerFactory.getLogger(OrganizationDAO.class.getName());
 
     private OrganizationDAO() {
     }
@@ -98,14 +97,14 @@ public class OrganizationDAO implements DAOCrud<Organization> {
      * @return список сохраненных объектов класса <code>Organization</code>
      */
     @Override
-    public List<Organization> getAll() {
+    public List<Organization> getAll() throws GetDataObjectException {
         List<Organization> organizationList = new ArrayList<>();
         try (ResultSet rs = SESSION_MANAGER.getConnection().prepareStatement(SQL_GET_ALL_ORGANIZATION).executeQuery()) {
             while (rs.next()) {
                 organizationList.add(ResultSetMapper.mappingOrganization(rs));
             }
         } catch (SQLException e) {
-            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
+            throw new GetDataObjectException("Ошибка при попытки получения данных "+e);
         }
         return organizationList;
     }
@@ -154,7 +153,7 @@ public class OrganizationDAO implements DAOCrud<Organization> {
      * @return найденный объект класса <code>Organization</code>
      */
     @Override
-    public Optional<Organization> findById(long id) {
+    public Optional<Organization> findById(long id) throws GetDataObjectException {
         Organization organization = new Organization();
         try (PreparedStatement preparedStatement = SESSION_MANAGER.getConnection().prepareStatement(SQL_FIND_ORGANIZATION_BY_ID)) {
             preparedStatement.setLong(1, id);
@@ -163,7 +162,7 @@ public class OrganizationDAO implements DAOCrud<Organization> {
                 organization = ResultSetMapper.mappingOrganization(rs);
             }
         } catch (SQLException e) {
-            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
+            throw new GetDataObjectException("Ошибка при попытки получения данных "+e);
         }
         return Optional.of(organization);
     }

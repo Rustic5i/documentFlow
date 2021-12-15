@@ -1,6 +1,7 @@
 package com.example.document_flow.web.controller;
 
 import com.example.document_flow.entity.staff.Person;
+import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.service.abstraction.staff.PersonService;
 import com.example.document_flow.service.implement.staff.xml.PersonServiceXmlImpl;
 
@@ -30,7 +31,7 @@ public class PersonController {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Person> getAllPerson() {
+    public List<Person> getAllPerson() throws GetDataObjectException {
         return PERSON_SERVICE.getAll();
     }
 }

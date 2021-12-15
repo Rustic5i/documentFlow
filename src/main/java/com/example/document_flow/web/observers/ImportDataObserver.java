@@ -1,5 +1,6 @@
 package com.example.document_flow.web.observers;
 
+import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.service.abstraction.staff.DepartmentService;
 import com.example.document_flow.service.abstraction.staff.OrganizationService;
@@ -49,7 +50,7 @@ public class ImportDataObserver implements ServletContextListener {
             DataImportingService.importAll(personServiceXml, personServiceDerby);
             DataImportingService.importAll(departmentServiceXml, departmentServiceDerby);
             DataImportingService.importAll(organizationServiceXml, organizationServiceDerby);
-        } catch (SaveObjectException e) {
+        } catch (SaveObjectException | GetDataObjectException e) {
             LOGGER.error("Ошибка при попытки импортирования данных", e);
         }
     }

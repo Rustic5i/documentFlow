@@ -7,6 +7,7 @@ import com.example.document_flow.config.DataBase.abstraction.SessionManager;
 import com.example.document_flow.config.DataBase.implement.SessionManagerIml;
 import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.exception.DeleteObjectException;
+import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,8 +44,6 @@ public class DepartmentDAO implements DAOCrud<Department> {
     private static DepartmentDAO derbyDataBase;
 
     private final SessionManager SESSION_MANAGER = SessionManagerIml.getInstance();
-
-    private final Logger LOGGER = LoggerFactory.getLogger(DepartmentDAO.class.getName());
 
     private DepartmentDAO() {
     }
@@ -97,14 +96,14 @@ public class DepartmentDAO implements DAOCrud<Department> {
      * @return список сохраненных объектов класса <code>Department</code>
      */
     @Override
-    public List<Department> getAll() {
+    public List<Department> getAll() throws GetDataObjectException {
         List<Department> departmentList = new ArrayList<>();
         try (ResultSet rs = SESSION_MANAGER.getConnection().prepareStatement(SQL_GET_ALL).executeQuery()) {
             while (rs.next()) {
                 departmentList.add(ResultSetMapper.mappingDepartment(rs));
             }
         } catch (SQLException e) {
-            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
+            throw new GetDataObjectException("Ошибка при попытки получения данных "+e);
         }
         return departmentList;
     }
@@ -154,7 +153,7 @@ public class DepartmentDAO implements DAOCrud<Department> {
      * @return найденный объект класса <code>Department</code>
      */
     @Override
-    public Optional<Department> findById(long id) {
+    public Optional<Department> findById(long id) throws GetDataObjectException {
         Department department = new Department();
         try (PreparedStatement preparedStatement = SESSION_MANAGER.getConnection().prepareStatement(SQL_FIND_DEPARTMENT_BY_ID)) {
             preparedStatement.setLong(1, id);
@@ -163,10 +162,10 @@ public class DepartmentDAO implements DAOCrud<Department> {
                     department = ResultSetMapper.mappingDepartment(rs);
                 }
             } catch (SQLException e) {
-                LOGGER.error("Ошибка при попытки получить ResultSet " + e);
+                throw new GetDataObjectException("Ошибка при попытки получения данных "+e);
             }
         } catch (SQLException e) {
-            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
+            throw new GetDataObjectException("Ошибка при попытки получения данных "+e);
         }
         return Optional.of(department);
     }

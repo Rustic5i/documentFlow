@@ -7,6 +7,7 @@ import com.example.document_flow.config.DataBase.abstraction.SessionManager;
 import com.example.document_flow.config.DataBase.implement.SessionManagerIml;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.DeleteObjectException;
+import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,8 +44,6 @@ public class PersonDAO implements DAOCrud<Person> {
     private static PersonDAO derbyDataBase;
 
     private final SessionManager SESSION_MANAGER = SessionManagerIml.getInstance();
-
-    private final Logger LOGGER = LoggerFactory.getLogger(PersonDAO.class.getName());
 
     private PersonDAO() {
     }
@@ -96,14 +95,14 @@ public class PersonDAO implements DAOCrud<Person> {
      * @return список сохраненных объектов класса <code>Person</code>
      */
     @Override
-    public List<Person> getAll() {
+    public List<Person> getAll() throws GetDataObjectException {
         List<Person> personList = new ArrayList<>();
         try (ResultSet rs = SESSION_MANAGER.getConnection().prepareStatement(SQL_GET_ALL_PERSON).executeQuery()) {
             while (rs.next()) {
                 personList.add(ResultSetMapper.mappingPerson(rs));
             }
         } catch (SQLException e) {
-            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
+            throw new GetDataObjectException("Ошибка при попытки получения данных "+e);
         }
         return personList;
     }
@@ -153,7 +152,7 @@ public class PersonDAO implements DAOCrud<Person> {
      * @return найденный объект класса <code>Person</code>
      */
     @Override
-    public Optional<Person> findById(long id) {
+    public Optional<Person> findById(long id) throws GetDataObjectException {
         Person person = new Person();
         try (PreparedStatement preparedStatement = SESSION_MANAGER.getConnection().prepareStatement(SQL_FIND_PERSON_BY_ID)) {
             preparedStatement.setLong(1, id);
@@ -162,10 +161,10 @@ public class PersonDAO implements DAOCrud<Person> {
                     person = ResultSetMapper.mappingPerson(rs);
                 }
             } catch (SQLException e) {
-                LOGGER.error("Ошибка получения ResultSet ", e);
+                throw new GetDataObjectException("Ошибка при попытки получения данных "+e);
             }
         } catch (SQLException e) {
-            LOGGER.error("Ошибка доступа к базе данных или этот метод вызывается при закрытом соединении", e);
+            throw new GetDataObjectException("Ошибка при попытки получения данных "+e);
         }
         return Optional.of(person);
     }

@@ -8,14 +8,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Класс DTO, транспортирует данные из <code>ResultSet</code> в Entity-объект.
+ * Класс mapper, транспортирует данные из <code>ResultSet</code> в Entity-объект.
  *
  * @author Баратов Руслан
  */
 public class ResultSetMapper {
 
     /**
-     * Перенести данные <code>ResultSet</code>  в Entity-объект класса <code>Person</code>
+     * Преобразует данные <code>ResultSet</code>  в Entity-объект класса <code>Person</code>
      *
      * @param rs от куда переносить данные
      * @return объекты с заполненными полями
@@ -35,7 +35,7 @@ public class ResultSetMapper {
     }
 
     /**
-     * Перенести данные <code>ResultSet</code>  в Entity-объект класса <code>Organization</code>
+     * Преобразует данные <code>ResultSet</code>  в Entity-объект класса <code>Organization</code>
      *
      * @param rs от куда переносить данные.
      * @return объекты с заполненными полями
@@ -61,7 +61,7 @@ public class ResultSetMapper {
     }
 
     /**
-     * Перенести данные <code>ResultSet</code>  в Entity-объект класса <code>Department</code>
+     * Преобразует данные <code>ResultSet</code>  в Entity-объект класса <code>Department</code>
      *
      * @param rs от куда переносить данные.
      * @return объекты с заполненными полями

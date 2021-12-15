@@ -9,14 +9,14 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
- * Класс DTO, транспортирует данные из Entity-объект в <code>PreparedStatement</code>
+ * Класс mapper, Преобразует данные из Entity-объект в <code>PreparedStatement</code>
  *
  * @author Баратов Руслан
  */
 public class PreparedStatementMapper {
 
     /**
-     * Транспортирует данные объекта класса <code>Person</code> в <code>PreparedStatement</code>.
+     * Преобразует данные объекта класса <code>Person</code> в <code>PreparedStatement</code>.
      *
      * @param person            от куда переносить данные.
      * @param preparedStatement проинцелезируемый объект (куда переносить).
@@ -36,7 +36,7 @@ public class PreparedStatementMapper {
     }
 
     /**
-     * Транспортирует данные объекта класса <code>Department</code> в <code>PreparedStatement</code>.
+     * Преобразует данные объекта класса <code>Department</code> в <code>PreparedStatement</code>.
      *
      * @param department        от куда переносить данные.
      * @param preparedStatement проинцелезируемый объект (куда переносить данные).
@@ -54,7 +54,7 @@ public class PreparedStatementMapper {
     }
 
     /**
-     * Транспортирует данные объекта класса <code>Organization</code> в <code>PreparedStatement</code>
+     * Преобразует данные объекта класса <code>Organization</code> в <code>PreparedStatement</code>
      *
      * @param organization      от куда переносить данные.
      * @param preparedStatement проинцелезируемый объект (куда переносить данные)

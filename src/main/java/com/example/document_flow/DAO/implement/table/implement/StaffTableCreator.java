@@ -43,7 +43,7 @@ public class StaffTableCreator implements TableCreator {
      * @throws CreateTableException в случае если создание таблиц(ы) в бд терпит не удачу
      */
     @Override
-    public void creatTablesDB() throws CreateTableException {
+    public void createTablesDB() throws CreateTableException {
         try (Statement statement = SESSION_DERBY_DATA_BASE.getDataSource().getConnection().createStatement()) {
             try {
                 for (String sqlScript : getArraySqlScripts()) {

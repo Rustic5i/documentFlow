@@ -28,7 +28,7 @@ public class CreatingTablesObserver implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         try {
-            CREATOR.creatTablesDB();
+            CREATOR.createTablesDB();
         } catch (CreateTableException e) {
             LOGGER.error("Ошибка при создание таблицы в бд" + e);
         }

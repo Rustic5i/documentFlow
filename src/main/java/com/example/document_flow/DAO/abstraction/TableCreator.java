@@ -14,5 +14,5 @@ public interface TableCreator {
      *
      * @throws CreateTableException в случае если создание таблиц(ы) в бд терпит не удачу
      */
-    void creatTablesDB() throws CreateTableException;
+    void createTablesDB() throws CreateTableException;
 }

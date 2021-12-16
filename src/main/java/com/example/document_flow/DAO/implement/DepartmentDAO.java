@@ -123,7 +123,6 @@ public class DepartmentDAO implements DAOCrud<Department> {
     public void saveAll(List<Department> departmentList) throws SaveObjectException {
         try (Connection connection = SESSION_MANAGER.getDataSource().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_ALL)) {
-                connection.setAutoCommit(false);
                 for (Department department : departmentList) {
                     preparedStatement.setString(1, department.getFullName());
                     preparedStatement.setString(2, department.getShortName());
@@ -133,7 +132,6 @@ public class DepartmentDAO implements DAOCrud<Department> {
                     preparedStatement.addBatch();
                 }
                 preparedStatement.executeBatch();
-                connection.commit();
             } catch (SQLException e) {
                 connection.rollback();
                 throw new SaveObjectException("Ошибка сохранения объекта Department " + e);

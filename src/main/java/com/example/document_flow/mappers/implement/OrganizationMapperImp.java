@@ -1,18 +1,19 @@
 package com.example.document_flow.mappers.implement;
 
-import com.example.document_flow.entity.staff.Department;
+import com.example.document_flow.entity.staff.Organization;
 import com.example.document_flow.entity.staff.Person;
-import com.example.document_flow.mappers.absraction.IDepartmentMapper;
+import com.example.document_flow.mappers.absraction.OrganizationMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+
 /**
- * Класс mapper, со списками методами преобразования данных из различных объектов в объект <code>Department</code>.
+ * Класс mapper, со списками методами преобразования данных из различных объектов в объект <code>Organization</code>.
  *
  * @author Баратов Руслан
  */
-public class DepartmentMapper implements IDepartmentMapper {
+public class OrganizationMapperImp implements OrganizationMapper {
 
     private static final String ID = "ID";
 
@@ -36,23 +37,23 @@ public class DepartmentMapper implements IDepartmentMapper {
 
     private static final String CONTACT_PHONE_NUMBER = "CONTACT_PHONE_NUMBER";
 
-    private static DepartmentMapper departmentMapper;
+    private static OrganizationMapperImp organizationMapper;
 
-    private DepartmentMapper() {
+    private OrganizationMapperImp() {
     }
 
     /**
      * @return синголтон обьект
      */
-    public static DepartmentMapper getInstance() {
-        if (departmentMapper == null) {
-            departmentMapper = new DepartmentMapper();
+    public static OrganizationMapperImp getInstance() {
+        if (organizationMapper == null) {
+            organizationMapper = new OrganizationMapperImp();
         }
-        return departmentMapper;
+        return organizationMapper;
     }
 
     /**
-     * Преобразует данные <code>ResultSet</code>  в Entity-объект класса <code>Department</code>
+     * Преобразует данные <code>ResultSet</code>  в Entity-объект класса <code>Organization</code>
      *
      * @param resultSet от куда переносить данные.
      * @return объекты с заполненными полями
@@ -60,11 +61,12 @@ public class DepartmentMapper implements IDepartmentMapper {
      *                      если произошла ошибка доступа к базе данных или этот метод вызывается при закрытом соединении
      */
     @Override
-    public Department convertFrom(ResultSet resultSet) throws SQLException {
-        return new Department().newBuilder()
+    public Organization convertFrom(ResultSet resultSet) throws SQLException {
+        return new Organization().newBuilder()
                 .setId(resultSet.getLong(ID))
                 .setFullName(resultSet.getString(FULL_NAME))
                 .setShortName(resultSet.getString(SHORT_NAME))
+                .setContactPhoneNumber(resultSet.getString(CONTACT_PHONE_NUMBER))
                 .setManager(new Person().newBuilder()
                         .setId(resultSet.getLong(MANAGER_ID))
                         .setSurname(resultSet.getString(SURNAME))
@@ -74,7 +76,6 @@ public class DepartmentMapper implements IDepartmentMapper {
                         .setDateOfBirth(resultSet.getDate(DATA_OF_BIRTH))
                         .setPhoneNumber(resultSet.getInt(PHONE_NUMBER))
                         .build())
-                .setContactPhoneNumber(resultSet.getString(CONTACT_PHONE_NUMBER))
                 .build();
     }
 }

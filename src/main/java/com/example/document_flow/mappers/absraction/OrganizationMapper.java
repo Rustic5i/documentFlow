@@ -10,7 +10,7 @@ import java.sql.SQLException;
  *
  * @author Баратов Руслан
  */
-public interface IOrganizationMapper {
+public interface OrganizationMapper {
 
     /**
      * Преобразует данные <code>ResultSet</code>  в Entity-объект класса <code>Organization</code>

@@ -1,19 +1,18 @@
 package com.example.document_flow.mappers.implement;
 
-import com.example.document_flow.entity.staff.Organization;
+import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.entity.staff.Person;
-import com.example.document_flow.mappers.absraction.IOrganizationMapper;
+import com.example.document_flow.mappers.absraction.DepartmentMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 /**
- * Класс mapper, со списками методами преобразования данных из различных объектов в объект <code>Organization</code>.
+ * Класс mapper, со списками методами преобразования данных из различных объектов в объект <code>Department</code>.
  *
  * @author Баратов Руслан
  */
-public class OrganizationMapper implements IOrganizationMapper {
+public class DepartmentMapperImp implements DepartmentMapper {
 
     private static final String ID = "ID";
 
@@ -37,23 +36,23 @@ public class OrganizationMapper implements IOrganizationMapper {
 
     private static final String CONTACT_PHONE_NUMBER = "CONTACT_PHONE_NUMBER";
 
-    private static OrganizationMapper organizationMapper;
+    private static DepartmentMapperImp departmentMapper;
 
-    private OrganizationMapper() {
+    private DepartmentMapperImp() {
     }
 
     /**
      * @return синголтон обьект
      */
-    public static OrganizationMapper getInstance() {
-        if (organizationMapper == null) {
-            organizationMapper = new OrganizationMapper();
+    public static DepartmentMapperImp getInstance() {
+        if (departmentMapper == null) {
+            departmentMapper = new DepartmentMapperImp();
         }
-        return organizationMapper;
+        return departmentMapper;
     }
 
     /**
-     * Преобразует данные <code>ResultSet</code>  в Entity-объект класса <code>Organization</code>
+     * Преобразует данные <code>ResultSet</code>  в Entity-объект класса <code>Department</code>
      *
      * @param resultSet от куда переносить данные.
      * @return объекты с заполненными полями
@@ -61,12 +60,11 @@ public class OrganizationMapper implements IOrganizationMapper {
      *                      если произошла ошибка доступа к базе данных или этот метод вызывается при закрытом соединении
      */
     @Override
-    public Organization convertFrom(ResultSet resultSet) throws SQLException {
-        return new Organization().newBuilder()
+    public Department convertFrom(ResultSet resultSet) throws SQLException {
+        return new Department().newBuilder()
                 .setId(resultSet.getLong(ID))
                 .setFullName(resultSet.getString(FULL_NAME))
                 .setShortName(resultSet.getString(SHORT_NAME))
-                .setContactPhoneNumber(resultSet.getString(CONTACT_PHONE_NUMBER))
                 .setManager(new Person().newBuilder()
                         .setId(resultSet.getLong(MANAGER_ID))
                         .setSurname(resultSet.getString(SURNAME))
@@ -76,6 +74,7 @@ public class OrganizationMapper implements IOrganizationMapper {
                         .setDateOfBirth(resultSet.getDate(DATA_OF_BIRTH))
                         .setPhoneNumber(resultSet.getInt(PHONE_NUMBER))
                         .build())
+                .setContactPhoneNumber(resultSet.getString(CONTACT_PHONE_NUMBER))
                 .build();
     }
 }

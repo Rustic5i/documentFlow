@@ -10,7 +10,7 @@ import java.sql.SQLException;
  *
  * @author Баратов Руслан
  */
-public interface IPersonMapper {
+public interface PersonMapper {
 
     /**
      * Преобразует данные <code>ResultSet</code>  в Entity-объект класса <code>Person</code>

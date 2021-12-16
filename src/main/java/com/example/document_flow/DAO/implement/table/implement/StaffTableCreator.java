@@ -1,7 +1,7 @@
 package com.example.document_flow.DAO.implement.table.implement;
 
 import com.example.document_flow.DAO.abstraction.TableCreator;
-import com.example.document_flow.config.DataBase.implement.SessionManagerIml;
+import com.example.document_flow.config.DataBase.implement.SessionManagerImp;
 import com.example.document_flow.config.ReadFileSql;
 import com.example.document_flow.exception.CreateTableException;
 
@@ -20,7 +20,7 @@ public class StaffTableCreator implements TableCreator {
 
     private static StaffTableCreator staffDerbyTableCreator;
 
-    private final SessionManagerIml SESSION_DERBY_DATA_BASE = SessionManagerIml.getInstance();
+    private final SessionManagerImp SESSION_DERBY_DATA_BASE = SessionManagerImp.getInstance();
 
     private final ReadFileSql READ_FILE_SQL = new ReadFileSql();
 
@@ -44,7 +44,7 @@ public class StaffTableCreator implements TableCreator {
      */
     @Override
     public void creatTablesDB() throws CreateTableException {
-        try (Statement statement = SESSION_DERBY_DATA_BASE.getConnection().createStatement()) {
+        try (Statement statement = SESSION_DERBY_DATA_BASE.getDataSource().getConnection().createStatement()) {
             try {
                 for (String sqlScript : getArraySqlScripts()) {
                     statement.executeUpdate(sqlScript);

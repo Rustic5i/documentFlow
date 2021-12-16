@@ -11,7 +11,7 @@ import java.sql.SQLException;
  *
  * @author Баратов Руслан
  */
-public interface IDepartmentMapper {
+public interface DepartmentMapper {
 
     /**
      * Преобразует данные <code>ResultSet</code>  в Entity-объект класса <code>Department</code>

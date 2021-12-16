@@ -5,21 +5,20 @@ import com.example.document_flow.config.ReadFileProperties;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
-import java.sql.Connection;
-import java.sql.SQLException;
+import javax.sql.DataSource;
 
 /**
  * Конфигурационный класс для настройки соединение c базой данных Derby
  *
  * @author Баратов Руслан
  */
-public class SessionManagerIml implements SessionManager {
+public class SessionManagerImp implements SessionManager {
 
     private static final String PROPERTIES_KEY_URL = "derby.datasource.url";
 
     private static final String PROPERTIES_KEY_DRIVER = "db.driver";
 
-    private static SessionManagerIml sessionManager;
+    private static SessionManagerImp sessionManager;
 
     private final HikariDataSource DATA_SOURCE;
 
@@ -33,24 +32,25 @@ public class SessionManagerIml implements SessionManager {
         DATA_SOURCE = new HikariDataSource(CONFIG);
     }
 
-    private SessionManagerIml() {
+    private SessionManagerImp() {
     }
 
     /**
      * @return синголтон обьект
      */
-    public static synchronized SessionManagerIml getInstance() {
+    public static synchronized SessionManagerImp getInstance() {
         if (sessionManager == null) {
-            sessionManager = new SessionManagerIml();
+            sessionManager = new SessionManagerImp();
         }
         return sessionManager;
     }
 
     /**
-     * @return получение соединения <code>Connection</code> к базе данных.
-     * @throws SQLException если возникает ошибка доступа к базе данных
+     * @return Объект, реализующий интерфейс источника данных. Объект источника данных,
+     * являющийся альтернативой средству DriverManager,
+     * является предпочтительным средством установления соединения.
      */
-    public Connection getConnection() throws SQLException {
-        return DATA_SOURCE.getConnection();
+    public DataSource getDataSource() {
+        return DATA_SOURCE;
     }
 }

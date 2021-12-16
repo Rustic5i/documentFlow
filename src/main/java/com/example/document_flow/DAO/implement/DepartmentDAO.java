@@ -2,13 +2,13 @@ package com.example.document_flow.DAO.implement;
 
 import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.SessionManager;
-import com.example.document_flow.config.DataBase.implement.SessionManagerIml;
+import com.example.document_flow.config.DataBase.implement.SessionManagerImp;
 import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
-import com.example.document_flow.mappers.absraction.IDepartmentMapper;
-import com.example.document_flow.mappers.implement.DepartmentMapper;
+import com.example.document_flow.mappers.absraction.DepartmentMapper;
+import com.example.document_flow.mappers.implement.DepartmentMapperImp;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -41,9 +41,9 @@ public class DepartmentDAO implements DAOCrud<Department> {
 
     private static DepartmentDAO derbyDataBase;
 
-    private final SessionManager SESSION_MANAGER = SessionManagerIml.getInstance();
+    private final SessionManager SESSION_MANAGER = SessionManagerImp.getInstance();
 
-    private final IDepartmentMapper DEPARTMENT_MAPPER = DepartmentMapper.getInstance();
+    private final DepartmentMapper DEPARTMENT_MAPPER = DepartmentMapperImp.getInstance();
 
     private DepartmentDAO() {
     }
@@ -66,7 +66,7 @@ public class DepartmentDAO implements DAOCrud<Department> {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        try (PreparedStatement preparedStatement = SESSION_MANAGER.getConnection().prepareStatement(SQL_DELETE_DEPARTMENT_BY_ID)) {
+        try (PreparedStatement preparedStatement = SESSION_MANAGER.getDataSource().getConnection().prepareStatement(SQL_DELETE_DEPARTMENT_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -82,7 +82,7 @@ public class DepartmentDAO implements DAOCrud<Department> {
      */
     @Override
     public void update(Department object) throws SaveObjectException {
-        try (PreparedStatement preparedStatement = SESSION_MANAGER.getConnection().prepareStatement(SQL_UPDATE_DEPARTMENT)) {
+        try (PreparedStatement preparedStatement = SESSION_MANAGER.getDataSource().getConnection().prepareStatement(SQL_UPDATE_DEPARTMENT)) {
             preparedStatement.setString(1, object.getFullName());
             preparedStatement.setString(2, object.getShortName());
             preparedStatement.setLong(3, object.getManager().getId());
@@ -103,7 +103,7 @@ public class DepartmentDAO implements DAOCrud<Department> {
     @Override
     public List<Department> getAll() throws GetDataObjectException {
         List<Department> departmentList = new ArrayList<>();
-        try (ResultSet rs = SESSION_MANAGER.getConnection().prepareStatement(SQL_GET_ALL).executeQuery()) {
+        try (ResultSet rs = SESSION_MANAGER.getDataSource().getConnection().prepareStatement(SQL_GET_ALL).executeQuery()) {
             while (rs.next()) {
                 departmentList.add(DEPARTMENT_MAPPER.convertFrom(rs));
             }
@@ -121,7 +121,7 @@ public class DepartmentDAO implements DAOCrud<Department> {
      */
     @Override
     public void saveAll(List<Department> departmentList) throws SaveObjectException {
-        try (Connection connection = SESSION_MANAGER.getConnection()) {
+        try (Connection connection = SESSION_MANAGER.getDataSource().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_ALL)) {
                 connection.setAutoCommit(false);
                 for (Department department : departmentList) {
@@ -164,7 +164,7 @@ public class DepartmentDAO implements DAOCrud<Department> {
     @Override
     public Optional<Department> findById(long id) throws GetDataObjectException {
         Department department = new Department();
-        try (PreparedStatement preparedStatement = SESSION_MANAGER.getConnection().prepareStatement(SQL_FIND_DEPARTMENT_BY_ID)) {
+        try (PreparedStatement preparedStatement = SESSION_MANAGER.getDataSource().getConnection().prepareStatement(SQL_FIND_DEPARTMENT_BY_ID)) {
             preparedStatement.setLong(1, id);
             try (ResultSet rs = preparedStatement.executeQuery();) {
                 while (rs.next()) {

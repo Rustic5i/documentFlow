@@ -1,7 +1,7 @@
 package com.example.document_flow.mappers.implement;
 
 import com.example.document_flow.entity.staff.Person;
-import com.example.document_flow.mappers.absraction.IPersonMapper;
+import com.example.document_flow.mappers.absraction.PersonMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
  *
  * @author Баратов Руслан
  */
-public class PersonMapper implements IPersonMapper {
+public class PersonMapperImp implements PersonMapper {
 
     private static final String ID = "ID";
 
@@ -27,17 +27,17 @@ public class PersonMapper implements IPersonMapper {
 
     private static final String PHONE_NUMBER = "PHONE_NUMBER";
 
-    private static PersonMapper personMapper;
+    private static PersonMapperImp personMapper;
 
-    private PersonMapper() {
+    private PersonMapperImp() {
     }
 
     /**
      * @return синголтон обьект
      */
-    public static PersonMapper getInstance() {
+    public static PersonMapperImp getInstance() {
         if (personMapper == null) {
-            personMapper = new PersonMapper();
+            personMapper = new PersonMapperImp();
         }
         return personMapper;
     }

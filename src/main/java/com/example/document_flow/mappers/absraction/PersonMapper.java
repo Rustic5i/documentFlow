@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Интерфейс mapper, со списками методами преобразования данных из различных объектов в объект <code>Person</code>.
+ * Интерфейс mapper, со списком методов для преобразования данных из различных объектов в объект <code>Person</code>.
  *
  * @author Баратов Руслан
  */

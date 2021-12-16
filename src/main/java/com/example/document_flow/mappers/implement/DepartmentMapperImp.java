@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /**
- * Класс mapper, со списками методами преобразования данных из различных объектов в объект <code>Department</code>.
+ * Класс mapper, со списком методов для преобразования данных из различных объектов в объект <code>Department</code>.
  *
  * @author Баратов Руслан
  */

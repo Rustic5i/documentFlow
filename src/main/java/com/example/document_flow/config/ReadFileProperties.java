@@ -34,6 +34,7 @@ public class ReadFileProperties {
             PROPERTIES.load(INPUT_STREAM_PROPERTIES_FILE);
         } catch (IOException e) {
             LOGGER.error("Ошибка при считывание данных из файла Properties" + e);
+            System.exit(1);
         }
     }
 

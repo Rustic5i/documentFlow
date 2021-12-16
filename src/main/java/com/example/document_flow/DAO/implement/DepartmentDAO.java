@@ -1,14 +1,14 @@
 package com.example.document_flow.DAO.implement;
 
 import com.example.document_flow.DAO.abstraction.DAOCrud;
-import com.example.document_flow.DAO.mapper.PreparedStatementMapper;
-import com.example.document_flow.DAO.mapper.ResultSetMapper;
 import com.example.document_flow.config.DataBase.abstraction.SessionManager;
 import com.example.document_flow.config.DataBase.implement.SessionManagerIml;
 import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
+import com.example.document_flow.mappers.absraction.IDepartmentMapper;
+import com.example.document_flow.mappers.implement.DepartmentMapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -42,6 +42,8 @@ public class DepartmentDAO implements DAOCrud<Department> {
     private static DepartmentDAO derbyDataBase;
 
     private final SessionManager SESSION_MANAGER = SessionManagerIml.getInstance();
+
+    private final IDepartmentMapper DEPARTMENT_MAPPER = DepartmentMapper.getInstance();
 
     private DepartmentDAO() {
     }
@@ -81,7 +83,11 @@ public class DepartmentDAO implements DAOCrud<Department> {
     @Override
     public void update(Department object) throws SaveObjectException {
         try (PreparedStatement preparedStatement = SESSION_MANAGER.getConnection().prepareStatement(SQL_UPDATE_DEPARTMENT)) {
-            PreparedStatementMapper.mapping(object, preparedStatement);
+            preparedStatement.setString(1, object.getFullName());
+            preparedStatement.setString(2, object.getShortName());
+            preparedStatement.setLong(3, object.getManager().getId());
+            preparedStatement.setString(4, object.getContactPhoneNumber());
+            preparedStatement.setLong(5, object.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new SaveObjectException("Ошибка при обновления объекта Department c id " + object.getId());
@@ -99,7 +105,7 @@ public class DepartmentDAO implements DAOCrud<Department> {
         List<Department> departmentList = new ArrayList<>();
         try (ResultSet rs = SESSION_MANAGER.getConnection().prepareStatement(SQL_GET_ALL).executeQuery()) {
             while (rs.next()) {
-                departmentList.add(ResultSetMapper.mappingDepartment(rs));
+                departmentList.add(DEPARTMENT_MAPPER.convertFrom(rs));
             }
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных " + e);
@@ -116,11 +122,14 @@ public class DepartmentDAO implements DAOCrud<Department> {
     @Override
     public void saveAll(List<Department> departmentList) throws SaveObjectException {
         try (Connection connection = SESSION_MANAGER.getConnection()) {
-            try (PreparedStatement preparedStatement = connection
-                    .prepareStatement(SQL_SAVE_ALL)) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_ALL)) {
                 connection.setAutoCommit(false);
                 for (Department department : departmentList) {
-                    PreparedStatementMapper.mapping(department, preparedStatement);
+                    preparedStatement.setString(1, department.getFullName());
+                    preparedStatement.setString(2, department.getShortName());
+                    preparedStatement.setLong(3, department.getManager().getId());
+                    preparedStatement.setString(4, department.getContactPhoneNumber());
+                    preparedStatement.setLong(5, department.getId());
                     preparedStatement.addBatch();
                 }
                 preparedStatement.executeBatch();
@@ -159,7 +168,7 @@ public class DepartmentDAO implements DAOCrud<Department> {
             preparedStatement.setLong(1, id);
             try (ResultSet rs = preparedStatement.executeQuery();) {
                 while (rs.next()) {
-                    department = ResultSetMapper.mappingDepartment(rs);
+                    department = DEPARTMENT_MAPPER.convertFrom(rs);
                 }
             } catch (SQLException e) {
                 throw new GetDataObjectException("Ошибка при попытки получения данных " + e);

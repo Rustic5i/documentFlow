@@ -1,16 +1,14 @@
 package com.example.document_flow.DAO.implement;
 
 import com.example.document_flow.DAO.abstraction.DAOCrud;
-import com.example.document_flow.DAO.mapper.PreparedStatementMapper;
-import com.example.document_flow.DAO.mapper.ResultSetMapper;
 import com.example.document_flow.config.DataBase.abstraction.SessionManager;
 import com.example.document_flow.config.DataBase.implement.SessionManagerIml;
 import com.example.document_flow.entity.staff.Organization;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.example.document_flow.mappers.absraction.IOrganizationMapper;
+import com.example.document_flow.mappers.implement.OrganizationMapper;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -45,6 +43,8 @@ public class OrganizationDAO implements DAOCrud<Organization> {
     private static OrganizationDAO derbyDataBase;
 
     private final SessionManager SESSION_MANAGER = SessionManagerIml.getInstance();
+
+    private final IOrganizationMapper ORGANIZATION_MAPPER = OrganizationMapper.getInstance();
 
     private OrganizationDAO() {
     }
@@ -84,7 +84,11 @@ public class OrganizationDAO implements DAOCrud<Organization> {
     @Override
     public void update(Organization object) throws SaveObjectException {
         try (PreparedStatement preparedStatement = SESSION_MANAGER.getConnection().prepareStatement(SQL_UPDATE_ORGANIZATION)) {
-            PreparedStatementMapper.mapping(object, preparedStatement);
+            preparedStatement.setString(1, object.getFullName());
+            preparedStatement.setString(2, object.getShortName());
+            preparedStatement.setLong(3, object.getManager().getId());
+            preparedStatement.setString(4, object.getContactPhoneNumber());
+            preparedStatement.setLong(5, object.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new SaveObjectException("Ошибка при обновления объекта Organization c id " + object.getId());
@@ -101,10 +105,10 @@ public class OrganizationDAO implements DAOCrud<Organization> {
         List<Organization> organizationList = new ArrayList<>();
         try (ResultSet rs = SESSION_MANAGER.getConnection().prepareStatement(SQL_GET_ALL_ORGANIZATION).executeQuery()) {
             while (rs.next()) {
-                organizationList.add(ResultSetMapper.mappingOrganization(rs));
+                organizationList.add(ORGANIZATION_MAPPER.convertFrom(rs));
             }
         } catch (SQLException e) {
-            throw new GetDataObjectException("Ошибка при попытки получения данных "+e);
+            throw new GetDataObjectException("Ошибка при попытки получения данных " + e);
         }
         return organizationList;
     }
@@ -119,15 +123,17 @@ public class OrganizationDAO implements DAOCrud<Organization> {
     public void saveAll(List<Organization> organizationList) throws SaveObjectException {
         try (Connection connection = SESSION_MANAGER.getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_ALL)) {
-                connection.setAutoCommit(false);
                 for (Organization organization : organizationList) {
-                    PreparedStatementMapper.mapping(organization, preparedStatement);
+                    preparedStatement.setString(1, organization.getFullName());
+                    preparedStatement.setString(2, organization.getShortName());
+                    preparedStatement.setLong(3, organization.getManager().getId());
+                    preparedStatement.setString(4, organization.getContactPhoneNumber());
+                    preparedStatement.setLong(5, organization.getId());
                     preparedStatement.addBatch();
                 }
                 preparedStatement.executeBatch();
                 connection.commit();
             } catch (SQLException e) {
-                connection.rollback();
                 throw new SaveObjectException("Ошибка сохранения объекта Organization " + e);
             }
         } catch (SQLException e) {
@@ -159,10 +165,10 @@ public class OrganizationDAO implements DAOCrud<Organization> {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                organization = ResultSetMapper.mappingOrganization(rs);
+                organization = ORGANIZATION_MAPPER.convertFrom(rs);
             }
         } catch (SQLException e) {
-            throw new GetDataObjectException("Ошибка при попытки получения данных "+e);
+            throw new GetDataObjectException("Ошибка при попытки получения данных " + e);
         }
         return Optional.of(organization);
     }

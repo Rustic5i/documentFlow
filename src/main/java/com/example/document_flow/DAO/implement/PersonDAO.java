@@ -1,7 +1,5 @@
 package com.example.document_flow.DAO.implement;
 
-import com.example.document_flow.DAO.mapper.PreparedStatementMapper;
-import com.example.document_flow.DAO.mapper.ResultSetMapper;
 import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.SessionManager;
 import com.example.document_flow.config.DataBase.implement.SessionManagerIml;
@@ -9,10 +7,10 @@ import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.example.document_flow.mappers.absraction.IPersonMapper;
+import com.example.document_flow.mappers.implement.PersonMapper;
 
-import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,6 +42,8 @@ public class PersonDAO implements DAOCrud<Person> {
     private static PersonDAO derbyDataBase;
 
     private final SessionManager SESSION_MANAGER = SessionManagerIml.getInstance();
+
+    private final IPersonMapper PERSON_MAPPER = PersonMapper.getInstance();
 
     private PersonDAO() {
     }
@@ -83,7 +83,14 @@ public class PersonDAO implements DAOCrud<Person> {
     @Override
     public void update(Person object) throws SaveObjectException {
         try (PreparedStatement preparedStatement = SESSION_MANAGER.getConnection().prepareStatement(SQL_UPDATE_PERSON)) {
-            PreparedStatementMapper.mapping(object, preparedStatement).executeUpdate();
+            preparedStatement.setString(1, object.getSurname());
+            preparedStatement.setString(2, object.getName());
+            preparedStatement.setString(3, object.getPatronymic());
+            preparedStatement.setString(4, object.getPost());
+            preparedStatement.setDate(5, new Date(object.getDateOfBirth().getTime()));
+            preparedStatement.setInt(6, object.getPhoneNumber());
+            preparedStatement.setLong(7, object.getId());
+            preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new SaveObjectException("Ошибка при обновления объекта Person c id " + object.getId());
         }
@@ -99,10 +106,10 @@ public class PersonDAO implements DAOCrud<Person> {
         List<Person> personList = new ArrayList<>();
         try (ResultSet rs = SESSION_MANAGER.getConnection().prepareStatement(SQL_GET_ALL_PERSON).executeQuery()) {
             while (rs.next()) {
-                personList.add(ResultSetMapper.mappingPerson(rs));
+                personList.add(PERSON_MAPPER.convertFrom(rs));
             }
         } catch (SQLException e) {
-            throw new GetDataObjectException("Ошибка при попытки получения данных "+e);
+            throw new GetDataObjectException("Ошибка при попытки получения данных " + e);
         }
         return personList;
     }
@@ -116,21 +123,20 @@ public class PersonDAO implements DAOCrud<Person> {
      */
     @Override
     public void saveAll(List<Person> personList) throws SaveObjectException {
-        try (Connection connection = SESSION_MANAGER.getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_PERSON)) {
-                connection.setAutoCommit(false);
-                for (Person person : personList) {
-                    PreparedStatementMapper.mapping(person, preparedStatement);
-                    preparedStatement.addBatch();
-                }
-                preparedStatement.executeBatch();
-                connection.commit();
-            } catch (SQLException e) {
-                connection.rollback();
-                throw new SaveObjectException("Ошибка сохранения объекта Person " + e);
+        try (PreparedStatement preparedStatement = SESSION_MANAGER.getConnection().prepareStatement(SQL_SAVE_PERSON)) {
+            for (Person person : personList) {
+                preparedStatement.setString(1, person.getSurname());
+                preparedStatement.setString(2, person.getName());
+                preparedStatement.setString(3, person.getPatronymic());
+                preparedStatement.setString(4, person.getPost());
+                preparedStatement.setDate(5, new Date(person.getDateOfBirth().getTime()));
+                preparedStatement.setInt(6, person.getPhoneNumber());
+                preparedStatement.setLong(7, person.getId());
+                preparedStatement.addBatch();
             }
+            preparedStatement.executeBatch();
         } catch (SQLException e) {
-            throw new SaveObjectException("Ошибка сохранения объекта Person" + e);
+            throw new SaveObjectException("Ошибка сохранения объекта Person " + e);
         }
     }
 
@@ -158,13 +164,13 @@ public class PersonDAO implements DAOCrud<Person> {
             preparedStatement.setLong(1, id);
             try (ResultSet rs = preparedStatement.executeQuery();) {
                 while (rs.next()) {
-                    person = ResultSetMapper.mappingPerson(rs);
+                    person = PERSON_MAPPER.convertFrom(rs);
                 }
             } catch (SQLException e) {
-                throw new GetDataObjectException("Ошибка при попытки получения данных "+e);
+                throw new GetDataObjectException("Ошибка при попытки получения данных " + e);
             }
         } catch (SQLException e) {
-            throw new GetDataObjectException("Ошибка при попытки получения данных "+e);
+            throw new GetDataObjectException("Ошибка при попытки получения данных " + e);
         }
         return Optional.of(person);
     }

@@ -15,11 +15,11 @@ import java.sql.SQLException;
  */
 public class SessionManagerIml implements SessionManager {
 
-    private static SessionManagerIml sessionManager;
-
     private static final String PROPERTIES_KEY_URL = "derby.datasource.url";
 
     private static final String PROPERTIES_KEY_DRIVER = "db.driver";
+
+    private static SessionManagerIml sessionManager;
 
     private final HikariDataSource DATA_SOURCE;
 

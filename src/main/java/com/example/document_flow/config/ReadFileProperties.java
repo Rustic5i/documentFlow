@@ -1,5 +1,8 @@
 package com.example.document_flow.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
@@ -12,14 +15,13 @@ import java.util.Properties;
  */
 public class ReadFileProperties {
 
+    private static final String RESOURCE_PATH = "config/config.properties";
+
     private final Properties PROPERTIES = new Properties();
 
-    private final String RESOURCE_PATH = "config/config.properties";
+    private final Logger LOGGER = LoggerFactory.getLogger(ReadFileProperties.class.getName());
 
-    private final InputStream INPUT_STREAM_PROPERTIES_FILE = Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream(RESOURCE_PATH),
-            "Папка ресурсов" + RESOURCE_PATH + " не найдено");
-
-    {
+    public ReadFileProperties() {
         load();
     }
 
@@ -27,10 +29,11 @@ public class ReadFileProperties {
      * Считывает список свойств (пары ключей и элементов) из файла формата properties
      */
     private synchronized void load() {
-        try {
+        try (InputStream INPUT_STREAM_PROPERTIES_FILE = Objects.requireNonNull(this.getClass().getClassLoader().getResourceAsStream(RESOURCE_PATH),
+                "Папка ресурсов" + RESOURCE_PATH + " не найдено")) {
             PROPERTIES.load(INPUT_STREAM_PROPERTIES_FILE);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.error("Ошибка при считывание данных из файла Properties" + e);
         }
     }
 

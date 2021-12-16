@@ -6,7 +6,7 @@ package com.example.document_flow.exception;
  *
  * @author Баратов Руслан
  */
-public class GetDataObjectException extends Exception{
+public class GetDataObjectException extends Exception {
     public GetDataObjectException(String message) {
         super(message);
     }

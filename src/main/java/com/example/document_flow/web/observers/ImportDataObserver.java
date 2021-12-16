@@ -37,7 +37,7 @@ public class ImportDataObserver implements ServletContextListener {
 
     private PersonService personServiceXml = PersonServiceXmlImpl.getInstance();
 
-    private Logger LOGGER = LoggerFactory.getLogger(ImportDataObserver.class.getName());
+    private final Logger LOGGER = LoggerFactory.getLogger(ImportDataObserver.class.getName());
 
     /**
      * Импортирует данные из репозитория Xml в базу данных Derby

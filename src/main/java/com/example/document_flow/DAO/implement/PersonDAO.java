@@ -8,7 +8,7 @@ import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.mappers.absraction.PersonMapper;
-import com.example.document_flow.mappers.implement.PersonMapperImp;
+import com.example.document_flow.mappers.implement.PersonMapperImpl;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -43,7 +43,7 @@ public class PersonDAO implements DAOCrud<Person> {
 
     private final SessionManager SESSION_MANAGER = SessionManagerImp.getInstance();
 
-    private final PersonMapper PERSON_MAPPER = PersonMapperImp.getInstance();
+    private final PersonMapper PERSON_MAPPER = PersonMapperImpl.getInstance();
 
     private PersonDAO() {
     }

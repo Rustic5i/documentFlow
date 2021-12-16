@@ -1,19 +1,18 @@
 package com.example.document_flow.mappers.implement;
 
-import com.example.document_flow.entity.staff.Organization;
+import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.entity.staff.Person;
-import com.example.document_flow.mappers.absraction.OrganizationMapper;
+import com.example.document_flow.mappers.absraction.DepartmentMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
 /**
- * Класс mapper, со списком методов для преобразования данных из различных объектов в объект <code>Organization</code>.
+ * Класс mapper, со списком методов для преобразования данных из различных объектов в объект <code>Department</code>.
  *
  * @author Баратов Руслан
  */
-public class OrganizationMapperImp implements OrganizationMapper {
+public class DepartmentMapperImpl implements DepartmentMapper {
 
     private static final String ID = "ID";
 
@@ -37,23 +36,23 @@ public class OrganizationMapperImp implements OrganizationMapper {
 
     private static final String CONTACT_PHONE_NUMBER = "CONTACT_PHONE_NUMBER";
 
-    private static OrganizationMapperImp organizationMapper;
+    private static DepartmentMapperImpl departmentMapper;
 
-    private OrganizationMapperImp() {
+    private DepartmentMapperImpl() {
     }
 
     /**
      * @return синголтон обьект
      */
-    public static OrganizationMapperImp getInstance() {
-        if (organizationMapper == null) {
-            organizationMapper = new OrganizationMapperImp();
+    public static DepartmentMapperImpl getInstance() {
+        if (departmentMapper == null) {
+            departmentMapper = new DepartmentMapperImpl();
         }
-        return organizationMapper;
+        return departmentMapper;
     }
 
     /**
-     * Преобразует данные <code>ResultSet</code>  в Entity-объект класса <code>Organization</code>
+     * Преобразует данные <code>ResultSet</code>  в Entity-объект класса <code>Department</code>
      *
      * @param resultSet от куда переносить данные.
      * @return объекты с заполненными полями
@@ -61,12 +60,11 @@ public class OrganizationMapperImp implements OrganizationMapper {
      *                      если произошла ошибка доступа к базе данных или этот метод вызывается при закрытом соединении
      */
     @Override
-    public Organization convertFrom(ResultSet resultSet) throws SQLException {
-        return new Organization().newBuilder()
+    public Department convertFrom(ResultSet resultSet) throws SQLException {
+        return new Department().newBuilder()
                 .setId(resultSet.getLong(ID))
                 .setFullName(resultSet.getString(FULL_NAME))
                 .setShortName(resultSet.getString(SHORT_NAME))
-                .setContactPhoneNumber(resultSet.getString(CONTACT_PHONE_NUMBER))
                 .setManager(new Person().newBuilder()
                         .setId(resultSet.getLong(MANAGER_ID))
                         .setSurname(resultSet.getString(SURNAME))
@@ -76,6 +74,7 @@ public class OrganizationMapperImp implements OrganizationMapper {
                         .setDateOfBirth(resultSet.getDate(DATA_OF_BIRTH))
                         .setPhoneNumber(resultSet.getInt(PHONE_NUMBER))
                         .build())
+                .setContactPhoneNumber(resultSet.getString(CONTACT_PHONE_NUMBER))
                 .build();
     }
 }

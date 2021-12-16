@@ -8,7 +8,7 @@ import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.mappers.absraction.OrganizationMapper;
-import com.example.document_flow.mappers.implement.OrganizationMapperImp;
+import com.example.document_flow.mappers.implement.OrganizationMapperImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -44,7 +44,7 @@ public class OrganizationDAO implements DAOCrud<Organization> {
 
     private final SessionManager SESSION_MANAGER = SessionManagerImp.getInstance();
 
-    private final OrganizationMapper ORGANIZATION_MAPPER = OrganizationMapperImp.getInstance();
+    private final OrganizationMapper ORGANIZATION_MAPPER = OrganizationMapperImpl.getInstance();
 
     private OrganizationDAO() {
     }

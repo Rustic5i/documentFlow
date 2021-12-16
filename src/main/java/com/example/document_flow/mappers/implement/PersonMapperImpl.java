@@ -11,7 +11,7 @@ import java.sql.SQLException;
  *
  * @author Баратов Руслан
  */
-public class PersonMapperImp implements PersonMapper {
+public class PersonMapperImpl implements PersonMapper {
 
     private static final String ID = "ID";
 
@@ -27,17 +27,17 @@ public class PersonMapperImp implements PersonMapper {
 
     private static final String PHONE_NUMBER = "PHONE_NUMBER";
 
-    private static PersonMapperImp personMapper;
+    private static PersonMapperImpl personMapper;
 
-    private PersonMapperImp() {
+    private PersonMapperImpl() {
     }
 
     /**
      * @return синголтон обьект
      */
-    public static PersonMapperImp getInstance() {
+    public static PersonMapperImpl getInstance() {
         if (personMapper == null) {
-            personMapper = new PersonMapperImp();
+            personMapper = new PersonMapperImpl();
         }
         return personMapper;
     }

@@ -8,7 +8,7 @@ import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.mappers.absraction.DepartmentMapper;
-import com.example.document_flow.mappers.implement.DepartmentMapperImp;
+import com.example.document_flow.mappers.implement.DepartmentMapperImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -43,7 +43,7 @@ public class DepartmentDAO implements DAOCrud<Department> {
 
     private final SessionManager SESSION_MANAGER = SessionManagerImp.getInstance();
 
-    private final DepartmentMapper DEPARTMENT_MAPPER = DepartmentMapperImp.getInstance();
+    private final DepartmentMapper DEPARTMENT_MAPPER = DepartmentMapperImpl.getInstance();
 
     private DepartmentDAO() {
     }

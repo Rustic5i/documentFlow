@@ -50,10 +50,10 @@ public class StaffTableCreator implements TableCreator {
                     statement.executeUpdate(sqlScript);
                 }
             } catch (IOException e) {
-                throw new CreateTableException("Ошибка при создание таблицы в бд, не удалось получить sql скрипт из файла import.sql" + e);
+                throw new CreateTableException("Ошибка при создание таблицы в бд, не удалось получить sql скрипт из файла import.sql", e);
             }
         } catch (SQLException e) {
-            throw new CreateTableException("Ошибка при создание таблицы в бд" + e);
+            throw new CreateTableException("Ошибка при создание таблицы в бд", e);
         }
     }
 

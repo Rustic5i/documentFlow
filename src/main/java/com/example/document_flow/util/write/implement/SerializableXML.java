@@ -3,8 +3,6 @@ package com.example.document_flow.util.write.implement;
 import com.example.document_flow.entity.staff.Staff;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.util.write.abstraction.Serializable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -44,7 +42,7 @@ public class SerializableXML<T extends Staff> implements Serializable {
      * @param object   объект для сохранения
      * @return путь к сохраненному объекту
      * @throws SaveObjectException когда сохранения объекта терпит не удачу по какой-либо причине.
-     * Основная причины если при создании объекта маршаллера возникла ошибка или Файл Xml не существует, или не может быть создан.
+     *                             Основная причины если при создании объекта маршаллера возникла ошибка или Файл Xml не существует, или не может быть создан.
      */
     @Override
     public Path save(File filePath, Object object) throws SaveObjectException {
@@ -54,7 +52,7 @@ public class SerializableXML<T extends Staff> implements Serializable {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             marshaller.marshal(object, filePath);
         } catch (JAXBException e) {
-            throw new SaveObjectException("Файл Xml не существует, или не может быть создан " + e);
+            throw new SaveObjectException("Файл Xml не существует, или не может быть создан ", e);
         }
         return filePath.toPath();
     }
@@ -67,7 +65,7 @@ public class SerializableXML<T extends Staff> implements Serializable {
      * @param <T>       тип объектов для сериализации
      * @return список расположения сохраненных файлов
      * @throws SaveObjectException когда сохранения объекта терпит не удачу по какой-либо причине.
-     * Основная причины если при создании объекта маршаллера возникла ошибка или Файл Xml не существует, или не может быть создан.
+     *                             Основная причины если при создании объекта маршаллера возникла ошибка или Файл Xml не существует, или не может быть создан.
      */
     @Override
     public <T> Set<Path> saveAll(Map<File, T> filePaths) throws SaveObjectException {

@@ -14,8 +14,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,7 +70,7 @@ public class DepartmentDAO implements DAOCrud<Department> {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DeleteObjectException("Ошибка удаление Department c id " + id);
+            throw new DeleteObjectException(MessageFormat.format("Ошибка удаление Department c id {0}", id), e);
         }
     }
 
@@ -90,7 +90,7 @@ public class DepartmentDAO implements DAOCrud<Department> {
             preparedStatement.setLong(5, object.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SaveObjectException("Ошибка при обновления объекта Department c id " + object.getId());
+            throw new SaveObjectException(MessageFormat.format("Ошибка при обновления объекта Department c id {0}", object.getId()), e);
         }
     }
 
@@ -108,7 +108,7 @@ public class DepartmentDAO implements DAOCrud<Department> {
                 departmentList.add(DEPARTMENT_MAPPER.convertFrom(rs));
             }
         } catch (SQLException e) {
-            throw new GetDataObjectException("Ошибка при попытки получения данных " + e);
+            throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
         }
         return departmentList;
     }
@@ -134,10 +134,10 @@ public class DepartmentDAO implements DAOCrud<Department> {
                 preparedStatement.executeBatch();
             } catch (SQLException e) {
                 connection.rollback();
-                throw new SaveObjectException("Ошибка сохранения объекта Department " + e);
+                throw new SaveObjectException("Ошибка сохранения объекта Department ", e);
             }
         } catch (SQLException e) {
-            throw new SaveObjectException("Ошибка сохранения объекта Department" + e);
+            throw new SaveObjectException("Ошибка сохранения объекта Department", e);
         }
     }
 
@@ -149,7 +149,7 @@ public class DepartmentDAO implements DAOCrud<Department> {
      */
     @Override
     public void save(Department department) throws SaveObjectException {
-        saveAll(Arrays.asList(department));
+        saveAll(List.of(department));
     }
 
     /**
@@ -164,15 +164,15 @@ public class DepartmentDAO implements DAOCrud<Department> {
         Department department = new Department();
         try (PreparedStatement preparedStatement = SESSION_MANAGER.getDataSource().getConnection().prepareStatement(SQL_FIND_DEPARTMENT_BY_ID)) {
             preparedStatement.setLong(1, id);
-            try (ResultSet rs = preparedStatement.executeQuery();) {
+            try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     department = DEPARTMENT_MAPPER.convertFrom(rs);
                 }
             } catch (SQLException e) {
-                throw new GetDataObjectException("Ошибка при попытки получения данных " + e);
+                throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
             }
         } catch (SQLException e) {
-            throw new GetDataObjectException("Ошибка при попытки получения данных " + e);
+            throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
         }
         return Optional.of(department);
     }

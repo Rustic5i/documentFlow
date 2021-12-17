@@ -14,8 +14,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,7 +71,7 @@ public class OrganizationDAO implements DAOCrud<Organization> {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DeleteObjectException("Ошибка удаление Organization c id " + id);
+            throw new DeleteObjectException(MessageFormat.format("Ошибка удаление Organization c id {0}", id), e);
         }
     }
 
@@ -91,7 +91,7 @@ public class OrganizationDAO implements DAOCrud<Organization> {
             preparedStatement.setLong(5, object.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SaveObjectException("Ошибка при обновления объекта Organization c id " + object.getId());
+            throw new SaveObjectException(MessageFormat.format("Ошибка при обновления объекта Organization c id {0}", object.getId()), e);
         }
     }
 
@@ -108,7 +108,7 @@ public class OrganizationDAO implements DAOCrud<Organization> {
                 organizationList.add(ORGANIZATION_MAPPER.convertFrom(rs));
             }
         } catch (SQLException e) {
-            throw new GetDataObjectException("Ошибка при попытки получения данных " + e);
+            throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
         }
         return organizationList;
     }
@@ -134,10 +134,10 @@ public class OrganizationDAO implements DAOCrud<Organization> {
                 preparedStatement.executeBatch();
                 connection.commit();
             } catch (SQLException e) {
-                throw new SaveObjectException("Ошибка сохранения объекта Organization " + e);
+                throw new SaveObjectException("Ошибка сохранения объекта Organization ", e);
             }
         } catch (SQLException e) {
-            throw new SaveObjectException("Ошибка сохранения объекта Organization " + e);
+            throw new SaveObjectException("Ошибка сохранения объекта Organization ", e);
         }
     }
 
@@ -149,7 +149,7 @@ public class OrganizationDAO implements DAOCrud<Organization> {
      */
     @Override
     public void save(Organization organization) throws SaveObjectException {
-        saveAll(Arrays.asList(organization));
+        saveAll(List.of(organization));
     }
 
     /**
@@ -168,7 +168,7 @@ public class OrganizationDAO implements DAOCrud<Organization> {
                 organization = ORGANIZATION_MAPPER.convertFrom(rs);
             }
         } catch (SQLException e) {
-            throw new GetDataObjectException("Ошибка при попытки получения данных " + e);
+            throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
         }
         return Optional.of(organization);
     }

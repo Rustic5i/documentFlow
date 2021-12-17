@@ -34,7 +34,7 @@ public class ReadFileProperties {
                 MessageFormat.format("Папка ресурсов {0} не найдено",RESOURCE_PATH))) {
             PROPERTIES.load(INPUT_STREAM_PROPERTIES_FILE);
         } catch (IOException e) {
-            LOGGER.error("Ошибка при считывание данных из файла Properties" + e);
+            LOGGER.error("Ошибка при считывание данных из файла Properties", e);
             System.exit(1);
         }
     }

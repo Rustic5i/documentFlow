@@ -7,6 +7,11 @@ package com.example.document_flow.exception;
  * @author Баратов Руслан
  */
 public class CreateTableException extends Exception {
+
+    public CreateTableException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
     public CreateTableException(String message) {
         super(message);
     }

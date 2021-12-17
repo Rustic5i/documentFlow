@@ -51,7 +51,7 @@ public class SerializableJSON implements Serializable {
         try (Writer writer = new FileWriter(filePath)) {
             GSON.toJson(object, writer);
         } catch (IOException e) {
-            throw new SaveObjectException("Файл Json не существует, или не может быть создан " + e);
+            throw new SaveObjectException("Файл Json не существует, или не может быть создан ", e);
         }
         return filePath.toPath();
     }

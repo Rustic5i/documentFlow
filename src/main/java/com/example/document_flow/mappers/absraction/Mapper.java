@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 /**
  * Интерфейс mapper, со списком методов для преобразования данных из различных объектов в объект <code>T</code>.
+ * Type parameters: <T> – к чему маппить
  *
  * @author Баратов Руслан
  */

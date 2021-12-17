@@ -14,8 +14,8 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,7 +70,7 @@ public class PersonDAO implements DAOCrud<Person> {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new DeleteObjectException("Ошибка удаление Person c id " + id + e);
+            throw new DeleteObjectException(MessageFormat.format("Ошибка удаление Person c id {0}", id), e);
         }
     }
 
@@ -92,7 +92,7 @@ public class PersonDAO implements DAOCrud<Person> {
             preparedStatement.setLong(7, object.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new SaveObjectException("Ошибка при обновления объекта Person c id " + object.getId());
+            throw new SaveObjectException(MessageFormat.format("Ошибка при обновления объекта Person c id {0}", object.getId()), e);
         }
     }
 
@@ -109,7 +109,7 @@ public class PersonDAO implements DAOCrud<Person> {
                 personList.add(PERSON_MAPPER.convertFrom(rs));
             }
         } catch (SQLException e) {
-            throw new GetDataObjectException("Ошибка при попытки получения данных " + e);
+            throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
         }
         return personList;
     }
@@ -136,7 +136,7 @@ public class PersonDAO implements DAOCrud<Person> {
             }
             preparedStatement.executeBatch();
         } catch (SQLException e) {
-            throw new SaveObjectException("Ошибка сохранения объекта Person " + e);
+            throw new SaveObjectException("Ошибка сохранения объекта Person ", e);
         }
     }
 
@@ -148,7 +148,7 @@ public class PersonDAO implements DAOCrud<Person> {
      */
     @Override
     public void save(Person person) throws SaveObjectException {
-        saveAll(Arrays.asList(person));
+        saveAll(List.of(person));
     }
 
     /**
@@ -162,15 +162,15 @@ public class PersonDAO implements DAOCrud<Person> {
         Person person = new Person();
         try (PreparedStatement preparedStatement = SESSION_MANAGER.getDataSource().getConnection().prepareStatement(SQL_FIND_PERSON_BY_ID)) {
             preparedStatement.setLong(1, id);
-            try (ResultSet rs = preparedStatement.executeQuery();) {
+            try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     person = PERSON_MAPPER.convertFrom(rs);
                 }
             } catch (SQLException e) {
-                throw new GetDataObjectException("Ошибка при попытки получения данных " + e);
+                throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
             }
         } catch (SQLException e) {
-            throw new GetDataObjectException("Ошибка при попытки получения данных " + e);
+            throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
         }
         return Optional.of(person);
     }

@@ -8,6 +8,7 @@ import com.example.document_flow.repository.absraction.document.DocumentReposito
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -126,7 +127,7 @@ public class DocumentRepositoryImpl implements DocumentRepository {
         try {
             documentList.remove(Objects.requireNonNull(findById(id).get()));
         } catch (NullPointerException e) {
-            throw new DeleteObjectException("Ошибка при попытка удаление Document с id" + id);
+            throw new DeleteObjectException(MessageFormat.format("Ошибка при попытка удаление Document с id {0}", id), e);
         }
     }
 
@@ -142,7 +143,7 @@ public class DocumentRepositoryImpl implements DocumentRepository {
             Document document = Objects.requireNonNull(findById(object.getId()).get());
             documentList.set(documentList.indexOf(document), object);
         } catch (NullPointerException e) {
-            throw new SaveObjectException("Ошибка при попытки обновить Document с id " + object.getId());
+            throw new SaveObjectException(MessageFormat.format("Ошибка при попытки обновить Document с id {0}", object.getId()), e);
         }
     }
 
@@ -175,7 +176,7 @@ public class DocumentRepositoryImpl implements DocumentRepository {
      */
     public void containsRegistrationNumber(Long registrationNumber) throws DocumentExistsException {
         if (documentMap.containsKey(registrationNumber)) {
-            throw new DocumentExistsException("Document с регистрационным номер " + registrationNumber + " уже существует ");
+            throw new DocumentExistsException(MessageFormat.format("Document с регистрационным номер {0} уже существует ", registrationNumber));
         }
     }
 }

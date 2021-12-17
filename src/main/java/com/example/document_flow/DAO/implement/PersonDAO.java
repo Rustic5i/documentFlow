@@ -2,7 +2,7 @@ package com.example.document_flow.DAO.implement;
 
 import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.ManagerDataSource;
-import com.example.document_flow.config.DataBase.implement.ManagerDataSourceImp;
+import com.example.document_flow.config.DataBase.implement.ManagerDataSourceImpl;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
@@ -41,7 +41,7 @@ public class PersonDAO implements DAOCrud<Person> {
 
     private static PersonDAO derbyDataBase;
 
-    private final ManagerDataSource SESSION_MANAGER = ManagerDataSourceImp.getInstance();
+    private final ManagerDataSource SESSION_MANAGER = ManagerDataSourceImpl.getInstance();
 
     private final PersonMapper PERSON_MAPPER = PersonMapperImpl.getInstance();
 

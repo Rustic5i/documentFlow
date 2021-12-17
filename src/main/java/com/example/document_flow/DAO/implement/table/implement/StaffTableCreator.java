@@ -1,7 +1,7 @@
 package com.example.document_flow.DAO.implement.table.implement;
 
 import com.example.document_flow.DAO.abstraction.TableCreator;
-import com.example.document_flow.config.DataBase.implement.ManagerDataSourceImp;
+import com.example.document_flow.config.DataBase.implement.ManagerDataSourceImpl;
 import com.example.document_flow.config.ReadFileSql;
 import com.example.document_flow.exception.CreateTableException;
 
@@ -20,7 +20,7 @@ public class StaffTableCreator implements TableCreator {
 
     private static StaffTableCreator staffDerbyTableCreator;
 
-    private final ManagerDataSourceImp SESSION_DERBY_DATA_BASE = ManagerDataSourceImp.getInstance();
+    private final ManagerDataSourceImpl SESSION_DERBY_DATA_BASE = ManagerDataSourceImpl.getInstance();
 
     private final ReadFileSql READ_FILE_SQL = new ReadFileSql();
 

@@ -12,13 +12,13 @@ import javax.sql.DataSource;
  *
  * @author Баратов Руслан
  */
-public class ManagerDataSourceImp implements ManagerDataSource {
+public class ManagerDataSourceImpl implements ManagerDataSource {
 
     private static final String PROPERTIES_KEY_URL = "derby.datasource.url";
 
     private static final String PROPERTIES_KEY_DRIVER = "db.driver";
 
-    private static ManagerDataSourceImp sessionManager;
+    private static ManagerDataSourceImpl sessionManager;
 
     private final HikariConfig CONFIG = new HikariConfig();
 
@@ -31,7 +31,7 @@ public class ManagerDataSourceImp implements ManagerDataSource {
         CONFIG.setDriverClassName(PROPERTIES.getProperty(PROPERTIES_KEY_DRIVER));
     }
 
-    private ManagerDataSourceImp() {
+    private ManagerDataSourceImpl() {
     }
 
     /**
@@ -49,9 +49,9 @@ public class ManagerDataSourceImp implements ManagerDataSource {
     /**
      * @return синголтон обьект
      */
-    public static synchronized ManagerDataSourceImp getInstance() {
+    public static synchronized ManagerDataSourceImpl getInstance() {
         if (sessionManager == null) {
-            sessionManager = new ManagerDataSourceImp();
+            sessionManager = new ManagerDataSourceImpl();
         }
         return sessionManager;
     }

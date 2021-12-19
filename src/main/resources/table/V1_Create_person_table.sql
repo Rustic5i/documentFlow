@@ -1,5 +1,4 @@
-create table PERSON
-(
+create table      PERSON                   (
     ID            BIGINT not null
         constraint PERSON_PK
             primary key,

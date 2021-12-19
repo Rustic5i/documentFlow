@@ -76,7 +76,8 @@ public class ReadFileSql {
      */
     private Collection<File> getListFiles() {
         File directory = new File(FILE_NAME);
-        return Arrays.stream(Objects.requireNonNull(directory.listFiles(getFilenameFilter()))).sorted(this::compare).collect(Collectors.toCollection(TreeSet::new));
+        return Arrays.stream(Objects.requireNonNull(directory.listFiles(getFilenameFilter())))
+                .sorted(this::compare).collect(Collectors.toCollection(TreeSet::new));
     }
 
     /**

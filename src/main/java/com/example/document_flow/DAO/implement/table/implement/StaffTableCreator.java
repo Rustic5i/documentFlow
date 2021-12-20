@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * Класс занимается созданием нужных таблиц в базе данных Derby,
- * указанных в файле import.sql в папке resources
+ * указанные в папке /resources/table/
  *
  * @author Баратов Руслан
  */

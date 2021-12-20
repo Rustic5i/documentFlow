@@ -85,6 +85,11 @@
             <artifactId>HikariCP</artifactId>
             <version>${hikariCP.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>angular</artifactId>
+            <version>1.8.2</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

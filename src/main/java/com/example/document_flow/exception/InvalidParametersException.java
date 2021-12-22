@@ -8,6 +8,10 @@ package com.example.document_flow.exception;
  */
 public class InvalidParametersException extends Exception {
 
+    public InvalidParametersException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
     public InvalidParametersException(String message) {
         super(message);
     }

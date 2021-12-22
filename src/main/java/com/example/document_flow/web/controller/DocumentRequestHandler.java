@@ -18,9 +18,9 @@ public class DocumentRequestHandler {
 
     private static final DocumentServiceImpl DOCUMENT_SERVICE = DocumentServiceImpl.getInstance();
 
-    private final Scanner SCANNER = new Scanner(System.in);
-
     private static final Logger LOGGER = LoggerFactory.getLogger(DocumentRequestHandler.class.getName());
+
+    private final Scanner scanner = new Scanner(System.in);
 
     public void setRequest(String[] args) {
         handler(args);
@@ -54,7 +54,7 @@ public class DocumentRequestHandler {
         while (true) {
             try {
                 System.out.println("Введите количество требуемых документов");
-                int count = ParametersValidation.isNumber(SCANNER.nextLine());
+                int count = ParametersValidation.isNumber(scanner.nextLine());
                 DOCUMENT_SERVICE.saveAll(DocumentGenerator.run(count));
                 LOGGER.info(DOCUMENT_SERVICE.getAll().toString());
                 break;

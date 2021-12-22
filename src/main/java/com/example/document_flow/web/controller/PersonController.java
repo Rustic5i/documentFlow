@@ -1,8 +1,9 @@
 package com.example.document_flow.web.controller;
 
 import com.example.document_flow.entity.staff.Person;
-import com.example.document_flow.service.abstraction.Service;
-import com.example.document_flow.service.implement.staff.PersonServiceImpl;
+import com.example.document_flow.exception.GetDataObjectException;
+import com.example.document_flow.service.abstraction.staff.PersonService;
+import com.example.document_flow.service.implement.staff.xml.PersonServiceXmlImpl;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -20,7 +21,7 @@ import java.util.List;
 @Path("/employees")
 public class PersonController {
 
-    private final Service<Person> PERSON_SERVICE = PersonServiceImpl.getInstance();
+    private final PersonService personService = PersonServiceXmlImpl.getInstance();
 
     /**
      * Принимает GET HTTP-запрос.
@@ -30,7 +31,7 @@ public class PersonController {
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Person> getAllPerson() {
-        return PERSON_SERVICE.getAll();
+    public List<Person> getAllPerson() throws GetDataObjectException {
+        return personService.getAll();
     }
 }

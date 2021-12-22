@@ -12,23 +12,7 @@ import com.example.document_flow.factory.generator.DataGenerator;
  */
 public abstract class AbstractDocumentFactory<T extends Document> implements Factory<Document> {
 
-    private final DataGenerator DATA_GENERATOR = DataGenerator.getInstance();
-
-    /**
-     * Реализация фабричного метода
-     *
-     * @return возвращает новый инстанс документа с заполненными поля
-     */
-    public T create() {
-        T document = createInstance();
-        document.setName(DATA_GENERATOR.getName());
-        document.setText(DATA_GENERATOR.getText());
-        document.setAuthor(DATA_GENERATOR.getPerson());
-        document.setDateRegistration(DATA_GENERATOR.getDateRegistration());
-        document.setRegistrationNumber(DATA_GENERATOR.getRegistrationNumber());
-        fillAdditionalFields(document);
-        return document;
-    }
+    private final DataGenerator dataGenerator = DataGenerator.getInstance();
 
     /**
      * Фабричный метод по созданию инстансов документов
@@ -44,8 +28,23 @@ public abstract class AbstractDocumentFactory<T extends Document> implements Fac
      */
     abstract void fillAdditionalFields(T document);
 
-    DataGenerator getDATA_GENERATOR() {
-        return DATA_GENERATOR;
+    /**
+     * Реализация фабричного метода
+     *
+     * @return возвращает новый инстанс документа с заполненными поля
+     */
+    public T create() {
+        T document = createInstance();
+        document.setName(dataGenerator.getName());
+        document.setText(dataGenerator.getText());
+        document.setAuthor(dataGenerator.getPerson());
+        document.setDateRegistration(dataGenerator.getDateRegistration());
+        document.setRegistrationNumber(dataGenerator.getRegistrationNumber());
+        fillAdditionalFields(document);
+        return document;
     }
 
+    DataGenerator getDataGenerator() {
+        return dataGenerator;
+    }
 }

@@ -8,7 +8,7 @@ import com.example.document_flow.factory.document.TaskDocumentFactory;
 import java.util.HashMap;
 
 /**
- * Представляет из себя репозиторий всех фабрик
+ * Представляет собой репозиторий всех фабрик
  *
  * @author Баратов Руслан
  */
@@ -16,7 +16,7 @@ public class RepositoryFactory {
 
     /**
      * Хранит список всех фабрик.
-     * Где ключ - это тип документа на которм специализуется фабрика.
+     * Где ключ - это тип документа на котором специализируется фабрика.
      * Значение - сама фабрика
      */
     private static final HashMap<Class, Factory> FACTORY_HOLDER = new HashMap<>();
@@ -32,7 +32,7 @@ public class RepositoryFactory {
     }
 
     /**
-     * Возвращает нужную фабрику в зависимоти от переданного типа документа.
+     * Возвращает нужную фабрику в зависимости от переданного типа документа.
      *
      * @param type Тип документа
      * @return инстанс фабрики

@@ -93,8 +93,8 @@ public class Department extends Staff {
         private Builder() {
         }
 
-        public Builder setId(int id) {
-            Builder.this.setId(id);
+        public Builder setId(long id) {
+            Department.this.setId(id);
             return this;
         }
 
@@ -110,6 +110,11 @@ public class Department extends Staff {
 
         public Builder setManager(Person manager) {
             Department.this.manager = manager;
+            return this;
+        }
+
+        public Builder setContactPhoneNumber(String contactPhoneNumber) {
+            Department.this.contactPhoneNumber = contactPhoneNumber;
             return this;
         }
 

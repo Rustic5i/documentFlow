@@ -4,12 +4,14 @@ import com.example.document_flow.exception.InvalidParametersException;
 
 /**
  * Класс занимается валидацией параметров
+ *
  * @author Баратов Руслан
  */
 public class ParametersValidation {
 
     /**
      * Проверяет, представляет ли строка целое число
+     *
      * @param args строка, содержащая представление int, подлежащее анализу
      * @return целочисленное значение, представленное аргументом в десятичной системе счисления
      * @throws InvalidParametersException если строка не является целым числом
@@ -20,7 +22,7 @@ public class ParametersValidation {
             try {
                 count = Integer.parseInt(args);
             } catch (NumberFormatException e) {
-               throw new InvalidParametersException("Exception: строка не является числом");
+                throw new InvalidParametersException("Exception: строка не является числом", e);
             }
             return count;
         }

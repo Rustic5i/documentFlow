@@ -21,7 +21,7 @@ import java.util.Random;
  */
 public class DataGenerator {
 
-    private final Random RANDOM = new Random();
+    private static final Random RANDOM = new Random();
 
     private static DataGenerator dataGenerator;
 
@@ -184,7 +184,7 @@ public class DataGenerator {
 
         for (int i = 0; i < 10; i++) {
             Person person = new Person().newBuilder()
-                    .setId(RANDOM.nextInt(10))
+                    .setId(RANDOM.nextInt(1000))
                     .setName(personName[RANDOM.nextInt(personName.length)])
                     .setSurname(personSurname[RANDOM.nextInt(personSurname.length)])
                     .setPatronymic(personPatronymic[RANDOM.nextInt(personPatronymic.length)])

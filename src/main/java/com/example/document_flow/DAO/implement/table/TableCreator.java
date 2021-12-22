@@ -1,6 +1,5 @@
-package com.example.document_flow.DAO.implement.table.implement;
+package com.example.document_flow.DAO.implement.table;
 
-import com.example.document_flow.DAO.abstraction.TableCreator;
 import com.example.document_flow.config.DataBase.implement.DataSourceManagerImpl;
 import com.example.document_flow.config.ReadFileSql;
 import com.example.document_flow.exception.CreateTableException;
@@ -19,23 +18,23 @@ import java.util.List;
  *
  * @author Баратов Руслан
  */
-public class StaffTableCreator implements TableCreator {
+public class TableCreator implements com.example.document_flow.DAO.abstraction.TableCreator {
 
-    private static StaffTableCreator staffDerbyTableCreator;
+    private static TableCreator staffDerbyTableCreator;
 
     private final DataSourceManagerImpl sessionDataBase = DataSourceManagerImpl.getInstance();
 
     private final ReadFileSql readFileSql = new ReadFileSql();
 
-    private StaffTableCreator() {
+    private TableCreator() {
     }
 
     /**
      * @return синголтон объект
      */
-    public static StaffTableCreator getInstance() {
+    public static TableCreator getInstance() {
         if (staffDerbyTableCreator == null) {
-            staffDerbyTableCreator = new StaffTableCreator();
+            staffDerbyTableCreator = new TableCreator();
         }
         return staffDerbyTableCreator;
     }

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
@@ -13,45 +12,96 @@
 <div id="main" class="container-fluid vh-100">
     <div class="row vh-100">
         <!-- -----------------------------------Столбец-->
-        <div id="column" class="col-3 h-100">Столбец
+        <div id="column" class="col-3 h-100">
             <!--------------------------------------Список работников-->
-            <div id="personList" style="height: 45%;">
+            <div id="person-list" style="height: 23%;" class="bg-light text-dark">
                 <p>
-                <h5>Список работников
-                    <button id="personCreate" type="button" class="btn btn-outline-primary">Создать</button>
-                </h5>
+                <h6>Список работников
+                    <button id="person-create" type="button" class="btn btn-primary btn-sm">Создать</button>
+                </h6>
                 </p>
-                <div style="height: 80%; overflow-x:scroll;overflow-y:scroll;">
-                    <div>
-                        <button type="button">Работник№1</button>
-                    </div>
+                <div class="person-list-scroll" style="height: 80%; overflow-x:scroll;overflow-y:scroll;">
+                    <ul id="person-ul" class="list-group">
+                        <!--                        <li id="person-li" class="list-group-item">-->
+                        <!--                            <button id="person-button" type="button" class="btn btn-secondary" style="width: 100%">Работник#1</button>-->
+                        <!--                        </li>-->
+                    </ul>
                 </div>
             </div>
-            <!-------------------------------------Список документов-->
-            <div id="documentList" style=" margin-top: 30px">
+            <!-------------------------------------Список Task-->
+            <div id="task-list" style="height: 23%">
                 <p>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#documentListButton">
-                        Кнопка список документов.
-                    </button>
+                <h6>Список поручений
+                    <button id="task-create" type="button" class="btn btn-primary btn-sm">Создать</button>
+                </h6>
                 </p>
-                <div class="collapse" id="documentListButton">
-                    <div class="card card-body">
-                        <button id="documentButton" type="button" class="btn btn-primary">Документ#1</button>
-                    </div>
+                <div class="task-list-scroll" style="height: 80%; overflow-x:scroll;overflow-y:scroll;">
+                    <ul id="task-ul" class="list-group">
+                        <!--                        <li id="person-li" class="list-group-item">-->
+                        <!--                            <button id="person-button" type="button" class="btn btn-secondary" style="width: 100%">Работник#1</button>-->
+                        <!--                        </li>-->
+                    </ul>
+                </div>
+            </div>
+            <!--------Список входящих-->
+            <div id="incoming-list" style="height: 22%">
+                <p>
+                <h6>Список входящих
+                    <button id="incoming-create" type="button" class="btn btn-primary btn-sm">Создать</button>
+                </h6>
+                </p>
+                <div class="incoming-list-scroll" style="height: 80%; overflow-x:scroll;overflow-y:scroll;">
+                    <ul id="incoming-ul" class="list-group">
+                        <!--                        <li id="person-li" class="list-group-item">-->
+                        <!--                            <button id="person-button" type="button" class="btn btn-secondary" style="width: 100%">Работник#1</button>-->
+                        <!--                        </li>-->
+                    </ul>
+                </div>
+            </div>
+            <!------Список исходящих-->
+            <div id="outgoing-list" style="height: 25%">
+                <p>
+                <h6>Список исходящих
+                    <button id="outgoing-create" type="button" class="btn btn-primary btn-sm">Создать</button>
+                </h6>
+                </p>
+                <div class="outgoing-list-scroll" style="height: 80%; overflow-x:scroll;overflow-y:scroll;">
+                    <ul id="outgoing-ul" class="list-group">
+                        <!--                        <li id="person-li" class="list-group-item">-->
+                        <!--                            <button id="person-button" type="button" class="btn btn-secondary" style="width: 100%">Работник#1</button>-->
+                        <!--                        </li>-->
+                    </ul>
                 </div>
             </div>
         </div>
         <!-------------------------------------Окно информации-->
-        <div id="windowsInformation" class="col-8 border">Информация</div>
+        <div id="windows-information" class="col-8 border">Информация
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+                            type="button">Работник\Документ
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="home" aria-labelledby="home-tab">Информация о
+                    работнике\документе
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
 <script
         src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
         crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+<script src="/static/person.js"></script>
 </body>
 </html>

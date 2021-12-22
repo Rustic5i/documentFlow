@@ -1,4 +1,4 @@
-package com.example.document_flow.DAO.implement;
+package com.example.document_flow.DAO.implement.dao.staff;
 
 import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.DataSourceManager;

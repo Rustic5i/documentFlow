@@ -1,7 +1,7 @@
 package com.example.document_flow.service.implement.staff.derby;
 
 import com.example.document_flow.DAO.abstraction.DAOCrud;
-import com.example.document_flow.DAO.implement.PersonDAO;
+import com.example.document_flow.DAO.implement.dao.staff.PersonDAO;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;

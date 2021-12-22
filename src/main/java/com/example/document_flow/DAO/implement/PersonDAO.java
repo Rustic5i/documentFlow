@@ -1,8 +1,8 @@
 package com.example.document_flow.DAO.implement;
 
 import com.example.document_flow.DAO.abstraction.DAOCrud;
-import com.example.document_flow.config.DataBase.abstraction.ManagerDataSource;
-import com.example.document_flow.config.DataBase.implement.ManagerDataSourceImpl;
+import com.example.document_flow.config.DataBase.abstraction.DataSourceManager;
+import com.example.document_flow.config.DataBase.implement.DataSourceManagerImpl;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
@@ -41,15 +41,15 @@ public class PersonDAO implements DAOCrud<Person> {
 
     private static PersonDAO derbyDataBase;
 
-    private final ManagerDataSource SESSION_MANAGER = ManagerDataSourceImpl.getInstance();
+    private final DataSourceManager sourceManager = DataSourceManagerImpl.getInstance();
 
-    private final PersonMapper PERSON_MAPPER = PersonMapperImpl.getInstance();
+    private final PersonMapper personMapper = PersonMapperImpl.getInstance();
 
     private PersonDAO() {
     }
 
     /**
-     * @return синголтон обьект
+     * @return синголтон объект
      */
     public static PersonDAO getInstance() {
         if (derbyDataBase == null) {
@@ -66,7 +66,7 @@ public class PersonDAO implements DAOCrud<Person> {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        try (PreparedStatement preparedStatement = SESSION_MANAGER.getDataSource().getConnection().prepareStatement(SQL_DELETE_PERSON_BY_ID)) {
+        try (PreparedStatement preparedStatement = sourceManager.getDataSource().getConnection().prepareStatement(SQL_DELETE_PERSON_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -82,7 +82,7 @@ public class PersonDAO implements DAOCrud<Person> {
      */
     @Override
     public void update(Person object) throws SaveObjectException {
-        try (PreparedStatement preparedStatement = SESSION_MANAGER.getDataSource().getConnection().prepareStatement(SQL_UPDATE_PERSON)) {
+        try (PreparedStatement preparedStatement = sourceManager.getDataSource().getConnection().prepareStatement(SQL_UPDATE_PERSON)) {
             preparedStatement.setString(1, object.getSurname());
             preparedStatement.setString(2, object.getName());
             preparedStatement.setString(3, object.getPatronymic());
@@ -104,9 +104,9 @@ public class PersonDAO implements DAOCrud<Person> {
     @Override
     public List<Person> getAll() throws GetDataObjectException {
         List<Person> personList = new ArrayList<>();
-        try (ResultSet rs = SESSION_MANAGER.getDataSource().getConnection().prepareStatement(SQL_GET_ALL_PERSON).executeQuery()) {
+        try (ResultSet rs = sourceManager.getDataSource().getConnection().prepareStatement(SQL_GET_ALL_PERSON).executeQuery()) {
             while (rs.next()) {
-                personList.add(PERSON_MAPPER.convertFrom(rs));
+                personList.add(personMapper.convertFrom(rs));
             }
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
@@ -123,7 +123,7 @@ public class PersonDAO implements DAOCrud<Person> {
      */
     @Override
     public void saveAll(List<Person> personList) throws SaveObjectException {
-        try (PreparedStatement preparedStatement = SESSION_MANAGER.getDataSource().getConnection().prepareStatement(SQL_SAVE_PERSON)) {
+        try (PreparedStatement preparedStatement = sourceManager.getDataSource().getConnection().prepareStatement(SQL_SAVE_PERSON)) {
             for (Person person : personList) {
                 preparedStatement.setString(1, person.getSurname());
                 preparedStatement.setString(2, person.getName());
@@ -160,11 +160,11 @@ public class PersonDAO implements DAOCrud<Person> {
     @Override
     public Optional<Person> findById(long id) throws GetDataObjectException {
         Person person = new Person();
-        try (PreparedStatement preparedStatement = SESSION_MANAGER.getDataSource().getConnection().prepareStatement(SQL_FIND_PERSON_BY_ID)) {
+        try (PreparedStatement preparedStatement = sourceManager.getDataSource().getConnection().prepareStatement(SQL_FIND_PERSON_BY_ID)) {
             preparedStatement.setLong(1, id);
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
-                    person = PERSON_MAPPER.convertFrom(rs);
+                    person = personMapper.convertFrom(rs);
                 }
             } catch (SQLException e) {
                 throw new GetDataObjectException("Ошибка при попытки получения данных ", e);

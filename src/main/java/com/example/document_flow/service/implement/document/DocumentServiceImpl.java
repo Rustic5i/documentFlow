@@ -18,7 +18,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     private static DocumentServiceImpl service;
 
-    private final DocumentRepositoryImpl REPOSITORY = DocumentRepositoryImpl.getInstance();
+    private final DocumentRepositoryImpl repository = DocumentRepositoryImpl.getInstance();
 
     private DocumentServiceImpl() {
     }
@@ -40,7 +40,7 @@ public class DocumentServiceImpl implements DocumentService {
      */
     @Override
     public void save(Document object) {
-        REPOSITORY.save(object);
+        repository.save(object);
     }
 
     /**
@@ -50,7 +50,7 @@ public class DocumentServiceImpl implements DocumentService {
      */
     @Override
     public void saveAll(List<Document> objects) {
-        REPOSITORY.saveAll(objects);
+        repository.saveAll(objects);
     }
 
     /**
@@ -60,7 +60,7 @@ public class DocumentServiceImpl implements DocumentService {
      */
     @Override
     public List<Document> getAll() {
-        return REPOSITORY.getAll();
+        return repository.getAll();
     }
 
     /**
@@ -71,7 +71,7 @@ public class DocumentServiceImpl implements DocumentService {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        REPOSITORY.deleteById(id);
+        repository.deleteById(id);
     }
 
     /**
@@ -82,7 +82,7 @@ public class DocumentServiceImpl implements DocumentService {
      */
     @Override
     public void update(Document object) throws SaveObjectException {
-        REPOSITORY.update(object);
+        repository.update(object);
     }
 
     /**
@@ -93,7 +93,7 @@ public class DocumentServiceImpl implements DocumentService {
      */
     @Override
     public Optional<Document> findById(long id) {
-        return REPOSITORY.findById(id);
+        return repository.findById(id);
     }
 
     /**
@@ -104,6 +104,6 @@ public class DocumentServiceImpl implements DocumentService {
      */
     @Override
     public List<Document> getDocumentByIdAuthor(long id) {
-        return REPOSITORY.getDocumentByIdAuthor(id);
+        return repository.getDocumentByIdAuthor(id);
     }
 }

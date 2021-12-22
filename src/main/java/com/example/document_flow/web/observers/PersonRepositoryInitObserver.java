@@ -19,11 +19,11 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class PersonRepositoryInitObserver implements ServletContextListener {
 
-    private final PersonRepository PERSON_REPOSITORY = PersonRepositoryXmlImpl.getInstance();
+    private final PersonRepository personRepository = PersonRepositoryXmlImpl.getInstance();
 
-    private final DataGenerator DATA_GENERATOR = DataGenerator.getInstance();
+    private final DataGenerator dataGenerator = DataGenerator.getInstance();
 
-    private final Logger LOGGER = LoggerFactory.getLogger(PersonRepositoryInitObserver.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(PersonRepositoryInitObserver.class.getName());
 
     /**
      * Заполняет <code>PersonRepository</code> данными при запуске приложения
@@ -33,9 +33,9 @@ public class PersonRepositoryInitObserver implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         try {
-            PERSON_REPOSITORY.saveAll(DATA_GENERATOR.PERSON_LIST.stream().limit(100).toList());
+            personRepository.saveAll(dataGenerator.PERSON_LIST.stream().limit(100).toList());
         } catch (SaveObjectException e) {
-            LOGGER.warn("",e);
+            logger.warn("",e);
         }
     }
 

@@ -1,6 +1,6 @@
 package com.example.document_flow.config.DataBase.implement;
 
-import com.example.document_flow.config.DataBase.abstraction.ManagerDataSource;
+import com.example.document_flow.config.DataBase.abstraction.DataSourceManager;
 import com.example.document_flow.config.ReadFileProperties;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
@@ -12,26 +12,26 @@ import javax.sql.DataSource;
  *
  * @author Баратов Руслан
  */
-public class ManagerDataSourceImpl implements ManagerDataSource {
+public class DataSourceManagerImpl implements DataSourceManager {
 
     private static final String PROPERTIES_KEY_URL = "derby.datasource.url";
 
     private static final String PROPERTIES_KEY_DRIVER = "db.driver";
 
-    private static ManagerDataSourceImpl sessionManager;
+    private static DataSourceManagerImpl sessionManager;
 
-    private final HikariConfig CONFIG = new HikariConfig();
+    private final HikariConfig config = new HikariConfig();
 
-    private final ReadFileProperties PROPERTIES = new ReadFileProperties();
+    private final ReadFileProperties properties = new ReadFileProperties();
 
-    private DataSource DATA_SOURCE;
+    private DataSource dataSource;
 
     {
-        CONFIG.setJdbcUrl(PROPERTIES.getProperty(PROPERTIES_KEY_URL));
-        CONFIG.setDriverClassName(PROPERTIES.getProperty(PROPERTIES_KEY_DRIVER));
+        config.setJdbcUrl(properties.getProperty(PROPERTIES_KEY_URL));
+        config.setDriverClassName(properties.getProperty(PROPERTIES_KEY_DRIVER));
     }
 
-    private ManagerDataSourceImpl() {
+    private DataSourceManagerImpl() {
     }
 
     /**
@@ -40,18 +40,18 @@ public class ManagerDataSourceImpl implements ManagerDataSource {
      * @return инициализируемый объект реализующий интерфейс {@link DataSource}
      */
     private DataSource initDataSource() {
-        if (DATA_SOURCE == null) {
-            DATA_SOURCE = new HikariDataSource(CONFIG);
+        if (dataSource == null) {
+            dataSource = new HikariDataSource(config);
         }
-        return DATA_SOURCE;
+        return dataSource;
     }
 
     /**
      * @return синголтон обьект
      */
-    public static synchronized ManagerDataSourceImpl getInstance() {
+    public static synchronized DataSourceManagerImpl getInstance() {
         if (sessionManager == null) {
-            sessionManager = new ManagerDataSourceImpl();
+            sessionManager = new DataSourceManagerImpl();
         }
         return sessionManager;
     }

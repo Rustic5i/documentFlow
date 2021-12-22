@@ -21,7 +21,7 @@ import java.util.List;
 @Path("/employees")
 public class PersonController {
 
-    private final PersonService PERSON_SERVICE = PersonServiceXmlImpl.getInstance();
+    private final PersonService personService = PersonServiceXmlImpl.getInstance();
 
     /**
      * Принимает GET HTTP-запрос.
@@ -32,6 +32,6 @@ public class PersonController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Person> getAllPerson() throws GetDataObjectException {
-        return PERSON_SERVICE.getAll();
+        return personService.getAll();
     }
 }

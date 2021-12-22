@@ -12,7 +12,7 @@ import com.example.document_flow.factory.generator.DataGenerator;
  */
 public abstract class AbstractDocumentFactory<T extends Document> implements Factory<Document> {
 
-    private final DataGenerator DATA_GENERATOR = DataGenerator.getInstance();
+    private final DataGenerator dataGenerator = DataGenerator.getInstance();
 
     /**
      * Фабричный метод по созданию инстансов документов
@@ -35,16 +35,16 @@ public abstract class AbstractDocumentFactory<T extends Document> implements Fac
      */
     public T create() {
         T document = createInstance();
-        document.setName(DATA_GENERATOR.getName());
-        document.setText(DATA_GENERATOR.getText());
-        document.setAuthor(DATA_GENERATOR.getPerson());
-        document.setDateRegistration(DATA_GENERATOR.getDateRegistration());
-        document.setRegistrationNumber(DATA_GENERATOR.getRegistrationNumber());
+        document.setName(dataGenerator.getName());
+        document.setText(dataGenerator.getText());
+        document.setAuthor(dataGenerator.getPerson());
+        document.setDateRegistration(dataGenerator.getDateRegistration());
+        document.setRegistrationNumber(dataGenerator.getRegistrationNumber());
         fillAdditionalFields(document);
         return document;
     }
 
-    DataGenerator getDATA_GENERATOR() {
-        return DATA_GENERATOR;
+    DataGenerator getDataGenerator() {
+        return dataGenerator;
     }
 }

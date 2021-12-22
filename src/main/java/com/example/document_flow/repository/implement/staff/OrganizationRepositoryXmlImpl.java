@@ -18,10 +18,10 @@ public class OrganizationRepositoryXmlImpl implements OrganizationRepository {
 
     private static OrganizationRepositoryXmlImpl organizationRepository;
 
-    private final StaffRepositoryXml<Organization> REPOSITORY = new StaffRepositoryXml<>(Organization.class);
+    private final StaffRepositoryXml<Organization> repositoryXml = new StaffRepositoryXml<>(Organization.class);
 
     {
-        REPOSITORY.createRepository(new File(".\\OrganizationXml\\"));
+        repositoryXml.createRepository(new File(".\\OrganizationXml\\"));
     }
 
     private OrganizationRepositoryXmlImpl() {
@@ -45,7 +45,7 @@ public class OrganizationRepositoryXmlImpl implements OrganizationRepository {
      */
     @Override
     public void save(Organization object) throws SaveObjectException {
-        REPOSITORY.save(object);
+        repositoryXml.save(object);
     }
 
     /**
@@ -56,7 +56,7 @@ public class OrganizationRepositoryXmlImpl implements OrganizationRepository {
      */
     @Override
     public void saveAll(List<Organization> objects) throws SaveObjectException {
-        REPOSITORY.saveAll(objects);
+        repositoryXml.saveAll(objects);
     }
 
     /**
@@ -66,7 +66,7 @@ public class OrganizationRepositoryXmlImpl implements OrganizationRepository {
      */
     @Override
     public List<Organization> getAll() {
-        return REPOSITORY.getAll();
+        return repositoryXml.getAll();
     }
 
     /**
@@ -77,7 +77,7 @@ public class OrganizationRepositoryXmlImpl implements OrganizationRepository {
      */
     @Override
     public Optional<Organization> findById(long id) {
-        return REPOSITORY.findById(id);
+        return repositoryXml.findById(id);
     }
 
     /**
@@ -88,7 +88,7 @@ public class OrganizationRepositoryXmlImpl implements OrganizationRepository {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        REPOSITORY.deleteById(id);
+        repositoryXml.deleteById(id);
     }
 
     /**
@@ -99,6 +99,6 @@ public class OrganizationRepositoryXmlImpl implements OrganizationRepository {
      */
     @Override
     public void update(Organization object) throws SaveObjectException {
-        REPOSITORY.update(object);
+        repositoryXml.update(object);
     }
 }

@@ -28,11 +28,11 @@ import java.util.stream.Collectors;
 public class ReadFileSql {
 
     /**
-     * Регулярное вырождение проверяет что б имя файла начиналось с буквы "V" и после нее было какой-либо число;
+     * Регулярное вырождение проверяет что б имя файла начиналось с буквы "V" и после нее было какое-либо число;
      */
     private static final Pattern PATTERN = Pattern.compile("^\\V[0-9]*?([0-9]*[.])?[0-9]+");
 
-    private final String FILE_NAME = Objects.requireNonNull(Objects.requireNonNull(this.getClass().getClassLoader().getResource("table/")).getFile(),
+    private final String fileName = Objects.requireNonNull(Objects.requireNonNull(this.getClass().getClassLoader().getResource("table/")).getFile(),
             MessageFormat.format("Папка ресурсов {0} не найдено", 1));
 
     /**
@@ -75,7 +75,7 @@ public class ReadFileSql {
      * Пример V3_person.sql где 3-версия файла
      */
     private Collection<File> getListFiles() {
-        File directory = new File(FILE_NAME);
+        File directory = new File(fileName);
         return Arrays.stream(Objects.requireNonNull(directory.listFiles(getFilenameFilter())))
                 .sorted(this::compare).collect(Collectors.toCollection(TreeSet::new));
     }

@@ -20,7 +20,7 @@ public class PersonServiceDerby implements PersonService {
 
     private static PersonServiceDerby personServiceDerby;
 
-    private final DAOCrud<Person> DAO = PersonDAO.getInstance();
+    private final DAOCrud<Person> dao = PersonDAO.getInstance();
 
     private PersonServiceDerby() {
     }
@@ -43,7 +43,7 @@ public class PersonServiceDerby implements PersonService {
      */
     @Override
     public void save(Person object) throws SaveObjectException {
-        DAO.save(object);
+        dao.save(object);
     }
 
     /**
@@ -54,7 +54,7 @@ public class PersonServiceDerby implements PersonService {
      */
     @Override
     public void saveAll(List<Person> objects) throws SaveObjectException {
-        DAO.saveAll(objects);
+        dao.saveAll(objects);
     }
 
     /**
@@ -65,7 +65,7 @@ public class PersonServiceDerby implements PersonService {
      */
     @Override
     public List<Person> getAll() throws GetDataObjectException {
-        return DAO.getAll();
+        return dao.getAll();
     }
 
     /**
@@ -77,7 +77,7 @@ public class PersonServiceDerby implements PersonService {
      */
     @Override
     public Optional<Person> findById(long id) throws GetDataObjectException {
-        return DAO.findById(id);
+        return dao.findById(id);
     }
 
     /**
@@ -88,7 +88,7 @@ public class PersonServiceDerby implements PersonService {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        DAO.deleteById(id);
+        dao.deleteById(id);
     }
 
     /**
@@ -99,6 +99,6 @@ public class PersonServiceDerby implements PersonService {
      */
     @Override
     public void update(Person object) throws SaveObjectException {
-        DAO.update(object);
+        dao.update(object);
     }
 }

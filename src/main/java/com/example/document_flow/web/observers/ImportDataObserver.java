@@ -25,19 +25,19 @@ import javax.servlet.ServletContextListener;
  */
 public class ImportDataObserver implements ServletContextListener {
 
-    private DepartmentService departmentServiceDerby = DepartmentServiceDerby.getInstance();
+    private final DepartmentService departmentServiceDerby = DepartmentServiceDerby.getInstance();
 
-    private OrganizationService organizationServiceDerby = OrganizationServiceDerby.getInstance();
+    private final OrganizationService organizationServiceDerby = OrganizationServiceDerby.getInstance();
 
-    private PersonService personServiceDerby = PersonServiceDerby.getInstance();
+    private final PersonService personServiceDerby = PersonServiceDerby.getInstance();
 
-    private DepartmentService departmentServiceXml = DepartmentServiceXmlImpl.getInstance();
+    private final DepartmentService departmentServiceXml = DepartmentServiceXmlImpl.getInstance();
 
-    private OrganizationService organizationServiceXml = OrganizationServiceXmlImpl.getInstance();
+    private final OrganizationService organizationServiceXml = OrganizationServiceXmlImpl.getInstance();
 
-    private PersonService personServiceXml = PersonServiceXmlImpl.getInstance();
+    private final PersonService personServiceXml = PersonServiceXmlImpl.getInstance();
 
-    private final Logger LOGGER = LoggerFactory.getLogger(ImportDataObserver.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(ImportDataObserver.class.getName());
 
     /**
      * Импортирует данные из репозитория Xml в базу данных Derby
@@ -51,7 +51,7 @@ public class ImportDataObserver implements ServletContextListener {
             DataImportingService.importAll(departmentServiceXml, departmentServiceDerby);
             DataImportingService.importAll(organizationServiceXml, organizationServiceDerby);
         } catch (SaveObjectException | GetDataObjectException e) {
-            LOGGER.error("Ошибка при попытки импортирования данных", e);
+            logger.error("Ошибка при попытки импортирования данных", e);
         }
     }
 

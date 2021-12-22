@@ -18,10 +18,10 @@ public class PersonRepositoryXmlImpl implements PersonRepository {
 
     private static PersonRepositoryXmlImpl personRepository;
 
-    private final StaffRepositoryXml<Person> REPOSITORY = new StaffRepositoryXml<>(Person.class);
+    private final StaffRepositoryXml<Person> repositoryXml = new StaffRepositoryXml<>(Person.class);
 
     {
-        REPOSITORY.createRepository(new File(".\\PersonXml\\"));
+        repositoryXml.createRepository(new File(".\\PersonXml\\"));
     }
 
     private PersonRepositoryXmlImpl() {
@@ -45,7 +45,7 @@ public class PersonRepositoryXmlImpl implements PersonRepository {
      */
     @Override
     public void save(Person object) throws SaveObjectException {
-        REPOSITORY.save(object);
+        repositoryXml.save(object);
     }
 
     /**
@@ -56,7 +56,7 @@ public class PersonRepositoryXmlImpl implements PersonRepository {
      */
     @Override
     public void saveAll(List<Person> objects) throws SaveObjectException {
-        REPOSITORY.saveAll(objects);
+        repositoryXml.saveAll(objects);
     }
 
     /**
@@ -66,7 +66,7 @@ public class PersonRepositoryXmlImpl implements PersonRepository {
      */
     @Override
     public List<Person> getAll() {
-        return REPOSITORY.getAll();
+        return repositoryXml.getAll();
     }
 
     /**
@@ -77,7 +77,7 @@ public class PersonRepositoryXmlImpl implements PersonRepository {
      */
     @Override
     public Optional<Person> findById(long id) {
-        return REPOSITORY.findById(id);
+        return repositoryXml.findById(id);
     }
 
 
@@ -89,7 +89,7 @@ public class PersonRepositoryXmlImpl implements PersonRepository {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        REPOSITORY.deleteById(id);
+        repositoryXml.deleteById(id);
     }
 
     /**
@@ -100,6 +100,6 @@ public class PersonRepositoryXmlImpl implements PersonRepository {
      */
     @Override
     public void update(Person object) throws SaveObjectException {
-        REPOSITORY.update(object);
+        repositoryXml.update(object);
     }
 }

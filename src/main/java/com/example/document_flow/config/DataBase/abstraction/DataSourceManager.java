@@ -7,7 +7,7 @@ import javax.sql.DataSource;
  *
  * @author Баратов Руслан
  */
-public interface ManagerDataSource {
+public interface DataSourceManager {
 
     /**
      * @return Объект, реализующий интерфейс источника данных. Объект источника данных,

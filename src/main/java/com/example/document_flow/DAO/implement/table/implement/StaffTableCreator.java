@@ -1,7 +1,7 @@
 package com.example.document_flow.DAO.implement.table.implement;
 
 import com.example.document_flow.DAO.abstraction.TableCreator;
-import com.example.document_flow.config.DataBase.implement.ManagerDataSourceImpl;
+import com.example.document_flow.config.DataBase.implement.DataSourceManagerImpl;
 import com.example.document_flow.config.ReadFileSql;
 import com.example.document_flow.exception.CreateTableException;
 
@@ -23,9 +23,9 @@ public class StaffTableCreator implements TableCreator {
 
     private static StaffTableCreator staffDerbyTableCreator;
 
-    private final ManagerDataSourceImpl SESSION_DERBY_DATA_BASE = ManagerDataSourceImpl.getInstance();
+    private final DataSourceManagerImpl sessionDataBase = DataSourceManagerImpl.getInstance();
 
-    private final ReadFileSql READ_FILE_SQL = new ReadFileSql();
+    private final ReadFileSql readFileSql = new ReadFileSql();
 
     private StaffTableCreator() {
     }
@@ -47,7 +47,7 @@ public class StaffTableCreator implements TableCreator {
      */
     @Override
     public void createTablesDB() throws CreateTableException {
-        try (Statement statement = SESSION_DERBY_DATA_BASE.getDataSource().getConnection().createStatement()) {
+        try (Statement statement = sessionDataBase.getDataSource().getConnection().createStatement()) {
             try {
                 for (String sqlScript : getArraySqlScripts()) {
                     String nameTable = sqlScript.split("\s+|\\(")[2];
@@ -68,7 +68,7 @@ public class StaffTableCreator implements TableCreator {
      * @throws IOException При возникновении ошибки ввода-вывода
      */
     private List<String> getArraySqlScripts() throws IOException {
-        return READ_FILE_SQL.read();
+        return readFileSql.read();
     }
 
     /**

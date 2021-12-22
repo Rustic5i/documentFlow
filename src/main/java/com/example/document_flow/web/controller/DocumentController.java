@@ -21,7 +21,7 @@ import java.util.List;
 @Path("/employees")
 public class DocumentController {
 
-    private final DocumentService DOCUMENT_SERVICE = DocumentServiceImpl.getInstance();
+    private final DocumentService documentService = DocumentServiceImpl.getInstance();
 
     /**
      * Принимает GET HTTP-запрос.
@@ -34,6 +34,6 @@ public class DocumentController {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_XML)
     public List<Document> getAllDocumentByAuthor(@PathParam("id") long id) {
-        return DOCUMENT_SERVICE.getDocumentByIdAuthor(id);
+        return documentService.getDocumentByIdAuthor(id);
     }
 }

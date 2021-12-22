@@ -20,7 +20,7 @@ public class OrganizationServiceDerby implements OrganizationService {
 
     private static OrganizationServiceDerby organizationService;
 
-    private final DAOCrud<Organization> DAO = OrganizationDAO.getInstance();
+    private final DAOCrud<Organization> dao = OrganizationDAO.getInstance();
 
     public OrganizationServiceDerby() {
     }
@@ -43,7 +43,7 @@ public class OrganizationServiceDerby implements OrganizationService {
      */
     @Override
     public void save(Organization object) throws SaveObjectException {
-        DAO.save(object);
+        dao.save(object);
     }
 
     /**
@@ -54,7 +54,7 @@ public class OrganizationServiceDerby implements OrganizationService {
      */
     @Override
     public void saveAll(List<Organization> objects) throws SaveObjectException {
-        DAO.saveAll(objects);
+        dao.saveAll(objects);
     }
 
     /**
@@ -65,7 +65,7 @@ public class OrganizationServiceDerby implements OrganizationService {
      */
     @Override
     public List<Organization> getAll() throws GetDataObjectException {
-        return DAO.getAll();
+        return dao.getAll();
     }
 
     /**
@@ -77,7 +77,7 @@ public class OrganizationServiceDerby implements OrganizationService {
      */
     @Override
     public Optional<Organization> findById(long id) throws GetDataObjectException {
-        return DAO.findById(id);
+        return dao.findById(id);
     }
 
     /**
@@ -88,7 +88,7 @@ public class OrganizationServiceDerby implements OrganizationService {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        DAO.deleteById(id);
+        dao.deleteById(id);
     }
 
     /**
@@ -99,6 +99,6 @@ public class OrganizationServiceDerby implements OrganizationService {
      */
     @Override
     public void update(Organization object) throws SaveObjectException {
-        DAO.update(object);
+        dao.update(object);
     }
 }

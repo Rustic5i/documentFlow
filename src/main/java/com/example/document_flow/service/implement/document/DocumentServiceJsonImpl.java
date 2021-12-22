@@ -5,7 +5,6 @@ import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.repository.absraction.Repository;
 import com.example.document_flow.repository.implement.document.DocumentRepositoryJsonImpl;
-import com.example.document_flow.service.abstraction.Service;
 import com.example.document_flow.service.abstraction.document.DocumentServiceJson;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public class DocumentServiceJsonImpl implements DocumentServiceJson {
 
     private static DocumentServiceJsonImpl documentService;
 
-    private final Repository<Document> REPOSITORY = DocumentRepositoryJsonImpl.getInstance();
+    private final Repository<Document> repository = DocumentRepositoryJsonImpl.getInstance();
 
     private DocumentServiceJsonImpl() {
     }
@@ -42,7 +41,7 @@ public class DocumentServiceJsonImpl implements DocumentServiceJson {
      */
     @Override
     public void save(Document object) throws SaveObjectException {
-        REPOSITORY.save(object);
+        repository.save(object);
     }
 
     /**
@@ -52,7 +51,7 @@ public class DocumentServiceJsonImpl implements DocumentServiceJson {
      */
     @Override
     public void saveAll(List<Document> objects) throws SaveObjectException {
-        REPOSITORY.saveAll(objects);
+        repository.saveAll(objects);
     }
 
     /**
@@ -62,7 +61,7 @@ public class DocumentServiceJsonImpl implements DocumentServiceJson {
      */
     @Override
     public List<Document> getAll() {
-        return REPOSITORY.getAll();
+        return repository.getAll();
     }
 
     /**
@@ -73,7 +72,7 @@ public class DocumentServiceJsonImpl implements DocumentServiceJson {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        REPOSITORY.deleteById(id);
+        repository.deleteById(id);
     }
 
     /**
@@ -84,7 +83,7 @@ public class DocumentServiceJsonImpl implements DocumentServiceJson {
      */
     @Override
     public void update(Document object) throws SaveObjectException {
-        REPOSITORY.update(object);
+        repository.update(object);
     }
 
     /**
@@ -95,6 +94,6 @@ public class DocumentServiceJsonImpl implements DocumentServiceJson {
      */
     @Override
     public Optional<Document> findById(long id) {
-        return REPOSITORY.findById(id);
+        return repository.findById(id);
     }
 }

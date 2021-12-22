@@ -28,15 +28,15 @@ import java.util.stream.Collectors;
  */
 public class DocumentRepositoryJsonImpl implements DocumentRepositoryJSON {
 
+    private static final String NAME_REPOSITORY = ".\\repositoryJson\\";
+
     private static DocumentRepositoryJsonImpl implDocumentRepositoryJson;
 
-    private final Deserialization DESERIALIZATION = DeserializationJSON.getInstance();
+    private final Deserialization deserialization = DeserializationJSON.getInstance();
 
-    private final Serializable SERIALIZABLE = SerializableJSON.getInstance();
+    private final Serializable serializable = SerializableJSON.getInstance();
 
-    private final InMemory<List<Document>> IN_MEMORY = new InMemory<>();
-
-    private final String NAME_REPOSITORY = ".\\repositoryJson\\";
+    private final InMemory<List<Document>> inMemory = new InMemory<>();
 
     private final Map<Document, File> fileMap = new HashMap<>();
 
@@ -67,9 +67,9 @@ public class DocumentRepositoryJsonImpl implements DocumentRepositoryJSON {
     public void save(Document object) throws SaveObjectException {
         String filePath = NAME_REPOSITORY + object.getAuthor().toString() + ".json";
         File file = new File(filePath);
-        SERIALIZABLE.save(file, object);
+        serializable.save(file, object);
         fileMap.put(object, file);
-        IN_MEMORY.save(filePath, Arrays.asList(object));
+        inMemory.save(filePath, Arrays.asList(object));
     }
 
     /**
@@ -84,8 +84,8 @@ public class DocumentRepositoryJsonImpl implements DocumentRepositoryJSON {
         StringBuilder filePath = new StringBuilder();
         for (Map.Entry<Person, List<Document>> value : documentByAuthor.entrySet()) {
             filePath.append(NAME_REPOSITORY + value.getKey()).append(".json");
-            SERIALIZABLE.save(new File(filePath.toString()), value.getValue());
-            IN_MEMORY.save(filePath.toString(), value.getValue());
+            serializable.save(new File(filePath.toString()), value.getValue());
+            inMemory.save(filePath.toString(), value.getValue());
             filePath.delete(0, filePath.length());
         }
     }
@@ -100,7 +100,7 @@ public class DocumentRepositoryJsonImpl implements DocumentRepositoryJSON {
         File file = new File(NAME_REPOSITORY);
         Set<File> fileSet = Arrays.stream(file.listFiles()).collect(Collectors.toSet());
         List<Document> list = new ArrayList<>();
-        fileSet.forEach(str -> list.addAll(DESERIALIZATION.get(str, list.getClass())));
+        fileSet.forEach(str -> list.addAll(deserialization.get(str, list.getClass())));
         return list;
     }
 

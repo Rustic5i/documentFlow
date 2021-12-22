@@ -21,7 +21,7 @@ import java.util.Random;
  */
 public class DataGenerator {
 
-    private final Random RANDOM = new Random();
+    private static final Random RANDOM = new Random();
 
     private static DataGenerator dataGenerator;
 

@@ -1,8 +1,8 @@
 package com.example.document_flow.DAO.implement;
 
 import com.example.document_flow.DAO.abstraction.DAOCrud;
-import com.example.document_flow.config.DataBase.abstraction.ManagerDataSource;
-import com.example.document_flow.config.DataBase.implement.ManagerDataSourceImpl;
+import com.example.document_flow.config.DataBase.abstraction.DataSourceManager;
+import com.example.document_flow.config.DataBase.implement.DataSourceManagerImpl;
 import com.example.document_flow.entity.staff.Organization;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
@@ -42,9 +42,9 @@ public class OrganizationDAO implements DAOCrud<Organization> {
 
     private static OrganizationDAO derbyDataBase;
 
-    private final ManagerDataSource SESSION_MANAGER = ManagerDataSourceImpl.getInstance();
+    private final DataSourceManager sessionManager = DataSourceManagerImpl.getInstance();
 
-    private final OrganizationMapper ORGANIZATION_MAPPER = OrganizationMapperImpl.getInstance();
+    private final OrganizationMapper organizationMapper = OrganizationMapperImpl.getInstance();
 
     private OrganizationDAO() {
     }
@@ -67,7 +67,7 @@ public class OrganizationDAO implements DAOCrud<Organization> {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        try (PreparedStatement preparedStatement = SESSION_MANAGER.getDataSource().getConnection().prepareStatement(SQL_DELETE_ORGANIZATION_BY_ID)) {
+        try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_DELETE_ORGANIZATION_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -83,7 +83,7 @@ public class OrganizationDAO implements DAOCrud<Organization> {
      */
     @Override
     public void update(Organization object) throws SaveObjectException {
-        try (PreparedStatement preparedStatement = SESSION_MANAGER.getDataSource().getConnection().prepareStatement(SQL_UPDATE_ORGANIZATION)) {
+        try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_UPDATE_ORGANIZATION)) {
             preparedStatement.setString(1, object.getFullName());
             preparedStatement.setString(2, object.getShortName());
             preparedStatement.setLong(3, object.getManager().getId());
@@ -103,9 +103,9 @@ public class OrganizationDAO implements DAOCrud<Organization> {
     @Override
     public List<Organization> getAll() throws GetDataObjectException {
         List<Organization> organizationList = new ArrayList<>();
-        try (ResultSet rs = SESSION_MANAGER.getDataSource().getConnection().prepareStatement(SQL_GET_ALL_ORGANIZATION).executeQuery()) {
+        try (ResultSet rs = sessionManager.getDataSource().getConnection().prepareStatement(SQL_GET_ALL_ORGANIZATION).executeQuery()) {
             while (rs.next()) {
-                organizationList.add(ORGANIZATION_MAPPER.convertFrom(rs));
+                organizationList.add(organizationMapper.convertFrom(rs));
             }
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
@@ -121,7 +121,7 @@ public class OrganizationDAO implements DAOCrud<Organization> {
      */
     @Override
     public void saveAll(List<Organization> organizationList) throws SaveObjectException {
-        try (Connection connection = SESSION_MANAGER.getDataSource().getConnection()) {
+        try (Connection connection = sessionManager.getDataSource().getConnection()) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_ALL)) {
                 for (Organization organization : organizationList) {
                     preparedStatement.setString(1, organization.getFullName());
@@ -161,11 +161,11 @@ public class OrganizationDAO implements DAOCrud<Organization> {
     @Override
     public Optional<Organization> findById(long id) throws GetDataObjectException {
         Organization organization = new Organization();
-        try (PreparedStatement preparedStatement = SESSION_MANAGER.getDataSource().getConnection().prepareStatement(SQL_FIND_ORGANIZATION_BY_ID)) {
+        try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_FIND_ORGANIZATION_BY_ID)) {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                organization = ORGANIZATION_MAPPER.convertFrom(rs);
+                organization = organizationMapper.convertFrom(rs);
             }
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);

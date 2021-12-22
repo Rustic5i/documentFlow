@@ -19,7 +19,7 @@ public class OrganizationServiceXmlImpl implements OrganizationService {
 
     private static OrganizationServiceXmlImpl organizationService;
 
-    private final OrganizationRepository REPOSITORY = OrganizationRepositoryXmlImpl.getInstance();
+    private final OrganizationRepository repository = OrganizationRepositoryXmlImpl.getInstance();
 
     private OrganizationServiceXmlImpl() {
     }
@@ -41,7 +41,7 @@ public class OrganizationServiceXmlImpl implements OrganizationService {
      */
     @Override
     public void save(Organization object) throws SaveObjectException {
-        REPOSITORY.save(object);
+        repository.save(object);
     }
 
     /**
@@ -51,7 +51,7 @@ public class OrganizationServiceXmlImpl implements OrganizationService {
      */
     @Override
     public void saveAll(List<Organization> objects) throws SaveObjectException {
-        REPOSITORY.saveAll(objects);
+        repository.saveAll(objects);
     }
 
     /**
@@ -61,7 +61,7 @@ public class OrganizationServiceXmlImpl implements OrganizationService {
      */
     @Override
     public List<Organization> getAll() {
-        return REPOSITORY.getAll();
+        return repository.getAll();
     }
 
     /**
@@ -72,7 +72,7 @@ public class OrganizationServiceXmlImpl implements OrganizationService {
      */
     @Override
     public Optional<Organization> findById(long id) {
-        return REPOSITORY.findById(id);
+        return repository.findById(id);
     }
 
     /**
@@ -83,7 +83,7 @@ public class OrganizationServiceXmlImpl implements OrganizationService {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        REPOSITORY.deleteById(id);
+        repository.deleteById(id);
     }
 
     /**
@@ -94,7 +94,7 @@ public class OrganizationServiceXmlImpl implements OrganizationService {
      */
     @Override
     public void update(Organization object) throws SaveObjectException {
-        REPOSITORY.update(object);
+        repository.update(object);
     }
 
 }

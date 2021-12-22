@@ -20,7 +20,7 @@ public class DepartmentServiceDerby implements DepartmentService {
 
     private static DepartmentServiceDerby departmentServiceDerby;
 
-    private final DAOCrud<Department> DAO = DepartmentDAO.getInstance();
+    private final DAOCrud<Department> dao = DepartmentDAO.getInstance();
 
     private DepartmentServiceDerby() {
     }
@@ -43,7 +43,7 @@ public class DepartmentServiceDerby implements DepartmentService {
      */
     @Override
     public void save(Department object) throws SaveObjectException {
-        DAO.save(object);
+        dao.save(object);
     }
 
     /**
@@ -54,7 +54,7 @@ public class DepartmentServiceDerby implements DepartmentService {
      */
     @Override
     public void saveAll(List<Department> objects) throws SaveObjectException {
-        DAO.saveAll(objects);
+        dao.saveAll(objects);
     }
 
     /**
@@ -65,7 +65,7 @@ public class DepartmentServiceDerby implements DepartmentService {
      */
     @Override
     public List<Department> getAll() throws GetDataObjectException {
-        return DAO.getAll();
+        return dao.getAll();
     }
 
     /**
@@ -77,7 +77,7 @@ public class DepartmentServiceDerby implements DepartmentService {
      */
     @Override
     public Optional<Department> findById(long id) throws GetDataObjectException {
-        return DAO.findById(id);
+        return dao.findById(id);
     }
 
     /**
@@ -88,7 +88,7 @@ public class DepartmentServiceDerby implements DepartmentService {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        DAO.deleteById(id);
+        dao.deleteById(id);
     }
 
     /**
@@ -99,6 +99,6 @@ public class DepartmentServiceDerby implements DepartmentService {
      */
     @Override
     public void update(Department object) throws SaveObjectException {
-        DAO.update(object);
+        dao.update(object);
     }
 }

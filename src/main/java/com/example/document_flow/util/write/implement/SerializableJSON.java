@@ -23,7 +23,7 @@ public class SerializableJSON implements Serializable {
 
     private static SerializableJSON serializableJSON;
 
-    private final Gson GSON = new GsonBuilder().create();
+    private final Gson gson = new GsonBuilder().create();
 
     private SerializableJSON() {
     }
@@ -49,7 +49,7 @@ public class SerializableJSON implements Serializable {
     @Override
     public Path save(File filePath, Object object) throws SaveObjectException {
         try (Writer writer = new FileWriter(filePath)) {
-            GSON.toJson(object, writer);
+            gson.toJson(object, writer);
         } catch (IOException e) {
             throw new SaveObjectException("Файл Json не существует, или не может быть создан ", e);
         }

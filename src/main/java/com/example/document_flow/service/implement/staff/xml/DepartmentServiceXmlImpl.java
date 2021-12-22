@@ -19,7 +19,7 @@ public class DepartmentServiceXmlImpl implements DepartmentService {
 
     private static DepartmentServiceXmlImpl departmentService;
 
-    private final DepartmentRepository REPOSITORY = DepartmentRepositoryXmlImpl.getInstance();
+    private final DepartmentRepository repository = DepartmentRepositoryXmlImpl.getInstance();
 
     private DepartmentServiceXmlImpl() {
     }
@@ -41,7 +41,7 @@ public class DepartmentServiceXmlImpl implements DepartmentService {
      */
     @Override
     public void save(Department object) throws SaveObjectException {
-        REPOSITORY.save(object);
+        repository.save(object);
     }
 
     /**
@@ -51,7 +51,7 @@ public class DepartmentServiceXmlImpl implements DepartmentService {
      */
     @Override
     public void saveAll(List<Department> objects) throws SaveObjectException {
-        REPOSITORY.saveAll(objects);
+        repository.saveAll(objects);
     }
 
     /**
@@ -61,7 +61,7 @@ public class DepartmentServiceXmlImpl implements DepartmentService {
      */
     @Override
     public List<Department> getAll() {
-        return REPOSITORY.getAll();
+        return repository.getAll();
     }
 
     /**
@@ -72,7 +72,7 @@ public class DepartmentServiceXmlImpl implements DepartmentService {
      */
     @Override
     public Optional<Department> findById(long id) {
-        return REPOSITORY.findById(id);
+        return repository.findById(id);
     }
 
     /**
@@ -83,7 +83,7 @@ public class DepartmentServiceXmlImpl implements DepartmentService {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        REPOSITORY.deleteById(id);
+        repository.deleteById(id);
     }
 
     /**
@@ -94,6 +94,6 @@ public class DepartmentServiceXmlImpl implements DepartmentService {
      */
     @Override
     public void update(Department object) throws SaveObjectException {
-        REPOSITORY.update(object);
+        repository.update(object);
     }
 }

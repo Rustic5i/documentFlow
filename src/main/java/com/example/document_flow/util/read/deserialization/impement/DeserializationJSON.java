@@ -25,9 +25,9 @@ public class DeserializationJSON implements Deserialization {
 
     private static DeserializationJSON deserializationJSON;
 
-    private final Gson GSON = new GsonBuilder().create();
+    private final Gson gson = new GsonBuilder().create();
 
-    private final Logger LOGGER = LoggerFactory.getLogger(DeserializationJSON.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(DeserializationJSON.class.getName());
 
     private DeserializationJSON() {
     }
@@ -53,7 +53,7 @@ public class DeserializationJSON implements Deserialization {
     @Override
     public <T> T get(File filePath, Class<T> type) {
         String stringJSON = readJson(filePath.getPath());
-        Object object = GSON.fromJson(stringJSON, type);
+        Object object = gson.fromJson(stringJSON, type);
         return Primitives.wrap(type).cast(object);
     }
 
@@ -86,7 +86,7 @@ public class DeserializationJSON implements Deserialization {
                 stringJSON.append(line);
             }
         } catch (IOException e) {
-            LOGGER.warn("Ошибка ввода-вывода ", e);
+            logger.warn("Ошибка ввода-вывода ", e);
         }
         return stringJSON.toString();
     }

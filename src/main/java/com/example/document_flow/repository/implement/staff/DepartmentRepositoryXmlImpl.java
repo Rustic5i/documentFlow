@@ -18,10 +18,10 @@ public class DepartmentRepositoryXmlImpl implements DepartmentRepository {
 
     private static DepartmentRepositoryXmlImpl departmentRepository;
 
-    private final StaffRepositoryXml<Department> REPOSITORY = new StaffRepositoryXml<>(Department.class);
+    private final StaffRepositoryXml<Department> repositoryXml = new StaffRepositoryXml<>(Department.class);
 
     {
-        REPOSITORY.createRepository(new File(".\\DepartmentXml\\"));
+        repositoryXml.createRepository(new File(".\\DepartmentXml\\"));
     }
 
     /**
@@ -45,7 +45,7 @@ public class DepartmentRepositoryXmlImpl implements DepartmentRepository {
      */
     @Override
     public void save(Department object) throws SaveObjectException {
-        REPOSITORY.save(object);
+        repositoryXml.save(object);
     }
 
     /**
@@ -56,7 +56,7 @@ public class DepartmentRepositoryXmlImpl implements DepartmentRepository {
      */
     @Override
     public void saveAll(List<Department> objects) throws SaveObjectException {
-        REPOSITORY.saveAll(objects);
+        repositoryXml.saveAll(objects);
     }
 
     /**
@@ -66,7 +66,7 @@ public class DepartmentRepositoryXmlImpl implements DepartmentRepository {
      */
     @Override
     public List<Department> getAll() {
-        return REPOSITORY.getAll();
+        return repositoryXml.getAll();
     }
 
     /**
@@ -77,7 +77,7 @@ public class DepartmentRepositoryXmlImpl implements DepartmentRepository {
      */
     @Override
     public Optional<Department> findById(long id) {
-        return REPOSITORY.findById(id);
+        return repositoryXml.findById(id);
     }
 
     /**
@@ -88,7 +88,7 @@ public class DepartmentRepositoryXmlImpl implements DepartmentRepository {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        REPOSITORY.deleteById(id);
+        repositoryXml.deleteById(id);
     }
 
     /**
@@ -99,6 +99,6 @@ public class DepartmentRepositoryXmlImpl implements DepartmentRepository {
      */
     @Override
     public void update(Department object) throws SaveObjectException {
-        REPOSITORY.update(object);
+        repositoryXml.update(object);
     }
 }

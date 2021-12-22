@@ -27,15 +27,15 @@ import java.util.stream.Collectors;
  */
 public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
 
-    private final Serializable SERIALIZABLE = SerializableXML.getInstance();
+    private final Serializable serializable = SerializableXML.getInstance();
 
-    private final Deserialization DESERIALIZATION = DeserializationXML.getInstance();
+    private final Deserialization deserialization = DeserializationXML.getInstance();
 
-    private final InMemory<T> IN_MEMORY = new InMemory<>();
+    private final InMemory<T> inMemory = new InMemory<>();
 
     private final Map<T, File> fileMap = new HashMap<>();
 
-    private final Class<T> TYPE;
+    private final Class<T> type;
 
     private File file;
 
@@ -52,7 +52,7 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
     }
 
     public StaffRepositoryXml(Class<T> type) {
-        this.TYPE = type;
+        this.type = type;
     }
 
     /**
@@ -65,9 +65,9 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
     public void save(T object) throws SaveObjectException {
         String pathFile = file.getPath() + "\\" + object.getId() + ".xml";
         File file = new File(pathFile);
-        SERIALIZABLE.save(file, object);
+        serializable.save(file, object);
         fileMap.put(object, file);
-        IN_MEMORY.save(pathFile, object);
+        inMemory.save(pathFile, object);
     }
 
     /**
@@ -91,7 +91,7 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
     @Override
     public List<T> getAll() {
         Set<File> fileSet = Arrays.stream(file.listFiles()).collect(Collectors.toSet());
-        return DESERIALIZATION.getList(fileSet, TYPE);
+        return deserialization.getList(fileSet, type);
     }
 
     /**

@@ -16,9 +16,9 @@ import javax.servlet.ServletContextListener;
  */
 public class CreatingTablesObserver implements ServletContextListener {
 
-    private final TableCreator CREATOR = StaffTableCreator.getInstance();
+    private final TableCreator creator = StaffTableCreator.getInstance();
 
-    private final Logger LOGGER = LoggerFactory.getLogger(CreatingTablesObserver.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(CreatingTablesObserver.class.getName());
 
     /**
      * Создает таблицы в бд при запуске программы
@@ -28,9 +28,9 @@ public class CreatingTablesObserver implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         try {
-            CREATOR.createTablesDB();
+            creator.createTablesDB();
         } catch (CreateTableException e) {
-            LOGGER.error("Ошибка при создание таблицы в бд" + e);
+            logger.error("Ошибка при создание таблицы в бд" + e);
         }
     }
 

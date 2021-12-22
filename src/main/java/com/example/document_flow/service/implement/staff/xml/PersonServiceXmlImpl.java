@@ -19,7 +19,7 @@ public class PersonServiceXmlImpl implements PersonService {
 
     private static PersonServiceXmlImpl personService = new PersonServiceXmlImpl();
 
-    private final PersonRepository REPOSITORY = PersonRepositoryXmlImpl.getInstance();
+    private final PersonRepository repository = PersonRepositoryXmlImpl.getInstance();
 
     private PersonServiceXmlImpl() {
     }
@@ -41,7 +41,7 @@ public class PersonServiceXmlImpl implements PersonService {
      */
     @Override
     public void save(Person object) throws SaveObjectException {
-        REPOSITORY.save(object);
+        repository.save(object);
     }
 
     /**
@@ -51,7 +51,7 @@ public class PersonServiceXmlImpl implements PersonService {
      */
     @Override
     public void saveAll(List<Person> objects) throws SaveObjectException {
-        REPOSITORY.saveAll(objects);
+        repository.saveAll(objects);
     }
 
     /**
@@ -61,7 +61,7 @@ public class PersonServiceXmlImpl implements PersonService {
      */
     @Override
     public List<Person> getAll() {
-        return REPOSITORY.getAll();
+        return repository.getAll();
     }
 
     /**
@@ -72,7 +72,7 @@ public class PersonServiceXmlImpl implements PersonService {
      */
     @Override
     public Optional<Person> findById(long id) {
-        return REPOSITORY.findById(id);
+        return repository.findById(id);
     }
 
     /**
@@ -83,7 +83,7 @@ public class PersonServiceXmlImpl implements PersonService {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        REPOSITORY.deleteById(id);
+        repository.deleteById(id);
     }
 
     /**
@@ -94,6 +94,6 @@ public class PersonServiceXmlImpl implements PersonService {
      */
     @Override
     public void update(Person object) throws SaveObjectException {
-        REPOSITORY.update(object);
+        repository.update(object);
     }
 }

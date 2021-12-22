@@ -19,9 +19,9 @@ import javax.servlet.annotation.WebListener;
 @WebListener
 public class DocumentRepositoryInitObserver implements ServletContextListener {
 
-    private final DocumentRepository DOCUMENT_REPOSITORY = DocumentRepositoryImpl.getInstance();
+    private final DocumentRepository documentRepository = DocumentRepositoryImpl.getInstance();
 
-    private final Logger LOGGER = LoggerFactory.getLogger(DocumentRepositoryInitObserver.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(DocumentRepositoryInitObserver.class.getName());
 
     /**
      * Заполняет <code>DocumentRepository</code> данными при запуске приложения
@@ -31,9 +31,9 @@ public class DocumentRepositoryInitObserver implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         try {
-            DOCUMENT_REPOSITORY.saveAll(DocumentGenerator.run(100));
+            documentRepository.saveAll(DocumentGenerator.run(100));
         } catch (SaveObjectException e) {
-            LOGGER.warn("",e);
+            logger.warn("",e);
         }
     }
 

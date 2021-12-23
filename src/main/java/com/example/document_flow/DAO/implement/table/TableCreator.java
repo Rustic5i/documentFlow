@@ -55,7 +55,7 @@ public class TableCreator implements com.example.document_flow.DAO.abstraction.T
                     }
                 }
             } catch (IOException e) {
-                throw new CreateTableException("Ошибка при создание таблицы в бд, не удалось получить sql скрипт из файла import.sql", e);
+                throw new CreateTableException("Ошибка при создание таблицы в бд, не удалось получить sql скрипт", e);
             }
         } catch (SQLException e) {
             throw new CreateTableException("Ошибка при создание таблицы в бд", e);
@@ -63,7 +63,7 @@ public class TableCreator implements com.example.document_flow.DAO.abstraction.T
     }
 
     /**
-     * @return список SQL скриптов из файла import.sql.
+     * @return список SQL скриптов.
      * @throws IOException При возникновении ошибки ввода-вывода
      */
     private List<String> getArraySqlScripts() throws IOException {

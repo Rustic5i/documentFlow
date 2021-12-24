@@ -43,7 +43,7 @@ public class PersonMapperImpl implements PersonMapper {
     }
 
     /**
-     * Преобразует данные <code>ResultSet</code>  в Entity-объект класса <code>Person</code>
+     * Преобразует данные {@link ResultSet} в Entity-объект класса {@link Person}
      *
      * @param resultSet от куда переносить данные
      * @return объекты с заполненными полями

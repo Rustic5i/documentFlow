@@ -7,7 +7,7 @@ package com.example.document_flow.entity.document;
 public enum DocumentType {
 
     /**
-     * Представляет тип класса <code>Incoming</code>
+     * Представляет тип класса <code>IncomingDAO</code>
      */
     INCOMING{
         @Override

@@ -21,7 +21,7 @@ import java.util.Optional;
 
 /**
  * DAO слой отвечает за предоставления доступа к базе данных.
- * Содержит методы связанные с сущностью <code>Organization</code>
+ * Содержит методы связанные с сущностью {@link Organization}
  *
  * @author Баратов Руслан
  */
@@ -35,7 +35,7 @@ public class OrganizationDAO implements DAOCrud<Organization> {
     private static final String SQL_UPDATE_ORGANIZATION = "UPDATE APP.ORGANIZATION t SET t.FULL_NAME = ?," +
             " t.SHORT_NAME = ?, t.CONTACT_PHONE_NUMBER = ? WHERE t.ID = ?";
 
-    private static final String SQL_GET_ALL_ORGANIZATION = "SELECT * FROM ORGANIZATION";
+    private static final String SQL_GET_ALL_ORGANIZATION = "SELECT * FROM ORGANIZATION JOIN PERSON P on P.ID = ORGANIZATION.MANAGER_ID";
 
     private static final String SQL_SAVE_ALL = "INSERT INTO APP.ORGANIZATION (FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER, ID)\n" +
             "VALUES (?, ?, ?, ?, ?)";
@@ -96,9 +96,9 @@ public class OrganizationDAO implements DAOCrud<Organization> {
     }
 
     /**
-     * Получить список всех сохраненных объектов класса <code>Organization</code>
+     * Получить список всех сохраненных объектов класса {@link Organization}
      *
-     * @return список сохраненных объектов класса <code>Organization</code>
+     * @return список сохраненных объектов класса {@link Organization}
      */
     @Override
     public List<Organization> getAll() throws GetDataObjectException {
@@ -114,9 +114,9 @@ public class OrganizationDAO implements DAOCrud<Organization> {
     }
 
     /**
-     * Сохранить список объектов класса <code>Organization</code>
+     * Сохранить список объектов класса {@link Organization}
      *
-     * @param organizationList список объектов класса <code>Organization</code> для сохранения
+     * @param organizationList список объектов класса {@link Organization}для сохранения
      * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
      */
     @Override
@@ -142,7 +142,7 @@ public class OrganizationDAO implements DAOCrud<Organization> {
     }
 
     /**
-     * Сохранить объект класса <code>Organization</code>
+     * Сохранить объект класса {@link Organization}
      *
      * @param organization объект класса <code>Organization</code> для сохранения
      * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
@@ -153,10 +153,10 @@ public class OrganizationDAO implements DAOCrud<Organization> {
     }
 
     /**
-     * Найти объект класса <code>Organization</code> по id
+     * Найти объект класса {@link Organization} по id
      *
-     * @param id id объекта класса <code>Organization</code>
-     * @return найденный объект класса <code>Organization</code>
+     * @param id id объекта класса {@link Organization}
+     * @return найденный объект класса {@link Organization}
      */
     @Override
     public Optional<Organization> findById(long id) throws GetDataObjectException {

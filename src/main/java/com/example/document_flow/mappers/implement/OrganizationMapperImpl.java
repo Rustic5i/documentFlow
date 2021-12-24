@@ -9,7 +9,7 @@ import java.sql.SQLException;
 
 
 /**
- * Класс mapper, со списком методов для преобразования данных из различных объектов в объект <code>Organization</code>.
+ * Класс mapper, со списком методов для преобразования данных из различных объектов в объект {@link Organization}
  *
  * @author Баратов Руслан
  */
@@ -43,7 +43,7 @@ public class OrganizationMapperImpl implements OrganizationMapper {
     }
 
     /**
-     * @return синголтон обьект
+     * @return синголтон объект
      */
     public static OrganizationMapperImpl getInstance() {
         if (organizationMapper == null) {
@@ -53,7 +53,7 @@ public class OrganizationMapperImpl implements OrganizationMapper {
     }
 
     /**
-     * Преобразует данные <code>ResultSet</code>  в Entity-объект класса <code>Organization</code>
+     * Преобразует данные {@link ResultSet}  в Entity-объект класса <code>Organization</code>
      *
      * @param resultSet от куда переносить данные.
      * @return объекты с заполненными полями
@@ -67,15 +67,7 @@ public class OrganizationMapperImpl implements OrganizationMapper {
                 .setFullName(resultSet.getString(FULL_NAME))
                 .setShortName(resultSet.getString(SHORT_NAME))
                 .setContactPhoneNumber(resultSet.getString(CONTACT_PHONE_NUMBER))
-                .setManager(new Person().newBuilder()
-                        .setId(resultSet.getLong(MANAGER_ID))
-                        .setSurname(resultSet.getString(SURNAME))
-                        .setName(resultSet.getString(NAME))
-                        .setPatronymic(resultSet.getString(PATRONYMIC))
-                        .setPost(resultSet.getString(POST))
-                        .setDateOfBirth(resultSet.getDate(DATA_OF_BIRTH))
-                        .setPhoneNumber(resultSet.getInt(PHONE_NUMBER))
-                        .build())
+                .setManager(PersonMapperImpl.getInstance().convertFrom(resultSet))
                 .build();
     }
 }

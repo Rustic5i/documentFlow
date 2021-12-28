@@ -3,6 +3,7 @@ package com.example.document_flow.DAO.implement.dao.document;
 import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.DataSourceManager;
 import com.example.document_flow.config.DataBase.implement.DataSourceManagerImpl;
+import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.document.Task;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.DeleteObjectException;
@@ -19,6 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * DAO слой отвечает за предоставления доступа к базе данных.
+ * Содержит методы связанные с сущностью {@link Task}
+ *
+ * @author Баратов Руслан
+ */
 public class TaskDAO implements DAOCrud<Task> {
 
     private static final String SQL_DELETE_TASK_BY_ID = "DELETE FROM APP.TASK WHERE DOCUMENT_ID = ?";
@@ -63,11 +70,23 @@ public class TaskDAO implements DAOCrud<Task> {
         return taskDAO;
     }
 
+    /**
+     * Сохранить объект класса {@link Task}
+     *
+     * @param object объект класса {@link Task} для сохранения
+     * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
+     */
     @Override
     public void save(Task object) throws SaveObjectException {
         saveAll(List.of(object));
     }
 
+    /**
+     * Удалить {@link Task} по id
+     *
+     * @param id - id объекта
+     * @throws DeleteObjectException когда удаление объекта терпит неудачу по какой-либо причине
+     */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
         try (PreparedStatement preparedStatement = sessionManager
@@ -79,6 +98,12 @@ public class TaskDAO implements DAOCrud<Task> {
         }
     }
 
+    /**
+     * Обновить данные объекта {@link Task}
+     *
+     * @param object объект с обновленными данными
+     * @throws SaveObjectException когда изменение объекта терпит не удачу по какой-либо причине
+     */
     @Override
     public void update(Task object) throws SaveObjectException {
         try (PreparedStatement preparedStatement = sessionManager
@@ -99,6 +124,12 @@ public class TaskDAO implements DAOCrud<Task> {
         }
     }
 
+    /**
+     * Получить список всех сохраненных объектов класса {@link Task}
+     *
+     * @return список сохраненных объектов класса {@link Task}
+     * @throws GetDataObjectException когда получение данных терпит неудачу по какой-либо причине.
+     */
     @Override
     public List<Task> getAll() throws GetDataObjectException {
         List<Task> tasks = new ArrayList<>();
@@ -148,6 +179,12 @@ public class TaskDAO implements DAOCrud<Task> {
         return tasks;
     }
 
+    /**
+     * Сохранить список объектов класса {@link Task}
+     *
+     * @param objectList список объектов класса {@link Task} для сохранения
+     * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
+     */
     @Override
     public void saveAll(List<Task> objectList) throws SaveObjectException {
         try (Connection connection = sessionManager.getDataSource().getConnection()) {
@@ -173,6 +210,13 @@ public class TaskDAO implements DAOCrud<Task> {
         }
     }
 
+    /**
+     * Найти объект класса {@link Task} по id
+     *
+     * @param id id объекта класса {@link Task}
+     * @return найденный объект класса {@link Task}
+     * @throws GetDataObjectException когда получение данных терпит неудачу по какой-либо причине.
+     */
     @Override
     public Optional<Task> findById(long id) throws GetDataObjectException {
         Task task = new Task();

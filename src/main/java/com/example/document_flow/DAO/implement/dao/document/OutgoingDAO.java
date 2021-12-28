@@ -3,6 +3,7 @@ package com.example.document_flow.DAO.implement.dao.document;
 import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.DataSourceManager;
 import com.example.document_flow.config.DataBase.implement.DataSourceManagerImpl;
+import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.document.Outgoing;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
@@ -19,6 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * DAO слой отвечает за предоставления доступа к базе данных.
+ * Содержит методы связанные с сущностью {@link Outgoing}
+ *
+ * @author Баратов Руслан
+ */
 public class OutgoingDAO implements DAOCrud<Outgoing> {
 
     private static final String SQL_DELETE_OUTGOING_BY_ID = "DELETE FROM APP.OUTGOING WHERE DOCUMENT_ID = ?";
@@ -56,11 +63,23 @@ public class OutgoingDAO implements DAOCrud<Outgoing> {
         return outgoingDAO;
     }
 
+    /**
+     * Сохранить объект класса {@link Outgoing}
+     *
+     * @param object объект класса {@link Outgoing} для сохранения
+     * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
+     */
     @Override
     public void save(Outgoing object) throws SaveObjectException {
         saveAll(List.of(object));
     }
 
+    /**
+     * Удалить {@link Outgoing} по id
+     *
+     * @param id - id объекта
+     * @throws DeleteObjectException когда удаление объекта терпит неудачу по какой-либо причине
+     */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
         try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_DELETE_OUTGOING_BY_ID)) {
@@ -71,6 +90,12 @@ public class OutgoingDAO implements DAOCrud<Outgoing> {
         }
     }
 
+    /**
+     * Обновить данные объекта {@link Outgoing}
+     *
+     * @param object объект с обновленными данными
+     * @throws SaveObjectException когда изменение объекта терпит не удачу по какой-либо причине
+     */
     @Override
     public void update(Outgoing object) throws SaveObjectException {
         try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_UPDATE_OUTGOING)) {
@@ -87,6 +112,12 @@ public class OutgoingDAO implements DAOCrud<Outgoing> {
         }
     }
 
+    /**
+     * Получить список всех сохраненных объектов класса {@link Outgoing}
+     *
+     * @return список сохраненных объектов класса {@link Outgoing}
+     * @throws GetDataObjectException когда получение данных терпит неудачу по какой-либо причине.
+     */
     @Override
     public List<Outgoing> getAll() throws GetDataObjectException {
         List<Outgoing> outgoingList = new ArrayList<>();
@@ -100,6 +131,12 @@ public class OutgoingDAO implements DAOCrud<Outgoing> {
         return outgoingList;
     }
 
+    /**
+     * Сохранить список объектов класса {@link Outgoing}
+     *
+     * @param objectList список объектов класса {@link Outgoing} для сохранения
+     * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
+     */
     @Override
     public void saveAll(List<Outgoing> objectList) throws SaveObjectException {
         try (Connection connection = sessionManager.getDataSource().getConnection()) {
@@ -122,6 +159,13 @@ public class OutgoingDAO implements DAOCrud<Outgoing> {
         }
     }
 
+    /**
+     * Найти объект класса {@link Outgoing} по id
+     *
+     * @param id id объекта класса {@link Outgoing}
+     * @return найденный объект класса {@link Outgoing}
+     * @throws GetDataObjectException когда получение данных терпит неудачу по какой-либо причине.
+     */
     @Override
     public Optional<Outgoing> findById(long id) throws GetDataObjectException {
         Outgoing outgoing = new Outgoing();

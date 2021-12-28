@@ -20,6 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * DAO слой отвечает за предоставления доступа к базе данных.
+ * Содержит методы связанные с сущностью {@link Document}
+ *
+ * @author Баратов Руслан
+ */
 public class DocumentDAO implements DAOCrud<Document> {
 
     private static final String SQL_DELETE_DOCUMENT_BY_ID = "DELETE FROM APP.DOCUMENT WHERE ID = ?";
@@ -51,11 +57,23 @@ public class DocumentDAO implements DAOCrud<Document> {
         return documentDAO;
     }
 
+    /**
+     * Сохранить объект класса {@link Document}
+     *
+     * @param object объект класса {@link Document} для сохранения
+     * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
+     */
     @Override
     public void save(Document object) throws SaveObjectException {
         saveAll(List.of(object));
     }
 
+    /**
+     * Удалить {@link Document} по id
+     *
+     * @param id - id объекта
+     * @throws DeleteObjectException когда удаление объекта терпит неудачу по какой-либо причине
+     */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
         try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_DELETE_DOCUMENT_BY_ID)) {
@@ -66,6 +84,12 @@ public class DocumentDAO implements DAOCrud<Document> {
         }
     }
 
+    /**
+     * Обновить данные объекта {@link Document}
+     *
+     * @param object объект с обновленными данными
+     * @throws SaveObjectException когда изменение объекта терпит не удачу по какой-либо причине
+     */
     @Override
     public void update(Document object) throws SaveObjectException {
         try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_UPDATE_DOCUMENT)) {
@@ -80,6 +104,12 @@ public class DocumentDAO implements DAOCrud<Document> {
         }
     }
 
+    /**
+     * Получить список всех сохраненных объектов класса {@link Document}
+     *
+     * @return список сохраненных объектов класса {@link Document}
+     * @throws GetDataObjectException когда получение данных терпит неудачу по какой-либо причине.
+     */
     @Override
     public List<Document> getAll() throws GetDataObjectException {
         List<Document> documentList = new ArrayList<>();
@@ -93,6 +123,12 @@ public class DocumentDAO implements DAOCrud<Document> {
         return documentList;
     }
 
+    /**
+     * Сохранить список объектов класса {@link Document}
+     *
+     * @param objectList список объектов класса {@link Document} для сохранения
+     * @throws SaveObjectException когда сохранение объекта терпит неудачу по какой-либо причине
+     */
     @Override
     public void saveAll(List<Document> objectList) throws SaveObjectException {
         try (Connection connection = sessionManager.getDataSource().getConnection()) {
@@ -114,6 +150,13 @@ public class DocumentDAO implements DAOCrud<Document> {
         }
     }
 
+    /**
+     * Найти объект класса {@link Document} по id
+     *
+     * @param id id объекта класса {@link Document}
+     * @return найденный объект класса {@link Document}
+     * @throws GetDataObjectException когда получение данных терпит неудачу по какой-либо причине.
+     */
     @Override
     public Optional<Document> findById(long id) throws GetDataObjectException {
         Document document = new Document();

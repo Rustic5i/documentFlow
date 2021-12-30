@@ -1,6 +1,6 @@
 package com.example.document_flow.DAO.implement.dao.staff;
 
-import com.example.document_flow.DAO.abstraction.DAOCrud;
+import com.example.document_flow.DAO.abstraction.OrganizationDAO;
 import com.example.document_flow.config.DataBase.abstraction.DataSourceManager;
 import com.example.document_flow.config.DataBase.implement.DataSourceManagerImpl;
 import com.example.document_flow.entity.staff.Organization;
@@ -25,7 +25,7 @@ import java.util.Optional;
  *
  * @author Баратов Руслан
  */
-public class OrganizationDAO implements DAOCrud<Organization> {
+public class OrganizationDAOImpl implements OrganizationDAO {
 
     private static final String SQL_FIND_ORGANIZATION_BY_ID = "SELECT * FROM ORGANIZATION " +
             "JOIN PERSON P on P.ID = ORGANIZATION.MANAGER_ID where ORGANIZATION.ID =?";
@@ -35,26 +35,27 @@ public class OrganizationDAO implements DAOCrud<Organization> {
     private static final String SQL_UPDATE_ORGANIZATION = "UPDATE APP.ORGANIZATION t SET t.FULL_NAME = ?," +
             " t.SHORT_NAME = ?, t.CONTACT_PHONE_NUMBER = ? WHERE t.ID = ?";
 
-    private static final String SQL_GET_ALL_ORGANIZATION = "SELECT * FROM ORGANIZATION JOIN PERSON P on P.ID = ORGANIZATION.MANAGER_ID";
+    private static final String SQL_GET_ALL_ORGANIZATION = "SELECT * FROM ORGANIZATION " +
+            "JOIN PERSON P on P.ID = ORGANIZATION.MANAGER_ID";
 
     private static final String SQL_SAVE_ALL = "INSERT INTO APP.ORGANIZATION (FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER, ID)\n" +
             "VALUES (?, ?, ?, ?, ?)";
 
-    private static OrganizationDAO derbyDataBase;
+    private static OrganizationDAOImpl derbyDataBase;
 
     private final DataSourceManager sessionManager = DataSourceManagerImpl.getInstance();
 
     private final OrganizationMapper organizationMapper = OrganizationMapperImpl.getInstance();
 
-    private OrganizationDAO() {
+    private OrganizationDAOImpl() {
     }
 
     /**
      * @return синголтон обьект
      */
-    public static OrganizationDAO getInstance() {
+    public static OrganizationDAOImpl getInstance() {
         if (derbyDataBase == null) {
-            derbyDataBase = new OrganizationDAO();
+            derbyDataBase = new OrganizationDAOImpl();
         }
         return derbyDataBase;
     }
@@ -83,7 +84,8 @@ public class OrganizationDAO implements DAOCrud<Organization> {
      */
     @Override
     public void update(Organization object) throws SaveObjectException {
-        try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_UPDATE_ORGANIZATION)) {
+        try (PreparedStatement preparedStatement = sessionManager
+                .getDataSource().getConnection().prepareStatement(SQL_UPDATE_ORGANIZATION)) {
             preparedStatement.setString(1, object.getFullName());
             preparedStatement.setString(2, object.getShortName());
             preparedStatement.setLong(3, object.getManager().getId());
@@ -103,7 +105,8 @@ public class OrganizationDAO implements DAOCrud<Organization> {
     @Override
     public List<Organization> getAll() throws GetDataObjectException {
         List<Organization> organizationList = new ArrayList<>();
-        try (ResultSet rs = sessionManager.getDataSource().getConnection().prepareStatement(SQL_GET_ALL_ORGANIZATION).executeQuery()) {
+        try (ResultSet rs = sessionManager.getDataSource()
+                .getConnection().prepareStatement(SQL_GET_ALL_ORGANIZATION).executeQuery()) {
             while (rs.next()) {
                 organizationList.add(organizationMapper.convertFrom(rs));
             }
@@ -161,7 +164,8 @@ public class OrganizationDAO implements DAOCrud<Organization> {
     @Override
     public Optional<Organization> findById(long id) throws GetDataObjectException {
         Organization organization = new Organization();
-        try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_FIND_ORGANIZATION_BY_ID)) {
+        try (PreparedStatement preparedStatement = sessionManager
+                .getDataSource().getConnection().prepareStatement(SQL_FIND_ORGANIZATION_BY_ID)) {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {

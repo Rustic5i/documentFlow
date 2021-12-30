@@ -1,6 +1,6 @@
 package com.example.document_flow.DAO.implement.dao.staff;
 
-import com.example.document_flow.DAO.abstraction.DAOCrud;
+import com.example.document_flow.DAO.abstraction.PersonDAO;
 import com.example.document_flow.config.DataBase.abstraction.DataSourceManager;
 import com.example.document_flow.config.DataBase.implement.DataSourceManagerImpl;
 import com.example.document_flow.entity.staff.Person;
@@ -25,35 +25,41 @@ import java.util.Optional;
  *
  * @author Баратов Руслан
  */
-public class PersonDAO implements DAOCrud<Person> {
+public class PersonDAOImpl implements PersonDAO {
 
     private static final String SQL_DELETE_PERSON_BY_ID = "DELETE FROM APP.PERSON WHERE ID = ?";
 
     private static final String SQL_UPDATE_PERSON = "UPDATE APP.PERSON t SET t.SURNAME = ?, t.NAME = ?, " +
-            "t.PATRONYMIC = ?, t.POST = ?, t.DATA_OF_BIRTH = ?, t.PHONE_NUMBER  = ? WHERE t.ID = ?";
+            "t.PATRONYMIC = ?, t.POST = ?, t.DATA_OF_BIRTH = ?, t.PHONE_NUMBER  = ?, t.ID_DEPARTMENT = ? WHERE t.ID = ?";
 
-    private static final String SQL_GET_ALL_PERSON = "SELECT * FROM PERSON";
+    private static final String SQL_GET_ALL_PERSON = "SELECT * FROM PERSON P " +
+            "JOIN DEPARTMENT D ON P.ID_DEPARTMENT = D.ID";
 
-    private static final String SQL_SAVE_PERSON = "INSERT INTO APP.PERSON (SURNAME, NAME, PATRONYMIC, POST, DATA_OF_BIRTH, PHONE_NUMBER,ID)\n" +
-            "VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String SQL_SAVE_PERSON = "INSERT INTO APP.PERSON " +
+            "(SURNAME, NAME, PATRONYMIC, POST, DATA_OF_BIRTH, PHONE_NUMBER,ID,ID_DEPARTMENT)\n" +
+            "VALUES (?, ?, ?, ?, ?, ?, ?,?)";
 
-    private static final String SQL_FIND_PERSON_BY_ID = "SELECT * FROM PERSON WHERE ID=?";
+    private static final String SQL_FIND_PERSON_BY_ID = "SELECT * FROM PERSON P " +
+            "JOIN DEPARTMENT D ON P.ID_DEPARTMENT = D.ID WHERE P.ID=?";
 
-    private static PersonDAO derbyDataBase;
+    private static final String SQL_FIND_BY_ID_DEPARTMENT = "SELECT * FROM PERSON PERSON " +
+            "JOIN DEPARTMENT D ON PERSON.ID_DEPARTMENT = D.ID WHERE PERSON.ID_DEPARTMENT = ?";
+
+    private static PersonDAOImpl derbyDataBase;
 
     private final DataSourceManager sourceManager = DataSourceManagerImpl.getInstance();
 
     private final PersonMapper personMapper = PersonMapperImpl.getInstance();
 
-    private PersonDAO() {
+    private PersonDAOImpl() {
     }
 
     /**
      * @return синголтон объект
      */
-    public static PersonDAO getInstance() {
+    public static PersonDAOImpl getInstance() {
         if (derbyDataBase == null) {
-            derbyDataBase = new PersonDAO();
+            derbyDataBase = new PersonDAOImpl();
         }
         return derbyDataBase;
     }
@@ -89,7 +95,8 @@ public class PersonDAO implements DAOCrud<Person> {
             preparedStatement.setString(4, object.getPost());
             preparedStatement.setDate(5, new Date(object.getDateOfBirth().getTime()));
             preparedStatement.setInt(6, object.getPhoneNumber());
-            preparedStatement.setLong(7, object.getId());
+            preparedStatement.setLong(7,object.getDepartment().getId());
+            preparedStatement.setLong(8, object.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new SaveObjectException(MessageFormat.format("Ошибка при обновления объекта Person c id {0}", object.getId()), e);
@@ -104,7 +111,8 @@ public class PersonDAO implements DAOCrud<Person> {
     @Override
     public List<Person> getAll() throws GetDataObjectException {
         List<Person> personList = new ArrayList<>();
-        try (ResultSet rs = sourceManager.getDataSource().getConnection().prepareStatement(SQL_GET_ALL_PERSON).executeQuery()) {
+        try (ResultSet rs = sourceManager
+                .getDataSource().getConnection().prepareStatement(SQL_GET_ALL_PERSON).executeQuery()) {
             while (rs.next()) {
                 personList.add(personMapper.convertFrom(rs));
             }
@@ -132,6 +140,7 @@ public class PersonDAO implements DAOCrud<Person> {
                 preparedStatement.setDate(5, new Date(person.getDateOfBirth().getTime()));
                 preparedStatement.setInt(6, person.getPhoneNumber());
                 preparedStatement.setLong(7, person.getId());
+                preparedStatement.setLong(8,person.getDepartment().getId());
                 preparedStatement.addBatch();
             }
             preparedStatement.executeBatch();
@@ -160,7 +169,8 @@ public class PersonDAO implements DAOCrud<Person> {
     @Override
     public Optional<Person> findById(long id) throws GetDataObjectException {
         Person person = new Person();
-        try (PreparedStatement preparedStatement = sourceManager.getDataSource().getConnection().prepareStatement(SQL_FIND_PERSON_BY_ID)) {
+        try (PreparedStatement preparedStatement = sourceManager
+                .getDataSource().getConnection().prepareStatement(SQL_FIND_PERSON_BY_ID)) {
             preparedStatement.setLong(1, id);
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
@@ -173,5 +183,24 @@ public class PersonDAO implements DAOCrud<Person> {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
         }
         return Optional.of(person);
+    }
+
+    @Override
+    public List<Person> findByIdDepartment(long id) throws GetDataObjectException {
+        List<Person> personList = new ArrayList<>();
+        try (PreparedStatement preparedStatement = sourceManager
+                .getDataSource().getConnection().prepareStatement(SQL_FIND_BY_ID_DEPARTMENT)) {
+            preparedStatement.setLong(1, id);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    personList.add(personMapper.convertFrom(rs));
+                }
+            } catch (SQLException e) {
+                throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
+            }
+        } catch (SQLException e) {
+            throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
+        }
+        return personList;
     }
 }

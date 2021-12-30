@@ -50,9 +50,10 @@ public class TableCreator implements com.example.document_flow.DAO.abstraction.T
             try {
                 for (String sqlScript : getArraySqlScripts()) {
                     String nameTable = sqlScript.split("\s+|\\(")[2];
-                    if (!checkPresenceTable(statement.getConnection(), nameTable)) {
-                        statement.executeUpdate(sqlScript);
-                    }
+                    statement.executeUpdate(sqlScript);
+//                    if (!checkPresenceTable(statement.getConnection(), nameTable)) {
+//                        statement.executeUpdate(sqlScript);
+//                    }
                 }
             } catch (IOException e) {
                 throw new CreateTableException("Ошибка при создание таблицы в бд, не удалось получить sql скрипт", e);

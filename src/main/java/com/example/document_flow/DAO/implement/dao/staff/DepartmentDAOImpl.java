@@ -1,6 +1,6 @@
 package com.example.document_flow.DAO.implement.dao.staff;
 
-import com.example.document_flow.DAO.abstraction.DAOCrud;
+import com.example.document_flow.DAO.abstraction.DepartmentDAO;
 import com.example.document_flow.config.DataBase.abstraction.DataSourceManager;
 import com.example.document_flow.config.DataBase.implement.DataSourceManagerImpl;
 import com.example.document_flow.entity.staff.Department;
@@ -25,35 +25,45 @@ import java.util.Optional;
  *
  * @author Баратов Руслан
  */
-public class DepartmentDAO implements DAOCrud<Department> {
+public class DepartmentDAOImpl implements DepartmentDAO {
 
     private static final String SQL_DELETE_DEPARTMENT_BY_ID = "DELETE FROM APP.DEPARTMENT WHERE ID = ?";
 
-    private static final String SQL_UPDATE_DEPARTMENT = "UPDATE APP.DEPARTMENT t SET t.FULL_NAME = ?, t.SHORT_NAME = ?, t.CONTACT_PHONE_NUMBER = ?,t.MANAGER_ID=? WHERE t.ID = ?";
+    private static final String SQL_UPDATE_DEPARTMENT = "UPDATE APP.DEPARTMENT t " +
+            "SET t.FULL_NAME = ?, t.SHORT_NAME = ?," +
+            " t.CONTACT_PHONE_NUMBER = ?,t.MANAGER_ID=?,t.ID_ORGANIZATION = ? WHERE t.ID = ?";
 
-    private static final String SQL_GET_ALL = "SELECT * FROM DEPARTMENT";
+    private static final String SQL_GET_ALL = "SELECT * FROM DEPARTMENT D " +
+            "JOIN PERSON P on D.MANAGER_ID = P.ID " +
+            "JOIN ORGANIZATION O on D.ID_ORGANIZATION = O.ID";
 
-    private static final String SQL_SAVE_ALL = "INSERT INTO APP.DEPARTMENT (FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER, ID)\n" +
-            "VALUES (?, ?, ?, ?, ?)";
+    private static final String SQL_SAVE_ALL = "INSERT INTO APP.DEPARTMENT " +
+            "(FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER, ID, ID_ORGANIZATION)\n" +
+            "VALUES (?, ?, ?, ?, ?,?)";
 
     private static final String SQL_FIND_DEPARTMENT_BY_ID = "SELECT * FROM DEPARTMENT " +
-            "JOIN PERSON P on P.ID = DEPARTMENT.MANAGER_ID where DEPARTMENT.ID =?";
+            "JOIN PERSON P on P.ID = DEPARTMENT.MANAGER_ID " +
+            "JOIN ORGANIZATION O on DEPARTMENT.ID_ORGANIZATION = O.ID where DEPARTMENT.ID =?";
 
-    private static DepartmentDAO derbyDataBase;
+    private static final String SQL_FIND_BY_ID_ORGANIZATION = "SELECT * FROM DEPARTMENT\n" +
+            "            JOIN PERSON P on P.ID = DEPARTMENT.MANAGER_ID\n" +
+            "            JOIN ORGANIZATION O on DEPARTMENT.ID_ORGANIZATION = O.ID WHERE DEPARTMENT.ID_ORGANIZATION = ?";
+
+    private static DepartmentDAOImpl derbyDataBase;
 
     private final DataSourceManager sessionManager = DataSourceManagerImpl.getInstance();
 
     private final DepartmentMapper departmentMapper = DepartmentMapperImpl.getInstance();
 
-    private DepartmentDAO() {
+    private DepartmentDAOImpl() {
     }
 
     /**
      * @return синголтон обьект
      */
-    public static DepartmentDAO getInstance() {
+    public static DepartmentDAOImpl getInstance() {
         if (derbyDataBase == null) {
-            derbyDataBase = new DepartmentDAO();
+            derbyDataBase = new DepartmentDAOImpl();
         }
         return derbyDataBase;
     }
@@ -82,12 +92,14 @@ public class DepartmentDAO implements DAOCrud<Department> {
      */
     @Override
     public void update(Department object) throws SaveObjectException {
-        try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_UPDATE_DEPARTMENT)) {
+        try (PreparedStatement preparedStatement = sessionManager
+                .getDataSource().getConnection().prepareStatement(SQL_UPDATE_DEPARTMENT)) {
             preparedStatement.setString(1, object.getFullName());
             preparedStatement.setString(2, object.getShortName());
             preparedStatement.setLong(3, object.getManager().getId());
             preparedStatement.setString(4, object.getContactPhoneNumber());
-            preparedStatement.setLong(5, object.getId());
+            preparedStatement.setLong(5, object.getOrganization().getId());
+            preparedStatement.setLong(6, object.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new SaveObjectException(MessageFormat.format("Ошибка при обновления объекта Department c id {0}", object.getId()), e);
@@ -129,6 +141,7 @@ public class DepartmentDAO implements DAOCrud<Department> {
                     preparedStatement.setLong(3, department.getManager().getId());
                     preparedStatement.setString(4, department.getContactPhoneNumber());
                     preparedStatement.setLong(5, department.getId());
+                    preparedStatement.setLong(6,department.getOrganization().getId());
                     preparedStatement.addBatch();
                 }
                 preparedStatement.executeBatch();
@@ -162,7 +175,8 @@ public class DepartmentDAO implements DAOCrud<Department> {
     @Override
     public Optional<Department> findById(long id) throws GetDataObjectException {
         Department department = new Department();
-        try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_FIND_DEPARTMENT_BY_ID)) {
+        try (PreparedStatement preparedStatement = sessionManager
+                .getDataSource().getConnection().prepareStatement(SQL_FIND_DEPARTMENT_BY_ID)) {
             preparedStatement.setLong(1, id);
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
@@ -175,5 +189,24 @@ public class DepartmentDAO implements DAOCrud<Department> {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
         }
         return Optional.of(department);
+    }
+
+    @Override
+    public List<Department> findByIdOrganization(long id) throws GetDataObjectException {
+        List<Department> departmentList = new ArrayList<>();
+        try (PreparedStatement preparedStatement = sessionManager
+                .getDataSource().getConnection().prepareStatement(SQL_FIND_BY_ID_ORGANIZATION)) {
+            preparedStatement.setLong(1, id);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    departmentList.add(departmentMapper.convertFrom(rs));
+                }
+            } catch (SQLException e) {
+                throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
+            }
+        } catch (SQLException e) {
+            throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
+        }
+        return departmentList;
     }
 }

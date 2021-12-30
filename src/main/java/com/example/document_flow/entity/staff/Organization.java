@@ -2,7 +2,9 @@ package com.example.document_flow.entity.staff;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Организация

@@ -3,6 +3,7 @@ package com.example.document_flow.entity.staff;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Подразделение
@@ -31,6 +32,11 @@ public class Department extends Staff {
      * Контактные телефоны
      */
     private String contactPhoneNumber;
+
+    /**
+     * Организация
+     */
+    private Organization organization;
 
     public Department() {
     }
@@ -69,6 +75,15 @@ public class Department extends Staff {
     @XmlElement
     public void setContactPhoneNumber(String contactPhoneNumber) {
         this.contactPhoneNumber = contactPhoneNumber;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    @XmlElement
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 
     @Override
@@ -115,6 +130,11 @@ public class Department extends Staff {
 
         public Builder setContactPhoneNumber(String contactPhoneNumber) {
             Department.this.contactPhoneNumber = contactPhoneNumber;
+            return this;
+        }
+
+        public Builder SetOrganization(Organization organization) {
+            Department.this.organization = organization;
             return this;
         }
 

@@ -1,7 +1,6 @@
 package com.example.document_flow.mappers.implement;
 
 import com.example.document_flow.entity.document.Outgoing;
-import com.example.document_flow.entity.staff.Organization;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.mappers.absraction.OutgoingMapper;
 
@@ -29,6 +28,22 @@ public class OutgoingMapperImpl implements OutgoingMapper {
 
     private static final String DELIVERY_METHOD = "DELIVERY_METHOD";
 
+    private static final String ID = "ID";
+
+    private static final String SURNAME = "SURNAME";
+
+    private static final String PATRONYMIC = "PATRONYMIC";
+
+    private static final String POST = "POST";
+
+    private static final String DATA_OF_BIRTH = "DATA_OF_BIRTH";
+
+    private static final String PHONE_NUMBER = "PHONE_NUMBER";
+
+    private final ResultSetMapper rsMapperPerson = new ResultSetMapper("PERSON");
+
+    private final ResultSetMapper rsMapperOutgoing = new ResultSetMapper("OUTGOING");
+
     private static OutgoingMapperImpl outgoingMapper;
 
     private OutgoingMapperImpl() {
@@ -54,15 +69,25 @@ public class OutgoingMapperImpl implements OutgoingMapper {
      */
     @Override
     public Outgoing convertFrom(ResultSet resultSet) throws SQLException {
+        rsMapperPerson.setResultSet(resultSet);
+        rsMapperOutgoing.setResultSet(resultSet);
         return new Outgoing().newBuilder()
-                .setId(resultSet.getLong(DOCUMENT_ID))
-                .setName(resultSet.getString(NAME))
-                .setText(resultSet.getString(TEXT))
-                .setRegistrationNumber(resultSet.getLong(REGISTRATION_NUMBER))
-                .setDateRegistration(resultSet.getDate(DATE_REGISTRATION))
-                .setAddressee(resultSet.getString(ADDRESSEE))
-                .setDeliveryMethod(resultSet.getString(DELIVERY_METHOD))
-                .setAuthor(PersonMapperImpl.getInstance().convertFrom(resultSet))
+                .setId(rsMapperOutgoing.getLong(DOCUMENT_ID))
+                .setName(rsMapperOutgoing.getString(NAME))
+                .setText(rsMapperOutgoing.getString(TEXT))
+                .setRegistrationNumber(rsMapperOutgoing.getLong(REGISTRATION_NUMBER))
+                .setDateRegistration(rsMapperOutgoing.getDate(DATE_REGISTRATION))
+                .setAddressee(rsMapperOutgoing.getString(ADDRESSEE))
+                .setDeliveryMethod(rsMapperOutgoing.getString(DELIVERY_METHOD))
+                .setAuthor(new Person().newBuilder()
+                        .setId(rsMapperPerson.getLong(ID))
+                        .setSurname(rsMapperPerson.getString(SURNAME))
+                        .setName(rsMapperPerson.getString(NAME))
+                        .setPatronymic(rsMapperPerson.getString(PATRONYMIC))
+                        .setPost(rsMapperPerson.getString(POST))
+                        .setDateOfBirth(rsMapperPerson.getDate(DATA_OF_BIRTH))
+                        .setPhoneNumber(rsMapperPerson.getInt(PHONE_NUMBER))
+                        .build())
                 .build();
     }
 }

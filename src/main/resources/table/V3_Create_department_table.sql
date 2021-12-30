@@ -9,5 +9,9 @@ create table DEPARTMENT
         constraint MANAGER_ID
             references PERSON
             on delete set null,
-    CONTACT_PHONE_NUMBER VARCHAR(50)
+    CONTACT_PHONE_NUMBER VARCHAR(50),
+    ID_ORGANIZATION      BIGINT
+        constraint ORGANIZATION__FK
+            references ORGANIZATION
+            on delete set null
 )

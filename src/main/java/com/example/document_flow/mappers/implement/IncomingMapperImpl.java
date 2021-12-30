@@ -1,6 +1,7 @@
 package com.example.document_flow.mappers.implement;
 
 import com.example.document_flow.entity.document.Incoming;
+import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.mappers.absraction.IncomingMapper;
 
 import java.sql.ResultSet;
@@ -40,18 +41,34 @@ public class IncomingMapperImpl implements IncomingMapper {
     }
 
     @Override
-    public Incoming convertFrom(ResultSet resultSet) throws SQLException {
+    public Incoming convertFrom(ResultSet rs) throws SQLException {
         return new Incoming().newBuilder()
-                .setId(resultSet.getLong(DOCUMENT_ID))
-                .setName(resultSet.getString(NAME))
-                .setText(resultSet.getString(TEXT))
-                .setDateRegistration(resultSet.getDate(DATE_REGISTRATION))
-                .setRegistrationNumber(resultSet.getLong(REGISTRATION_NUMBER))
-                .setAuthor(PersonMapperImpl.getInstance().convertFrom(resultSet))
-                .setSource(PersonMapperImpl.getInstance().convertFrom(resultSet))
-                .setAddressee(resultSet.getString(ADDRESSEE))
-                .setOutgoingNumber(resultSet.getLong(OUTGOING_NUMBER))
-                .setOutgoingRegistrationDate(resultSet.getDate(OUTGOING_REGISTRATION_DATE))
+                .setId(rs.getLong(1))
+                .setAddressee(rs.getString(3))
+                .setOutgoingNumber(rs.getLong(4))
+                .setOutgoingRegistrationDate(rs.getDate(5))
+                .setName(rs.getString(7))
+                .setText(rs.getString(8))
+                .setRegistrationNumber(rs.getLong(9))
+                .setDateRegistration(rs.getDate(10))
+                .setSource(new Person().newBuilder()
+                        .setId(rs.getLong(12))
+                        .setSurname(rs.getString(13))
+                        .setName(rs.getString(14))
+                        .setPatronymic(rs.getString(15))
+                        .setPost(rs.getString(16))
+                        .setDateOfBirth(rs.getDate(17))
+                        .setPhoneNumber(rs.getInt(18))
+                        .build())
+                .setAuthor(new Person().newBuilder()
+                        .setId(rs.getLong(19))
+                        .setSurname(rs.getString(20))
+                        .setName(rs.getString(21))
+                        .setPatronymic(rs.getString(22))
+                        .setPost(rs.getString(23))
+                        .setDateOfBirth(rs.getDate(24))
+                        .setPhoneNumber(rs.getInt(25))
+                        .build())
                 .build();
     }
 }

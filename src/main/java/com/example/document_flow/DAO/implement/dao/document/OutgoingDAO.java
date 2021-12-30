@@ -3,7 +3,6 @@ package com.example.document_flow.DAO.implement.dao.document;
 import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.DataSourceManager;
 import com.example.document_flow.config.DataBase.implement.DataSourceManagerImpl;
-import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.document.Outgoing;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;

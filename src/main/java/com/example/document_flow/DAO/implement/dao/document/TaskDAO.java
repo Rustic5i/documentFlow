@@ -3,12 +3,12 @@ package com.example.document_flow.DAO.implement.dao.document;
 import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.DataSourceManager;
 import com.example.document_flow.config.DataBase.implement.DataSourceManagerImpl;
-import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.document.Task;
-import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
+import com.example.document_flow.mappers.absraction.TaskMapper;
+import com.example.document_flow.mappers.implement.TaskMapperImpl;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -56,6 +56,8 @@ public class TaskDAO implements DAOCrud<Task> {
     private final DataSourceManager sessionManager = DataSourceManagerImpl.getInstance();
 
     private final DocumentDAO documentDAO = DocumentDAO.getInstance();
+
+    private final TaskMapper taskMapper = TaskMapperImpl.getInstance();
 
     private TaskDAO() {
     }
@@ -136,42 +138,7 @@ public class TaskDAO implements DAOCrud<Task> {
         try (ResultSet rs = sessionManager.getDataSource()
                 .getConnection().prepareStatement(SQL_GET_ALL).executeQuery()) {
             while (rs.next()) {
-                tasks.add(new Task().newBuilder()
-                        .setDateOfIssue(rs.getDate(1))
-                        .setTermOfExecution(rs.getDate(2))
-                        .setSignOfControl(rs.getString(4))
-                        .setName(rs.getString(5))
-                        .setText(rs.getString(6))
-                        .setRegistrationNumber(rs.getLong(7))
-                        .setDateRegistration(rs.getDate(8))
-                        .setResponsibleExecutor(new Person().newBuilder()
-                                .setId(rs.getLong(13))
-                                .setSurname(rs.getString(14))
-                                .setName(rs.getString(15))
-                                .setPatronymic(rs.getString(16))
-                                .setPost(rs.getString(17))
-                                .setDateOfBirth(rs.getDate(18))
-                                .setPhoneNumber(rs.getInt(19))
-                                .build())
-                        .setOrderController(new Person().newBuilder()
-                                .setId(rs.getLong(20))
-                                .setSurname(rs.getString(21))
-                                .setName(rs.getString(22))
-                                .setPatronymic(rs.getString(23))
-                                .setPost(rs.getString(24))
-                                .setDateOfBirth(rs.getDate(25))
-                                .setPhoneNumber(rs.getInt(26))
-                                .build())
-                        .setAuthor(new Person().newBuilder()
-                                .setId(rs.getLong(27))
-                                .setSurname(rs.getString(28))
-                                .setName(rs.getString(29))
-                                .setPatronymic(rs.getString(30))
-                                .setPost(rs.getString(31))
-                                .setDateOfBirth(rs.getDate(32))
-                                .setPhoneNumber(rs.getInt(33))
-                                .build())
-                        .build());
+                tasks.add(taskMapper.convertFrom(rs));
             }
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
@@ -225,42 +192,7 @@ public class TaskDAO implements DAOCrud<Task> {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                task = new Task().newBuilder()
-                        .setDateOfIssue(rs.getDate(1))
-                        .setTermOfExecution(rs.getDate(2))
-                        .setSignOfControl(rs.getString(4))
-                        .setName(rs.getString(5))
-                        .setText(rs.getString(6))
-                        .setRegistrationNumber(rs.getLong(7))
-                        .setDateRegistration(rs.getDate(8))
-                        .setResponsibleExecutor(new Person().newBuilder()
-                                .setId(rs.getLong(13))
-                                .setSurname(rs.getString(14))
-                                .setName(rs.getString(15))
-                                .setPatronymic(rs.getString(16))
-                                .setPost(rs.getString(17))
-                                .setDateOfBirth(rs.getDate(18))
-                                .setPhoneNumber(rs.getInt(19))
-                                .build())
-                        .setOrderController(new Person().newBuilder()
-                                .setId(rs.getLong(20))
-                                .setSurname(rs.getString(21))
-                                .setName(rs.getString(22))
-                                .setPatronymic(rs.getString(23))
-                                .setPost(rs.getString(24))
-                                .setDateOfBirth(rs.getDate(25))
-                                .setPhoneNumber(rs.getInt(26))
-                                .build())
-                        .setAuthor(new Person().newBuilder()
-                                .setId(rs.getLong(27))
-                                .setSurname(rs.getString(28))
-                                .setName(rs.getString(29))
-                                .setPatronymic(rs.getString(30))
-                                .setPost(rs.getString(31))
-                                .setDateOfBirth(rs.getDate(32))
-                                .setPhoneNumber(rs.getInt(33))
-                                .build())
-                        .build();
+                task = taskMapper.convertFrom(rs);
             }
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);

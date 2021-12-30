@@ -45,6 +45,8 @@ public class Person extends Staff implements Comparable<Person> {
      */
     private int phoneNumber;
 
+    private Department department;
+
     public Person() {
     }
 
@@ -100,6 +102,15 @@ public class Person extends Staff implements Comparable<Person> {
     @XmlElement
     public void setPhoneNumber(int phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    @XmlElement
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     @Override
@@ -169,6 +180,11 @@ public class Person extends Staff implements Comparable<Person> {
 
         public Builder setId(long id) {
             Person.this.setId(id);
+            return this;
+        }
+
+        public Builder setDepartment(Department department) {
+            Person.this.department = department;
             return this;
         }
 

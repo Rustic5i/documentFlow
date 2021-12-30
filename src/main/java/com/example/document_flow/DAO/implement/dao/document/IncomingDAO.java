@@ -3,12 +3,12 @@ package com.example.document_flow.DAO.implement.dao.document;
 import com.example.document_flow.DAO.abstraction.DAOCrud;
 import com.example.document_flow.config.DataBase.abstraction.DataSourceManager;
 import com.example.document_flow.config.DataBase.implement.DataSourceManagerImpl;
-import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.document.Incoming;
-import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
+import com.example.document_flow.mappers.absraction.IncomingMapper;
+import com.example.document_flow.mappers.implement.IncomingMapperImpl;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -46,7 +46,7 @@ public class IncomingDAO implements DAOCrud<Incoming> {
 
     private static final String SQL_FIND_INCOMING_BY_ID = "SELECT * FROM INCOMING\n" +
             "JOIN DOCUMENT D on INCOMING.DOCUMENT_ID = D.ID\n" +
-            "JOIN PERSON P on P.ID = INCOMING.SOURCE "+
+            "JOIN PERSON P on P.ID = INCOMING.SOURCE " +
             "JOIN PERSON P on P.ID = D.AUTHOR WHERE D.ID=?";
 
     private static IncomingDAO incomingDAO;
@@ -54,6 +54,8 @@ public class IncomingDAO implements DAOCrud<Incoming> {
     private final DataSourceManager sessionManager = DataSourceManagerImpl.getInstance();
 
     private final DocumentDAO documentDAO = DocumentDAO.getInstance();
+
+    private final IncomingMapper incomingMapper = IncomingMapperImpl.getInstance();
 
     private IncomingDAO() {
     }
@@ -133,34 +135,7 @@ public class IncomingDAO implements DAOCrud<Incoming> {
         List<Incoming> incomingList = new ArrayList<>();
         try (ResultSet rs = sessionManager.getDataSource().getConnection().prepareStatement(SQL_GET_ALL).executeQuery()) {
             while (rs.next()) {
-                incomingList.add(new Incoming().newBuilder()
-                        .setId(rs.getLong(1))
-                        .setAddressee(rs.getString(3))
-                        .setOutgoingNumber(rs.getLong(4))
-                        .setOutgoingRegistrationDate(rs.getDate(5))
-                        .setName(rs.getString(7))
-                        .setText(rs.getString(8))
-                        .setRegistrationNumber(rs.getLong(9))
-                        .setDateRegistration(rs.getDate(10))
-                        .setSource(new Person().newBuilder()
-                                .setId(rs.getLong(12))
-                                .setSurname(rs.getString(13))
-                                .setName(rs.getString(14))
-                                .setPatronymic(rs.getString(15))
-                                .setPost(rs.getString(16))
-                                .setDateOfBirth(rs.getDate(17))
-                                .setPhoneNumber(rs.getInt(18))
-                                .build())
-                        .setAuthor(new Person().newBuilder()
-                                .setId(rs.getLong(19))
-                                .setSurname(rs.getString(20))
-                                .setName(rs.getString(21))
-                                .setPatronymic(rs.getString(22))
-                                .setPost(rs.getString(23))
-                                .setDateOfBirth(rs.getDate(24))
-                                .setPhoneNumber(rs.getInt(25))
-                                .build())
-                        .build());
+                incomingList.add(incomingMapper.convertFrom(rs));
             }
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
@@ -213,34 +188,7 @@ public class IncomingDAO implements DAOCrud<Incoming> {
             preparedStatement.setLong(1, id);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
-                incoming = new Incoming().newBuilder()
-                        .setId(rs.getLong(1))
-                        .setAddressee(rs.getString(3))
-                        .setOutgoingNumber(rs.getLong(4))
-                        .setOutgoingRegistrationDate(rs.getDate(5))
-                        .setName(rs.getString(7))
-                        .setText(rs.getString(8))
-                        .setRegistrationNumber(rs.getLong(9))
-                        .setDateRegistration(rs.getDate(10))
-                        .setSource(new Person().newBuilder()
-                                .setId(rs.getLong(12))
-                                .setSurname(rs.getString(13))
-                                .setName(rs.getString(14))
-                                .setPatronymic(rs.getString(15))
-                                .setPost(rs.getString(16))
-                                .setDateOfBirth(rs.getDate(17))
-                                .setPhoneNumber(rs.getInt(18))
-                                .build())
-                        .setAuthor(new Person().newBuilder()
-                                .setId(rs.getLong(19))
-                                .setSurname(rs.getString(20))
-                                .setName(rs.getString(21))
-                                .setPatronymic(rs.getString(22))
-                                .setPost(rs.getString(23))
-                                .setDateOfBirth(rs.getDate(24))
-                                .setPhoneNumber(rs.getInt(25))
-                                .build())
-                        .build();
+                incoming = incomingMapper.convertFrom(rs);
             }
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);

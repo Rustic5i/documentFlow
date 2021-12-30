@@ -1,16 +1,12 @@
 package com.example.document_flow.web.observers;
 
-import com.example.document_flow.DAO.implement.dao.document.DocumentDAO;
 import com.example.document_flow.DAO.implement.dao.document.OutgoingDAO;
-import com.example.document_flow.DAO.implement.dao.staff.OrganizationDAO;
 import com.example.document_flow.entity.document.Document;
-import com.example.document_flow.entity.document.DocumentType;
 import com.example.document_flow.entity.document.Outgoing;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.factory.Factory;
-import com.example.document_flow.factory.document.OutgoingDocumentFactory;
 import com.example.document_flow.factory.document.СreatorDocumentFactory;
 import com.example.document_flow.service.abstraction.staff.DepartmentService;
 import com.example.document_flow.service.abstraction.staff.OrganizationService;
@@ -56,27 +52,32 @@ public class ImportDataObserver implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-//        try {
-//            DataImportingService.importAll(personServiceXml, personServiceDerby);
-//            DataImportingService.importAll(departmentServiceXml, departmentServiceDerby);
-//            DataImportingService.importAll(organizationServiceXml, organizationServiceDerby);
-//        } catch (SaveObjectException | GetDataObjectException e) {
-//            logger.error("Ошибка при попытки импортирования данных", e);
-//        }
-        OutgoingDAO outgoingDAO = OutgoingDAO.getInstance();
-        Factory<Document> factory = new СreatorDocumentFactory().createFactory(Outgoing.class);
-        Outgoing outgoing = (Outgoing) factory.create();
-        outgoing.setId(99L);
         try {
+            DataImportingService.importAll(personServiceXml, personServiceDerby);
+            DataImportingService.importAll(departmentServiceXml, departmentServiceDerby);
+            DataImportingService.importAll(organizationServiceXml, organizationServiceDerby);
+        } catch (SaveObjectException | GetDataObjectException e) {
+            logger.error("Ошибка при попытки импортирования данных", e);
+        }
+        try {
+            organizationServiceDerby.getAll();
+        } catch (GetDataObjectException e) {
+            e.printStackTrace();
+        }
+//        OutgoingDAO outgoingDAO = OutgoingDAO.getInstance();
+//        Factory<Document> factory = new СreatorDocumentFactory().createFactory(Outgoing.class);
+//        Outgoing outgoing = (Outgoing) factory.create();
+//        outgoing.setId(99L);
+//        try {
         //    outgoingDAO.save(outgoing);
 //            outgoingDAO.getAll();
 //            outgoing.setAddressee("ОБНОВА");
 //            outgoingDAO.update(outgoing);
-            outgoingDAO.findById(outgoing.getId());
-            outgoingDAO.deleteById(outgoing.getId());
-        } catch (GetDataObjectException | DeleteObjectException e) {
-            e.printStackTrace();
-        }
+//            outgoingDAO.findById(outgoing.getId());
+//            outgoingDAO.deleteById(outgoing.getId());
+//        } catch (GetDataObjectException | DeleteObjectException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Override

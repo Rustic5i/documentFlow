@@ -1,7 +1,7 @@
 package com.example.document_flow.service.implement.staff.derby;
 
-import com.example.document_flow.DAO.abstraction.DAOCrud;
-import com.example.document_flow.DAO.implement.dao.staff.DepartmentDAO;
+import com.example.document_flow.DAO.abstraction.DepartmentDAO;
+import com.example.document_flow.DAO.implement.dao.staff.DepartmentDAOImpl;
 import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
@@ -20,7 +20,7 @@ public class DepartmentServiceDerby implements DepartmentService {
 
     private static DepartmentServiceDerby departmentServiceDerby;
 
-    private final DAOCrud<Department> dao = DepartmentDAO.getInstance();
+    private final DepartmentDAO dao = DepartmentDAOImpl.getInstance();
 
     private DepartmentServiceDerby() {
     }
@@ -100,5 +100,10 @@ public class DepartmentServiceDerby implements DepartmentService {
     @Override
     public void update(Department object) throws SaveObjectException {
         dao.update(object);
+    }
+
+    @Override
+    public List<Department> findByIdOrganization(long id) throws GetDataObjectException {
+        return dao.findByIdOrganization(id);
     }
 }

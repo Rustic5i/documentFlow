@@ -2,6 +2,7 @@ package com.example.document_flow.service.implement.staff.xml;
 
 import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.exception.DeleteObjectException;
+import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.repository.absraction.staff.DepartmentRepository;
 import com.example.document_flow.repository.implement.staff.DepartmentRepositoryXmlImpl;
@@ -95,5 +96,10 @@ public class DepartmentServiceXmlImpl implements DepartmentService {
     @Override
     public void update(Department object) throws SaveObjectException {
         repository.update(object);
+    }
+
+    @Override
+    public List<Department> findByIdOrganization(long id) throws GetDataObjectException {
+        return null;
     }
 }

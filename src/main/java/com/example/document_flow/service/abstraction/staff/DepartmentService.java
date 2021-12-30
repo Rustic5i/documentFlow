@@ -1,11 +1,10 @@
 package com.example.document_flow.service.abstraction.staff;
 
 import com.example.document_flow.entity.staff.Department;
-import com.example.document_flow.exception.DeleteObjectException;
-import com.example.document_flow.exception.SaveObjectException;
+import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.service.abstraction.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 /**
  * Интерфейс сервис для управления Department
@@ -13,4 +12,6 @@ import java.util.Optional;
  * @author Баратов Руслан
  */
 public interface DepartmentService extends Service<Department> {
+
+    List<Department> findByIdOrganization(long id) throws GetDataObjectException;
 }

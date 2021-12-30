@@ -30,9 +30,11 @@ public class DocumentDAO implements DAOCrud<Document> {
 
     private static final String SQL_DELETE_DOCUMENT_BY_ID = "DELETE FROM APP.DOCUMENT WHERE ID = ?";
 
-    private static final String SQL_UPDATE_DOCUMENT = "UPDATE APP.DOCUMENT doc set doc.NAME = ?, doc.TEXT = ?, doc.REGISTRATION_NUMBER = ?, doc.DATE_REGISTRATION = ?, doc.AUTHOR=? where doc.ID = ?";
+    private static final String SQL_UPDATE_DOCUMENT = "UPDATE APP.DOCUMENT doc SET " +
+            "doc.NAME = ?, doc.TEXT = ?, doc.REGISTRATION_NUMBER = ?, doc.DATE_REGISTRATION = ?, doc.AUTHOR=? where doc.ID = ?";
 
-    private static final String SQL_GET_ALL = "SELECT * FROM DOCUMENT JOIN PERSON P on DOCUMENT.AUTHOR = P.ID";
+    private static final String SQL_GET_ALL = "SELECT * FROM DOCUMENT " +
+            "JOIN PERSON P on DOCUMENT.AUTHOR = P.ID";
 
     private static final String SQL_SAVE_ALL = "INSERT INTO APP.DOCUMENT (ID, NAME, TEXT, REGISTRATION_NUMBER, DATE_REGISTRATION, AUTHOR) VALUES (?,?,?,?,?,?)";
 

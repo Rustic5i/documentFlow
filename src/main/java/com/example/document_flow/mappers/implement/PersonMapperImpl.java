@@ -1,5 +1,6 @@
 package com.example.document_flow.mappers.implement;
 
+import com.example.document_flow.entity.staff.Department;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.mappers.absraction.PersonMapper;
 
@@ -27,6 +28,16 @@ public class PersonMapperImpl implements PersonMapper {
 
     private static final String PHONE_NUMBER = "PHONE_NUMBER";
 
+    private static final String FULL_NAME = "FULL_NAME";
+
+    private static final String SHORT_NAME = "SHORT_NAME";
+
+    private static final String CONTACT_PHONE_NUMBER = "CONTACT_PHONE_NUMBER";
+
+    private final ResultSetMapper rsMapperPerson = new ResultSetMapper("PERSON");
+
+    private final ResultSetMapper rsMapperDepartment = new ResultSetMapper("DEPARTMENT");
+
     private static PersonMapperImpl personMapper;
 
     private PersonMapperImpl() {
@@ -52,14 +63,22 @@ public class PersonMapperImpl implements PersonMapper {
      */
     @Override
     public Person convertFrom(ResultSet resultSet) throws SQLException {
+        rsMapperPerson.setResultSet(resultSet);
+        rsMapperDepartment.setResultSet(resultSet);
         return new Person().newBuilder()
-                .setId(resultSet.getLong(ID))
-                .setSurname(resultSet.getString(SURNAME))
-                .setName(resultSet.getString(NAME))
-                .setPatronymic(resultSet.getString(PATRONYMIC))
-                .setPost(resultSet.getString(POST))
-                .setDateOfBirth(resultSet.getDate(DATA_OF_BIRTH))
-                .setPhoneNumber(resultSet.getInt(PHONE_NUMBER))
+                .setId(rsMapperPerson.getLong(ID))
+                .setSurname(rsMapperPerson.getString(SURNAME))
+                .setName(rsMapperPerson.getString(NAME))
+                .setPatronymic(rsMapperPerson.getString(PATRONYMIC))
+                .setPost(rsMapperPerson.getString(POST))
+                .setDateOfBirth(rsMapperPerson.getDate(DATA_OF_BIRTH))
+                .setPhoneNumber(rsMapperPerson.getInt(PHONE_NUMBER))
+                .setDepartment(new Department().newBuilder()
+                        .setId(rsMapperDepartment.getLong(ID))
+                        .setFullName(rsMapperDepartment.getString(FULL_NAME))
+                        .setShortName(rsMapperDepartment.getString(SHORT_NAME))
+                        .setContactPhoneNumber(rsMapperDepartment.getString(CONTACT_PHONE_NUMBER))
+                        .build())
                 .build();
     }
 }

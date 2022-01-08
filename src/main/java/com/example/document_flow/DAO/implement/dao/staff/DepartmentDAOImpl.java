@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -138,10 +139,18 @@ public class DepartmentDAOImpl implements DepartmentDAO {
                 for (Department department : departmentList) {
                     preparedStatement.setString(1, department.getFullName());
                     preparedStatement.setString(2, department.getShortName());
-                    preparedStatement.setLong(3, department.getManager().getId());
+                    if (department.getManager() == null) {
+                        preparedStatement.setNull(3, Types.BIGINT);
+                    } else {
+                        preparedStatement.setLong(3, department.getManager().getId());
+                    }
                     preparedStatement.setString(4, department.getContactPhoneNumber());
                     preparedStatement.setLong(5, department.getId());
-                    preparedStatement.setLong(6,department.getOrganization().getId());
+                    if (department.getOrganization() == null) {
+                        preparedStatement.setNull(6, Types.BIGINT);
+                    } else {
+                        preparedStatement.setLong(6, department.getOrganization().getId());
+                    }
                     preparedStatement.addBatch();
                 }
                 preparedStatement.executeBatch();
@@ -188,7 +197,7 @@ public class DepartmentDAOImpl implements DepartmentDAO {
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
         }
-        return Optional.of(department);
+        return Optional.ofNullable(department);
     }
 
     @Override

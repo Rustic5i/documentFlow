@@ -177,6 +177,6 @@ public class OutgoingDAO implements DAOCrud<Outgoing> {
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
         }
-        return Optional.of(outgoing);
+        return Optional.ofNullable(outgoing);
     }
 }

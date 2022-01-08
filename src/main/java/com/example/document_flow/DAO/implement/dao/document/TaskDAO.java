@@ -197,6 +197,6 @@ public class TaskDAO implements DAOCrud<Task> {
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
         }
-        return Optional.of(task);
+        return Optional.ofNullable(task);
     }
 }

@@ -102,7 +102,8 @@ public class StaffRepositoryXml<T extends Staff> implements Repository<T> {
      */
     @Override
     public Optional<T> findById(long id) {
-        return Optional.of((T) getAll().stream().filter(object -> object.getId() == id));
+       List<T> list = getAll().stream().filter(object -> object.getId() == id).toList();
+        return Optional.ofNullable((list.size()==0)?null:list.get(0));
     }
 
     /**

@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -129,7 +130,11 @@ public class OrganizationDAOImpl implements OrganizationDAO {
                 for (Organization organization : organizationList) {
                     preparedStatement.setString(1, organization.getFullName());
                     preparedStatement.setString(2, organization.getShortName());
-                    preparedStatement.setLong(3, organization.getManager().getId());
+                    if (organization.getManager() == null) {
+                        preparedStatement.setNull(3, Types.BIGINT);
+                    } else {
+                        preparedStatement.setLong(3, organization.getManager().getId());
+                    }
                     preparedStatement.setString(4, organization.getContactPhoneNumber());
                     preparedStatement.setLong(5, organization.getId());
                     preparedStatement.addBatch();
@@ -174,6 +179,6 @@ public class OrganizationDAOImpl implements OrganizationDAO {
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
         }
-        return Optional.of(organization);
+        return Optional.ofNullable(organization);
     }
 }

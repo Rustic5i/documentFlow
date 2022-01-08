@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Репозиторий для сущности Department
+ * Репозиторий для сущности Department в формате XML
  *
  * @author Баратов Руслан
  */

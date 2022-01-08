@@ -171,6 +171,6 @@ public class DocumentDAO implements DAOCrud<Document> {
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
         }
-        return Optional.of(document);
+        return Optional.ofNullable(document);
     }
 }

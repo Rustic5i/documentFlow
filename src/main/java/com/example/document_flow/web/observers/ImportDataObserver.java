@@ -53,14 +53,17 @@ public class ImportDataObserver implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         try {
+
             DataImportingService.importAll(personServiceXml, personServiceDerby);
-            DataImportingService.importAll(departmentServiceXml, departmentServiceDerby);
             DataImportingService.importAll(organizationServiceXml, organizationServiceDerby);
+            DataImportingService.importAll(departmentServiceXml, departmentServiceDerby);
         } catch (SaveObjectException | GetDataObjectException e) {
             logger.error("Ошибка при попытки импортирования данных", e);
         }
         try {
             organizationServiceDerby.getAll();
+            personServiceDerby.getAll();
+            departmentServiceDerby.getAll();
         } catch (GetDataObjectException e) {
             e.printStackTrace();
         }

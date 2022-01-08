@@ -1,10 +1,10 @@
 package com.example.document_flow.mappers.implement;
 
 import com.example.document_flow.entity.staff.Organization;
+import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.mappers.absraction.OrganizationMapper;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 
@@ -23,7 +23,21 @@ public class OrganizationMapperImpl implements OrganizationMapper {
 
     private static final String CONTACT_PHONE_NUMBER = "CONTACT_PHONE_NUMBER";
 
-    private final ResultSetMapper resultSetMapper = new ResultSetMapper("ORGANIZATION");
+    private static final String SURNAME = "SURNAME";
+
+    private static final String NAME = "NAME";
+
+    private static final String PATRONYMIC = "PATRONYMIC";
+
+    private static final String POST = "POST";
+
+    private static final String DATA_OF_BIRTH = "DATA_OF_BIRTH";
+
+    private static final String PHONE_NUMBER = "PHONE_NUMBER";
+
+    private final ResultSetMapper organizationResultSetMapper = new ResultSetMapper("ORGANIZATION");
+
+    private final ResultSetMapper personResultSetMapper = new ResultSetMapper("PERSON");
 
     private static OrganizationMapperImpl organizationMapper;
 
@@ -50,13 +64,22 @@ public class OrganizationMapperImpl implements OrganizationMapper {
      */
     @Override
     public Organization convertFrom(ResultSet resultSet) throws SQLException {
-        resultSetMapper.setResultSet(resultSet);
+        organizationResultSetMapper.setResultSet(resultSet);
+        personResultSetMapper.setResultSet(resultSet);
         return new Organization().newBuilder()
-                .setId(resultSetMapper.getLong(ID))
-                .setFullName(resultSetMapper.getString(FULL_NAME))
-                .setShortName(resultSetMapper.getString(SHORT_NAME))
-                .setContactPhoneNumber(resultSetMapper.getString(CONTACT_PHONE_NUMBER))
-                .setManager(PersonMapperImpl.getInstance().convertFrom(resultSet))
+                .setId(organizationResultSetMapper.getLong(ID))
+                .setFullName(organizationResultSetMapper.getString(FULL_NAME))
+                .setShortName(organizationResultSetMapper.getString(SHORT_NAME))
+                .setContactPhoneNumber(organizationResultSetMapper.getString(CONTACT_PHONE_NUMBER))
+                .setManager(new Person().newBuilder()
+                        .setId(personResultSetMapper.getLong(ID))
+                        .setSurname(personResultSetMapper.getString(SURNAME))
+                        .setName(personResultSetMapper.getString(NAME))
+                        .setPatronymic(personResultSetMapper.getString(PATRONYMIC))
+                        .setPost(personResultSetMapper.getString(POST))
+                        .setDateOfBirth(personResultSetMapper.getDate(DATA_OF_BIRTH))
+                        .setPhoneNumber(personResultSetMapper.getInt(PHONE_NUMBER))
+                        .build())
                 .build();
     }
 }

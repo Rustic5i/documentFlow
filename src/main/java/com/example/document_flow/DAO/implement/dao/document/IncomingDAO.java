@@ -193,6 +193,6 @@ public class IncomingDAO implements DAOCrud<Incoming> {
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
         }
-        return Optional.of(incoming);
+        return Optional.ofNullable(incoming);
     }
 }

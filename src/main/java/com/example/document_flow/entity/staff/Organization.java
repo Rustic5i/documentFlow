@@ -2,9 +2,7 @@ package com.example.document_flow.entity.staff;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * Организация
@@ -12,7 +10,7 @@ import java.util.Set;
  * @author Баратов Руслан
  */
 @XmlRootElement
-public class Organization extends Staff {
+public class Organization extends Staff implements Cloneable {
 
     /**
      * Полное наименование
@@ -84,6 +82,25 @@ public class Organization extends Staff {
     @Override
     public int hashCode() {
         return Objects.hash(fullName, shortName, manager, contactPhoneNumber);
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return new Organization().newBuilder()
+                .setId(this.getId())
+                .setShortName(this.shortName)
+                .setFullName(this.fullName)
+                .setContactPhoneNumber(this.contactPhoneNumber)
+                .setManager(new Person().newBuilder()
+                        .setId(this.getManager().getId())
+                        .setName(this.getManager().getName())
+                        .setSurname(this.getManager().getSurname())
+                        .setPatronymic(this.getManager().getPatronymic())
+                        .setPhoneNumber(this.getManager().getPhoneNumber())
+                        .setDateOfBirth(this.getManager().getDateOfBirth())
+                        .setPost(this.getManager().getPost())
+                        .build())
+                .build();
     }
 
     public Organization.Builder newBuilder() {

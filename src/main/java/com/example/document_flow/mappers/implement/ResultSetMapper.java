@@ -66,7 +66,7 @@ public class ResultSetMapper {
 
     private int checkColumn(String columnLabel) throws SQLException {
         ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
-        for (int i = 0; i < resultSetMetaData.getColumnCount(); i++) {
+        for (int i = 1; i < resultSetMetaData.getColumnCount(); i++) {
             if (resultSetMetaData.getTableName(i).equalsIgnoreCase(nameTable)
                     && resultSetMetaData.getColumnName(i).equalsIgnoreCase(columnLabel)) {
                 return i;

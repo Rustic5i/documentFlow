@@ -11,7 +11,7 @@ import java.util.Set;
  * @author Баратов Руслан
  */
 @XmlRootElement
-public class Department extends Staff {
+public class Department extends Staff implements Cloneable{
 
     /**
      * Полное наименование
@@ -97,6 +97,25 @@ public class Department extends Staff {
     @Override
     public int hashCode() {
         return Objects.hash(fullName, shortName, manager, contactPhoneNumber);
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return new Department().newBuilder()
+                .setId(this.getId())
+                .setShortName(this.shortName)
+                .setFullName(this.fullName)
+                .setContactPhoneNumber(this.contactPhoneNumber)
+                .setManager(new Person().newBuilder()
+                        .setId(this.getManager().getId())
+                        .setName(this.getManager().getName())
+                        .setSurname(this.getManager().getSurname())
+                        .setPatronymic(this.getManager().getPatronymic())
+                        .setPhoneNumber(this.getManager().getPhoneNumber())
+                        .setDateOfBirth(this.getManager().getDateOfBirth())
+                        .setPost(this.getManager().getPost())
+                        .build())
+                .build();
     }
 
     public Builder newBuilder() {

@@ -13,7 +13,7 @@ import java.util.Objects;
  * @author Баратов Руслан
  */
 @XmlRootElement
-public class Person extends Staff implements Comparable<Person> {
+public class Person extends Staff implements Comparable<Person>, Cloneable {
 
     /**
      * Фамилия
@@ -129,6 +129,25 @@ public class Person extends Staff implements Comparable<Person> {
     @Override
     public int hashCode() {
         return Objects.hash(surname, name, patronymic, post, dateOfBirth, phoneNumber);
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return new Person().newBuilder()
+                .setId(this.getId())
+                .setName(this.getName())
+                .setSurname(this.getSurname())
+                .setPatronymic(this.getPatronymic())
+                .setPhoneNumber(this.getPhoneNumber())
+                .setDateOfBirth(this.getDateOfBirth())
+                .setPost(this.getPost())
+                .setDepartment(new Department().newBuilder()
+                        .setId(this.department.getId())
+                        .setShortName(this.department.getShortName())
+                        .setFullName(this.department.getFullName())
+                        .setContactPhoneNumber(this.department.getContactPhoneNumber())
+                        .build())
+                .build();
     }
 
     @Override

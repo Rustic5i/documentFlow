@@ -14,6 +14,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +96,7 @@ public class PersonDAOImpl implements PersonDAO {
             preparedStatement.setString(4, object.getPost());
             preparedStatement.setDate(5, new Date(object.getDateOfBirth().getTime()));
             preparedStatement.setInt(6, object.getPhoneNumber());
-            preparedStatement.setLong(7,object.getDepartment().getId());
+            preparedStatement.setLong(7, object.getDepartment().getId());
             preparedStatement.setLong(8, object.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -140,7 +141,11 @@ public class PersonDAOImpl implements PersonDAO {
                 preparedStatement.setDate(5, new Date(person.getDateOfBirth().getTime()));
                 preparedStatement.setInt(6, person.getPhoneNumber());
                 preparedStatement.setLong(7, person.getId());
-                preparedStatement.setLong(8,person.getDepartment().getId());
+                if (person.getDepartment() == null) {
+                    preparedStatement.setNull(8, Types.BIGINT);
+                } else {
+                    preparedStatement.setLong(8, person.getDepartment().getId());
+                }
                 preparedStatement.addBatch();
             }
             preparedStatement.executeBatch();
@@ -182,7 +187,7 @@ public class PersonDAOImpl implements PersonDAO {
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
         }
-        return Optional.of(person);
+        return Optional.ofNullable(person);
     }
 
     @Override

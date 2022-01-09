@@ -10,6 +10,7 @@ import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.mappers.absraction.PersonMapper;
 import com.example.document_flow.mappers.implement.PersonMapperImpl;
 
+import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -89,7 +90,9 @@ public class PersonDAOImpl implements PersonDAO {
      */
     @Override
     public void update(Person object) throws SaveObjectException {
-        try (PreparedStatement preparedStatement = sourceManager.getDataSource().getConnection().prepareStatement(SQL_UPDATE_PERSON)) {
+        try (Connection connection = sourceManager
+                .getDataSource().getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_PERSON);
             preparedStatement.setString(1, object.getSurname());
             preparedStatement.setString(2, object.getName());
             preparedStatement.setString(3, object.getPatronymic());

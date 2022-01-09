@@ -97,9 +97,17 @@ public class DepartmentDAOImpl implements DepartmentDAO {
                 .getDataSource().getConnection().prepareStatement(SQL_UPDATE_DEPARTMENT)) {
             preparedStatement.setString(1, object.getFullName());
             preparedStatement.setString(2, object.getShortName());
-            preparedStatement.setLong(3, object.getManager().getId());
-            preparedStatement.setString(4, object.getContactPhoneNumber());
-            preparedStatement.setLong(5, object.getOrganization().getId());
+            preparedStatement.setString(3, object.getContactPhoneNumber());
+            if (object.getManager()==null){
+                preparedStatement.setNull(4,Types.BIGINT);
+            }else {
+                preparedStatement.setLong(4, object.getManager().getId());
+            }
+            if (object.getOrganization()==null){
+                preparedStatement.setNull(5,Types.BIGINT);
+            }else {
+                preparedStatement.setLong(5, object.getOrganization().getId());
+            }
             preparedStatement.setLong(6, object.getId());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

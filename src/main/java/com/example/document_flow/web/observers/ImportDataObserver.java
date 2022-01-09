@@ -1,13 +1,10 @@
 package com.example.document_flow.web.observers;
 
-import com.example.document_flow.DAO.implement.dao.document.OutgoingDAO;
-import com.example.document_flow.entity.document.Document;
-import com.example.document_flow.entity.document.Outgoing;
-import com.example.document_flow.exception.DeleteObjectException;
+import com.example.document_flow.entity.staff.Department;
+import com.example.document_flow.entity.staff.Organization;
+import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
-import com.example.document_flow.factory.Factory;
-import com.example.document_flow.factory.document.СreatorDocumentFactory;
 import com.example.document_flow.service.abstraction.staff.DepartmentService;
 import com.example.document_flow.service.abstraction.staff.OrganizationService;
 import com.example.document_flow.service.abstraction.staff.PersonService;
@@ -23,6 +20,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import java.util.List;
+import java.util.Random;
 
 /**
  * Класс импортирует данные после старта приложения, из репозитория xml в базу данных Derby
@@ -53,7 +52,6 @@ public class ImportDataObserver implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         try {
-
             DataImportingService.importAll(personServiceXml, personServiceDerby);
             DataImportingService.importAll(organizationServiceXml, organizationServiceDerby);
             DataImportingService.importAll(departmentServiceXml, departmentServiceDerby);
@@ -61,26 +59,22 @@ public class ImportDataObserver implements ServletContextListener {
             logger.error("Ошибка при попытки импортирования данных", e);
         }
         try {
-            organizationServiceDerby.getAll();
-            personServiceDerby.getAll();
-            departmentServiceDerby.getAll();
-        } catch (GetDataObjectException e) {
+            List<Organization> organizationList = organizationServiceDerby.getAll();
+            List<Person> personList = personServiceDerby.getAll();
+            List<Department> departmentList = departmentServiceDerby.getAll();
+
+            for (Department department : departmentList) {
+                department.setManager(personList.get(new Random().nextInt(personList.size()-1)));
+                department.setOrganization(organizationList.get(new Random().nextInt(2)));
+                departmentServiceDerby.update(department);
+            }
+            for (Person person : personList) {
+                person.setDepartment(departmentList.get(new Random().nextInt(departmentList.size()-1)));
+                personServiceDerby.update(person);
+            }
+        } catch (GetDataObjectException | SaveObjectException e) {
             e.printStackTrace();
         }
-//        OutgoingDAO outgoingDAO = OutgoingDAO.getInstance();
-//        Factory<Document> factory = new СreatorDocumentFactory().createFactory(Outgoing.class);
-//        Outgoing outgoing = (Outgoing) factory.create();
-//        outgoing.setId(99L);
-//        try {
-        //    outgoingDAO.save(outgoing);
-//            outgoingDAO.getAll();
-//            outgoing.setAddressee("ОБНОВА");
-//            outgoingDAO.update(outgoing);
-//            outgoingDAO.findById(outgoing.getId());
-//            outgoingDAO.deleteById(outgoing.getId());
-//        } catch (GetDataObjectException | DeleteObjectException e) {
-//            e.printStackTrace();
-//        }
     }
 
     @Override

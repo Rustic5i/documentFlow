@@ -29,7 +29,7 @@ import java.util.Optional;
 public class OrganizationDAOImpl implements OrganizationDAO {
 
     private static final String SQL_FIND_ORGANIZATION_BY_ID = "SELECT * FROM ORGANIZATION " +
-            "JOIN PERSON P on P.ID = ORGANIZATION.MANAGER_ID where ORGANIZATION.ID =?";
+            "LEFT JOIN PERSON P on P.ID = ORGANIZATION.MANAGER_ID where ORGANIZATION.ID =?";
 
     private static final String SQL_DELETE_ORGANIZATION_BY_ID = "DELETE FROM APP.ORGANIZATION WHERE ID = ?";
 
@@ -37,7 +37,7 @@ public class OrganizationDAOImpl implements OrganizationDAO {
             " t.SHORT_NAME = ?, t.CONTACT_PHONE_NUMBER = ? WHERE t.ID = ?";
 
     private static final String SQL_GET_ALL_ORGANIZATION = "SELECT * FROM ORGANIZATION " +
-            "JOIN PERSON P on P.ID = ORGANIZATION.MANAGER_ID";
+            "LEFT JOIN PERSON P on P.ID = ORGANIZATION.MANAGER_ID";
 
     private static final String SQL_SAVE_ALL = "INSERT INTO APP.ORGANIZATION (FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER, ID)\n" +
             "VALUES (?, ?, ?, ?, ?)";

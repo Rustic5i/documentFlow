@@ -35,20 +35,20 @@ public class DepartmentDAOImpl implements DepartmentDAO {
             " t.CONTACT_PHONE_NUMBER = ?,t.MANAGER_ID=?,t.ID_ORGANIZATION = ? WHERE t.ID = ?";
 
     private static final String SQL_GET_ALL = "SELECT * FROM DEPARTMENT D " +
-            "JOIN PERSON P on D.MANAGER_ID = P.ID " +
-            "JOIN ORGANIZATION O on D.ID_ORGANIZATION = O.ID";
+            "LEFT JOIN PERSON P on D.MANAGER_ID = P.ID " +
+            "LEFT JOIN ORGANIZATION O on D.ID_ORGANIZATION = O.ID";
 
     private static final String SQL_SAVE_ALL = "INSERT INTO APP.DEPARTMENT " +
             "(FULL_NAME, SHORT_NAME, MANAGER_ID, CONTACT_PHONE_NUMBER, ID, ID_ORGANIZATION)\n" +
             "VALUES (?, ?, ?, ?, ?,?)";
 
     private static final String SQL_FIND_DEPARTMENT_BY_ID = "SELECT * FROM DEPARTMENT " +
-            "JOIN PERSON P on P.ID = DEPARTMENT.MANAGER_ID " +
-            "JOIN ORGANIZATION O on DEPARTMENT.ID_ORGANIZATION = O.ID where DEPARTMENT.ID =?";
+            "LEFT JOIN PERSON P on P.ID = DEPARTMENT.MANAGER_ID " +
+            "LEFT JOIN ORGANIZATION O on DEPARTMENT.ID_ORGANIZATION = O.ID where DEPARTMENT.ID =?";
 
     private static final String SQL_FIND_BY_ID_ORGANIZATION = "SELECT * FROM DEPARTMENT\n" +
-            "            JOIN PERSON P on P.ID = DEPARTMENT.MANAGER_ID\n" +
-            "            JOIN ORGANIZATION O on DEPARTMENT.ID_ORGANIZATION = O.ID WHERE DEPARTMENT.ID_ORGANIZATION = ?";
+            "      LEFT JOIN PERSON P on P.ID = DEPARTMENT.MANAGER_ID\n" +
+            "      LEFT JOIN ORGANIZATION O on DEPARTMENT.ID_ORGANIZATION = O.ID WHERE DEPARTMENT.ID_ORGANIZATION = ?";
 
     private static DepartmentDAOImpl derbyDataBase;
 

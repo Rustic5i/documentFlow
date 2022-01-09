@@ -34,17 +34,17 @@ public class PersonDAOImpl implements PersonDAO {
             "t.PATRONYMIC = ?, t.POST = ?, t.DATA_OF_BIRTH = ?, t.PHONE_NUMBER  = ?, t.ID_DEPARTMENT = ? WHERE t.ID = ?";
 
     private static final String SQL_GET_ALL_PERSON = "SELECT * FROM PERSON P " +
-            "JOIN DEPARTMENT D ON P.ID_DEPARTMENT = D.ID";
+            "LEFT JOIN DEPARTMENT D ON P.ID_DEPARTMENT = D.ID";
 
     private static final String SQL_SAVE_PERSON = "INSERT INTO APP.PERSON " +
             "(SURNAME, NAME, PATRONYMIC, POST, DATA_OF_BIRTH, PHONE_NUMBER,ID,ID_DEPARTMENT)\n" +
             "VALUES (?, ?, ?, ?, ?, ?, ?,?)";
 
     private static final String SQL_FIND_PERSON_BY_ID = "SELECT * FROM PERSON P " +
-            "JOIN DEPARTMENT D ON P.ID_DEPARTMENT = D.ID WHERE P.ID=?";
+            "LEFT JOIN DEPARTMENT D ON P.ID_DEPARTMENT = D.ID WHERE P.ID=?";
 
     private static final String SQL_FIND_BY_ID_DEPARTMENT = "SELECT * FROM PERSON PERSON " +
-            "JOIN DEPARTMENT D ON PERSON.ID_DEPARTMENT = D.ID WHERE PERSON.ID_DEPARTMENT = ?";
+            "LEFT JOIN DEPARTMENT D ON PERSON.ID_DEPARTMENT = D.ID WHERE PERSON.ID_DEPARTMENT = ?";
 
     private static PersonDAOImpl derbyDataBase;
 

@@ -2,6 +2,7 @@ package com.example.document_flow.service.implement.staff.xml;
 
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.DeleteObjectException;
+import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.repository.absraction.staff.PersonRepository;
 import com.example.document_flow.repository.implement.staff.PersonRepositoryXmlImpl;
@@ -17,7 +18,7 @@ import java.util.Optional;
  */
 public class PersonServiceXmlImpl implements PersonService {
 
-    private static PersonServiceXmlImpl personService = new PersonServiceXmlImpl();
+    private static PersonServiceXmlImpl personService;
 
     private final PersonRepository repository = PersonRepositoryXmlImpl.getInstance();
 
@@ -95,5 +96,10 @@ public class PersonServiceXmlImpl implements PersonService {
     @Override
     public void update(Person object) throws SaveObjectException {
         repository.update(object);
+    }
+
+    @Override
+    public List<Person> findByIdDepartment(long id) throws GetDataObjectException {
+        return null;
     }
 }

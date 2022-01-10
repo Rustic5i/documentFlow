@@ -1,4 +1,4 @@
-package com.example.document_flow.web.controller.RESTController;
+package com.example.document_flow.web.controller.RESTController.document;
 
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.GetDataObjectException;
@@ -13,7 +13,7 @@ import java.util.List;
 //@Path("/api/task")
 //public class TaskRESTController {
 //
-//    private final TaskS PERSON_SERVICE = PersonServiceDerby.getInstance();
+//    private final  PERSON_SERVICE = PersonServiceDerby.getInstance();
 //
 //    @GET
 //    @Produces(MediaType.APPLICATION_JSON)

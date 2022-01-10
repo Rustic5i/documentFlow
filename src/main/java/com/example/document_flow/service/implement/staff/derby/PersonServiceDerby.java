@@ -1,6 +1,7 @@
 package com.example.document_flow.service.implement.staff.derby;
 
 import com.example.document_flow.DAO.abstraction.DAOCrud;
+import com.example.document_flow.DAO.abstraction.PersonDAO;
 import com.example.document_flow.DAO.implement.dao.staff.PersonDAOImpl;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.DeleteObjectException;
@@ -20,7 +21,7 @@ public class PersonServiceDerby implements PersonService {
 
     private static PersonServiceDerby personServiceDerby;
 
-    private final DAOCrud<Person> dao = PersonDAOImpl.getInstance();
+    private final PersonDAO dao = PersonDAOImpl.getInstance();
 
     private PersonServiceDerby() {
     }
@@ -100,5 +101,10 @@ public class PersonServiceDerby implements PersonService {
     @Override
     public void update(Person object) throws SaveObjectException {
         dao.update(object);
+    }
+
+    @Override
+    public List<Person> findByIdDepartment(long id) throws GetDataObjectException {
+        return dao.findByIdDepartment(id);
     }
 }

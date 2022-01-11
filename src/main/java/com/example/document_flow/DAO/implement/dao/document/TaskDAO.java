@@ -46,10 +46,10 @@ public class TaskDAO implements DAOCrud<Task> {
             "VALUES (?, ?, ?, ?, ?,?)";
 
     private static final String SQL_FIND_TASK_BY_ID = "SELECT * FROM TASK T\n" +
-            "         JOIN DOCUMENT D on T.DOCUMENT_ID = D.ID\n" +
-            "         JOIN PERSON EXECUTOR on EXECUTOR.ID = T.RESPONSIBLE_EXECUTOR\n" +
-            "         JOIN PERSON CONTROLLER on CONTROLLER.ID = T.ORDER_CONTROLLER\n" +
-            "         JOIN PERSON AUTHOR on D.AUTHOR = AUTHOR.ID";
+            "       left JOIN DOCUMENT D on T.DOCUMENT_ID = D.ID\n" +
+            "       left JOIN PERSON EXECUTOR on EXECUTOR.ID = T.RESPONSIBLE_EXECUTOR\n" +
+            "       left JOIN PERSON CONTROLLER on CONTROLLER.ID = T.ORDER_CONTROLLER\n" +
+            "       left JOIN PERSON AUTHOR on D.AUTHOR = AUTHOR.ID WHERE D.ID = ?";
 
     private static TaskDAO taskDAO;
 

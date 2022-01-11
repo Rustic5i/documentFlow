@@ -22,7 +22,7 @@
                 </p>
                 <div class="organization-list-scroll" style="height: 80%; overflow-x:scroll;overflow-y:scroll;">
                     <ul id="organization-ul" class="list-group">
-<!-----------------------Дерево кнопок Staff---------- -->
+                        <!-----------------------Дерево кнопок Staff---------- -->
                     </ul>
                 </div>
             </div>
@@ -72,19 +72,29 @@
                 </div>
             </div>
         </div>
-        <!-------------------------------------Окно информации-->
-        <div id="windows-information" class="col-8 border">Информация
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
-                            type="button">Работник\Документ
-                    </button>
-                </li>
+        <!------------------------------------- Окно информации-->
+        <div id="windows-information" class="col-8 border">
+            <!----------------------------------------- Список кнопок для вкладок -------->
+            <ul class="nav nav-tabs" id="tabButton">
+<!--                <li class="nav-item" role="presentation">-->
+<!--                    <a class="nav-link" id="nav-user-tab" data-bs-toggle="pill" href="#nav-table">-->
+<!--                        Имя вкладки-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--                <li class="nav-item" role="presentation">-->
+<!--                    <a class="nav-link" id="nav-newUser-tab" data-bs-toggle="pill" href="#nav-table1">-->
+<!--                        New User-->
+<!--                    </a>-->
+<!--                </li>-->
             </ul>
+            <!------------------------ Список вкладок -->
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="home" aria-labelledby="home-tab">Информация о
-                    работнике\документе
-                </div>
+<!--                <div class="tab-pane fade" id="nav-table">-->
+<!--                    1Информация о работнике\документе-->
+<!--                </div>-->
+<!--                <div class="tab-pane fade" id="nav-table1">-->
+<!--                    №2 Информация о работнике\документе-->
+<!--                </div>-->
             </div>
         </div>
     </div>
@@ -100,9 +110,9 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-<script src="/static/person2.js"></script>
-<script src="/static/organization.js"></script>
-<script src="/static/department.js"></script>
+<script src="/static/staff/person.js"></script>
+<script src="/static/staff/organization.js"></script>
+<script src="/static/staff/department.js"></script>
 <script src="/static/document/task.js"></script>
 <script src="/static/document/incoming.js"></script>
 <script src="/static/document/outgoing.js"></script>

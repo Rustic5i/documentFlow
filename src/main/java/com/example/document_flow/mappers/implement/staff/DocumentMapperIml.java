@@ -1,7 +1,8 @@
-package com.example.document_flow.mappers.implement;
+package com.example.document_flow.mappers.implement.staff;
 
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.mappers.absraction.DocumentMapper;
+import com.example.document_flow.mappers.implement.document.PersonMapperImpl;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -46,7 +46,8 @@ public class TableCreator implements com.example.document_flow.DAO.abstraction.T
      */
     @Override
     public void createTablesDB() throws CreateTableException {
-        try (Statement statement = sessionDataBase.getDataSource().getConnection().createStatement()) {
+        try (Connection connection = sessionDataBase.getDataSource().getConnection();
+             Statement statement = connection.createStatement()) {
                 for (String sqlScript : getArraySqlScripts()) {
                     String nameTable = sqlScript.split("\s+|\\(")[2];
                     statement.executeUpdate(sqlScript);

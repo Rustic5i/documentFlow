@@ -1,11 +1,13 @@
 package com.example.document_flow.web.observers;
 
 import com.example.document_flow.entity.document.Incoming;
+import com.example.document_flow.entity.document.Outgoing;
 import com.example.document_flow.entity.document.Task;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.factory.document.IncomingDocumentFactory;
+import com.example.document_flow.factory.document.OutgoingDocumentFactory;
 import com.example.document_flow.factory.document.TaskDocumentFactory;
 import com.example.document_flow.service.abstraction.document.IncomingService;
 import com.example.document_flow.service.abstraction.document.OutgoingService;
@@ -35,6 +37,19 @@ public class DocumentDataImportObserver implements ServletContextListener {
         personList = getAllPerson();
         createDataTaskDB();
         createDataIncomingDB();
+        createDataOutgoingDB();
+    }
+
+    private void createDataOutgoingDB(){
+        for (int i = 0; i < 4; i++) {
+            Outgoing outgoing = new OutgoingDocumentFactory().create();
+            outgoing.setAuthor(personList.get(i));
+            try {
+                outgoingService.save(outgoing);
+            } catch (SaveObjectException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void createDataIncomingDB() {

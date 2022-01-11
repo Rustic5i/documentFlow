@@ -8,7 +8,7 @@ import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.mappers.absraction.OutgoingMapper;
-import com.example.document_flow.mappers.implement.OutgoingMapperImpl;
+import com.example.document_flow.mappers.implement.staff.OutgoingMapperImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -32,8 +32,8 @@ public class OutgoingDAO implements DAOCrud<Outgoing> {
     private static final String SQL_UPDATE_OUTGOING = "UPDATE APP.OUTGOING t SET t.ADDRESSEE = ?, t.DELIVERY_METHOD = ? WHERE t.DOCUMENT_ID = ?";
 
     private static final String SQL_GET_ALL = "SELECT * FROM OUTGOING " +
-            "JOIN DOCUMENT D on OUTGOING.DOCUMENT_ID = D.ID " +
-            "JOIN PERSON P on P.ID = D.AUTHOR";
+            "left JOIN DOCUMENT D on OUTGOING.DOCUMENT_ID = D.ID " +
+            "left JOIN PERSON P on P.ID = D.AUTHOR";
 
     private static final String SQL_SAVE_ALL = "INSERT INTO APP.OUTGOING (DOCUMENT_ID, ADDRESSEE, DELIVERY_METHOD) VALUES (?, ?, ?)";
 
@@ -81,7 +81,8 @@ public class OutgoingDAO implements DAOCrud<Outgoing> {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_DELETE_OUTGOING_BY_ID)) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_OUTGOING_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -97,16 +98,15 @@ public class OutgoingDAO implements DAOCrud<Outgoing> {
      */
     @Override
     public void update(Outgoing object) throws SaveObjectException {
-        try (Connection connection = sessionManager.getDataSource().getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_OUTGOING)) {
-                connection.setAutoCommit(false);
-                preparedStatement.setString(1, object.getAddressee());
-                preparedStatement.setString(2, object.getDeliveryMethod());
-                preparedStatement.setLong(3, object.getId());
-                documentDAO.update(object);
-                preparedStatement.executeUpdate();
-                connection.commit();
-            }
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_OUTGOING)) {
+            connection.setAutoCommit(false);
+            preparedStatement.setString(1, object.getAddressee());
+            preparedStatement.setString(2, object.getDeliveryMethod());
+            preparedStatement.setLong(3, object.getId());
+            documentDAO.update(object);
+            preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
             throw new SaveObjectException(MessageFormat.format("Ошибка при обновления объекта Department c id {0}", object.getId()), e);
         }
@@ -121,7 +121,9 @@ public class OutgoingDAO implements DAOCrud<Outgoing> {
     @Override
     public List<Outgoing> getAll() throws GetDataObjectException {
         List<Outgoing> outgoingList = new ArrayList<>();
-        try (ResultSet rs = sessionManager.getDataSource().getConnection().prepareStatement(SQL_GET_ALL).executeQuery()) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_ALL);
+             ResultSet rs = preparedStatement.executeQuery()) {
             while (rs.next()) {
                 outgoingList.add(outgoingMapper.convertFrom(rs));
             }
@@ -169,7 +171,8 @@ public class OutgoingDAO implements DAOCrud<Outgoing> {
     @Override
     public Optional<Outgoing> findById(long id) throws GetDataObjectException {
         Outgoing outgoing = new Outgoing();
-        try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_FIND_OUTGOING_BY_ID)) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_OUTGOING_BY_ID)) {
             preparedStatement.setLong(1, id);
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {

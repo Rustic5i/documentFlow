@@ -1,4 +1,4 @@
-package com.example.document_flow.mappers.implement;
+package com.example.document_flow.mappers.implement.staff;
 
 import com.example.document_flow.entity.document.Task;
 import com.example.document_flow.entity.staff.Person;

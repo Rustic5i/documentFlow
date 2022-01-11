@@ -8,7 +8,7 @@ import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.mappers.absraction.PersonMapper;
-import com.example.document_flow.mappers.implement.PersonMapperImpl;
+import com.example.document_flow.mappers.implement.document.PersonMapperImpl;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -74,7 +74,8 @@ public class PersonDAOImpl implements PersonDAO {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        try (PreparedStatement preparedStatement = sourceManager.getDataSource().getConnection().prepareStatement(SQL_DELETE_PERSON_BY_ID)) {
+        try (Connection connection = sourceManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_PERSON_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -90,9 +91,8 @@ public class PersonDAOImpl implements PersonDAO {
      */
     @Override
     public void update(Person object) throws SaveObjectException {
-        try (Connection connection = sourceManager
-                .getDataSource().getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_PERSON)) {
+        try (Connection connection = sourceManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_PERSON)) {
                 preparedStatement.setString(1, object.getSurname());
                 preparedStatement.setString(2, object.getName());
                 preparedStatement.setString(3, object.getPatronymic());
@@ -102,7 +102,6 @@ public class PersonDAOImpl implements PersonDAO {
                 preparedStatement.setLong(7, object.getDepartment().getId());
                 preparedStatement.setLong(8, object.getId());
                 preparedStatement.executeUpdate();
-            }
         } catch (SQLException e) {
             throw new SaveObjectException(MessageFormat.format("Ошибка при обновления объекта Person c id {0}", object.getId()), e);
         }
@@ -116,12 +115,12 @@ public class PersonDAOImpl implements PersonDAO {
     @Override
     public List<Person> getAll() throws GetDataObjectException {
         List<Person> personList = new ArrayList<>();
-        try (Connection connection = sourceManager.getDataSource().getConnection()) {
-            try (ResultSet rs = connection.prepareStatement(SQL_GET_ALL_PERSON).executeQuery()) {
+        try (Connection connection = sourceManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_ALL_PERSON);
+             ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
                     personList.add(personMapper.convertFrom(rs));
                 }
-            }
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
         }
@@ -137,7 +136,8 @@ public class PersonDAOImpl implements PersonDAO {
      */
     @Override
     public void saveAll(List<Person> personList) throws SaveObjectException {
-        try (PreparedStatement preparedStatement = sourceManager.getDataSource().getConnection().prepareStatement(SQL_SAVE_PERSON)) {
+        try (Connection connection = sourceManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_PERSON)) {
             for (Person person : personList) {
                 preparedStatement.setString(1, person.getSurname());
                 preparedStatement.setString(2, person.getName());
@@ -179,8 +179,8 @@ public class PersonDAOImpl implements PersonDAO {
     @Override
     public Optional<Person> findById(long id) throws GetDataObjectException {
         Person person = new Person();
-        try (PreparedStatement preparedStatement = sourceManager
-                .getDataSource().getConnection().prepareStatement(SQL_FIND_PERSON_BY_ID)) {
+        try (Connection connection = sourceManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_PERSON_BY_ID)) {
             preparedStatement.setLong(1, id);
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
@@ -198,8 +198,8 @@ public class PersonDAOImpl implements PersonDAO {
     @Override
     public List<Person> findByIdDepartment(long id) throws GetDataObjectException {
         List<Person> personList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = sourceManager
-                .getDataSource().getConnection().prepareStatement(SQL_FIND_BY_ID_DEPARTMENT)) {
+        try (Connection connection = sourceManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_ID_DEPARTMENT)) {
             preparedStatement.setLong(1, id);
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {

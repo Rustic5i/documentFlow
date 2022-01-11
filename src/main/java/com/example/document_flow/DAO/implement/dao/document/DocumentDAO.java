@@ -8,7 +8,7 @@ import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.mappers.absraction.DocumentMapper;
-import com.example.document_flow.mappers.implement.DocumentMapperIml;
+import com.example.document_flow.mappers.implement.staff.DocumentMapperIml;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -80,7 +80,8 @@ public class DocumentDAO implements DAOCrud<Document> {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_DELETE_DOCUMENT_BY_ID)) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_DOCUMENT_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -96,7 +97,8 @@ public class DocumentDAO implements DAOCrud<Document> {
      */
     @Override
     public void update(Document object) throws SaveObjectException {
-        try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_UPDATE_DOCUMENT)) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_DOCUMENT)) {
             preparedStatement.setString(1, object.getName());
             preparedStatement.setString(2, object.getText());
             preparedStatement.setLong(3, object.getRegistrationNumber());
@@ -117,7 +119,9 @@ public class DocumentDAO implements DAOCrud<Document> {
     @Override
     public List<Document> getAll() throws GetDataObjectException {
         List<Document> documentList = new ArrayList<>();
-        try (ResultSet rs = sessionManager.getDataSource().getConnection().prepareStatement(SQL_GET_ALL).executeQuery()) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_ALL);
+             ResultSet rs = preparedStatement.executeQuery()) {
             while (rs.next()) {
                 documentList.add(documentMapper.convertFrom(rs));
             }
@@ -135,22 +139,19 @@ public class DocumentDAO implements DAOCrud<Document> {
      */
     @Override
     public void saveAll(List<Document> objectList) throws SaveObjectException {
-        try (Connection connection = sessionManager.getDataSource().getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_ALL)) {
-                for (Document document : objectList) {
-                    preparedStatement.setLong(1, document.getId());
-                    preparedStatement.setString(2, document.getName());
-                    preparedStatement.setString(3, document.getText());
-                    preparedStatement.setLong(4, document.getRegistrationNumber());
-                    preparedStatement.setDate(5, new Date(document.getDateRegistration().getTime()));
-                    preparedStatement.setLong(6, document.getAuthor().getId());
-                    preparedStatement.addBatch();
-                }
-                preparedStatement.executeBatch();
-                connection.commit();
-            } catch (SQLException e) {
-                throw new SaveObjectException("Ошибка сохранения объекта Document ", e);
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_ALL)) {
+            for (Document document : objectList) {
+                preparedStatement.setLong(1, document.getId());
+                preparedStatement.setString(2, document.getName());
+                preparedStatement.setString(3, document.getText());
+                preparedStatement.setLong(4, document.getRegistrationNumber());
+                preparedStatement.setDate(5, new Date(document.getDateRegistration().getTime()));
+                preparedStatement.setLong(6, document.getAuthor().getId());
+                preparedStatement.addBatch();
             }
+            preparedStatement.executeBatch();
+            connection.commit();
         } catch (SQLException e) {
             throw new SaveObjectException("Ошибка сохранения объекта Document ", e);
         }
@@ -166,11 +167,13 @@ public class DocumentDAO implements DAOCrud<Document> {
     @Override
     public Optional<Document> findById(long id) throws GetDataObjectException {
         Document document = new Document();
-        try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_FIND_DOCUMENT_BY_ID)) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_DOCUMENT_BY_ID)) {
             preparedStatement.setLong(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                document = documentMapper.convertFrom(rs);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    document = documentMapper.convertFrom(rs);
+                }
             }
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);

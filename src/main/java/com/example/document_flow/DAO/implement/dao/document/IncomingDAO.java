@@ -8,7 +8,7 @@ import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.mappers.absraction.IncomingMapper;
-import com.example.document_flow.mappers.implement.IncomingMapperImpl;
+import com.example.document_flow.mappers.implement.staff.IncomingMapperImpl;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -89,8 +89,8 @@ public class IncomingDAO implements DAOCrud<Incoming> {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        try (PreparedStatement preparedStatement = sessionManager
-                .getDataSource().getConnection().prepareStatement(SQL_DELETE_INCOMING_BY_ID)) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_INCOMING_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -106,18 +106,17 @@ public class IncomingDAO implements DAOCrud<Incoming> {
      */
     @Override
     public void update(Incoming object) throws SaveObjectException {
-        try (Connection connection = sessionManager.getDataSource().getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_INCOMING)) {
-                connection.setAutoCommit(false);
-                preparedStatement.setLong(1, object.getSource().getId());
-                preparedStatement.setString(2, object.getAddressee());
-                preparedStatement.setLong(3, object.getOutgoingNumber());
-                preparedStatement.setDate(4, new Date(object.getOutgoingRegistrationDate().getTime()));
-                preparedStatement.setLong(5, object.getId());
-                documentDAO.update(object);
-                preparedStatement.executeUpdate();
-                connection.commit();
-            }
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_INCOMING)) {
+            connection.setAutoCommit(false);
+            preparedStatement.setLong(1, object.getSource().getId());
+            preparedStatement.setString(2, object.getAddressee());
+            preparedStatement.setLong(3, object.getOutgoingNumber());
+            preparedStatement.setDate(4, new Date(object.getOutgoingRegistrationDate().getTime()));
+            preparedStatement.setLong(5, object.getId());
+            documentDAO.update(object);
+            preparedStatement.executeUpdate();
+            connection.commit();
         } catch (SQLException e) {
             throw new SaveObjectException(MessageFormat
                     .format("Ошибка при обновления объекта Incoming c id {0}", object.getId()), e);
@@ -133,7 +132,9 @@ public class IncomingDAO implements DAOCrud<Incoming> {
     @Override
     public List<Incoming> getAll() throws GetDataObjectException {
         List<Incoming> incomingList = new ArrayList<>();
-        try (ResultSet rs = sessionManager.getDataSource().getConnection().prepareStatement(SQL_GET_ALL).executeQuery()) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_ALL);
+             ResultSet rs = preparedStatement.executeQuery()) {
             while (rs.next()) {
                 incomingList.add(incomingMapper.convertFrom(rs));
             }
@@ -183,7 +184,8 @@ public class IncomingDAO implements DAOCrud<Incoming> {
     @Override
     public Optional<Incoming> findById(long id) throws GetDataObjectException {
         Incoming incoming = new Incoming();
-        try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_FIND_INCOMING_BY_ID)) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_INCOMING_BY_ID)) {
             preparedStatement.setLong(1, id);
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {

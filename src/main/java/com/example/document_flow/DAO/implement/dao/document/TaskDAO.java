@@ -8,7 +8,7 @@ import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.mappers.absraction.TaskMapper;
-import com.example.document_flow.mappers.implement.TaskMapperImpl;
+import com.example.document_flow.mappers.implement.staff.TaskMapperImpl;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -91,8 +91,8 @@ public class TaskDAO implements DAOCrud<Task> {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        try (PreparedStatement preparedStatement = sessionManager
-                .getDataSource().getConnection().prepareStatement(SQL_DELETE_TASK_BY_ID)) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_TASK_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -136,8 +136,9 @@ public class TaskDAO implements DAOCrud<Task> {
     @Override
     public List<Task> getAll() throws GetDataObjectException {
         List<Task> tasks = new ArrayList<>();
-        try (ResultSet rs = sessionManager.getDataSource()
-                .getConnection().prepareStatement(SQL_GET_ALL).executeQuery()) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_ALL);
+             ResultSet rs = preparedStatement.executeQuery()) {
             while (rs.next()) {
                 tasks.add(taskMapper.convertFrom(rs));
             }
@@ -188,8 +189,8 @@ public class TaskDAO implements DAOCrud<Task> {
     @Override
     public Optional<Task> findById(long id) throws GetDataObjectException {
         Task task = new Task();
-        try (PreparedStatement preparedStatement = sessionManager.getDataSource()
-                .getConnection().prepareStatement(SQL_FIND_TASK_BY_ID)) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_TASK_BY_ID)) {
             preparedStatement.setLong(1, id);
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {

@@ -8,7 +8,7 @@ import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.mappers.absraction.DepartmentMapper;
-import com.example.document_flow.mappers.implement.DepartmentMapperImpl;
+import com.example.document_flow.mappers.implement.document.DepartmentMapperImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -77,7 +77,8 @@ public class DepartmentDAOImpl implements DepartmentDAO {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_DELETE_DEPARTMENT_BY_ID)) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_DEPARTMENT_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -93,8 +94,8 @@ public class DepartmentDAOImpl implements DepartmentDAO {
      */
     @Override
     public void update(Department object) throws SaveObjectException {
-        try (PreparedStatement preparedStatement = sessionManager
-                .getDataSource().getConnection().prepareStatement(SQL_UPDATE_DEPARTMENT)) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_DEPARTMENT)) {
             preparedStatement.setString(1, object.getFullName());
             preparedStatement.setString(2, object.getShortName());
             preparedStatement.setString(3, object.getContactPhoneNumber());
@@ -124,7 +125,9 @@ public class DepartmentDAOImpl implements DepartmentDAO {
     @Override
     public List<Department> getAll() throws GetDataObjectException {
         List<Department> departmentList = new ArrayList<>();
-        try (ResultSet rs = sessionManager.getDataSource().getConnection().prepareStatement(SQL_GET_ALL).executeQuery()) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_ALL);
+             ResultSet rs = preparedStatement.executeQuery()) {
             while (rs.next()) {
                 departmentList.add(departmentMapper.convertFrom(rs));
             }
@@ -192,8 +195,8 @@ public class DepartmentDAOImpl implements DepartmentDAO {
     @Override
     public Optional<Department> findById(long id) throws GetDataObjectException {
         Department department = new Department();
-        try (PreparedStatement preparedStatement = sessionManager
-                .getDataSource().getConnection().prepareStatement(SQL_FIND_DEPARTMENT_BY_ID)) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_DEPARTMENT_BY_ID)) {
             preparedStatement.setLong(1, id);
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {
@@ -211,16 +214,15 @@ public class DepartmentDAOImpl implements DepartmentDAO {
     @Override
     public List<Department> findByIdOrganization(long id) throws GetDataObjectException {
         List<Department> departmentList = new ArrayList<>();
-        try (Connection connection = sessionManager.getDataSource().getConnection()) {
-            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_ID_ORGANIZATION)) {
-                preparedStatement.setLong(1, id);
-                try (ResultSet rs = preparedStatement.executeQuery()) {
-                    while (rs.next()) {
-                        departmentList.add(departmentMapper.convertFrom(rs));
-                    }
-                } catch (SQLException e) {
-                    throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_ID_ORGANIZATION)) {
+            preparedStatement.setLong(1, id);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    departmentList.add(departmentMapper.convertFrom(rs));
                 }
+            } catch (SQLException e) {
+                throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
             }
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);

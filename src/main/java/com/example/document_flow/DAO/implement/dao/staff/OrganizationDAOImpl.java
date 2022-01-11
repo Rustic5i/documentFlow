@@ -8,7 +8,7 @@ import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.exception.SaveObjectException;
 import com.example.document_flow.mappers.absraction.OrganizationMapper;
-import com.example.document_flow.mappers.implement.OrganizationMapperImpl;
+import com.example.document_flow.mappers.implement.document.OrganizationMapperImpl;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -69,7 +69,8 @@ public class OrganizationDAOImpl implements OrganizationDAO {
      */
     @Override
     public void deleteById(long id) throws DeleteObjectException {
-        try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_DELETE_ORGANIZATION_BY_ID)) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_ORGANIZATION_BY_ID)) {
             preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
@@ -85,8 +86,8 @@ public class OrganizationDAOImpl implements OrganizationDAO {
      */
     @Override
     public void update(Organization object) throws SaveObjectException {
-        try (PreparedStatement preparedStatement = sessionManager
-                .getDataSource().getConnection().prepareStatement(SQL_UPDATE_ORGANIZATION)) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_ORGANIZATION)) {
             preparedStatement.setString(1, object.getFullName());
             preparedStatement.setString(2, object.getShortName());
             preparedStatement.setLong(3, object.getManager().getId());
@@ -106,8 +107,9 @@ public class OrganizationDAOImpl implements OrganizationDAO {
     @Override
     public List<Organization> getAll() throws GetDataObjectException {
         List<Organization> organizationList = new ArrayList<>();
-        try (ResultSet rs = sessionManager.getDataSource()
-                .getConnection().prepareStatement(SQL_GET_ALL_ORGANIZATION).executeQuery()) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_ALL_ORGANIZATION);
+             ResultSet rs = preparedStatement.executeQuery()) {
             while (rs.next()) {
                 organizationList.add(organizationMapper.convertFrom(rs));
             }
@@ -169,8 +171,8 @@ public class OrganizationDAOImpl implements OrganizationDAO {
     @Override
     public Optional<Organization> findById(long id) throws GetDataObjectException {
         Organization organization = new Organization();
-        try (PreparedStatement preparedStatement = sessionManager
-                .getDataSource().getConnection().prepareStatement(SQL_FIND_ORGANIZATION_BY_ID)) {
+        try (Connection connection = sessionManager.getDataSource().getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_ORGANIZATION_BY_ID)) {
             preparedStatement.setLong(1, id);
             try (ResultSet rs = preparedStatement.executeQuery()) {
                 while (rs.next()) {

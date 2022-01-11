@@ -1,8 +1,9 @@
-package com.example.document_flow.mappers.implement;
+package com.example.document_flow.mappers.implement.staff;
 
 import com.example.document_flow.entity.document.Outgoing;
 import com.example.document_flow.entity.staff.Person;
 import com.example.document_flow.mappers.absraction.OutgoingMapper;
+import com.example.document_flow.mappers.implement.ResultSetMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -44,6 +45,8 @@ public class OutgoingMapperImpl implements OutgoingMapper {
 
     private final ResultSetMapper rsMapperOutgoing = new ResultSetMapper("OUTGOING");
 
+    private final ResultSetMapper rsMapperDocument = new ResultSetMapper("DOCUMENT");
+
     private static OutgoingMapperImpl outgoingMapper;
 
     private OutgoingMapperImpl() {
@@ -71,12 +74,13 @@ public class OutgoingMapperImpl implements OutgoingMapper {
     public Outgoing convertFrom(ResultSet resultSet) throws SQLException {
         rsMapperPerson.setResultSet(resultSet);
         rsMapperOutgoing.setResultSet(resultSet);
+        rsMapperDocument.setResultSet(resultSet);
         return new Outgoing().newBuilder()
                 .setId(rsMapperOutgoing.getLong(DOCUMENT_ID))
-                .setName(rsMapperOutgoing.getString(NAME))
-                .setText(rsMapperOutgoing.getString(TEXT))
-                .setRegistrationNumber(rsMapperOutgoing.getLong(REGISTRATION_NUMBER))
-                .setDateRegistration(rsMapperOutgoing.getDate(DATE_REGISTRATION))
+                .setName(rsMapperDocument.getString(NAME))
+                .setText(rsMapperDocument.getString(TEXT))
+                .setRegistrationNumber(rsMapperDocument.getLong(REGISTRATION_NUMBER))
+                .setDateRegistration(rsMapperDocument.getDate(DATE_REGISTRATION))
                 .setAddressee(rsMapperOutgoing.getString(ADDRESSEE))
                 .setDeliveryMethod(rsMapperOutgoing.getString(DELIVERY_METHOD))
                 .setAuthor(new Person().newBuilder()

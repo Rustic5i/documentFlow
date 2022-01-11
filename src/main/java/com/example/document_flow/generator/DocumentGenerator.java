@@ -3,7 +3,7 @@ package com.example.document_flow.generator;
 import com.example.document_flow.entity.document.Document;
 import com.example.document_flow.entity.document.DocumentType;
 import com.example.document_flow.factory.Factory;
-import com.example.document_flow.factory.document.СreatorDocumentFactory;
+import com.example.document_flow.factory.document.CreatorDocumentFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class DocumentGenerator {
     public static List<Document> run(int count) {
         for (int i = 0; i < count; i++) {
             int randomEnum = RANDOM.nextInt(DocumentType.values().length);
-            Factory<Document> factory = new СreatorDocumentFactory().createFactory(DocumentType.values()[randomEnum].getType());
+            Factory<Document> factory = new CreatorDocumentFactory().createFactory(DocumentType.values()[randomEnum].getType());
             DOCUMENT_LIST.add(factory.create());
         }
         return DOCUMENT_LIST;

@@ -7,9 +7,9 @@ import com.example.document_flow.factory.document.repository.RepositoryFactory;
  * Фабрика фабрик
  * @author Баратов Руслан
  */
-public class СreatorDocumentFactory {
+public class CreatorDocumentFactory {
 
-    private static RepositoryFactory FACTORY_HOLDER = new RepositoryFactory();
+    private static final RepositoryFactory FACTORY_HOLDER = new RepositoryFactory();
 
     /**
      * Создает нужную фабрику в зависимости от переданного типа документа

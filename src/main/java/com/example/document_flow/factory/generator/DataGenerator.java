@@ -279,9 +279,12 @@ public class DataGenerator {
      * @return Рандомный срок исполнения поручения
      */
     public Date getTermOfExecution() {
-        final long DAY = 86400000L;
-        TERM_OF_EXECUTION.setTime(getDateOfIssue().getTime() + DAY * (RANDOM.nextLong() * 10));
-        return TERM_OF_EXECUTION;
+        int year = RANDOM.nextInt(2022 - 2017) + 2017;
+        int month = RANDOM.nextInt(11);
+        int day = RANDOM.nextInt(28);
+        Calendar calendar = new GregorianCalendar(year, month, day);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
     }
 
     /**
@@ -328,6 +331,6 @@ public class DataGenerator {
     }
 
     public long getId() {
-        return RANDOM.nextInt(100);
+        return RANDOM.nextInt(1000);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.document_flow.web.controller.RESTController;
+package com.example.document_flow.web.controller;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

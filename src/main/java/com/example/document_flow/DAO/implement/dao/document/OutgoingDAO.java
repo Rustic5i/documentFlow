@@ -97,15 +97,16 @@ public class OutgoingDAO implements DAOCrud<Outgoing> {
      */
     @Override
     public void update(Outgoing object) throws SaveObjectException {
-        try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_UPDATE_OUTGOING)) {
-            Connection connection = preparedStatement.getConnection();
-            connection.setAutoCommit(false);
-            preparedStatement.setString(1, object.getAddressee());
-            preparedStatement.setString(2, object.getDeliveryMethod());
-            preparedStatement.setLong(3, object.getId());
-            documentDAO.update(object);
-            preparedStatement.executeUpdate();
-            connection.commit();
+        try (Connection connection = sessionManager.getDataSource().getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_OUTGOING)) {
+                connection.setAutoCommit(false);
+                preparedStatement.setString(1, object.getAddressee());
+                preparedStatement.setString(2, object.getDeliveryMethod());
+                preparedStatement.setLong(3, object.getId());
+                documentDAO.update(object);
+                preparedStatement.executeUpdate();
+                connection.commit();
+            }
         } catch (SQLException e) {
             throw new SaveObjectException(MessageFormat.format("Ошибка при обновления объекта Department c id {0}", object.getId()), e);
         }
@@ -170,9 +171,10 @@ public class OutgoingDAO implements DAOCrud<Outgoing> {
         Outgoing outgoing = new Outgoing();
         try (PreparedStatement preparedStatement = sessionManager.getDataSource().getConnection().prepareStatement(SQL_FIND_OUTGOING_BY_ID)) {
             preparedStatement.setLong(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                outgoing = outgoingMapper.convertFrom(rs);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    outgoing = outgoingMapper.convertFrom(rs);
+                }
             }
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);

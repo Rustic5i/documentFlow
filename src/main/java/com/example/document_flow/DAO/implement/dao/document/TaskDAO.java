@@ -43,13 +43,13 @@ public class TaskDAO implements DAOCrud<Task> {
 
     private static final String SQL_SAVE_ALL = "INSERT INTO APP.TASK " +
             "(DOCUMENT_ID, DATE_OF_ISSUE, TERM_OF_EXECUTION, RESPONSIBLE_EXECUTOR, SIGN_OF_CONTROL, ORDER_CONTROLLER) " +
-            "VALUES (?, ?, ?, ?, ?)";
+            "VALUES (?, ?, ?, ?, ?,?)";
 
-    private static final String SQL_FIND_TASK_BY_ID = "SELECT *   FROM TASK T\n" +
-            "                     JOIN DOCUMENT D on T.DOCUMENT_ID = D.ID\n" +
-            "                     JOIN PERSON P on P.ID = T.RESPONSIBLE_EXECUTOR\n" +
-            "                     JOIN PERSON P2 on P2.ID = T.ORDER_CONTROLLER\n" +
-            "                     JOIN PERSON P3 on D.AUTHOR = P3.ID WHERE D.ID=?";
+    private static final String SQL_FIND_TASK_BY_ID = "SELECT * FROM TASK T\n" +
+            "         JOIN DOCUMENT D on T.DOCUMENT_ID = D.ID\n" +
+            "         JOIN PERSON EXECUTOR on EXECUTOR.ID = T.RESPONSIBLE_EXECUTOR\n" +
+            "         JOIN PERSON CONTROLLER on CONTROLLER.ID = T.ORDER_CONTROLLER\n" +
+            "         JOIN PERSON AUTHOR on D.AUTHOR = AUTHOR.ID";
 
     private static TaskDAO taskDAO;
 
@@ -108,18 +108,19 @@ public class TaskDAO implements DAOCrud<Task> {
      */
     @Override
     public void update(Task object) throws SaveObjectException {
-        try (PreparedStatement preparedStatement = sessionManager
-                .getDataSource().getConnection().prepareStatement(SQL_UPDATE_TASK)) {
-            Connection connection = preparedStatement.getConnection();
-            connection.setAutoCommit(false);
-            preparedStatement.setDate(1, new Date(object.getDateOfIssue().getTime()));
-            preparedStatement.setDate(2, new Date(object.getTermOfExecution().getTime()));
-            preparedStatement.setLong(3, object.getResponsibleExecutor().getId());
-            preparedStatement.setString(4, object.getSignOfControl());
-            preparedStatement.setLong(5, object.getOrderController().getId());
-            documentDAO.update(object);
-            preparedStatement.executeUpdate();
-            connection.commit();
+        try (Connection connection = sessionManager
+                .getDataSource().getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_TASK)) {
+                connection.setAutoCommit(false);
+                preparedStatement.setDate(1, new Date(object.getDateOfIssue().getTime()));
+                preparedStatement.setDate(2, new Date(object.getTermOfExecution().getTime()));
+                preparedStatement.setLong(3, object.getResponsibleExecutor().getId());
+                preparedStatement.setString(4, object.getSignOfControl());
+                preparedStatement.setLong(5, object.getOrderController().getId());
+                documentDAO.update(object);
+                preparedStatement.executeUpdate();
+                connection.commit();
+            }
         } catch (SQLException e) {
             throw new SaveObjectException(MessageFormat
                     .format("Ошибка при обновления объекта Task c id {0}", object.getId()), e);
@@ -158,13 +159,13 @@ public class TaskDAO implements DAOCrud<Task> {
             connection.setAutoCommit(false);
             try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_SAVE_ALL)) {
                 for (Task task : objectList) {
+                    documentDAO.save(task);
                     preparedStatement.setLong(1, task.getId());
                     preparedStatement.setDate(2, new Date(task.getDateOfIssue().getTime()));
                     preparedStatement.setDate(3, new Date(task.getTermOfExecution().getTime()));
                     preparedStatement.setLong(4, task.getResponsibleExecutor().getId());
                     preparedStatement.setString(5, task.getSignOfControl());
                     preparedStatement.setLong(6, task.getOrderController().getId());
-                    documentDAO.save(task);
                     preparedStatement.addBatch();
                 }
                 preparedStatement.executeBatch();
@@ -190,9 +191,10 @@ public class TaskDAO implements DAOCrud<Task> {
         try (PreparedStatement preparedStatement = sessionManager.getDataSource()
                 .getConnection().prepareStatement(SQL_FIND_TASK_BY_ID)) {
             preparedStatement.setLong(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                task = taskMapper.convertFrom(rs);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    task = taskMapper.convertFrom(rs);
+                }
             }
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);

@@ -62,12 +62,12 @@ public class IncomingMapperImpl implements IncomingMapper {
                         .build())
                 .setAuthor(new Person().newBuilder()
                         .setId(rs.getLong(19))
-                        .setSurname(rs.getString(20))
-                        .setName(rs.getString(21))
-                        .setPatronymic(rs.getString(22))
-                        .setPost(rs.getString(23))
-                        .setDateOfBirth(rs.getDate(24))
-                        .setPhoneNumber(rs.getInt(25))
+                        .setSurname(rs.getString(21))
+                        .setName(rs.getString(22))
+                        .setPatronymic(rs.getString(23))
+                        .setPost(rs.getString(24))
+                        .setDateOfBirth(rs.getDate(25))
+                        .setPhoneNumber(rs.getInt(26))
                         .build())
                 .build();
     }

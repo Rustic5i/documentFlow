@@ -92,16 +92,17 @@ public class PersonDAOImpl implements PersonDAO {
     public void update(Person object) throws SaveObjectException {
         try (Connection connection = sourceManager
                 .getDataSource().getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_PERSON);
-            preparedStatement.setString(1, object.getSurname());
-            preparedStatement.setString(2, object.getName());
-            preparedStatement.setString(3, object.getPatronymic());
-            preparedStatement.setString(4, object.getPost());
-            preparedStatement.setDate(5, new Date(object.getDateOfBirth().getTime()));
-            preparedStatement.setInt(6, object.getPhoneNumber());
-            preparedStatement.setLong(7, object.getDepartment().getId());
-            preparedStatement.setLong(8, object.getId());
-            preparedStatement.executeUpdate();
+            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_PERSON)) {
+                preparedStatement.setString(1, object.getSurname());
+                preparedStatement.setString(2, object.getName());
+                preparedStatement.setString(3, object.getPatronymic());
+                preparedStatement.setString(4, object.getPost());
+                preparedStatement.setDate(5, new Date(object.getDateOfBirth().getTime()));
+                preparedStatement.setInt(6, object.getPhoneNumber());
+                preparedStatement.setLong(7, object.getDepartment().getId());
+                preparedStatement.setLong(8, object.getId());
+                preparedStatement.executeUpdate();
+            }
         } catch (SQLException e) {
             throw new SaveObjectException(MessageFormat.format("Ошибка при обновления объекта Person c id {0}", object.getId()), e);
         }
@@ -115,10 +116,11 @@ public class PersonDAOImpl implements PersonDAO {
     @Override
     public List<Person> getAll() throws GetDataObjectException {
         List<Person> personList = new ArrayList<>();
-        try (ResultSet rs = sourceManager
-                .getDataSource().getConnection().prepareStatement(SQL_GET_ALL_PERSON).executeQuery()) {
-            while (rs.next()) {
-                personList.add(personMapper.convertFrom(rs));
+        try (Connection connection = sourceManager.getDataSource().getConnection()) {
+            try (ResultSet rs = connection.prepareStatement(SQL_GET_ALL_PERSON).executeQuery()) {
+                while (rs.next()) {
+                    personList.add(personMapper.convertFrom(rs));
+                }
             }
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);

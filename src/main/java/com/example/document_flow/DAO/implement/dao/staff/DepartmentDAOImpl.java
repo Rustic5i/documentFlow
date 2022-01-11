@@ -98,14 +98,14 @@ public class DepartmentDAOImpl implements DepartmentDAO {
             preparedStatement.setString(1, object.getFullName());
             preparedStatement.setString(2, object.getShortName());
             preparedStatement.setString(3, object.getContactPhoneNumber());
-            if (object.getManager()==null){
-                preparedStatement.setNull(4,Types.BIGINT);
-            }else {
+            if (object.getManager() == null) {
+                preparedStatement.setNull(4, Types.BIGINT);
+            } else {
                 preparedStatement.setLong(4, object.getManager().getId());
             }
-            if (object.getOrganization()==null){
-                preparedStatement.setNull(5,Types.BIGINT);
-            }else {
+            if (object.getOrganization() == null) {
+                preparedStatement.setNull(5, Types.BIGINT);
+            } else {
                 preparedStatement.setLong(5, object.getOrganization().getId());
             }
             preparedStatement.setLong(6, object.getId());
@@ -211,15 +211,16 @@ public class DepartmentDAOImpl implements DepartmentDAO {
     @Override
     public List<Department> findByIdOrganization(long id) throws GetDataObjectException {
         List<Department> departmentList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = sessionManager
-                .getDataSource().getConnection().prepareStatement(SQL_FIND_BY_ID_ORGANIZATION)) {
-            preparedStatement.setLong(1, id);
-            try (ResultSet rs = preparedStatement.executeQuery()) {
-                while (rs.next()) {
-                    departmentList.add(departmentMapper.convertFrom(rs));
+        try (Connection connection = sessionManager.getDataSource().getConnection()) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(SQL_FIND_BY_ID_ORGANIZATION)) {
+                preparedStatement.setLong(1, id);
+                try (ResultSet rs = preparedStatement.executeQuery()) {
+                    while (rs.next()) {
+                        departmentList.add(departmentMapper.convertFrom(rs));
+                    }
+                } catch (SQLException e) {
+                    throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
                 }
-            } catch (SQLException e) {
-                throw new GetDataObjectException("Ошибка при попытки получения данных ", e);
             }
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);

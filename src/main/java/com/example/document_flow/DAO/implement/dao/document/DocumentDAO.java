@@ -36,7 +36,9 @@ public class DocumentDAO implements DAOCrud<Document> {
     private static final String SQL_GET_ALL = "SELECT * FROM DOCUMENT " +
             "JOIN PERSON P on DOCUMENT.AUTHOR = P.ID";
 
-    private static final String SQL_SAVE_ALL = "INSERT INTO APP.DOCUMENT (ID, NAME, TEXT, REGISTRATION_NUMBER, DATE_REGISTRATION, AUTHOR) VALUES (?,?,?,?,?,?)";
+    private static final String SQL_SAVE_ALL = "INSERT INTO APP.DOCUMENT " +
+            "(ID, NAME, TEXT, REGISTRATION_NUMBER, DATE_REGISTRATION, AUTHOR) " +
+            "VALUES (?,?,?,?,?,?)";
 
     private static final String SQL_FIND_DOCUMENT_BY_ID = "SELECT * FROM DOCUMENT D JOIN PERSON P on P.ID = D.AUTHOR WHERE D.ID=?";
 
@@ -144,6 +146,8 @@ public class DocumentDAO implements DAOCrud<Document> {
                     preparedStatement.setLong(6, document.getAuthor().getId());
                     preparedStatement.addBatch();
                 }
+                preparedStatement.executeBatch();
+                connection.commit();
             } catch (SQLException e) {
                 throw new SaveObjectException("Ошибка сохранения объекта Document ", e);
             }

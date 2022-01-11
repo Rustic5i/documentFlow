@@ -2,8 +2,11 @@ package com.example.document_flow.config.DataBase.implement;
 
 import com.example.document_flow.config.DataBase.abstraction.DataSourceManager;
 import com.example.document_flow.config.ReadFileProperties;
+import com.example.document_flow.web.observers.CreatingTablesObserver;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 
@@ -18,7 +21,7 @@ public class DataSourceManagerImpl implements DataSourceManager {
 
     private static final String PROPERTIES_KEY_DRIVER = "db.driver";
 
-    private static DataSourceManagerImpl sessionManager;
+    private static DataSourceManagerImpl dataSourceManager;
 
     private final HikariConfig config = new HikariConfig();
 
@@ -27,6 +30,9 @@ public class DataSourceManagerImpl implements DataSourceManager {
     private DataSource dataSource;
 
     {
+        config.setConnectionTimeout(60000);
+        config.setLeakDetectionThreshold(60000);
+        config.setMaximumPoolSize(16);
         config.setJdbcUrl(properties.getProperty(PROPERTIES_KEY_URL));
         config.setDriverClassName(properties.getProperty(PROPERTIES_KEY_DRIVER));
     }
@@ -39,8 +45,9 @@ public class DataSourceManagerImpl implements DataSourceManager {
      *
      * @return инициализируемый объект реализующий интерфейс {@link DataSource}
      */
-    private DataSource initDataSource() {
+    private synchronized DataSource initDataSource() {
         if (dataSource == null) {
+            System.out.println("СОЗДАЛСЯ ИНСТАНС HikariDataSource!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             dataSource = new HikariDataSource(config);
         }
         return dataSource;
@@ -50,10 +57,11 @@ public class DataSourceManagerImpl implements DataSourceManager {
      * @return синголтон обьект
      */
     public static synchronized DataSourceManagerImpl getInstance() {
-        if (sessionManager == null) {
-            sessionManager = new DataSourceManagerImpl();
+        if (dataSourceManager == null) {
+            System.out.println("СОЗДАЛСЯ ИНСТАНС new DataSourceManagerImpl()!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            dataSourceManager = new DataSourceManagerImpl();
         }
-        return sessionManager;
+        return dataSourceManager;
     }
 
     /**

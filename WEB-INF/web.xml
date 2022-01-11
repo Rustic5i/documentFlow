@@ -7,6 +7,9 @@
         <listener-class>com.example.document_flow.web.observers.CreatingTablesObserver</listener-class>
     </listener>
     <listener>
-        <listener-class>com.example.document_flow.web.observers.ImportDataObserver</listener-class>
+        <listener-class>com.example.document_flow.web.observers.StaffDataImportObserver</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.example.document_flow.web.observers.DocumentDataImportObserver</listener-class>
     </listener>
 </web-app>

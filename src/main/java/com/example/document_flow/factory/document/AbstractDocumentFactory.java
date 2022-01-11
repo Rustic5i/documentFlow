@@ -35,6 +35,7 @@ public abstract class AbstractDocumentFactory<T extends Document> implements Fac
      */
     public T create() {
         T document = createInstance();
+        document.setId(dataGenerator.getId());
         document.setName(dataGenerator.getName());
         document.setText(dataGenerator.getText());
         document.setAuthor(dataGenerator.getPerson());

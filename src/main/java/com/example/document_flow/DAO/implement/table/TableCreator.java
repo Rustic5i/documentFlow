@@ -47,7 +47,6 @@ public class TableCreator implements com.example.document_flow.DAO.abstraction.T
     @Override
     public void createTablesDB() throws CreateTableException {
         try (Statement statement = sessionDataBase.getDataSource().getConnection().createStatement()) {
-            try {
                 for (String sqlScript : getArraySqlScripts()) {
                     String nameTable = sqlScript.split("\s+|\\(")[2];
                     statement.executeUpdate(sqlScript);
@@ -55,11 +54,10 @@ public class TableCreator implements com.example.document_flow.DAO.abstraction.T
 //                        statement.executeUpdate(sqlScript);
 //                    }
                 }
-            } catch (IOException e) {
-                throw new CreateTableException("Ошибка при создание таблицы в бд, не удалось получить sql скрипт", e);
-            }
         } catch (SQLException e) {
             throw new CreateTableException("Ошибка при создание таблицы в бд", e);
+        } catch (IOException e) {
+            throw new CreateTableException("Ошибка при создание таблицы в бд, не удалось получить sql скрипт", e);
         }
     }
 

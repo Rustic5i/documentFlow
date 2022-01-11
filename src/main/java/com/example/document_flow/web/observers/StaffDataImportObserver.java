@@ -28,7 +28,7 @@ import java.util.Random;
  *
  * @author Баратов Руслан
  */
-public class ImportDataObserver implements ServletContextListener {
+public class StaffDataImportObserver implements ServletContextListener {
 
     private final DepartmentService departmentServiceDerby = DepartmentServiceDerby.getInstance();
 
@@ -42,7 +42,7 @@ public class ImportDataObserver implements ServletContextListener {
 
     private final PersonService personServiceXml = PersonServiceXmlImpl.getInstance();
 
-    private final Logger logger = LoggerFactory.getLogger(ImportDataObserver.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(StaffDataImportObserver.class.getName());
 
     /**
      * Импортирует данные из репозитория Xml в базу данных Derby
@@ -51,31 +51,32 @@ public class ImportDataObserver implements ServletContextListener {
      */
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-//        try {
-//            DataImportingService.importAll(personServiceXml, personServiceDerby);
-//            DataImportingService.importAll(organizationServiceXml, organizationServiceDerby);
-//            DataImportingService.importAll(departmentServiceXml, departmentServiceDerby);
-//        } catch (SaveObjectException | GetDataObjectException e) {
-//            logger.error("Ошибка при попытки импортирования данных", e);
-//        }
-//        try {
-//            List<Organization> organizationList = organizationServiceDerby.getAll();
-//            List<Person> personList = personServiceDerby.getAll();
-//            List<Department> departmentList = departmentServiceDerby.getAll();
-//
-//            for (Department department : departmentList) {
-//                department.setManager(personList.get(new Random().nextInt(personList.size()-1)));
-//                department.setOrganization(organizationList.get(new Random().nextInt(2)));
-//                departmentServiceDerby.update(department);
-//            }
-//            for (Person person : personList) {
-//                person.setDepartment(departmentList.get(new Random().nextInt(departmentList.size()-1)));
-//                personServiceDerby.update(person);
-//            }
-//        } catch (GetDataObjectException | SaveObjectException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            DataImportingService.importAll(personServiceXml, personServiceDerby);
+            DataImportingService.importAll(organizationServiceXml, organizationServiceDerby);
+            DataImportingService.importAll(departmentServiceXml, departmentServiceDerby);
+        } catch (SaveObjectException | GetDataObjectException e) {
+            logger.error("Ошибка при попытки импортирования данных", e);
+        }
+        try {
+            List<Organization> organizationList = organizationServiceDerby.getAll();
+            List<Person> personList = personServiceDerby.getAll();
+            List<Department> departmentList = departmentServiceDerby.getAll();
+
+            for (Department department : departmentList) {
+                department.setManager(personList.get(new Random().nextInt(personList.size()-1)));
+                department.setOrganization(organizationList.get(new Random().nextInt(organizationList.size())));
+                departmentServiceDerby.update(department);
+            }
+            for (Person person : personList) {
+                person.setDepartment(departmentList.get(new Random().nextInt(departmentList.size()-1)));
+                personServiceDerby.update(person);
+            }
+        } catch (GetDataObjectException | SaveObjectException e) {
+            e.printStackTrace();
+        }
     }
+
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {

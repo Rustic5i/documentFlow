@@ -172,9 +172,10 @@ public class OrganizationDAOImpl implements OrganizationDAO {
         try (PreparedStatement preparedStatement = sessionManager
                 .getDataSource().getConnection().prepareStatement(SQL_FIND_ORGANIZATION_BY_ID)) {
             preparedStatement.setLong(1, id);
-            ResultSet rs = preparedStatement.executeQuery();
-            while (rs.next()) {
-                organization = organizationMapper.convertFrom(rs);
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    organization = organizationMapper.convertFrom(rs);
+                }
             }
         } catch (SQLException e) {
             throw new GetDataObjectException("Ошибка при попытки получения данных ", e);

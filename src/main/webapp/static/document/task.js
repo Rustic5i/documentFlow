@@ -45,7 +45,7 @@ async function addTabTask(idTask) {
         let tabContentHtml = `
         <div class="tab-pane fade" id="${idTab}">
              <div class="btn-group" role="group" aria-label="Basic example">
-                <button onclick="fillModelDeleteObject('${textModal}',deleteTaskById(${task.id},'${idTab}'))" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button onclick="fillModelDeleteObject(${task.id},'${idTab}','${textModal}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Удалить
                  </button>
                 <button type="button" class="btn btn-primary">Сохранить</button>

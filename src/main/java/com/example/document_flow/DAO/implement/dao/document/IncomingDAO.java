@@ -45,9 +45,9 @@ public class IncomingDAO implements DAOCrud<Incoming> {
             "VALUES (?, ?, ?, ?, ?)";
 
     private static final String SQL_FIND_INCOMING_BY_ID = "SELECT * FROM INCOMING\n" +
-            "JOIN DOCUMENT D on INCOMING.DOCUMENT_ID = D.ID\n" +
-            "JOIN PERSON P on P.ID = INCOMING.SOURCE " +
-            "JOIN PERSON P on P.ID = D.AUTHOR WHERE D.ID=?";
+            "left JOIN DOCUMENT D on INCOMING.DOCUMENT_ID = D.ID\n" +
+            "left JOIN PERSON SOURCE on SOURCE.ID = INCOMING.SOURCE " +
+            "left JOIN PERSON AUTHOR on AUTHOR.ID = D.AUTHOR WHERE D.ID=?";
 
     private static IncomingDAO incomingDAO;
 

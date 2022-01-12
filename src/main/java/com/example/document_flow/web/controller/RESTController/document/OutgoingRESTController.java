@@ -1,5 +1,6 @@
 package com.example.document_flow.web.controller.RESTController.document;
 
+import com.example.document_flow.entity.document.Incoming;
 import com.example.document_flow.entity.document.Outgoing;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.service.abstraction.document.OutgoingService;
@@ -7,6 +8,7 @@ import com.example.document_flow.service.implement.document.derby.OutgoingServic
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -21,6 +23,18 @@ public class OutgoingRESTController {
     public List<Outgoing> getAllOutgoing() {
         try {
             return outgoingService.getAll();
+        } catch (GetDataObjectException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/{id}")
+    public Outgoing getOutgoingById(@PathParam("id") long id) {
+        try {
+            return outgoingService.findById(id).get();
         } catch (GetDataObjectException e) {
             e.printStackTrace();
         }

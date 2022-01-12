@@ -32,7 +32,7 @@ public class IncomingRESTController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
-    public Incoming getTaskById(@PathParam("id") long id) {
+    public Incoming getIncomingById(@PathParam("id") long id) {
         try {
             return incomingService.findById(id).get();
         } catch (GetDataObjectException e) {

@@ -1,7 +1,6 @@
 /////////////////// Получить список всех Поручений/Task ///////////////////////////
 async function getAllTask() {
     const taskButton = $('#task-ul');
-    console.log(taskButton)
     const url = '/ecm/api/task'
     $.ajax({
         url: url,
@@ -28,12 +27,12 @@ getAllTask();
 //////////////////// Вкладка с информацией по Поручению/Task////////////////////////////////
 
 //Хранит список кнопок для открытых вкладок
-let tabButtonArray = new Map()
+// let tabButtonArray = new Map()
 //Хранит список открытых вкладок
-let tabContentArray = new Map()
-
-const tabButton = $('#tabButton')
-const tabContent = $('#myTabContent')
+// let tabContentArray = new Map()
+//
+// const tabButton = $('#tabButton')
+// const tabContent = $('#myTabContent')
 
 async function addTabTask(idTask) {
     const url = '/ecm/api/task/' + idTask
@@ -42,55 +41,57 @@ async function addTabTask(idTask) {
         dataType: 'json',
         type: "GET",
     }).done((task) => {
+        idTab = "nav-table-task"+task.id
         let tabButtonHtml = `
         <li class="nav-item">
-             <a class="nav-link" id="nav-user-tab" data-bs-toggle="pill" href="#nav-table${task.id}">
+             <a class="nav-link" id="nav-user-tab" data-bs-toggle="pill" href="#${idTab}">
                 Поручение №${task.id}
-                <button onclick="deleteTabTask(${task.id})" type="button" class="btn-close" aria-label="Close"></button>
+                <button onclick="deleteTabById('${idTab}')" type="button" class="btn-close" aria-label="Close"></button>
              </a>
         </li>
         `
         let tabContentHtml = `
-        <div class="tab-pane fade" id="nav-table${task.id}">
-             Информация о документе ${task.name} №${task.id}
+        <div class="tab-pane fade" id="${idTab}">
+             Информация о документе ${idTask} №${task.id}
         </div>
         `
-        printTab(task.id, tabButtonHtml, tabContentHtml)
+        printTab(idTab, tabButtonHtml, tabContentHtml)
     })
 }
-
-function printTab(tabButtonId, tabButtonHtml, tabContentHtml) {
-    if (!tabButtonArray.has(tabButtonId)) {
-        tabButtonArray.set(tabButtonId, tabButtonHtml)
-        tabContentArray.set(tabButtonId, tabContentHtml)
-        tabButtonForEach()
-        tabContentForEach()
-    }
-}
-
-function deleteTabTask(idTabTask) {
-    tabButtonArray.delete(idTabTask)
-    if (tabButtonArray.size == 0) {
-        tabButton.html('')
-        tabContent.html('')
-    } else {
-        tabButtonForEach()
-        tabContentForEach()
-    }
-}
-
-function tabButtonForEach() {
-    let concatenationHtmlTabButton = ''
-    tabButtonArray.forEach(tabButtonHtml => {
-        concatenationHtmlTabButton += tabButtonHtml
-        tabButton.html(concatenationHtmlTabButton)
-    })
-}
-
-function tabContentForEach() {
-    let concatenationHtmlTabContent = ''
-    tabContentArray.forEach(tabContentHtml => {
-        concatenationHtmlTabContent += tabContentHtml
-        tabContent.html(concatenationHtmlTabContent)
-    })
-}
+//
+// function printTab(tabButtonId, tabButtonHtml, tabContentHtml) {
+//     if (!tabButtonArray.has(tabButtonId)) {
+//         tabButtonArray.set(tabButtonId, tabButtonHtml)
+//         tabContentArray.set(tabButtonId, tabContentHtml)
+//         tabButtonForEach()
+//         tabContentForEach()
+//     }
+// }
+//
+// function deleteTabTask(idTabTask) {
+//     tabButtonArray.delete(idTabTask)
+//     tabContentArray.delete(idTabTask)
+//     if (tabButtonArray.size == 0) {
+//         tabButton.html('')
+//         tabContent.html('')
+//     } else {
+//         tabButtonForEach()
+//         tabContentForEach()
+//     }
+// }
+//
+// function tabButtonForEach() {
+//     let concatenationHtmlTabButton = ''
+//     tabButtonArray.forEach(tabButtonHtml => {
+//         concatenationHtmlTabButton += tabButtonHtml
+//         tabButton.html(concatenationHtmlTabButton)
+//     })
+// }
+//
+// function tabContentForEach() {
+//     let concatenationHtmlTabContent = ''
+//     tabContentArray.forEach(tabContentHtml => {
+//         concatenationHtmlTabContent += tabContentHtml
+//         tabContent.html(concatenationHtmlTabContent)
+//     })
+// }

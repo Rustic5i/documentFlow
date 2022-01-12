@@ -12,7 +12,7 @@ async function getAllTask() {
         response.forEach(task => {
             let liHtml = `
              <li id="task-li-${task.id}" className="list-group-item">
-                <button onclick="addTabTask(${task.id})" id="task-button-${task.id}" type="button" className="btn btn-secondary" style="width: 100%">${task.name}</button>
+                <button onclick="addTabTask(${task.id})" id="task-button-${task.id}" type="button" className="btn btn-secondary" style="width: 100%">${task.name} №${task.id}</button>
             </li>
             `
             html += liHtml;
@@ -25,15 +25,6 @@ async function getAllTask() {
 getAllTask();
 
 //////////////////// Вкладка с информацией по Поручению/Task////////////////////////////////
-
-//Хранит список кнопок для открытых вкладок
-// let tabButtonArray = new Map()
-//Хранит список открытых вкладок
-// let tabContentArray = new Map()
-//
-// const tabButton = $('#tabButton')
-// const tabContent = $('#myTabContent')
-
 async function addTabTask(idTask) {
     const url = '/ecm/api/task/' + idTask
     $.ajax({
@@ -41,7 +32,8 @@ async function addTabTask(idTask) {
         dataType: 'json',
         type: "GET",
     }).done((task) => {
-        idTab = "nav-table-task"+task.id
+        idTab = "nav-table-task" + task.id
+        textModal = 'Вы действительно ходите удалить это поручение?'
         let tabButtonHtml = `
         <li class="nav-item">
              <a class="nav-link" id="nav-user-tab" data-bs-toggle="pill" href="#${idTab}">
@@ -52,46 +44,30 @@ async function addTabTask(idTask) {
         `
         let tabContentHtml = `
         <div class="tab-pane fade" id="${idTab}">
-             Информация о документе ${idTask} №${task.id}
+             <div class="btn-group" role="group" aria-label="Basic example">
+                <button onclick="fillModelDeleteObject('${textModal}',deleteTaskById(${task.id},'${idTab}'))" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Удалить
+                 </button>
+                <button type="button" class="btn btn-primary">Сохранить</button>
+             </div>
+             Информация о документе №${task.id}
         </div>
         `
         printTab(idTab, tabButtonHtml, tabContentHtml)
     })
 }
-//
-// function printTab(tabButtonId, tabButtonHtml, tabContentHtml) {
-//     if (!tabButtonArray.has(tabButtonId)) {
-//         tabButtonArray.set(tabButtonId, tabButtonHtml)
-//         tabContentArray.set(tabButtonId, tabContentHtml)
-//         tabButtonForEach()
-//         tabContentForEach()
-//     }
-// }
-//
-// function deleteTabTask(idTabTask) {
-//     tabButtonArray.delete(idTabTask)
-//     tabContentArray.delete(idTabTask)
-//     if (tabButtonArray.size == 0) {
-//         tabButton.html('')
-//         tabContent.html('')
-//     } else {
-//         tabButtonForEach()
-//         tabContentForEach()
-//     }
-// }
-//
-// function tabButtonForEach() {
-//     let concatenationHtmlTabButton = ''
-//     tabButtonArray.forEach(tabButtonHtml => {
-//         concatenationHtmlTabButton += tabButtonHtml
-//         tabButton.html(concatenationHtmlTabButton)
-//     })
-// }
-//
-// function tabContentForEach() {
-//     let concatenationHtmlTabContent = ''
-//     tabContentArray.forEach(tabContentHtml => {
-//         concatenationHtmlTabContent += tabContentHtml
-//         tabContent.html(concatenationHtmlTabContent)
-//     })
-// }
+
+//Удалить Поручение по id
+function deleteTaskById(idTask, idTab) {
+    const url = '/ecm/api/task/' + idTask
+    const method = {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        }
+    }
+    fetch(url, method).then(() => {
+        deleteTabById(idTab)
+    }).then(closeModalDelete).then(getAllTask)
+}
+

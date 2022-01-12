@@ -1,10 +1,12 @@
 package com.example.document_flow.web.controller.RESTController.document;
 
 import com.example.document_flow.entity.document.Task;
+import com.example.document_flow.exception.DeleteObjectException;
 import com.example.document_flow.exception.GetDataObjectException;
 import com.example.document_flow.service.abstraction.document.TaskService;
 import com.example.document_flow.service.implement.document.derby.TaskServiceDerby;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -38,5 +40,15 @@ public class TaskRESTController {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public void deleteTaskById(@PathParam("id") long id) {
+        try {
+            taskService.deleteById(id);
+        } catch (DeleteObjectException e) {
+            e.printStackTrace();
+        }
     }
 }

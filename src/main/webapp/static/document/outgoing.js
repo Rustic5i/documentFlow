@@ -34,6 +34,7 @@ async function addTabOutgoing(idOutgoing) {
         type: "GET",
     }).done((outgoing) => {
         idTab = "nav-table-outgoing"+outgoing.id
+        textModal = 'Вы действительно ходите удалить этот Исходящий документ?'
         let tabButtonHtml = `
         <li class="nav-item">
              <a class="nav-link" id="nav-user-tab" data-bs-toggle="pill" href="#${idTab}">
@@ -44,9 +45,30 @@ async function addTabOutgoing(idOutgoing) {
         `
         let tabContentHtml = `
         <div class="tab-pane fade" id="${idTab}">
+          <div class="btn-group" role="group" aria-label="Basic example">
+                <button onclick="fillModelDeleteObject(${outgoing.id},'${idTab}','${textModal}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Удалить
+                 </button>
+                <button type="button" class="btn btn-primary">Сохранить</button>
+             </div>
              Информация об Исходящим документе ${outgoing.name} №${outgoing.id}
         </div>
         `
         printTab(idTab, tabButtonHtml, tabContentHtml)
     })
+}
+
+
+//Удалить Исходящий документ по id
+function deleteTaskById(idTask, idTab) {
+    const url = '/ecm/api/task/' + idTask
+    const method = {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        }
+    }
+    fetch(url, method).then(() => {
+        deleteTabById(idTab)
+    }).then(closeModalDelete).then(getAllTask)
 }

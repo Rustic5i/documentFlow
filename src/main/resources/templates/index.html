@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
 <html lang="en">
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -35,9 +37,9 @@
                 </p>
                 <div class="task-list-scroll" style="height: 80%; overflow-x:scroll;overflow-y:scroll;">
                     <ul id="task-ul" class="list-group">
-                        <!--                        <li id="person-li" class="list-group-item">-->
-                        <!--                            <button id="person-button" type="button" class="btn btn-secondary" style="width: 100%">Работник#1</button>-->
-                        <!--                        </li>-->
+                        <!--                                                <li id="task-li" class="list-group-item">-->
+                        <!--                                                    <button id="task button" type="button" class="btn btn-secondary" style="width: 100%">Работник#1</button>-->
+                        <!--                                                </li>-->
                     </ul>
                 </div>
             </div>
@@ -76,30 +78,48 @@
         <div id="windows-information" class="col-8 border">
             <!----------------------------------------- Список кнопок для вкладок -------->
             <ul class="nav nav-tabs" id="tabButton">
-<!--                <li class="nav-item" role="presentation">-->
-<!--                    <a class="nav-link" id="nav-user-tab" data-bs-toggle="pill" href="#nav-table">-->
-<!--                        Имя вкладки-->
-<!--                    </a>-->
-<!--                </li>-->
-<!--                <li class="nav-item" role="presentation">-->
-<!--                    <a class="nav-link" id="nav-newUser-tab" data-bs-toggle="pill" href="#nav-table1">-->
-<!--                        New User-->
-<!--                    </a>-->
-<!--                </li>-->
+                <!--                <li class="nav-item" role="presentation">-->
+                <!--                    <a class="nav-link" id="nav-user-tab" data-bs-toggle="pill" href="#nav-table">-->
+                <!--                        Имя вкладки-->
+                <!--                    </a>-->
+                <!--                </li>-->
+                <!--                <li class="nav-item" role="presentation">-->
+                <!--                    <a class="nav-link" id="nav-newUser-tab" data-bs-toggle="pill" href="#nav-table1">-->
+                <!--                        New User-->
+                <!--                    </a>-->
+                <!--                </li>-->
             </ul>
             <!------------------------ Список вкладок -->
             <div class="tab-content" id="myTabContent">
-<!--                <div class="tab-pane fade" id="nav-table">-->
-<!--                    1Информация о работнике\документе-->
-<!--                </div>-->
-<!--                <div class="tab-pane fade" id="nav-table1">-->
-<!--                    №2 Информация о работнике\документе-->
-<!--                </div>-->
+                <!--                <div class="tab-pane fade" id="nav-table">-->
+                <!--                    1Информация о работнике\документе-->
+                <!--                </div>-->
+                <!--                <div class="tab-pane fade" id="nav-table1">-->
+                <!--                    №2 Информация о работнике\документе-->
+                <!--                </div>-->
             </div>
         </div>
     </div>
 </div>
-
+<!-- Модальное окно подтверждение удаления объекта -->
+<div class="modal" id="exampleModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <input th:name="id" th:type="text" class="form-control" id="TextModal" disabled/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                <button id="buttonYes" type="button" class="btn btn-primary" data-bs-dismiss="modal">Да</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script
         src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
@@ -117,5 +137,6 @@
 <script src="/static/document/incoming.js"></script>
 <script src="/static/document/outgoing.js"></script>
 <script src="/static/repository/repositoryTabHtml.js"></script>
+<script src="/static/modal/managerModal.js"></script>
 </body>
 </html>

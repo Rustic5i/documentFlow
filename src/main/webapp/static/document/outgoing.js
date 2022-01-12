@@ -13,7 +13,7 @@ async function getAllOutgoing() {
         response.forEach(outgoing => {
             let liHtml = `
              <li id="outgoing-li-${outgoing.id}" className="list-group-item">
-                <button onclick="addTabOutgoing(${outgoing.id})" id="outgoing-button-${outgoing.id}" type="button" className="btn btn-secondary" style="width: 100%">${outgoing.name}</button>
+                <button onclick="addTabOutgoing(${outgoing.id})" id="outgoing-button-${outgoing.id}" type="button" className="btn btn-secondary" style="width: 100%">${outgoing.name} №${outgoing.id}</button>
             </li>
             `
             html += liHtml;
@@ -33,7 +33,7 @@ async function addTabOutgoing(idOutgoing) {
         dataType: 'json',
         type: "GET",
     }).done((outgoing) => {
-        idTab = "nav-table-outgoing"+outgoing.id
+        idTab = "nav-table-outgoing" + outgoing.id
         textModal = 'Вы действительно ходите удалить этот Исходящий документ?'
         let tabButtonHtml = `
         <li class="nav-item">
@@ -46,7 +46,7 @@ async function addTabOutgoing(idOutgoing) {
         let tabContentHtml = `
         <div class="tab-pane fade" id="${idTab}">
           <div class="btn-group" role="group" aria-label="Basic example">
-                <button onclick="fillModelDeleteObject(${outgoing.id},'${idTab}','${textModal}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button onclick="fillModelDeleteObject(${outgoing.id},'${idTab}','${textModal}',deleteOutgoingById)" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Удалить
                  </button>
                 <button type="button" class="btn btn-primary">Сохранить</button>
@@ -58,10 +58,9 @@ async function addTabOutgoing(idOutgoing) {
     })
 }
 
-
 //Удалить Исходящий документ по id
-function deleteTaskById(idTask, idTab) {
-    const url = '/ecm/api/task/' + idTask
+const deleteOutgoingById = function deleteOutgoingById(idOutgoing, idTab) {
+    const url = '/ecm/api/outgoing/' + idOutgoing
     const method = {
         method: 'DELETE',
         headers: {
@@ -70,5 +69,5 @@ function deleteTaskById(idTask, idTab) {
     }
     fetch(url, method).then(() => {
         deleteTabById(idTab)
-    }).then(closeModalDelete).then(getAllTask)
+    }).then(closeModalDelete).then(getAllOutgoing)
 }

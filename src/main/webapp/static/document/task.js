@@ -24,7 +24,7 @@ async function getAllTask() {
 
 getAllTask();
 
-//////////////////// Вкладка с информацией по Поручению/Task////////////////////////////////
+//////////////////// Вкладка с информацией по Поручению/Task///////////////
 async function addTabTask(idTask) {
     const url = '/ecm/api/task/' + idTask
     $.ajax({
@@ -45,7 +45,7 @@ async function addTabTask(idTask) {
         let tabContentHtml = `
         <div class="tab-pane fade" id="${idTab}">
              <div class="btn-group" role="group" aria-label="Basic example">
-                <button onclick="fillModelDeleteObject(${task.id},'${idTab}','${textModal}')" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button onclick="fillModelDeleteObject(${task.id},'${idTab}','${textModal}',deleteTaskById)" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                         Удалить
                  </button>
                 <button type="button" class="btn btn-primary">Сохранить</button>
@@ -57,8 +57,8 @@ async function addTabTask(idTask) {
     })
 }
 
-//Удалить Поручение по id
-function deleteTaskById(idTask, idTab) {
+// /////////////////Удалить Поручение по id
+const deleteTaskById = function deleteTaskById(idTask, idTab) {
     const url = '/ecm/api/task/' + idTask
     const method = {
         method: 'DELETE',
@@ -69,5 +69,6 @@ function deleteTaskById(idTask, idTab) {
     fetch(url, method).then(() => {
         deleteTabById(idTab)
     }).then(closeModalDelete).then(getAllTask)
-}
+};
+
 

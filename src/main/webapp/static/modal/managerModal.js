@@ -1,10 +1,10 @@
 // Управляет модальным окном delete
 //Заполнить модальное окно информацией
-function fillModelDeleteObject(idTask, idTab,text) {
+function fillModelDeleteObject(idTask, idTab,text,functionDeleteObjectById) {
     $('#TextModal').val(text)
     //////Вешаем событие при нажатия на кнопку "Да" / подтверждения на удаление Поручения
     document.getElementById('buttonYes').onclick = function () {
-        deleteTaskById(idTask, idTab)
+        functionDeleteObjectById(idTask,idTab)
     }
 }
 

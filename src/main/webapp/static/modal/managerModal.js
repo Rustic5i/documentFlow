@@ -8,7 +8,7 @@ function fillModelDeleteObject(idTask, idTab,text,functionDeleteObjectById) {
     }
 }
 
-///Закрыть модальное окно обновления юзера на нажатие кнопки
+///Закрыть модальное окно на нажатие кнопки "Да" после удаление объекта
 function closeModalDelete(){
     const viewHtmlDelete = document.getElementById('exampleModal')
     viewHtmlDelete.style.display = "none" // закрыть окно при нажатие на кнопки "да" / подтверждения удаления

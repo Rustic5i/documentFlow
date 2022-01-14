@@ -1,5 +1,4 @@
 ///////////////////Получить список Department по ID Organization ///////////////////////////
-
 async function getAllDepartmentByIdOrganization(idOrganization) {
     const departmentButton = $('#id-department-div' + idOrganization);
     console.log(departmentButton)

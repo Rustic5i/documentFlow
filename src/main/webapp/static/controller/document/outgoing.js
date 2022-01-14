@@ -19,7 +19,7 @@ async function getOutgoingById(idOutgoing) {
 }
 
 /////////////////////Удалить Исходящий документ по id ////////////////
-const deleteOutgoingById = function deleteOutgoingById(idOutgoing) {
+async function deleteOutgoingById(idOutgoing) {
     const url = '/ecm/api/outgoing/' + idOutgoing
     return $.ajax({
         url: url,

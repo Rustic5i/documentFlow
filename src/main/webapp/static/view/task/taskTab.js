@@ -14,64 +14,68 @@ async function addTabTask(idTask) {
         `
         let tabContentHtml = `
         <div class="tab-pane fade" id="${idTab}">
-             <div class="btn-group" role="group" aria-label="Basic example">
-                <button onclick="fillModelDeleteObject(${task.id},'${idTab}','${idButtonTab}','${textModal}',closeTabTask)" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        Удалить
-                 </button>
-             </div>
-               <form>
-                            <div class="text-start">
-                                <div>
-                                    <label for="formTaskId${task.id}"><b>ID</b></label>
-                                    <input type="text" class="form-control" id="formTaskId${task.id}" disabled/>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="formTaskName${task.id}" class="form-label"><b>Имя документа</b></label>
-                                    <input type="text" class="form-control" id="formTaskName${task.id}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="formTaskText${task.id}" class="form-label"><b>Текст документа</b></label>
-                                    <input  type="text" class="form-control" id="formTaskText${task.id}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="formTaskRegistrationNumber${task.id}" class="form-label"><b>Регистрационный номер документа</b></label>
-                                    <input type="number" class="form-control" id="formTaskRegistrationNumber${task.id}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="formTaskDateRegistration${task.id}" class="form-label"><b>Дата регистрации документа</b></label>
-                                    <input type="date" class="form-control" id="formTaskDateRegistration${task.id}" disabled>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="formTaskAuthor${task.id}"><b>Автор документа</b></label>
-                                    <input type="text" class="form-control" id="formTaskAuthor${task.id}" disabled/>
-                                </div>
-                                 <div class="mb-3">
-                                    <label for="formTaskDateOfIssue${task.id}" class="form-label"><b>Дата выдачи поручения</b></label>
-                                    <input type="date" class="form-control" id="formTaskDateOfIssue${task.id}" disabled>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="formTaskTermOfExecution${task.id}" class="form-label"><b>Срок исполнения поручения</b></label>
-                                    <input type="date" class="form-control" id="formTaskTermOfExecution${task.id}" disabled>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="formTaskResponsibleExecutor${task.id}"><b>Ответственный исполнитель</b></label>
-                                    <input type="text" class="form-control" id="formTaskResponsibleExecutor${task.id}" disabled/>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="formTaskSignOfControl${task.id}" class="form-label"><b>Признак контрольности</b></label>
-                                    <input type="text" class="form-control" id="formTaskSignOfControl${task.id}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="formTaskOrderController${task.id}"><b>Контролер поручения</b></label>
-                                    <input type="text" class="form-control" id="formTaskOrderController${task.id}" disabled/>
-                                </div>
-                                <div class="modal-footer">
-                                    <div>
-                                        <button onclick="updateUser()" type="submit" class="btn btn-primary">Cохранить</button>
-                                    </div>
-                                </div>
+             <div class="bg-white w-100 p-3">
+                <div class="col-md-5 mx-auto"> 
+                  <form>
+                     <div class="text-start">
+                        <div>
+                            <label for="formTaskId${task.id}"><b>ID</b></label>
+                            <input type="text" class="form-control" id="formTaskId${task.id}" disabled/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formTaskName${task.id}" class="form-label"><b>Имя документа</b></label>
+                            <input type="text" class="form-control" id="formTaskName${task.id}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formTaskText${task.id}" class="form-label"><b>Текст документа</b></label>
+                            <input  type="text" class="form-control" id="formTaskText${task.id}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formTaskRegistrationNumber${task.id}" class="form-label"><b>Регистрационный номер документа</b></label>
+                            <input type="number" class="form-control" id="formTaskRegistrationNumber${task.id}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formTaskDateRegistration${task.id}" class="form-label"><b>Дата регистрации документа</b></label>
+                            <input type="date" class="form-control" id="formTaskDateRegistration${task.id}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formTaskAuthor${task.id}"><b>Автор документа</b></label>
+                            <input type="text" class="form-control" id="formTaskAuthor${task.id}" disabled/>
+                        </div>
+                         <div class="mb-3">
+                            <label for="formTaskDateOfIssue${task.id}" class="form-label"><b>Дата выдачи поручения</b></label>
+                            <input type="date" class="form-control" id="formTaskDateOfIssue${task.id}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formTaskTermOfExecution${task.id}" class="form-label"><b>Срок исполнения поручения</b></label>
+                            <input type="date" class="form-control" id="formTaskTermOfExecution${task.id}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formTaskResponsibleExecutor${task.id}"><b>Ответственный исполнитель</b></label>
+                            <input type="text" class="form-control" id="formTaskResponsibleExecutor${task.id}" disabled/>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formTaskSignOfControl${task.id}" class="form-label"><b>Признак контрольности</b></label>
+                            <input type="text" class="form-control" id="formTaskSignOfControl${task.id}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formTaskOrderController${task.id}"><b>Контролер поручения</b></label>
+                            <input type="text" class="form-control" id="formTaskOrderController${task.id}" disabled/>
+                        </div>
+                        <div class="modal-footer">
+                            <div>
+                                <button onclick="updateUser()" type="submit" class="btn btn-success">Cохранить</button>
                             </div>
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                               <button onclick="fillModelDeleteObject(${task.id},'${idTab}','${idButtonTab}','${textModal}',closeTabTask)" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                 Удалить
+                               </button>
+                             </div>
+                        </div>
+                    </div>
                         </form>
+                      </div>
+                    </div>
         </div>
         `
         fillFormEditTask(idTask)

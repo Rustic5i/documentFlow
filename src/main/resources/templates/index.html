@@ -62,7 +62,7 @@
             <div id="outgoing-list" style="height: 25%">
                 <p>
                 <h6>Список исходящих
-                    <button id="outgoing-create" type="button" class="btn btn-primary btn-sm">Создать</button>
+                    <button onclick="openModalCreateOutgoing()" id="outgoing-create" type="button" class="btn btn-primary btn-sm">Создать</button>
                 </h6>
                 </p>
                 <div class="outgoing-list-scroll" style="height: 80%; overflow-x:scroll;overflow-y:scroll;">
@@ -120,6 +120,75 @@
         </div>
     </div>
 </div>
+<!---------------------------------------------- ------------------------------------>
+<!---  Модальное окно для создание нового Исходящего документа/Outgoing -  Modal windows create Outgoing-->
+<div id="modalCreateOutgoing" class="modal">
+    <div  tabindex="-1"
+          aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="EditLabel">Создание исходящего документа</h5>
+                    <button onclick="closeModalCreateOutgoing()" type="button" class="btn-close" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!--------------------------  Form create Outgoing------------>
+                    <div>
+                        <form>
+                            <div class="text-center">
+                                <div>
+                                    <label for="formCreateOutgoingId"><b>ID</b></label>
+                                    <input type="text" class="form-control" id="formCreateOutgoingId" required/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateOutgoingName" class="form-label"><b>Имя документа</b></label>
+                                    <input type="text" class="form-control" id="formCreateOutgoingName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateOutgoingText" class="form-label"><b>Текст документа</b></label>
+                                    <input  type="text" class="form-control" id="formCreateOutgoingText" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateOutgoingRegistrationNumber" class="form-label"><b>Регистрационный номер документа</b></label>
+                                    <input type="number" class="form-control" id="formCreateOutgoingRegistrationNumber" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateOutgoingDateRegistration" class="form-label"><b>Дата регистрации документа</b></label>
+                                    <input type="date" class="form-control" id="formCreateOutgoingDateRegistration" required>
+                                </div>
+                                <div>
+                                    <div><b>Автор документа</b></div>
+                                    <select id="formSelectCreateOutgoingAuthor" class="form-select" required>
+<!--                                        <option value="ROLE_ADMIN">ADMIN</option>-->
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateOutgoingAddressee"><b>Адресат</b></label>
+                                    <input type="text" class="form-control" id="formCreateOutgoingAddressee" required/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateOutgoingDeliveryMethod" class="form-label"><b>Способ доставки</b></label>
+                                    <input type="text" class="form-control" id="formCreateOutgoingDeliveryMethod" required>
+                                </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <div>
+                                        <button onclick="closeModalCreateOutgoing()" type="button"
+                                                class="btn btn-secondary">Закрыть
+                                        </button>
+                                    </div>
+                                    <div>
+                                        <button onclick="createOutgoing()" type="submit" class="btn btn-primary">Создать</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script
         src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
@@ -144,5 +213,6 @@
 <script src="/static/view/outgoing/outgoingTab.js"></script>
 <script src="/static/view/incoming/incomingButton.js"></script>
 <script src="/static/view/incoming/incomingTab.js"></script>
+<script src="/static/view/modal/outgoingCreateModal.js"></script>
 </body>
 </html>

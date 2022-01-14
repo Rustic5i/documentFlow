@@ -25,3 +25,13 @@ async function getAllPersonByIdDepartment(idDepartment) {
         console.log(html)
     })
 }
+
+/////////////Получить всех Работников/Person ///////////
+async function getAllPerson(){
+    const url = '/ecm/api/organization/department'
+    return $.ajax({
+        url: url,
+        dataType: 'json',
+        type: "GET",
+    })
+}

@@ -22,12 +22,12 @@ function createOutgoing(){
         registrationNumber:$('#formCreateOutgoingRegistrationNumber').val(),
         dateRegistration:$('#formCreateOutgoingDateRegistration').val(),
         author: {
-            id: $('#formCreateOutgoingAuthor').val(),
+            id: $('#formSelectCreateOutgoingAuthor').val(),
         },
         addressee:$('#formCreateOutgoingAddressee').val(),
         deliveryMethod:$('#formCreateOutgoingDeliveryMethod').val(),
     }
-    saveOutgoing(outgoing)
+    saveOutgoing(outgoing).then(printButtonListOutgoing)
 }
 
 function printModalOutgoingSelectPersonList(){
@@ -36,7 +36,7 @@ function printModalOutgoingSelectPersonList(){
         let html = ''
         response.forEach(person => {
             let liHtml = `
-                <option value="${person.id}">${person.name} №${person.id}</option>
+                <option type="number" value="${person.id}">${person.name} №${person.id}</option>
             `
             html += liHtml;
             outgoingSelect.html(html)

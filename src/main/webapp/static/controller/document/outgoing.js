@@ -33,9 +33,10 @@ async function saveOutgoing(outgoing){
     return $.ajax({
         url: url,
         type: "POST",
+        dataType: 'json',
         headers: {
             "Content-Type": "application/json;charset=utf-8"
         },
-        body: JSON.stringify(outgoing)
+        data: JSON.stringify(outgoing)
     })
 }

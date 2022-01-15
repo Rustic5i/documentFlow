@@ -30,6 +30,7 @@ function createOutgoing(){
     saveOutgoing(outgoing).then(printButtonListOutgoing)
 }
 
+///////Выводит список всех Работников/Person в форме в разделе <select> //////
 function printModalOutgoingSelectPersonList(){
     const outgoingSelect = $('#formSelectCreateOutgoingAuthor');
     getAllPerson().then((response)=>{

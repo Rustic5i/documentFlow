@@ -32,7 +32,7 @@
             <div id="task-list" style="height: 23%">
                 <p>
                 <h6>Список поручений
-                    <button id="task-create" type="button" class="btn btn-primary btn-sm">Создать</button>
+                    <button onclick="openModalCreateTask()" id="task-create" type="button" class="btn btn-primary btn-sm">Создать</button>
                 </h6>
                 </p>
                 <div class="task-list-scroll" style="height: 80%; overflow-x:scroll;overflow-y:scroll;">
@@ -47,7 +47,7 @@
             <div id="incoming-list" style="height: 22%">
                 <p>
                 <h6>Список входящих
-                    <button id="incoming-create" type="button" class="btn btn-primary btn-sm">Создать</button>
+                    <button onclick="openModalCreateIncoming()" id="incoming-create" type="button" class="btn btn-primary btn-sm">Создать</button>
                 </h6>
                 </p>
                 <div class="incoming-list-scroll" style="height: 80%; overflow-x:scroll;overflow-y:scroll;">
@@ -128,7 +128,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="EditLabel">Создание исходящего документа</h5>
+                    <h5 class="modal-title" id="modalLabelCreateOutgoing">Создание исходящего документа</h5>
                     <button onclick="closeModalCreateOutgoing()" type="button" class="btn-close" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -188,6 +188,166 @@
         </div>
     </div>
 </div>
+<!---  Модальное окно для создания нового Входящий документ/Incoming-  Modal windows create Incoming-->
+<div id="modalCreateIncoming" class="modal">
+    <div  tabindex="-1"
+          aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabelCreateIncoming">Создание входящего документа</h5>
+                    <button onclick="closeModalCreateIncoming()" type="button" class="btn-close" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!--------------------------  Form create Incoming------------>
+                    <div>
+                        <form>
+                            <div class="text-center">
+                                <div>
+                                    <label for="formCreateIncomingId"><b>ID</b></label>
+                                    <input type="number" class="form-control" id="formCreateIncomingId" required/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateIncomingName" class="form-label"><b>Имя документа</b></label>
+                                    <input type="text" class="form-control" id="formCreateIncomingName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateIncomingText" class="form-label"><b>Текст документа</b></label>
+                                    <input  type="text" class="form-control" id="formCreateIncomingText" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateIncomingRegistrationNumber" class="form-label"><b>Регистрационный номер документа</b></label>
+                                    <input type="number" class="form-control" id="formCreateIncomingRegistrationNumber" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateIncomingDateRegistration" class="form-label"><b>Дата регистрации документа</b></label>
+                                    <input type="date" class="form-control" id="formCreateIncomingDateRegistration" required>
+                                </div>
+                                <div>
+                                    <div><b>Автор документа</b></div>
+                                    <select id="formSelectCreateIncomingAuthor" class="form-select" required>
+                                        <!--                                        <option value="ROLE_ADMIN">ADMIN</option>-->
+                                    </select>
+                                </div>
+                                <div>
+                                    <div><b>Отправитель документа</b></div>
+                                    <select id="formSelectCreateIncomingSource" class="form-select" required>
+                                        <!--                                        <option value="ROLE_ADMIN">ADMIN</option>-->
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateIncomingAddressee"><b>Адресат</b></label>
+                                    <input type="text" class="form-control" id="formCreateIncomingAddressee" required/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateIncomingOutgoingNumber" class="form-label"><b>Исходящий номер</b></label>
+                                    <input type="number" class="form-control" id="formCreateIncomingOutgoingNumber" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateIncomingOutgoingRegistrationDate" class="form-label"><b>Исходящая дата регистрации</b></label>
+                                    <input type="date" class="form-control" id="formCreateIncomingOutgoingRegistrationDate" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <div>
+                                    <button onclick="closeModalCreateIncoming()" type="button"
+                                            class="btn btn-secondary">Закрыть
+                                    </button>
+                                </div>
+                                <div>
+                                    <button onclick="createIncoming()" type="submit" class="btn btn-primary">Создать</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!---  Модальное окно для создания нового Поручения/Task-  Modal windows create Task-->
+<div id="modalCreateTask" class="modal">
+    <div  tabindex="-1"
+          aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabelCreateTask">Создание Поручения</h5>
+                    <button onclick="closeModalCreateTask()" type="button" class="btn-close" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!--------------------------  Form create Task------------>
+                    <div>
+                        <form>
+                            <div class="text-center">
+                                <div>
+                                    <label for="formCreateTaskId"><b>ID</b></label>
+                                    <input type="number" class="form-control" id="formCreateTaskId" required/>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateTaskName" class="form-label"><b>Имя документа</b></label>
+                                    <input type="text" class="form-control" id="formCreateTaskName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateTaskText" class="form-label"><b>Текст документа</b></label>
+                                    <input  type="text" class="form-control" id="formCreateTaskText" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateTaskRegistrationNumber" class="form-label"><b>Регистрационный номер документа</b></label>
+                                    <input type="number" class="form-control" id="formCreateTaskRegistrationNumber" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateTaskDateRegistration" class="form-label"><b>Дата регистрации документа</b></label>
+                                    <input type="date" class="form-control" id="formCreateTaskDateRegistration" required>
+                                </div>
+                                <div>
+                                    <div><b>Автор документа</b></div>
+                                    <select id="formSelectCreateTaskAuthor" class="form-select" required>
+                                        <!--                                        <option value="ROLE_ADMIN">ADMIN</option>-->
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateTaskDateOfIssue" class="form-label"><b>Дата выдачи поручения</b></label>
+                                    <input type="date" class="form-control" id="formCreateTaskDateOfIssue" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateTaskTermOfExecution" class="form-label"><b>Срок исполнения поручения</b></label>
+                                    <input type="date" class="form-control" id="formCreateTaskTermOfExecution" required>
+                                </div>
+                                <div>
+                                    <div><b>Ответственный исполнитель</b></div>
+                                    <select id="formSelectCreateTaskResponsibleExecutor" class="form-select" required>
+                                        <!--                                        <option value="ROLE_ADMIN">ADMIN</option>-->
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="formCreateTaskSignOfControl"><b>Признак контрольности</b></label>
+                                    <input type="text" class="form-control" id="formCreateTaskSignOfControl" required/>
+                                </div>
+                                <div>
+                                    <div><b>Контролер поручения</b></div>
+                                    <select id="formSelectCreateTaskOrderController" class="form-select" required>
+                                        <!--                                        <option value="ROLE_ADMIN">ADMIN</option>-->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <div>
+                                    <button onclick="closeModalCreateTask()" type="button"
+                                            class="btn btn-secondary">Закрыть
+                                    </button>
+                                </div>
+                                <div>
+                                    <button onclick="createTask()" type="submit" class="btn btn-primary">Создать</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script
         src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
@@ -213,5 +373,7 @@
 <script src="/static/view/incoming/incomingButton.js"></script>
 <script src="/static/view/incoming/incomingTab.js"></script>
 <script src="/static/view/modal/outgoingCreateModal.js"></script>
+<script src="/static/view/modal/incomingCreateModal.js"></script>
+<script src="/static/view/modal/taskCreateModal.js"></script>
 </body>
 </html>

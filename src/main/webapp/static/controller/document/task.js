@@ -25,3 +25,17 @@ async function deleteTaskById(idTask) {
         type: 'DELETE'
     })
 }
+
+/////////////////Сохранить Поручение ///////////
+async function saveTask(task){
+    const url = '/ecm/api/task'
+    return $.ajax({
+        url: url,
+        type: "POST",
+        dataType: 'json',
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        },
+        data: JSON.stringify(task)
+    })
+}

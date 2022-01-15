@@ -26,3 +26,17 @@ async function deleteIncomingById(idIncoming) {
         type: 'DELETE'
     })
 }
+
+/////////////////Сохранить Входящий документ/Incoming ///////////
+async function saveIncoming(incoming){
+    const url = '/ecm/api/incoming'
+    return $.ajax({
+        url: url,
+        type: "POST",
+        dataType: 'json',
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        },
+        data: JSON.stringify(incoming)
+    })
+}

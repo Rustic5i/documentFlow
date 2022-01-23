@@ -45,10 +45,10 @@ function printModalTaskSelectPersonList(){
     getAllPerson().then((response)=>{
         let html = ''
         response.forEach(person => {
-            let liHtml = `
+            let optionHtml = `
                 <option type="number" value="${person.id}">${person.name} №${person.id}</option>
             `
-            html += liHtml;
+            html += optionHtml;
             taskSelectAuthor.html(html)
             taskSelectResponsibleExecutor.html(html)
             taskSelectOrderController.html(html)

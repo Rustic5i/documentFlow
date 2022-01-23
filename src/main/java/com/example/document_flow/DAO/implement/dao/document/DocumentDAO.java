@@ -105,6 +105,7 @@ public class DocumentDAO implements DAOCrud<Document> {
             preparedStatement.setDate(4, new Date(object.getDateRegistration().getTime()));
             preparedStatement.setLong(5, object.getAuthor().getId());
             preparedStatement.setLong(6, object.getId());
+            connection.commit();
         } catch (SQLException e) {
             throw new SaveObjectException(MessageFormat.format("Ошибка при обновления объекта Document c id {0}", object.getId()), e);
         }

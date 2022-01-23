@@ -1,6 +1,7 @@
 const tabButton = $('#tabButton')
 const tabContent = $('#myTabContent')
 
+///Открыть вкладку ////////////////
 function printTab(tabButtonId, tabButtonHtml, tabContentHtml) {
     /**
      * Проверяем есть ли уже такой элемент в дом-дерева,

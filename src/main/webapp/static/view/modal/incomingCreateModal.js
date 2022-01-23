@@ -20,7 +20,7 @@ function createIncoming(){
         name:$('#formCreateIncomingName').val(),
         text:$('#formCreateIncomingText').val(),
         registrationNumber:$('#formCreateIncomingRegistrationNumber').val(),
-        dateRegistration:$('#formCreateIncomingDateRegistration').val(), ////////////Остановился тут !!!!!!!!!!!!!!!!!!!!!
+        dateRegistration:$('#formCreateIncomingDateRegistration').val(),
         author: {
             id: $('#formSelectCreateIncomingAuthor').val(),
         },
@@ -36,17 +36,17 @@ function createIncoming(){
 
 ///////Выводит список всех Работников/Person в форме в разделе <select> //////
 function printModalIncomingSelectPersonList(){
-    const outgoingSelectAuthor = $('#formSelectCreateIncomingAuthor');
-    const outgoingSelectSource = $('#formSelectCreateIncomingSource')
+    const incomingSelectAuthor = $('#formSelectCreateIncomingAuthor');
+    const incomingSelectSource = $('#formSelectCreateIncomingSource')
     getAllPerson().then((response)=>{
         let html = ''
         response.forEach(person => {
-            let liHtml = `
+            let optionHtml = `
                 <option type="number" value="${person.id}">${person.name} №${person.id}</option>
             `
-            html += liHtml;
-            outgoingSelectAuthor.html(html)
-            outgoingSelectSource.html(html)
+            html += optionHtml;
+            incomingSelectAuthor.html(html)
+            incomingSelectSource.html(html)
         })
     })
 }

@@ -13,7 +13,7 @@ public class Controller {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public InputStream getHtml() {
-        try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("templates/index.html")) {
+        try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("templates/angular.html")) {
             return inputStream;
         } catch (IOException e) {
             return null;

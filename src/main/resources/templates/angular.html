@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="helloWorldApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script>
+        //Модель
+        var model = 'Hello World'
+
+        var helloWorldApp = angular.module("helloWorldApp", [])
+
+        //Контроллер
+        helloWorldApp.controller('HelloWorldCtrl', function ($scope) {
+            //Добавляем к скоупу свойство message
+            $scope.message = model;
+
+            // Добавляем к скоупу Поведение / Behavior
+            $scope.clickHandler = function () {
+                $scope.message = $scope.text;
+            }
+        })
+    </script>
+</head>
+<body ng-controller="HelloWorldCtrl">
+    <!--тут мы из $scope берем свойство message и выводим в интерфейсе-->
+    <h1>{{message}}</h1>
+    <!--
+     ng-model указывает что мы из скоупа берем свойство 'text' выводим его в инпуте(в поле ввода) то есть в его значении,
+     А так как text пустой, там будет просто пустая строка.
+     Но если мы будем вводить в инпуте что-нибудь, мы сразу поменяем свойство text
+     --->
+    <input ng-model="text"/>
+    <!--тут ng-click указываем что будем делать после нажатие на кнопку -->
+    <button ng-click="clickHandler()">Обновить</button>
+</body>
+</html>

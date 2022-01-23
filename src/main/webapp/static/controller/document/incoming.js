@@ -40,3 +40,16 @@ async function saveIncoming(incoming){
         data: JSON.stringify(incoming)
     })
 }
+
+async function updateIncoming(incoming){
+    const url = '/ecm/api/incoming'
+    return $.ajax({
+        url: url,
+        type: "PUT",
+        dataType: 'json',
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        },
+        data: JSON.stringify(incoming)
+    })
+}

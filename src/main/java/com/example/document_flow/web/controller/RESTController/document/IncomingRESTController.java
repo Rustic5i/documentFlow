@@ -11,6 +11,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -59,6 +60,15 @@ public class IncomingRESTController {
     public void saveIncoming(Incoming incoming) {
         try {
             incomingService.save(incoming);
+        } catch (SaveObjectException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @PUT
+    public void updateIncoming(Incoming incoming) {
+        try {
+            incomingService.update(incoming);
         } catch (SaveObjectException e) {
             e.printStackTrace();
         }
